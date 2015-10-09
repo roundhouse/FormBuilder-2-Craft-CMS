@@ -10,14 +10,16 @@ class FormBuilder2_ConfigurationController extends BaseController
    * Get Plugin Settings for Configuration Page
    *
    */
-  public function actionConfiguration()
+  public function actionConfigurationIndex()
   {
+    $formItems = craft()->formBuilder2_form->getAllForms();
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
-    $plugin = craft()->plugins->getPlugin('FormBuilder2');
+    $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
-    $this->renderTemplate('formbuilder2/configuration', array(
-      'settings' => $settings,
-      'plugin' => $plugin
+    return $this->renderTemplate('formbuilder2/configuration', array(
+      'formItems'  => $formItems,
+      'settings'  => $settings,
+      'plugin'  => $plugins
     ));
   }
 

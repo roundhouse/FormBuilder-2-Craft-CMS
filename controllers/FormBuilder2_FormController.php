@@ -11,12 +11,18 @@ class FormBuilder2_FormController extends BaseController
    * Get All Forms
    *
    */
-  public function actionAllForms()
+  public function actionFormsIndex()
   { 
-    $variables['forms'] = craft()->formBuilder2_form->getAllForms();
-    $variables['settings'] = craft()->plugins->getPlugin('FormBuilder2');
 
-    return $this->renderTemplate('formbuilder2/forms', $variables);
+    $formItems = craft()->formBuilder2_form->getAllForms();
+    $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
+    $plugins = craft()->plugins->getPlugin('FormBuilder2');
+
+    return $this->renderTemplate('formbuilder2/forms/index', array(
+      'formItems'  => $formItems,
+      'settings'  => $settings,
+      'plugin'  => $plugins
+    ));
   }
 
 
@@ -24,9 +30,8 @@ class FormBuilder2_FormController extends BaseController
    * Edit a Form
    *
    */
-  public function actionEditForm()
+  public function actionEditForm(array $variables = array())
   {
-    $variables = [];
     $variables['brandNewForm'] = false;
 
     if (!empty($variables['formId'])) {

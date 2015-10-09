@@ -78,9 +78,13 @@ class FormBuilder2Controller extends BaseController
 	 */
 	public function actionDashboard()
 	{
-    $variables['forms'] = craft()->formBuilder2_form->getAllForms();
-    $variables['settings'] = craft()->plugins->getPlugin('FormBuilder2');
-    return $this->renderTemplate('formbuilder2/dashboard', $variables);
+    $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
+    $plugins = craft()->plugins->getPlugin('FormBuilder2');
+
+    return $this->renderTemplate('formbuilder2/dashboard', array(
+      'settings'  => $settings,
+      'plugin'  => $plugins
+    ));
 	}
 
 }

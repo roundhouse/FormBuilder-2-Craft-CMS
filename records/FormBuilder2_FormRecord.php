@@ -55,6 +55,7 @@ class FormBuilder2_FormRecord extends BaseRecord
   public function defineIndexes()
   {
     return array(
+      array('columns' => array('id'), 'unique' => true),
       array('columns' => array('name'), 'unique' => true),
       array('columns' => array('handle'), 'unique' => true),
     );
@@ -66,7 +67,7 @@ class FormBuilder2_FormRecord extends BaseRecord
   public function scopes()
   {
     return array(
-      'ordered' => array('order' => 'name'),
+      'ordered' => array('order' => 'id'),
     );
   }
 }

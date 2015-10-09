@@ -6,13 +6,15 @@
 {# Page Header | Reference craft/app/templates/_layouts/cp.html #}
 {% block pageHeader %}
   {# {{ parent() }} #}
-  {% include 'formbuilder2/partials/header.html' %}
+  {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
 {# Main Container | Reference craft/app/templates/_layouts/cp.html #}
 {% block main %}
-  {# {{ parent() }} #}
-  {% include 'formbuilder2/partials/sidebar.html' %} 
+  {% set formsCount = craft.formBuilder2.totalFormsVariable() %}
+  {% set entriesCount = craft.formBuilder2.totalEntriesVariable() %}
+
+  {% include 'formbuilder2/partials/sidebar' %} 
 
   <section id="fb-content">
     <header class="page-header">
@@ -27,12 +29,12 @@
       <div class="overview">
 
         <div class="item">
-          <h2>{{ forms|length }}</h2>
+          <h2>{{ formsCount }}</h2>
           <p>{{ "Forms Created"|t }}</p>
         </div>
 
         <div class="item">
-          <h2>54</h2>
+          <h2>{{ entriesCount }}</h2>
           <p>{{ "Submitted Entries"|t }}</p>
         </div>
 

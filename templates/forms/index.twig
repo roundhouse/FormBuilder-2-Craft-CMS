@@ -1,4 +1,11 @@
-{% extends "_layouts/cp" %}
+{% extends "_layouts/elementindex" %}
+{# {% extends "_layouts/cp" %} #}
+
+{% set elementType = 'FormBuilder2_Form' %}
+
+{% if not elementType %}
+  {% exit 404 %}
+{% endif %}
 
 {% set bodyClass = 'formbuilder fb-forms' %}
 {% set page = 'Forms' %}
@@ -6,43 +13,32 @@
 {# Page Header | Reference craft/app/templates/_layouts/cp.html #}
 {% block pageHeader %}
   {# {{ parent() }} #}
-  {% include 'formbuilder2/partials/header.html' %}
+  {% include 'formbuilder2/partials/header' %}
 {% endblock %}
+
 
 {# Main Container | Reference craft/app/templates/_layouts/cp.html #}
 {% block main %}
-  {# {{ parent() }} #}
-  {% include 'formbuilder2/partials/sidebar.html' %} 
+
+  
+  {% include 'formbuilder2/partials/sidebar' %} 
 
   <section id="fb-content">
+    {% if formItems|length %}
     <header class="page-header">
       <h1><svg class="icon"><use xlink:href="#icon-documents" class="icon-documents"/></svg> {{ page|t }}</h1>
     </header>
+    {% endif %}
     {# Form List #}
-    {% if forms|length %}
+    {% if formItems|length %}
     <div class="forms pane">
-      {# {% if forms|length %}
-        <table id="forms" class="data fullwidth collapsible">
-          <thead>
-            <th scope="col">{{ "Name"|t }}</th>
-            <th scope="col">{{ "Handle"|t }}</th>
-            <td class="thin"></td>
-          </thead>
-          <tbody>
-            {% for form in forms %}
-              <tr data-id="{{ form.id }}" data-name="{{ form.name|t }}">
-                <th scope="row" data-title="{{ 'Name'|t }}"><a href="{{ url('formbuilder/forms/' ~ form.id) }}">{{ form.name|t }}</a></th>
-                <td data-title="{{ 'Handle'|t }}"><code>{{ form.handle }}</code></td>
-                <td class="thin"><a class="delete icon" title="{{ 'Delete'|t }}" role="button"></a></td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      {% endif %} #}
+    
+      {{ parent() }}
 
-      <table class="data fullwidth collapsible">
+      {# <table class="data fullwidth collapsible">
         <thead>
           <tr>
+            <th scope="col">{{ "ID"|t }}</th>
             <th scope="col">{{ "Name"|t }}</th>
             <th scope="col">{{ "Handle"|t }}</th>
             <th scope="col">{{ "Entries"|t }}</th>
@@ -51,9 +47,10 @@
         </thead>
 
         <tbody>
-          {% for form in forms %}
+          {% for form in formItems %}
           <tr data-name="{{ form.name }}">
-            <td data-title="{{ "Name"|t }}" class="name"><a href="{{ url('formbuilder2/forms/' ~ form.id) }}">{{ form.name }}</a></td>
+            <td data-title="{{ "ID"|t }}" class="id">{{ form.id }}</td>
+            <td data-title="{{ "Name"|t }}" class="name"><a href="{{ url('formbuilder2/forms/' ~ form.id ~ '/edit') }}">{{ form.name }}</a></td>
             <td data-title="{{ "Handle"|t }}" class="handle">
               {{ form.handle }}
             </td>
@@ -67,9 +64,7 @@
           </tr>
           {% endfor %}
         </tbody>
-              
-      </table>
-      
+      </table> #}
     </div>
     
     {% else %}

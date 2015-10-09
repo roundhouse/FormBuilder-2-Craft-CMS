@@ -1,7 +1,7 @@
 <section id="fb-sidebar">
-  {% set formCount = craft.formBuilder2_form.getFormCount() %}
+  {% set formsCount = craft.formBuilder2.totalFormsVariable() %}
+  {% set entriesCount = craft.formBuilder2.totalEntriesVariable() %}
 
-    {{ formCount }}
   <nav>
     
     <h2>{{ "Menu"|t }}</h2>
@@ -10,20 +10,20 @@
       {{ "Dashboard"|t }}
     </a>
 
-    <a href="{{ url('formbuilder2/forms') }}"{% if page == 'Forms' %} class="active"{% endif %}>
+    <a href="{{ url('formbuilder2/forms') }}"{% if (page == 'Forms' or page == 'Edit Form')  %} class="active"{% endif %}>
       <svg><use xlink:href="#icon-documents" class="icon-documents"/></svg>
       {{ "Forms"|t }}
-      <span class="count">{{ forms|length }}</span>
+      <span class="count">{{ formsCount }}</span>
     </a>
 
     <a href="{{ url('formbuilder2/entries') }}"{% if page == 'Entries' %} class="active"{% endif %}>
       <svg><use xlink:href="#icon-list" class="icon-list"/></svg>
       {{ "Entries"|t }}
-      <span class="count">54</span>
+      <span class="count">{{ entryItems|length }}</span>
     </a>
     
     <h2>{{ "Quick Links"|t }}</h2>
-    <a href="{{ url('formbuilder2/form/create') }}"{% if page == 'Create/Edit Form' %} class="active"{% endif %}>
+    <a href="{{ url('formbuilder2/forms/new') }}"{% if page == 'New Form' %} class="active"{% endif %}>
       <svg><use xlink:href="#icon-edit" class="icon-edit"/></svg>
       {{ "Create New Form"|t }}
     </a>

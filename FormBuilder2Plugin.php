@@ -59,12 +59,14 @@ class FormBuilder2Plugin extends BasePlugin
   public function registerCpRoutes()
   {
     return array(
-      'formbuilder2'                  => array('action' => 'formBuilder2/dashboard'),
-      'formbuilder2/configuration'    => array('action' => 'formBuilder2_Configuration/configuration'),
-      'formbuilder2/entries'          => array('action' => 'formBuilder2_Entry/allEntries'),
-      'formbuilder2/forms'            => array('action' => 'formBuilder2_Form/allForms'),
-      'formbuilder2/form/create'      => array('action' => 'formBuilder2_Form/editForm'),
-      // 'formbuilder2/(?P<recipeId>\d+)' => 'cocktailrecipes/_edit',
+      'formbuilder2'                              => array('action' => 'formBuilder2/dashboard'),
+      'formbuilder2/configuration'                => array('action' => 'formBuilder2_Configuration/configurationIndex'),
+      'formbuilder2/forms'                        => array('action' => 'formBuilder2_Form/formsIndex'),
+      'formbuilder2/forms/new'                    => array('action' => 'formBuilder2_Form/editForm'),
+      'formbuilder2/forms/(?P<formId>\d+)'        => array('action' => 'formBuilder2_Form/editForm'),
+      'formbuilder2/forms/(?P<formId>\d+)/edit'   => array('action' => 'formBuilder2_Form/editForm'),
+      'formbuilder2/entries'                      => array('action' => 'formBuilder2_Entry/entriesIndex'),
+      'formbuilder2/entries/(?P<entryId>\d+)'     => array('action' => 'formBuilder2_Entry/viewEntry')
     );
   }
 

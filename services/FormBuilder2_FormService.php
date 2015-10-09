@@ -90,6 +90,15 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     return $this->_formsById[$formId];
   }
 
+  /**
+   * Get Total Forms Count
+   *
+   */
+  public function getTotalForms()
+  {
+    return count($this->getAllFormIds());
+  }
+
 
   /**
    * Save New Form

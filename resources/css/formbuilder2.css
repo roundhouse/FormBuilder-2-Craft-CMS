@@ -361,14 +361,18 @@ svg.icon {
     padding-top: 5px;
     margin-top: 5px;
     color: rgba(51, 63, 77, 0.8); }
-.fb-dashboard .no-forms {
+
+/* ============================================ *
+ * Forms
+ * ============================================ */
+.fb-forms .no-forms {
   text-align: center;
   padding: 90px 0 300px 0; }
-  .fb-dashboard .no-forms p {
+  .fb-forms .no-forms p {
     font-weight: 700;
     font-size: 18px;
     color: #474747; }
-.fb-dashboard .create-form-button {
+.fb-forms .create-form-button {
   display: inline-block;
   font-size: 11px;
   font-weight: 300;
@@ -385,26 +389,22 @@ svg.icon {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease; }
-  .fb-dashboard .create-form-button:hover {
+  .fb-forms .create-form-button:hover {
     background: #47c5ca;
     color: white; }
-  .fb-dashboard .create-form-button span {
+  .fb-forms .create-form-button span {
     display: block;
     text-align: center; }
-  .fb-dashboard .create-form-button svg {
+  .fb-forms .create-form-button svg {
     display: block;
     margin: 0 auto 10px auto;
     height: 50px;
     width: 50px; }
-    .fb-dashboard .create-form-button svg * {
+    .fb-forms .create-form-button svg * {
       -webkit-transition: all 0.3s ease;
       -moz-transition: all 0.3s ease;
       transition: all 0.3s ease;
       fill: white; }
-
-/* ============================================ *
- * Forms
- * ============================================ */
 .fb-forms .forms {
   min-height: 600px; }
   .fb-forms .forms thead tr:hover {
