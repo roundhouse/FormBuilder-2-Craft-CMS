@@ -49,6 +49,7 @@
   // Forms
   .forms {
     min-height: 600px;
+    &.pane { padding: 0 !important; }
     thead tr:hover { background: white; }
     th {
       padding: 20px;

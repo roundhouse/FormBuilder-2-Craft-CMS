@@ -407,6 +407,8 @@ svg.icon {
       fill: white; }
 .fb-forms .forms {
   min-height: 600px; }
+  .fb-forms .forms.pane {
+    padding: 0 !important; }
   .fb-forms .forms thead tr:hover {
     background: white; }
   .fb-forms .forms th {

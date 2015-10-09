@@ -93,7 +93,21 @@ class FormBuilder2_FormController extends BaseController
     craft()->urlManager->setRouteVariables(array(
       'form' => $form
     ));
+  }
 
+  /**
+   * Delete Form.
+   *
+   */
+  public function actionDeleteForm()
+  {
+    $this->requirePostRequest();
+    $this->requireAjaxRequest();
+
+    $formId = craft()->request->getRequiredPost('id');
+
+    craft()->formBuilder2_form->deleteFormById($formId);
+    $this->returnJson(array('success' => true));
   }
 
   

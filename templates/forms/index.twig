@@ -1,11 +1,4 @@
-{% extends "_layouts/elementindex" %}
-{# {% extends "_layouts/cp" %} #}
-
-{% set elementType = 'FormBuilder2_Form' %}
-
-{% if not elementType %}
-  {% exit 404 %}
-{% endif %}
+{% extends "_layouts/cp" %}
 
 {% set bodyClass = 'formbuilder fb-forms' %}
 {% set page = 'Forms' %}
@@ -33,9 +26,8 @@
     {% if formItems|length %}
     <div class="forms pane">
     
-      {{ parent() }}
 
-      {# <table class="data fullwidth collapsible">
+      <table class="data fullwidth collapsible" id="forms">
         <thead>
           <tr>
             <th scope="col">{{ "ID"|t }}</th>
@@ -48,7 +40,7 @@
 
         <tbody>
           {% for form in formItems %}
-          <tr data-name="{{ form.name }}">
+          <tr data-id="{{ form.id }}" data-name="{{ form.name }}">
             <td data-title="{{ "ID"|t }}" class="id">{{ form.id }}</td>
             <td data-title="{{ "Name"|t }}" class="name"><a href="{{ url('formbuilder2/forms/' ~ form.id ~ '/edit') }}">{{ form.name }}</a></td>
             <td data-title="{{ "Handle"|t }}" class="handle">
@@ -57,26 +49,37 @@
             <td data-title="{{ "Entries"|t }}" class="count">[45]</td>
             <td data-title="{{ "Action"|t }}" class="action">
               <span data-tooltip="Copy Handle"><svg class="icon copy" data-clipboard-text="{{ form.handle }}"><use xlink:href="#icon-copy" class="icon-copy"/></svg></span>
-              <a href="#" class="delete-from delete" title="Delete {{ form.name }}" data-tooltip="Delete Form">
+              <a title="{{ 'Delete'|t }}" role="button"></a><a href="#" class="delete-from delete" title="Delete {{ form.name }}" role="button" data-tooltip="Delete Form">
                 <svg class="icon"><use xlink:href="#icon-trash" class="icon-trash"/></svg>
               </a>
             </td>
           </tr>
           {% endfor %}
         </tbody>
-      </table> #}
+      </table>
     </div>
     
     {% else %}
 
     {# No Forms #}
-    <div class="no-forms">
+    <div class="no-forms" id="noforms">
       <p>{{ "Hello! You don't have any forms yet."|t }}</p>
-      <a href="#" class="create-form-button"><svg><use xlink:href="#icon-text" class="icon-text"/></svg> <span>{{ "Create a Form"|t }}</span></a>
+      <div id="create-form-button"><a href="{{ url('formbuilder2/forms/new') }}" class="create-form-button"><svg><use xlink:href="#icon-text" class="icon-text"/></svg> <span>{{ "Create a Form"|t }}</span></a></div>
     </div>
     {% endif %}
 
   </section>
 
 {% endblock %}
+
+{% set js %}
+  var adminTable = new Craft.AdminTable({
+    tableSelector: '#forms',
+    noObjectsSelector: '#noforms',
+    newObjectBtnSelector: '#newformcontainer',
+    deleteAction: 'formBuilder2/form/deleteForm',
+    confirmDeleteMessage: '{{ "Are you sure you want to delete “{name}” and all its entries?"|t }}'
+  });
+{% endset %}
+{% includeJs js %}
 
