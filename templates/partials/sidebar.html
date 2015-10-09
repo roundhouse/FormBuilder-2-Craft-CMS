@@ -1,0 +1,49 @@
+<section id="fb-sidebar">
+  {% set formCount = craft.formBuilder2_form.getFormCount() %}
+
+    {{ formCount }}
+  <nav>
+    
+    <h2>{{ "Menu"|t }}</h2>
+    <a href="{{ url('formbuilder2') }}"{% if page == 'Dashboard' %} class="active"{% endif %}>
+      <svg><use xlink:href="#icon-layers" class="icon-layers"/></svg>
+      {{ "Dashboard"|t }}
+    </a>
+
+    <a href="{{ url('formbuilder2/forms') }}"{% if page == 'Forms' %} class="active"{% endif %}>
+      <svg><use xlink:href="#icon-documents" class="icon-documents"/></svg>
+      {{ "Forms"|t }}
+      <span class="count">{{ forms|length }}</span>
+    </a>
+
+    <a href="{{ url('formbuilder2/entries') }}"{% if page == 'Entries' %} class="active"{% endif %}>
+      <svg><use xlink:href="#icon-list" class="icon-list"/></svg>
+      {{ "Entries"|t }}
+      <span class="count">54</span>
+    </a>
+    
+    <h2>{{ "Quick Links"|t }}</h2>
+    <a href="{{ url('formbuilder2/form/create') }}"{% if page == 'Create/Edit Form' %} class="active"{% endif %}>
+      <svg><use xlink:href="#icon-edit" class="icon-edit"/></svg>
+      {{ "Create New Form"|t }}
+    </a>
+
+    <h2>{{ "Tools"|t }}</h2>
+    <a href="{{ url('formbuilder2/tools/exportforms') }}"{% if page == 'Export/Import Forms' %} class="active"{% endif %}>
+      <svg><use xlink:href="#icon-export" class="icon-export"/></svg>
+      {{ "Export/Import Forms"|t }}
+    </a>
+
+    <a href="{{ url('formbuilder2/tools/exportentries') }}"{% if page == 'Export Entries' %} class="active"{% endif %}>
+      <svg><use xlink:href="#icon-export" class="icon-export"/></svg>
+      {{ "Export Entries"|t }}
+    </a>
+      
+    <h2>{{ "Settings"|t }}</h2>
+    <a href="{{ url('formbuilder2/configuration') }}"{% if page == 'Configuration' %} class="active"{% endif %}>
+      <svg><use xlink:href="#icon-tools" class="icon-tools"/></svg>
+      {{ "Configuration"|t }}
+    </a>
+
+  </nav>
+</section>

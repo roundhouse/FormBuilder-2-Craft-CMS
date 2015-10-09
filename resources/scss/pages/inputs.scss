@@ -1,0 +1,190 @@
+// ------------------------------------------
+// Field Layout Designer
+// ------------------------------------------
+#fieldlayoutform {
+  background: none;
+  padding: 0;
+
+  h1 {
+    margin-bottom: 24px;
+    font-family: HelveticaNeue-Light, HelveticaNeue, sans-serif;
+    font-size: 30px;
+    line-height: 1;
+    color: #da5a47;
+    font-weight: normal !important;
+    font-style: normal;
+    text-transform: none;
+    float: left;
+    margin-right: 40px;
+  }
+
+  h2 {
+    margin-bottom: 24px;
+    font-family: "Roboto", HelveticaNeue-Light, HelveticaNeue, sans-serif;
+    font-size: 16px;
+    line-height: 1;
+    color: black;
+    font-weight: 500 !important;
+    font-style: normal;
+    text-transform: none;
+    text-decoration: none;
+  }
+
+  .create-field {
+    display: inline-block;
+    font-style: normal;
+    text-decoration: none;
+    text-transform: none;
+    text-align: center;
+    margin: 5px 5px 0 0;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    float: left;
+    color: #29323d;
+    background-image: linear-gradient(white, #fafafa);
+    height: 30px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 3px;
+    white-space: nowrap;
+    cursor: pointer;
+    @include appearance(none);
+    @include user-select(none);
+    box-sizing: border-box;
+    &:hover {
+      background-image: linear-gradient(#fafafa, white);
+    }
+  }
+
+  .newtabbtn-container {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    .btn.icon {
+      text-transform: none;
+      font-style: normal;
+      &:before {
+        content: "+";
+      }
+    }
+  }
+
+  // Field Tabs
+  .fld-tab {
+    .tabs {
+      padding: 0 1px;
+      .tab {
+        border: 1px solid #b9b9b9;
+        border-bottom-color: white;
+        border-radius: 0;
+        span {
+          font-family: Roboto, HelveticaNeue, sans-serif;
+          font-style: normal;
+          font-weight: 500;
+          text-transform: none;
+          color: #2e2e2e;
+        }
+        a {
+          &:before {
+            color: #c9c9c9;
+          }
+        }
+      }
+    }
+
+    &.fld-insertion {
+      .tab {
+        border: 1px dotted #b9b9b9;
+        border-bottom-color: white !important;
+      }
+      .fld-tabcontent {
+        border: 1px dotted #b9b9b9;
+      }
+    }
+
+    .fld-tabcontent {
+      border: 1px solid #b9b9b9;
+      .fld-field {
+        padding: 8px;
+        border: none;
+        border-bottom: 1px solid rgba(black, .1);
+        &:last-child { border-bottom: none; }
+        &.fld-required {
+          span:after {
+            color: $c-red;
+          }
+        }
+        a {
+          &:before {
+            color: #c9c9c9;
+          }
+        }
+      }
+      span {
+        font-family: $opensans;
+        font-style: normal;
+        font-weight: 400;
+        text-transform: none;
+        color: #2e2e2e;
+      }
+    }
+
+  }
+}
+
+.fld-tab.fld-tab.draghelper .tabs { padding: 1px !important; .tab { border-radius: 0; } }
+.fld-tab.draghelper .tabs .tab {
+  border-bottom-color: white !important;
+}
+.fld-tab.draghelper .tabs .tab, .fld-tab.draghelper .fld-tabcontent, .fld-field.draghelper { 
+  background: transparent; 
+  box-shadow: none; 
+  border: 1px solid $c-teal;
+  span {
+    font-family: Roboto, HelveticaNeue, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    text-transform: none;
+    color: #2e2e2e;
+  }
+  a {
+    &:before {
+      color: #c9c9c9;
+    }
+  }
+  .fld-field {
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid rgba(black, .1);
+    &:last-child { border-bottom: none; }
+    &.fld-required {
+      span:after {
+        color: $c-red;
+      }
+    }
+    a {
+      &:before {
+        color: #c9c9c9;
+      }
+    }
+  }
+  span {
+    font-family: $opensans;
+    font-style: normal;
+    font-weight: 400;
+    text-transform: none;
+    color: #2e2e2e;
+  }
+}
+
+.fld-field.draghelper { 
+  background: transparent; 
+  box-shadow: none; border: 
+  none; 
+  span {
+    font-family: $opensans;
+    font-style: normal;
+    font-weight: 400;
+    text-transform: none;
+    color: #2e2e2e;
+  }
+}

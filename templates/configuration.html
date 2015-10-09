@@ -1,0 +1,69 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% set bodyClass = 'formbuilder fb-configuration' %}
+{% set page = 'Configuration' %}
+
+{# Page Header | Reference craft/app/templates/_layouts/cp.html #}
+{% block pageHeader %}
+  {# {{ parent() }} #}
+  {% include 'formbuilder2/partials/header.html' %}
+{% endblock %}
+
+{# Main Container | Reference craft/app/templates/_layouts/cp.html #}
+{% block main %}
+  {# {{ parent() }} #}
+  {% include 'formbuilder2/partials/sidebar.html' %} 
+
+  <section id="fb-content">
+    <header class="page-header">
+      <h1><svg class="icon"><use xlink:href="#icon-tools" class="icon-tools"/></svg> {{ page|t }}</h1>
+    </header>
+
+    <div class="pane">
+      <div class="settings">
+        <header class="page-header">
+          <h2>{{ "Plugin Settings"|t }}</h2>
+        </header>
+        <div class="inner form">
+           
+          <form method="post" accept-charset="UTF-8">
+            <input type="hidden" name="action" value="formBuilder2_Configuration/savePluginSettings">
+            <input type="hidden" name="pluginClass" value="FormBuilder2">
+            <input type="hidden" name="redirect" value="formbuilder2/configuration">
+            {{ forms.textField({
+              first: true,
+              label: "Input Template Path"|t,
+              instructions: "If you want custom imput markup, change template path here. <br />Default: templates/forms/input"|t,
+              id: 'inputTemplatePath',
+              name: 'inputTemplatePath',
+              value: settings.inputTemplatePath,
+              errors: settings.getErrors('inputTemplatePath'),
+              autofocus: false,
+              required: true,
+              translatable: true
+            }) }}
+
+            <div class="buttons">
+              <input class="btn submit" type="submit" value="Save">
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="information">
+        <header class="page-header">
+          <h2>{{ "Plugin Information"|t }}</h2>
+        </header>
+        <ul class="inner information">
+          <li>{{ "Name"|t }}: <span>{{ plugin.getName() }}</span></li>
+          <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
+          <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+{% endblock %}
+

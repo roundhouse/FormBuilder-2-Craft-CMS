@@ -1,0 +1,83 @@
+/* ============================================ *
+ * Forms
+ * ============================================ */
+
+.fb-forms {
+
+  // Forms
+  .forms {
+    min-height: 600px;
+    thead tr:hover { background: white; }
+    th {
+      padding: 20px;
+    }
+    tr {
+      @include transition(all .3s ease);
+      &:hover {
+        background: darken(white, 2);
+      }
+      td {
+        padding: 12px 20px;
+        &.name a, &.handle, &.count {
+          color: $c-blue;
+          font-family: $opensans;
+        }
+        &.handle {
+          font-weight: 400;
+        }
+        &.name a {
+          text-decoration: none;
+          font-weight: 600;
+          &:hover { color: $c-teal; }
+        }
+        &.action {
+          svg {
+            cursor: pointer;
+            margin-right: 4px;
+            * { fill: $c-blue; @include transition(all .3s ease); }
+            &:hover {
+              * { fill: $c-teal; }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.fb-new-form {
+
+  .menu-tabs {
+    margin-bottom: 10px;
+    h2 {
+      display: inline-block;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 0 5px;
+      @include antialias;
+      &:first-child { padding-left: 0; }
+      &.current a {
+        padding-bottom: 4px;
+        color: $c-blue;
+        border-bottom: 1px solid $c-teal;
+      }
+    }
+    a {
+      display: block;
+      color: rgba($c-blue, .7);
+      padding-bottom: 5px;
+      font-family: $opensans;
+      text-decoration: none;
+      &:hover {
+        color: $c-blue;
+      }
+    }
+  }
+
+  .tab-content {
+    display: none;
+  }
+  #form-settings {
+    display: block;   
+  }
+}

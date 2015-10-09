@@ -1,0 +1,21 @@
+// ============================================ *
+// * Variables
+// ============================================ *
+@import "mixins"; // Custom mixins, functions, etc
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800,300);
+$opensans: 'Open Sans', 'Helvetica', sans-serif;
+
+// Sizes
+$max-width: 960px;
+$desktop: 960px;
+$tablet: 767px;
+$mobile: 479px;
+
+// Colors
+$c-gray: #474747;
+$c-lightGray: #a5a6a8;
+$c-teal: #47c5ca;
+$c-blue: #333f4d;
+$c-darkBlue: #273037;
+$c-red: #f07575;

@@ -1,0 +1,45 @@
+{% extends "_layouts/cp" %}
+
+{% set bodyClass = 'formbuilder fb-dashboard' %}
+{% set page = 'Dashboard' %}
+
+{# Page Header | Reference craft/app/templates/_layouts/cp.html #}
+{% block pageHeader %}
+  {# {{ parent() }} #}
+  {% include 'formbuilder2/partials/header.html' %}
+{% endblock %}
+
+{# Main Container | Reference craft/app/templates/_layouts/cp.html #}
+{% block main %}
+  {# {{ parent() }} #}
+  {% include 'formbuilder2/partials/sidebar.html' %} 
+
+  <section id="fb-content">
+    <header class="page-header">
+      <h1><svg class="icon"><use xlink:href="#icon-layers" class="icon-layers"/></svg> {{ page|t }}</h1>
+    </header>
+
+    <div class="pane">
+      <header class="page-header">
+        <h2>{{ "Overview"|t }}</h2>
+      </header>
+
+      <div class="overview">
+
+        <div class="item">
+          <h2>{{ forms|length }}</h2>
+          <p>{{ "Forms Created"|t }}</p>
+        </div>
+
+        <div class="item">
+          <h2>54</h2>
+          <p>{{ "Submitted Entries"|t }}</p>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+{% endblock %}
+

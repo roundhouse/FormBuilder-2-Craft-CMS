@@ -1,0 +1,22 @@
+/* ============================================ *
+ * Name: FormBuilder 2
+ * Description: Easy Form & Survey Builder
+ * Category: Craft CMS PLugins
+ * Technologies: HTML5, CSS3, jQuery, Coffeescript, SCSS
+ * Version: 0.1
+ * Author: Vadim Goncharov (@owldesign)
+ * Date: 10.7.15
+ * ============================================ */
+
+// 3rd Party Libraries
+@import "lib/bourbon/bourbon"; // Mixins, functions, etc https://github.com/thoughtbot/bourbon
+
+// Variables
+@import "variables"; // Variables, mixins, settings, etc
+
+// Pages
+@import "pages/global"; // Global styles
+@import "pages/dashboard"; // Dashboard styles
+@import "pages/forms"; // Forms styles
+@import "pages/configuration"; // Configuration styles
+@import "pages/inputs"; // Inputs styles

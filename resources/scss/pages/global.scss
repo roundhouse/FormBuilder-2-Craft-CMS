@@ -1,0 +1,246 @@
+/* ============================================ *
+ * Global
+ * ============================================ */
+
+body > .container {
+  max-width: 100%;
+  padding: 0;
+}
+
+#main { 
+  @include align-items(stretch);
+  @include display(flex);
+  @include flex-direction(row);
+  @include justify-content(flex-start);
+}
+
+#nav li a.sel {
+  background: rgba($c-blue, 2);
+  border: 1px solid rgba(white, .2);
+  color: white;
+  z-index: 2;
+}
+
+svg.icon {
+  @include size(15px);
+}
+
+/* ============================================ *
+ * Crumbs
+ * ============================================ */
+.crumbs {
+  padding: 10px;
+  border-bottom: 1px solid rgba(black, .1);
+  .icon { @include size(13px); position: relative; top: 2px; * { fill: $c-blue; } }
+  a {
+    position: relative;
+    font-family: $opensans;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba($c-blue, .5);
+    padding: 0 5px;
+    text-decoration: none;
+    &:after {
+      content: "";
+      display: block;
+      background: rgba($c-gray, .2);
+      @include size(1px 9px);
+      @include position(absolute, 4px -1px 0 null);
+    }
+    &:last-child:after { display: none; }
+  }
+}
+
+/* ============================================ *
+ * Content
+ * ============================================ */
+#fb-content {
+  width: 100%;
+  box-sizing: border-box;
+
+  a {
+    @include transition(all .3s ease);
+  }
+
+  .page-header {
+    padding: 20px;
+    svg { position: relative; top: 1px; margin-right: 5px; * { fill: $c-blue; } }
+    h1 {
+      padding: 0;
+      margin: 0;
+      font-family: $opensans;
+      font-size: 18px;
+      font-weight: 400;
+      text-transform: uppercase;
+      color: $c-blue;
+      @include antialias;
+    }
+  }
+
+  .pane {
+    margin: 0;
+    padding: 20px;
+    border-radius: 0;
+  }
+
+  .inner {
+    padding: 0 20px;
+  }
+}
+
+/* ============================================ *
+ * Sidebar
+ * ============================================ */
+#fb-sidebar {
+  min-width: 220px;
+  padding: 20px;
+  background: $c-blue;
+  box-sizing: border-box;
+  h2 {
+    text-transform: uppercase;
+    font-size: 11px;
+    color: rgba(white, .2);
+    @include antialias;
+  }
+  svg {
+    vertical-align: middle;
+    margin-right: 5px;
+    @include size(15px);
+    * { fill: white; }
+  }
+  nav {
+    a {
+      position: relative;
+      display: block;
+      padding: 4px 0;
+      color: white;
+      outline: none;
+      text-decoration: none;
+      @include transition(all .3s ease);
+      &:after {
+        opacity: 0;
+        content: "";
+        display: block;
+        background: $c-teal;
+        @include size(5px 100%);
+        @include position(absolute, 0 null 0 -20px);
+        @include transform(translateX(-5px));
+        @include transition(all .3s ease);
+      }
+      &:hover {
+        color: rgba(white, .3);
+        &:after {
+          opacity: .2;
+          @include transform(translateX(0));
+        }
+      }
+      &.active {
+        color: rgba(white, .3);
+        svg * { fill: rgba(white, .3); }
+        &:after {
+          opacity: 1;
+          background: $c-darkBlue;
+          @include transform(translateX(0));
+        }
+      }
+      .count {
+        float: right;
+        font-size: 10px;
+        font-weight: 300;
+        color: rgba(white, .3);
+      }
+    }
+  }
+}
+
+
+/* ============================================ *
+ * Header
+ * ============================================ */
+.formbuilder {
+  // Page Header
+  #page-header { 
+    background: $c-blue;
+    padding: 10px 0 0 0;
+    margin-top: -1px;
+    border-top: 1px solid rgba(white, .2);
+  }
+  .logo {
+    padding: 0 0 15px 20px;
+    border-bottom: 1px solid rgba(white, .1);
+    box-sizing: border-box;
+    a {
+      text-decoration: none;
+      color: rgba(white, .3);
+      margin: 0;
+      padding: 0;
+      font-family: $opensans;
+      font-size: 11px;
+      @include antialias;
+    }
+    .subhead { 
+      display: block;
+      font-weight: 600;
+    }
+    img { width: 174px; }
+    h1 {
+      color: white;
+      font-size: 24px;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      .second { font-weight: 800; }
+      .number { font-weight: 800; font-size: 42px; }
+    }
+  }
+}
+
+/* ============================================ *
+ * Tooltips
+ * ============================================ */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+[data-tooltip]:before {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-bottom: 5px;
+  margin-left: -45px;
+  padding: 7px;
+  width: 70px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.2;
+}
+[data-tooltip]:after {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -7px;
+  width: 0;
+  border-top: 5px solid #000;
+  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  opacity: 1;
+}
