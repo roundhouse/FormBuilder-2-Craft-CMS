@@ -2,10 +2,10 @@
 
 /*
 Plugin Name: FormBuilder 2
-Plugin Url: http://github.com/roundhouse/formbuilder2
+Plugin Url: https://github.com/roundhouse/FormBuilder-2
 Author: Vadim Goncharov (https://github.com/owldesign)
 Author URI: http://roundhouseagency.com
-Description: Form builder for craft cms. Lets you build multiple forms with custom fields. Dynamically display the forms in your templates. Upon submission the forms are saved and stored in the database as well as notification sent to the form's owner.
+Description: FormBuilder 2 is a Craft CMS plugin that lets you create forms for your front-end.
 Version: 0.0.1
 */
 
