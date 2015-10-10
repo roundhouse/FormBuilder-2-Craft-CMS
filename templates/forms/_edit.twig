@@ -77,6 +77,17 @@
               errors: form.getErrors('emailSubject'),
               required: false
             }) }}
+
+            {{ forms.textField({
+              label: "Redirect URL"|t,
+              instructions: "Enter url to success page"|t,
+              id: 'redirectUrl',
+              class: 'redirectUrl',
+              name: 'redirectUrl',
+              value: form.redirectUrl,
+              errors: form.getErrors('redirectUrl'),
+              required: false
+            }) }}
           </div>
 
           <div id="messages" class="tab-content">
@@ -104,7 +115,7 @@
           </div>
 
           <div id="fields" class="tab-content">
-            {% include "formbuilder2/forms/input/fieldlayoutdesigner" with {
+            {% include "formbuilder2/inputs/fieldlayoutdesigner" with {
               fieldLayout: form.getFieldLayout(),
               customizableTabs: true
             } only %}

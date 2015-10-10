@@ -33,8 +33,8 @@
             <input type="hidden" name="redirect" value="formbuilder2/configuration">
             {{ forms.textField({
               first: true,
-              label: "Input Template Path"|t,
-              instructions: "If you want custom imput markup, change template path here. <br />Default: templates/forms/input"|t,
+              label: "Input HTML Template Path"|t,
+              instructions: "If you want custom input markup, change template path here. <br />Default Location: templates/inputs"|t,
               id: 'inputTemplatePath',
               name: 'inputTemplatePath',
               value: settings.inputTemplatePath,

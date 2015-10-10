@@ -1,0 +1,34 @@
+{%- set options = (options is defined ? options : []) %}
+{%- set values = (values is defined ? values : []) -%}
+
+<div class="field{% if first is defined and first %} first{% endif %}"{% if id %} id="{{ id }}-field"{% endif %}>
+	{% if label or instructions %}
+	<div class="heading">
+		{% if label %}
+			<label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
+				{{- label|raw -}}
+			</label>
+			{% if locale %}
+				<span class="locale">{{ locale }}</span>
+			{% endif %}
+		{% endif %}
+		{% if instructions %}
+			<div class="instructions">{{ instructions|md }}</div>
+		{% endif %}
+	</div>
+	{% endif %}
+	<div class="input {{ orientation }}{% if errors %} errors{% endif %}">
+		<select multiple
+			{%- if id is defined %} id="{{ id }}"{% endif %}
+			{%- if name is defined and name %} name="{{ name }}[]"{% endif %}
+			{%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}
+			{%- if disabled is defined and disabled %} disabled{% endif %}
+			{%- if size is defined %} size="{{ size }}"{% endif %}>
+			{%- for key, option in options %}
+				{%- set optionLabel = (option.label is defined ? option.label : option) %}
+				{%- set optionValue = (option.value is defined ? option.value : key) -%}
+				<option value="{{ optionValue }}"{% if optionValue in values %} selected{% endif %}>{{ optionLabel }}</option>
+			{%- endfor %}
+		</select>
+	</div>
+</div>

@@ -9,7 +9,6 @@ class FormBuilder2_FormService extends BaseApplicationComponent
   private $_allFormIds;
   private $_fetchedAllForms = false;
 
-
   /**
    * Get All Form ID's
    *
@@ -125,7 +124,7 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     $formRecord->emailSubject                         = $form->emailSubject;
     // $formRecord->ajaxSubmit                           = $form->ajaxSubmit;
     // $formRecord->successPageRedirect                  = $form->successPageRedirect;
-    // $formRecord->redirectUrl                          = $form->redirectUrl;
+    $formRecord->redirectUrl                          = $form->redirectUrl;
     // $formRecord->useReCaptcha                         = $form->useReCaptcha;
     // $formRecord->hasFileUploads                       = $form->hasFileUploads;
     // $formRecord->uploadSource                         = $form->uploadSource;

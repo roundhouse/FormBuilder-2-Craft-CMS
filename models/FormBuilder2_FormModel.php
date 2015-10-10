@@ -25,7 +25,7 @@ class FormBuilder2_FormModel extends BaseModel
       'emailSubject'                            => AttributeType::String,
       // 'ajaxSubmit'                              => AttributeType::Bool,
       // 'successPageRedirect'                     => AttributeType::Bool,
-      // 'redirectUrl'                             => AttributeType::String,
+      'redirectUrl'                             => AttributeType::String,
       // 'useReCaptcha'                            => AttributeType::Bool,
       // 'hasFileUploads'                          => AttributeType::Bool,
       // 'uploadSource'                            => AttributeType::String,

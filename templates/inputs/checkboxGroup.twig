@@ -1,0 +1,50 @@
+{%- set label = (label is defined and label != '__blank__' ? label : null) %}
+{%- set locale = ((craft.isLocalized() and locale is defined) ? locale : null) %}
+{%- set instructions = (instructions is defined ? instructions : null) %}
+{%- set warning = (warning is defined ? warning : null) %}
+{%- set orientation = craft.i18n.getLocaleData(locale ?: craft.locale).getOrientation() %}
+{%- set errors = (errors is defined ? errors : null) -%}
+
+{% if name is defined and name %}
+	<input type="hidden" name="{{ handle }}" value="">
+{% endif -%}
+
+{%- set options = (options is defined ? options : []) %}
+{%- set values = (values is defined ? values : []) %}
+{%- set name = (name is defined and name ? name~'[]' : null) %}
+
+<div class="field{% if first is defined and first %} first{% endif %}"{% if id %} id="{{ id }}-field"{% endif %}>
+	{% if label or instructions %}
+	<div class="heading">
+		{% if label %}
+			<label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
+				{{- label|raw -}}
+			</label>
+			{% if locale %}
+				<span class="locale">{{ locale }}</span>
+			{% endif %}
+		{% endif %}
+		{% if instructions %}
+			<div class="instructions">{{ instructions|md }}</div>
+		{% endif %}
+	</div>
+	{% endif %}
+	<div class="input {{ orientation }}{% if errors %} errors{% endif %}">
+	{%- for key, option in options %}
+		{%- set optionLabel = (option.label is defined ? option.label : option) %}
+		{%- set optionValue = (option.value is defined ? option.value : key) -%}
+		<div>
+			{% include "formbuilder2/templates/inputs/checkbox" with {
+				label:     optionLabel,
+				id:        (loop.first and id is defined ? id : null),
+				name:      name,
+				handle:    handle,
+				value:     optionValue,
+				required:  (loop.first and required is defined ? required : null),
+				checked:   (optionValue in values),
+				autofocus: (autofocus is defined and autofocus and loop.first and not craft.request.isMobileBrowser(true))
+			} only %}
+		</div>
+	{%- endfor %}
+	</div>
+</div>

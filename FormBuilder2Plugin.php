@@ -37,7 +37,7 @@ class FormBuilder2Plugin extends BasePlugin
   protected function defineSettings()
   {
     return array(
-      'inputTemplatePath'   => array(AttributeType::String, 'default' => 'templates/forms/input', 'required' => true)
+      'inputTemplatePath'       => array(AttributeType::String, 'default' => 'inputs', 'required' => true),
     );
   }
 

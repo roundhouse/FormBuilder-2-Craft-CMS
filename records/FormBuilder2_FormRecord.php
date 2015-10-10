@@ -22,7 +22,7 @@ class FormBuilder2_FormRecord extends BaseRecord
       'emailSubject'                        => AttributeType::Name,
       // 'ajaxSubmit'                          => AttributeType::Bool,
       // 'successPageRedirect'                 => AttributeType::Bool,
-      // 'redirectUrl'                         => AttributeType::String,
+      'redirectUrl'                         => AttributeType::String,
       // 'useReCaptcha'                        => AttributeType::Bool,
       // 'hasFileUploads'                      => AttributeType::Bool,
       // 'uploadSource'                        => AttributeType::String,
