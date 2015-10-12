@@ -1,0 +1,50 @@
+.datewrapper, .timewrapper { display: inline-block; position: relative; }
+
+.datewrapper:before, .timewrapper:before { position: absolute; color: #b9bfc6; }
+
+.datewrapper .text, .timewrapper .text { width: 100%; }
+.datewrapper .text, .timewrapper .text { padding-left: 22px; }
+
+.datewrapper { width: 8em; }
+
+.timewrapper { width: 7em; }
+
+/* datepicker */
+.ui-datepicker, .ui-timepicker-list { z-index: 100; margin-bottom: 10px; border-radius: 3px; background: #fff; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 5px 25px -5px rgba(0, 0, 0, 0.25); -moz-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 5px 25px -5px rgba(0, 0, 0, 0.25); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 5px 25px -5px rgba(0, 0, 0, 0.25); }
+
+.ui-datepicker { position: fixed; top: -300px; -padding: 10px; width: 210px; height: 210px; }
+.ui-datepicker { margin-left: 1px; }
+.ui-datepicker { margin-right: 1px; }
+
+.ui-datepicker-header { padding: 8px 8px 4px; }
+
+.ui-datepicker-prev { float: left; }
+
+.ui-datepicker-next { float: right; }
+
+.ui-datepicker-title { text-align: center; }
+
+.ui-datepicker-calendar { border-collapse: separate; border-spacing: 0; }
+
+.ui-datepicker-calendar thead { display: none; }
+
+.ui-datepicker-calendar td { padding: 2px; }
+
+.ui-datepicker-calendar td a { display: block; border-radius: 2px; width: 26px; line-height: 26px; text-align: center; color: #808080; text-decoration: none; }
+
+.ui-datepicker-calendar td a:hover { background: #d5d8dd; text-decoration: none; }
+
+.ui-datepicker-calendar td a.ui-state-active { background: #737f8c; color: #fff; cursor: default; }
+
+.ui-datepicker-calendar td.ui-datepicker-today a { border-radius: 13px; -webkit-box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15); -moz-box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15); box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15); }
+
+/* timepicker */
+.ui-timepicker-wrapper { z-index: 1; }
+
+.ui-timepicker-list { margin: 0; padding: 0; overflow-y: auto; width: 8em; height: 210px; z-index: 100; }
+
+.ui-timepicker-list li { text-align: center; list-style: none; padding: 5px 0; white-space: nowrap; cursor: pointer; }
+
+.ui-timepicker-list li:hover { background: #d5d8dd; }
+
+.ui-timepicker-list li.ui-timepicker-selected { background: #737f8c; color: #fff; cursor: default; }

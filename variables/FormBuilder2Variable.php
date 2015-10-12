@@ -10,10 +10,29 @@ class FormBuilder2Variable
 	 */
 	public function includeScripts($form)
   {
+  	
+  	
+  	// Lightswitch
+  	// TODO: load lightswitch only if form has lightswitch fields
+  	craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/lightswitch.css'));
+
+  	// Colorpicker
+  	// TODO: load colorpicker only if form has colorpicker fields
+  	craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/colorpicker.css'));
+  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/libs/colorpicker.js'));
+
+  	// WYSIWYG Editor
   	// TODO: load redactor only if form has RichText fields
   	craft()->templates->includeCssResource('/lib/redactor/redactor.css');
 		craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
 		craft()->templates->includeJs("$('.richtext').redactor();");
+  	
+  	// Date & Time Picker
+  	// TODO: load date picker only if form has Date & Time fields
+  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('/lib/jquery-ui.min.js'));
+  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('lib/jquery.timepicker/jquery.timepicker.min.js'));
+  	craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/datetimepicker.css'));
+
     return;
   }
 
@@ -63,6 +82,8 @@ class FormBuilder2Variable
 
 	  craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
 	  
+	  // var_dump($attributes);
+
 	  switch ($theField->type) {
 	    case "PlainText":
 	    	$variables = [
@@ -121,6 +142,57 @@ class FormBuilder2Variable
 	        'placeholder'  		=> $attributes['settings']['placeholder'],
 	        'required'	  		=> $theField->required
 	      ));
+	    break;
+	    case "Lightswitch":
+	    	$html = craft()->templates->render('formbuilder2/templates/'.$pluginSettings['inputTemplatePath'].'/lightswitch', array(
+	        'name'  					=> $attributes['name'],
+	        'handle'  				=> $attributes['handle'],
+	        'label'  					=> $attributes['name'],
+	        'instructions'  	=> $attributes['instructions'],
+	        'placeholder'  		=> $attributes['settings']['placeholder'],
+	        'on'		  				=> $attributes['settings']['default'],
+	        'required'	  		=> $theField->required
+	      ));
+	    break;
+	    case "Color":
+	    	$value = '#000000';
+	    	$html = craft()->templates->render('formbuilder2/templates/'.$pluginSettings['inputTemplatePath'].'/color', array(
+	        'name'  					=> $attributes['name'],
+	        'handle'  				=> $attributes['handle'],
+	        'label'  					=> $attributes['name'],
+	        'value'  					=> $value,
+	        'instructions'  	=> $attributes['instructions'],
+	        'required'	  		=> $theField->required
+	      ));
+	    break;
+	    case "Date":
+      	$html = craft()->templates->render('formbuilder2/templates/'.$pluginSettings['inputTemplatePath'].'/datetime', array(
+	    		'name'  					=> $attributes['name'],
+	    		'handle'  				=> $attributes['handle'],
+	    		'label'  					=> $attributes['name'],
+	    		'instructions'  	=> $attributes['instructions'],
+	    		'minuteIncrement' => $attributes['settings']['minuteIncrement'],
+	    		'showTime'			 	=> $attributes['settings']['showTime'],
+	    		'showDate'			 	=> $attributes['settings']['showDate'],
+	    		'required'	  		=> $theField->required
+      	));
+	    break;
+	    case "Number":
+      	$html = craft()->templates->render('formbuilder2/templates/'.$pluginSettings['inputTemplatePath'].'/text', array(
+	        'type'  					=> 'number',
+	        'name'  					=> $attributes['name'],
+	        'handle'  				=> $attributes['handle'],
+	        'label'  					=> $attributes['name'],
+      		'value' 					=> craft()->numberFormatter->formatDecimal($attributes['settings']['decimals'], false),
+	        'instructions'  	=> $attributes['instructions'],
+	        'placeholder'  		=> $attributes['settings']['placeholder'],
+	        'min'  						=> $attributes['settings']['min'],
+	        'max'  						=> $attributes['settings']['max'],
+	        'required'	  		=> $theField->required
+      	));
+	    break;
+	    case "Assets":
+	    	var_dump($attributes);
 	    break;
 	  }
 

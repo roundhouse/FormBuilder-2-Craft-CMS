@@ -1,14 +1,14 @@
 {%- spaceless %}
+{%- set value = (value is defined ? value : 1) %}
+{%- set id = (id is defined and id ? id : 'checkbox-'~random()) %}
+{%- set label = (label is defined ? label) %}
 
-{% set class = [
+{%- set class = [
 	(class is defined ? class : null),
 	((toggle is defined and toggle is not empty) or (reverseToggle is defined and reverseToggle is not empty) ? 'fieldtoggle' : null),
 	'checkbox'
 ]|filter|join(' ') %}
 
-{% set value = (value is defined ? value : 1) %}
-{% set id = (id is defined and id ? id : 'checkbox'~random()) %}
-{% set label = (label is defined ? label) %}
 
 {% if name is defined and (name|length < 3 or name|slice(-2) != '[]') %}
 	<input type="hidden" name="{{ handle }}" value="">

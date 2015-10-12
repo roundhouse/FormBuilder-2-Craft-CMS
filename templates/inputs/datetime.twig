@@ -1,0 +1,116 @@
+{%- set showDate = (showDate is defined and showDate ? showDate : null) %}
+{%- set showTime = (showTime is defined and showTime ? showTime : null) %}
+{%- set locale = ((craft.isLocalized() and locale is defined) ? locale : null) %}
+{%- set value = (value and value.localeTime is defined ? value.localeTime() : value) %}
+{%- set instructions = (instructions is defined ? instructions : null) %}
+{%- set disabled = (disabled is defined ? disabled : false) %}
+{%- set errors = (errors is defined ? errors : null) -%}
+{%-	set localeData = craft.i18n.getLocaleData() %}
+
+{% if value is not defined -%}
+	{% set value = null -%}
+{% endif -%}
+
+{% if name is defined and name -%}
+	{% set name = name ~ '[date]' -%}
+{% endif -%}
+
+{% if showDate %}
+<div class="datewrapper">
+	{%- set dateId = (id is defined and id ? id : 'date-' ~ random()) %}
+	<div class="field{% if first is defined and first %} first{% endif %}"{% if dateId %} id="{{ dateId }}-field"{% endif %}>
+  {% if label or instructions %}
+    <div class="heading">
+      {% if label %}
+        <label{% if required is defined and required %} class="required"{% endif %}{% if dateId %} for="{{ dateId }}"{% endif %}>
+          {{- label|raw -}}
+        </label>
+        {% if locale %}
+          <span class="locale">{{ locale }}</span>
+        {% endif %}
+      {% endif %}
+      {% if instructions %}
+        <div class="instructions">{{ instructions|md }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+  <div class="input{% if errors %} errors{% endif %}">
+    <input class="{{ class }}" type="{{ type }}"
+      {%- if style is defined %} style="{{ style }}"{% endif %}
+      {%- if dateId is defined %} id="{{ dateId }}"{% endif %}
+      size="10"
+      {%- if handle is defined %} name="{{ handle }}"{% endif %}
+      {%- if value is defined %} value="{{ value }}"{% endif %}
+      {%- if required is defined and required %} required {% endif %}>
+  </div>
+  {% include "formbuilder2/templates/inputs/errorList" with { errors: errors } %}
+	</div>
+</div>
+{% endif %}
+
+{% if showTime %}
+{%- set timeId = (timeId is defined and timeId ? timeId : 'time-' ~ random()) %}
+<div class="timewrapper">
+	<div class="field{% if first is defined and first %} first{% endif %}"{% if timeId %} id="{{ timeId }}-field"{% endif %}>
+  {% if label or instructions %}
+    {% if not showDate %}
+    <div class="heading">
+      {% if label %}
+        <label{% if required is defined and required %} class="required"{% endif %}{% if timeId %} for="{{ timeId }}"{% endif %}>
+          {{- label|raw -}}
+        </label>
+        {% if locale %}
+          <span class="locale">{{ locale }}</span>
+        {% endif %}
+      {% endif %}
+      {% if instructions %}
+        <div class="instructions">{{ instructions|md }}</div>
+      {% endif %}
+    </div>
+  	{% endif %}
+  {% endif %}
+  <div class="input{% if errors %} errors{% endif %}">
+    <input class="{{ class }}" type="{{ type }}"
+      {%- if style is defined %} style="{{ style }}"{% endif %}
+      {%- if timeId is defined %} id="{{ timeId }}"{% endif %}
+      size="10"
+      {%- if handle is defined %} name="{{ handle }}"{% endif %}
+      {%- if value is defined %} value="{{ value }}"{% endif %}
+      {%- if required is defined and required %} required {% endif %}>
+  </div>
+  {% include "formbuilder2/templates/inputs/errorList" with { errors: errors } %}
+	</div>
+</div>
+{% endif %}
+
+
+{%- set js %}
+	{% if showDate %}
+	var $datePicker = $('#{{ dateId|namespaceInputId|e('js') }}');
+	$datePicker.datepicker({
+		constrainInput: false,
+		dateFormat: '{{ craft.i18n.datepickerJsFormat }}',
+		defaultDate: new Date({% if value %}{{ value.year }}, {{ value.month-1 }}, {{ value.day }}{% endif %}),
+		prevText:   '{{ "Prev"|t|e('js') }}',
+		nextText:   '{{ "Next"|t|e('js') }}',
+		firstDay:   {{ currentUser.weekStartDay }},
+	});
+	{% endif %}
+
+	{% if showTime %}
+	var $timePicker = $('#{{ timeId|namespaceInputId|e('js') }}');
+	$timePicker.timepicker({
+		timeFormat: '{{ craft.i18n.timepickerJsFormat }}',
+		closeOnWindowScroll: false,
+		orientation: '{{ localeData.getOrientation() }}',
+		{% if minuteIncrement is defined %}step: '{{ minuteIncrement }}',{% endif %}
+		lang: {
+			am: '{{ localeData.getAMName() }}',
+			AM: '{{ localeData.getAMName() }}',
+			pm: '{{ localeData.getPMName() }}',
+			PM: '{{ localeData.getPMName() }}'
+		}
+	});
+	{% endif %}
+{%- endset %}
+{%- includeJs js %}

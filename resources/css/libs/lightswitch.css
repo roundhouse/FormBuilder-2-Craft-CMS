@@ -1,0 +1,49 @@
+/* Light Switch */
+.switch {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.switch + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+input.switch-round + label {
+  padding: 2px;
+  width: 44px;
+  height: 22px;
+  background-color: #dddddd;
+  border-radius: 22px;
+}
+input.switch-round + label:before,
+input.switch-round + label:after {
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  content: "";
+}
+input.switch-round + label:before {
+  right: 1px;
+  background-color: #f1f1f1;
+  border-radius: 60px;
+  -moz-transition: background 0.4s;
+  transition: background 0.4s;
+}
+input.switch-round + label:after {
+  width: 22px;
+  background-color: #fff;
+  border-radius: 100%;
+  -moz-transition: margin 0.4s;
+  transition: margin 0.4s;
+}
+input.switch-round:checked + label:before {
+  background-color: #8ce196;
+}
+input.switch-round:checked + label:after {
+  margin-left: 24px;
+}

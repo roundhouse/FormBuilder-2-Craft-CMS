@@ -1,10 +1,11 @@
 {%- set type = (type is defined ? type : 'text') %}
-{%- set id = (id is defined ? id : null) %}
+{%- set id = (id is defined ? id : 'input-' ~ random()) %}
 {%- set label = (label is defined and label != '__blank__' ? label : null) %}
 {%- set locale = ((craft.isLocalized() and locale is defined) ? locale : null) %}
 {%- set instructions = (instructions is defined ? instructions : null) %}
 {%- set placeholder = (placeholder is defined ? placeholder : null) %}
-{%- set orientation = craft.i18n.getLocaleData(locale ?: craft.locale).getOrientation() %}
+{%- set min = (min is defined ? min : null) %}
+{%- set max = (max is defined ? max : null) %}
 {%- set errors = (errors is defined ? errors : null) -%}
 
 {%- set class = [
@@ -37,12 +38,12 @@
       {% endif %}
     </div>
   {% endif %}
-  <div class="input {{ orientation }}{% if errors %} errors{% endif %}">
+  <div class="input{% if errors %} errors{% endif %}">
     {%- if type == 'password' %}<div class="passwordwrapper">{% endif -%}
     <input class="{{ class }}" type="{{ type }}"
       {%- if style is defined %} style="{{ style }}"{% endif %}
       {%- if id is defined %} id="{{ id }}"{% endif %}
-      {%- if size is defined %} size="{{ size }}"{% endif %}
+      {%- if max is defined %} size="{{ max }}"{% endif %}
       {%- if handle is defined %} name="{{ handle }}"{% endif %}
       {%- if value is defined %} value="{{ value }}"{% endif %}
       {%- if maxlength is defined and maxlength %} maxlength="{{ maxlength }}"{% endif %}
