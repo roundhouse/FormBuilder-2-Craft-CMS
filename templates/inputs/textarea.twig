@@ -1,5 +1,6 @@
 {%- set type = (type is defined ? type : 'text') %}
-{%- set id = (id is defined ? id : null) %}
+{%- set requiredJs = (requiredJs is defined ? requiredJs : null) %}
+{%- set id = (id is defined ? id : 'textarea-' ~ random()) %}
 {%- set label = (label is defined and label != '__blank__' ? label : null) %}
 {%- set locale = ((craft.isLocalized() and locale is defined) ? locale : null) %}
 {%- set instructions = (instructions is defined ? instructions : null) %}
@@ -9,6 +10,7 @@
 {%- set errors = (errors is defined ? errors : null) -%}
 
 {%- set class = [
+	'form-control',
 	'text',
 	(class is defined and class ? class : null),
 	(placeholder is defined and placeholder ? 'nicetext' : null),
@@ -44,3 +46,10 @@
 			{%- if disabled is defined and disabled %} disabled{% endif %}>{%- if placeholder is defined %} {{ placeholder }}{% endif %}{{ value is defined ? value : null }}</textarea>
 	</div>
 </div>
+
+{% set redactorJs %}
+	{% if requiredJs == 'redactor' %}
+  $('#{{ id }}').redactor();
+	{% endif %}
+{% endset %}
+{% includeJs redactorJs %}

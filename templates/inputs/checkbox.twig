@@ -4,9 +4,9 @@
 {%- set label = (label is defined ? label) %}
 
 {%- set class = [
+	'checkbox',
 	(class is defined ? class : null),
-	((toggle is defined and toggle is not empty) or (reverseToggle is defined and reverseToggle is not empty) ? 'fieldtoggle' : null),
-	'checkbox'
+	((toggle is defined and toggle is not empty) or (reverseToggle is defined and reverseToggle is not empty) ? 'fieldtoggle' : null)
 ]|filter|join(' ') %}
 
 

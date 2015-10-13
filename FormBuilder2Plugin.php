@@ -48,8 +48,7 @@ class FormBuilder2Plugin extends BasePlugin
     return craft()->templates->render('formbuilder2/configuration', array(
       'settings' => $settings
     ));
-
- }
+  }
 
 	public function hasCpSection()
   {

@@ -9,6 +9,7 @@
 {%- set errors = (errors is defined ? errors : null) -%}
 
 {%- set class = [
+  'form-control',
   'text',
   (class is defined and class ? class : null),
   (placeholder is defined and placeholder ? 'nicetext' : null),

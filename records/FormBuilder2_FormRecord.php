@@ -19,22 +19,21 @@ class FormBuilder2_FormRecord extends BaseRecord
     return array(
       'name'                                => array(AttributeType::Name, 'required' => true),
       'handle'                              => array(AttributeType::Handle, 'required' => true),
+      'notifySubmission'                    => AttributeType::Bool,
+      'notifyEmail'                         => AttributeType::String,
+      'notifyTemplatePath'                  => AttributeType::String,
       'emailSubject'                        => AttributeType::Name,
-      // 'ajaxSubmit'                          => AttributeType::Bool,
-      // 'successPageRedirect'                 => AttributeType::Bool,
       'redirectUrl'                         => AttributeType::String,
-      // 'useReCaptcha'                        => AttributeType::Bool,
-      // 'hasFileUploads'                      => AttributeType::Bool,
-      // 'uploadSource'                        => AttributeType::String,
       'successMessage'                      => AttributeType::String,
       'errorMessage'                        => AttributeType::String,
-      // 'toEmail'                             => AttributeType::Name,
-      // 'notifyFormAdmin'                     => AttributeType::Bool,
-      // 'notificationTemplatePath'            => AttributeType::String,
-      // 'notifyRegistrant'                    => AttributeType::Bool,
-      // 'notificationFieldHandleName'         => AttributeType::String,
-      // 'notificationTemplatePathRegistrant'  => AttributeType::String,
-      // 'fieldLayoutId'                       => AttributeType::Number
+      'spamTimeMethod'                      => AttributeType::Bool,
+      'spamTimeMethodTime'                  => AttributeType::Number,
+      'spamHoneypotMethod'                  => AttributeType::Bool,
+      'spamHoneypotMethodString'            => AttributeType::String,
+      'spamHoneypotMethodMessage'           => AttributeType::String,
+      'fileUploadSourceUrl'                 => AttributeType::String,
+      'fieldLayoutId'                       => AttributeType::Number,
+      'ajaxSubmit'                          => AttributeType::Bool
     );
   }
 

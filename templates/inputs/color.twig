@@ -1,4 +1,6 @@
+{%- set requiredJs = (requiredJs is defined and requiredJs ? requiredJs : null) %}
 {%- set id = (id is defined and id ? id : 'colorpicker-'~random()) %}
+
 {%- set class = [
 	'btn big',
 	(class is defined and class ? class : null)
@@ -31,7 +33,9 @@
     </div>
   </div>
 </div>
+
 {% set colorpickerJs %}
+  {% if requiredJs == 'colorpicker' %}
   $('#{{ id }}').colorpicker({
     customClass: 'colorpicker-2x',
     sliders: {
@@ -47,5 +51,6 @@
       }
     }
   });
+  {% endif %}
 {% endset %}
 {% includeJs colorpickerJs %}

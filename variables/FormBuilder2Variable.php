@@ -5,34 +5,33 @@ class FormBuilder2Variable
 {
 
 	/**
-	 * Get Form By Handle
+	 * Load Required Scripts
 	 * 
 	 */
 	public function includeScripts($form)
   {
-  	
-  	
-  	// Lightswitch
-  	// TODO: load lightswitch only if form has lightswitch fields
-  	craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/lightswitch.css'));
-
-  	// Colorpicker
-  	// TODO: load colorpicker only if form has colorpicker fields
-  	craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/colorpicker.css'));
-  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/libs/colorpicker.js'));
-
-  	// WYSIWYG Editor
-  	// TODO: load redactor only if form has RichText fields
-  	craft()->templates->includeCssResource('/lib/redactor/redactor.css');
-		craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
-		craft()->templates->includeJs("$('.richtext').redactor();");
-  	
-  	// Date & Time Picker
-  	// TODO: load date picker only if form has Date & Time fields
-  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('/lib/jquery-ui.min.js'));
-  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('lib/jquery.timepicker/jquery.timepicker.min.js'));
-  	craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/datetimepicker.css'));
-
+  	$fieldLayout = $form->fieldLayout->getFieldLayout();
+  	$fields = $fieldLayout->getFields();
+  	foreach ($fields as $key => $value) {
+  		$field = $value->getField();
+  		if ($field->type == 'Color') {
+		  	// Colorpicker
+		  	craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/colorpicker.css'));
+		  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/libs/colorpicker.js'));
+  		} elseif ($field->type == 'Date') {
+		  	// Date & Time Picker
+		  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('/lib/jquery-ui.min.js'));
+		  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('lib/jquery.timepicker/jquery.timepicker.min.js'));
+		  	craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/datetimepicker.css'));
+  		} elseif ($field->type == 'RichText') {
+  			// WYSIWYG Editor
+		  	craft()->templates->includeCssResource('/lib/redactor/redactor.css');
+				craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
+  		} elseif ($field->type == 'Lightswitch') {
+		  	// Lightswitch
+		  	craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/lightswitch.css'));
+  		}
+  	}
     return;
   }
 
@@ -66,7 +65,7 @@ class FormBuilder2Variable
 	}
 	
 	/**
-	 * Get Input HTML
+	 * Get Input HTML for FieldTypes
 	 * 
 	 */
 	public function getInputHtml($field) 
@@ -81,8 +80,6 @@ class FormBuilder2Variable
 	  $pluginSettings 	= craft()->plugins->getPlugin('FormBuilder2')->getSettings();
 
 	  craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
-	  
-	  // var_dump($attributes);
 
 	  switch ($theField->type) {
 	    case "PlainText":
@@ -140,7 +137,8 @@ class FormBuilder2Variable
 	        'label'  					=> $attributes['name'],
 	        'instructions'  	=> $attributes['instructions'],
 	        'placeholder'  		=> $attributes['settings']['placeholder'],
-	        'required'	  		=> $theField->required
+	        'required'	  		=> $theField->required,
+	        'requiredJs'	  	=> 'redactor'
 	      ));
 	    break;
 	    case "Lightswitch":
@@ -162,7 +160,8 @@ class FormBuilder2Variable
 	        'label'  					=> $attributes['name'],
 	        'value'  					=> $value,
 	        'instructions'  	=> $attributes['instructions'],
-	        'required'	  		=> $theField->required
+	        'required'	  		=> $theField->required,
+	        'requiredJs'	  	=> 'colorpicker'
 	      ));
 	    break;
 	    case "Date":
@@ -174,7 +173,8 @@ class FormBuilder2Variable
 	    		'minuteIncrement' => $attributes['settings']['minuteIncrement'],
 	    		'showTime'			 	=> $attributes['settings']['showTime'],
 	    		'showDate'			 	=> $attributes['settings']['showDate'],
-	    		'required'	  		=> $theField->required
+	    		'required'	  		=> $theField->required,
+	    		'requiredJs'	  	=> 'dateandtime'
       	));
 	    break;
 	    case "Number":
@@ -192,7 +192,13 @@ class FormBuilder2Variable
       	));
 	    break;
 	    case "Assets":
-	    	var_dump($attributes);
+      	$html = craft()->templates->render('formbuilder2/templates/'.$pluginSettings['inputTemplatePath'].'/file', array(
+      		'type'  					=> 'file',
+	        'name'  					=> $attributes['name'],
+	        'handle'  				=> $attributes['handle'],
+	        'label'  					=> $attributes['name'],
+	        'instructions'  	=> $attributes['instructions']
+      	));
 	    break;
 	  }
 

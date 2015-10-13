@@ -1,3 +1,4 @@
+{%- set requiredJs = (requiredJs is defined and requiredJs ? requiredJs : null) %}
 {%- set showDate = (showDate is defined and showDate ? showDate : null) %}
 {%- set showTime = (showTime is defined and showTime ? showTime : null) %}
 {%- set locale = ((craft.isLocalized() and locale is defined) ? locale : null) %}
@@ -10,6 +11,14 @@
 {% if value is not defined -%}
 	{% set value = null -%}
 {% endif -%}
+
+{%- set class = [
+  'form-control',
+  'text',
+  (class is defined and class ? class : null),
+  (placeholder is defined and placeholder ? 'nicetext' : null),
+  (size is defined and size ? null : 'fullwidth')
+]|filter|join(' ') %}
 
 {% if name is defined and name -%}
 	{% set name = name ~ '[date]' -%}
@@ -85,32 +94,34 @@
 
 
 {%- set js %}
-	{% if showDate %}
-	var $datePicker = $('#{{ dateId|namespaceInputId|e('js') }}');
-	$datePicker.datepicker({
-		constrainInput: false,
-		dateFormat: '{{ craft.i18n.datepickerJsFormat }}',
-		defaultDate: new Date({% if value %}{{ value.year }}, {{ value.month-1 }}, {{ value.day }}{% endif %}),
-		prevText:   '{{ "Prev"|t|e('js') }}',
-		nextText:   '{{ "Next"|t|e('js') }}',
-		firstDay:   {{ currentUser.weekStartDay }},
-	});
-	{% endif %}
+  {% if requiredJs == 'dateandtime' %}
+  	{% if showDate %}
+  	var $datePicker = $('#{{ dateId }}');
+  	$datePicker.datepicker({
+  		constrainInput: false,
+  		dateFormat: '{{ craft.i18n.datepickerJsFormat }}',
+  		defaultDate: new Date({% if value %}{{ value.year }}, {{ value.month-1 }}, {{ value.day }}{% endif %}),
+  		prevText:   '{{ "Prev"|t|e('js') }}',
+  		nextText:   '{{ "Next"|t|e('js') }}',
+  		firstDay:   {{ currentUser.weekStartDay }},
+  	});
+  	{% endif %}
 
-	{% if showTime %}
-	var $timePicker = $('#{{ timeId|namespaceInputId|e('js') }}');
-	$timePicker.timepicker({
-		timeFormat: '{{ craft.i18n.timepickerJsFormat }}',
-		closeOnWindowScroll: false,
-		orientation: '{{ localeData.getOrientation() }}',
-		{% if minuteIncrement is defined %}step: '{{ minuteIncrement }}',{% endif %}
-		lang: {
-			am: '{{ localeData.getAMName() }}',
-			AM: '{{ localeData.getAMName() }}',
-			pm: '{{ localeData.getPMName() }}',
-			PM: '{{ localeData.getPMName() }}'
-		}
-	});
+  	{% if showTime %}
+  	var $timePicker = $('#{{ timeId }}');
+  	$timePicker.timepicker({
+  		timeFormat: '{{ craft.i18n.timepickerJsFormat }}',
+  		closeOnWindowScroll: false,
+  		orientation: '{{ localeData.getOrientation() }}',
+  		{% if minuteIncrement is defined %}step: '{{ minuteIncrement }}',{% endif %}
+  		lang: {
+  			am: '{{ localeData.getAMName() }}',
+  			AM: '{{ localeData.getAMName() }}',
+  			pm: '{{ localeData.getPMName() }}',
+  			PM: '{{ localeData.getPMName() }}'
+  		}
+  	});
+    {% endif %}
 	{% endif %}
 {%- endset %}
 {%- includeJs js %}

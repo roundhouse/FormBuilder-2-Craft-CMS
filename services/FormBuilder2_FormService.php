@@ -119,23 +119,23 @@ class FormBuilder2_FormService extends BaseApplicationComponent
       $isNewForm = true;
     }
 
-    $formRecord->name                                 = $form->name;
-    $formRecord->handle                               = $form->handle;
-    $formRecord->emailSubject                         = $form->emailSubject;
-    // $formRecord->ajaxSubmit                           = $form->ajaxSubmit;
-    // $formRecord->successPageRedirect                  = $form->successPageRedirect;
-    $formRecord->redirectUrl                          = $form->redirectUrl;
-    // $formRecord->useReCaptcha                         = $form->useReCaptcha;
-    // $formRecord->hasFileUploads                       = $form->hasFileUploads;
-    // $formRecord->uploadSource                         = $form->uploadSource;
-    $formRecord->successMessage                       = $form->successMessage;
-    $formRecord->errorMessage                         = $form->errorMessage;
-    // $formRecord->notifyFormAdmin                      = $form->notifyFormAdmin;
-    // $formRecord->toEmail                              = $form->toEmail;
-    // $formRecord->notificationTemplatePath             = $form->notificationTemplatePath;
-    // $formRecord->notifyRegistrant                     = $form->notifyRegistrant;
-    // $formRecord->notificationTemplatePathRegistrant   = $form->notificationTemplatePathRegistrant;
-    // $formRecord->notificationFieldHandleName          = $form->notificationFieldHandleName;
+    $formRecord->name                         = $form->name;
+    $formRecord->handle                       = $form->handle;
+    $formRecord->notifySubmission             = $form->notifySubmission;
+    $formRecord->notifyEmail                  = $form->notifyEmail;
+    $formRecord->notifyTemplatePath           = $form->notifyTemplatePath;
+    $formRecord->emailSubject                 = $form->emailSubject;
+    $formRecord->redirectUrl                  = $form->redirectUrl;
+    $formRecord->successMessage               = $form->successMessage;
+    $formRecord->errorMessage                 = $form->errorMessage;
+    $formRecord->spamTimeMethod               = $form->spamTimeMethod;
+    $formRecord->spamTimeMethodTime           = $form->spamTimeMethodTime;
+    $formRecord->spamHoneypotMethod           = $form->spamHoneypotMethod;
+    $formRecord->spamHoneypotMethodString     = $form->spamHoneypotMethodString;
+    $formRecord->spamHoneypotMethodMessage    = $form->spamHoneypotMethodMessage;
+    $formRecord->fileUploadSourceUrl          = $form->fileUploadSourceUrl;
+    $formRecord->fieldLayoutId                = $form->fieldLayoutId;
+    $formRecord->ajaxSubmit                   = $form->ajaxSubmit;
 
     $formRecord->validate();
     $form->addErrors($formRecord->getErrors());

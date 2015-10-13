@@ -19,25 +19,24 @@ class FormBuilder2_FormModel extends BaseModel
   protected function defineAttributes()
   {
     return array(
-      'id'                                      => AttributeType::Number,
-      'name'                                    => AttributeType::String,
-      'handle'                                  => AttributeType::String,
-      'emailSubject'                            => AttributeType::String,
-      // 'ajaxSubmit'                              => AttributeType::Bool,
-      // 'successPageRedirect'                     => AttributeType::Bool,
-      'redirectUrl'                             => AttributeType::String,
-      // 'useReCaptcha'                            => AttributeType::Bool,
-      // 'hasFileUploads'                          => AttributeType::Bool,
-      // 'uploadSource'                            => AttributeType::String,
-      'successMessage'                          => AttributeType::String,
-      'errorMessage'                            => AttributeType::String,
-      // 'toEmail'                                 => AttributeType::String,
-      // 'notifyFormAdmin'                         => AttributeType::Bool,
-      // 'notifyRegistrant'                        => AttributeType::Bool,
-      // 'notificationTemplatePathRegistrant'      => AttributeType::String,
-      // 'notificationFieldHandleName'             => AttributeType::String,
-      // 'notificationTemplatePath'                => AttributeType::String,
-      'fieldLayoutId'                           => AttributeType::Number,
+      'id'                                  => AttributeType::Number,
+      'name'                                => array(AttributeType::Name, 'required' => true),
+      'handle'                              => array(AttributeType::Handle, 'required' => true),
+      'notifySubmission'                    => AttributeType::Bool,
+      'notifyEmail'                         => AttributeType::String,
+      'notifyTemplatePath'                  => AttributeType::String,
+      'emailSubject'                        => AttributeType::Name,
+      'redirectUrl'                         => AttributeType::String,
+      'successMessage'                      => AttributeType::String,
+      'errorMessage'                        => AttributeType::String,
+      'spamTimeMethod'                      => AttributeType::Bool,
+      'spamTimeMethodTime'                  => AttributeType::Number,
+      'spamHoneypotMethod'                  => AttributeType::Bool,
+      'spamHoneypotMethodString'            => AttributeType::String,
+      'spamHoneypotMethodMessage'           => AttributeType::String,
+      'fileUploadSourceUrl'                 => AttributeType::String,
+      'fieldLayoutId'                       => AttributeType::Number,
+      'ajaxSubmit'                          => AttributeType::Bool
     );
   }
 
