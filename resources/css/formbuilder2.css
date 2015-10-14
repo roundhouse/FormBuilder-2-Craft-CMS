@@ -442,13 +442,15 @@ svg.icon {
         .fb-forms .forms tr td.action svg:hover * {
           fill: #47c5ca; }
 
+.fb-new-form .forms.pane {
+  padding: 30px !important; }
 .fb-new-form .menu-tabs {
   margin-bottom: 20px;
   border-bottom: 2px solid rgba(128, 128, 128, 0.1); }
   .fb-new-form .menu-tabs h2 {
     display: inline-block;
     padding: 0 10px;
-    margin: 10px 0 6px 0;
+    margin: 0 0 6px 0;
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility; }
@@ -631,27 +633,29 @@ svg.icon {
 #fieldlayoutform {
   background: none;
   padding: 0; }
-  #fieldlayoutform h1 {
-    margin-bottom: 24px;
-    font-family: HelveticaNeue-Light, HelveticaNeue, sans-serif;
-    font-size: 30px;
-    line-height: 1;
-    color: #da5a47;
-    font-weight: normal !important;
-    font-style: normal;
-    text-transform: none;
-    float: left;
-    margin-right: 40px; }
-  #fieldlayoutform h2 {
-    margin-bottom: 24px;
-    font-family: "Roboto", HelveticaNeue-Light, HelveticaNeue, sans-serif;
-    font-size: 16px;
+  #fieldlayoutform header h2 {
+    margin: 0 0 2px 0 !important;
+    font-family: "Open Sans", "Helvetica", sans-serif;
+    font-size: 14px;
     line-height: 1;
     color: black;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
     font-style: normal;
     text-transform: none;
     text-decoration: none; }
+  #fieldlayoutform header p {
+    padding: 0;
+    margin: 0;
+    font-family: "Open Sans", "Helvetica", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    font-style: normal;
+    color: #8f98a3;
+    text-transform: none; }
+  #fieldlayoutform .fld-tabs {
+    margin: 0 0 0 -30px; }
+    #fieldlayoutform .fld-tabs .fld-tab.last {
+      margin-bottom: 30px !important; }
   #fieldlayoutform .create-field {
     display: inline-block;
     font-style: normal;
@@ -682,20 +686,39 @@ svg.icon {
     #fieldlayoutform .create-field:hover {
       background-image: linear-gradient(#fafafa, white); }
   #fieldlayoutform .newtabbtn-container {
-    position: relative;
-    top: 1px;
-    left: 1px; }
+    margin-bottom: 20px; }
     #fieldlayoutform .newtabbtn-container .btn.icon {
+      padding-left: 0;
       text-transform: none;
-      font-style: normal; }
+      font-style: normal;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      float: none;
+      -webkit-transition: color 0.3s ease;
+      -moz-transition: color 0.3s ease;
+      transition: color 0.3s ease; }
+      #fieldlayoutform .newtabbtn-container .btn.icon:hover {
+        color: #47c5ca; }
       #fieldlayoutform .newtabbtn-container .btn.icon:before {
         content: "+"; }
   #fieldlayoutform .fld-tab .tabs {
-    padding: 0 1px; }
+    padding: 0;
+    background: rgba(128, 128, 128, 0.2);
+    width: 100%;
+    -webkit-transition: background 0.3s ease;
+    -moz-transition: background 0.3s ease;
+    transition: background 0.3s ease; }
+    #fieldlayoutform .fld-tab .tabs:hover {
+      background: rgba(128, 128, 128, 0.3); }
     #fieldlayoutform .fld-tab .tabs .tab {
-      border: 1px solid #b9b9b9;
-      border-bottom-color: white;
-      border-radius: 0; }
+      padding: 10px 20px;
+      margin: 0;
+      border: none;
+      float: none;
+      width: 100%;
+      border-radius: none;
+      box-sizing: border-box; }
       #fieldlayoutform .fld-tab .tabs .tab span {
         font-family: Roboto, HelveticaNeue, sans-serif;
         font-style: normal;
@@ -704,74 +727,118 @@ svg.icon {
         color: #2e2e2e; }
       #fieldlayoutform .fld-tab .tabs .tab a:before {
         color: #c9c9c9; }
-  #fieldlayoutform .fld-tab.fld-insertion .tab {
-    border: 1px dotted #b9b9b9;
-    border-bottom-color: white !important; }
-  #fieldlayoutform .fld-tab.fld-insertion .fld-tabcontent {
-    border: 1px dotted #b9b9b9; }
+    #fieldlayoutform .fld-tab .tabs .settings {
+      float: right; }
   #fieldlayoutform .fld-tab .fld-tabcontent {
-    border: 1px solid #b9b9b9; }
+    padding: 0;
+    border: none; }
     #fieldlayoutform .fld-tab .fld-tabcontent .fld-field {
-      padding: 8px;
+      padding: 15px 20px;
       border: none;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+      border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+      background: rgba(128, 128, 128, 0.1);
+      -webkit-transition: background 0.3s ease;
+      -moz-transition: background 0.3s ease;
+      transition: background 0.3s ease; }
+      #fieldlayoutform .fld-tab .fld-tabcontent .fld-field:hover {
+        background: #fcfcfc; }
       #fieldlayoutform .fld-tab .fld-tabcontent .fld-field:last-child {
         border-bottom: none; }
       #fieldlayoutform .fld-tab .fld-tabcontent .fld-field.fld-required span:after {
         color: #f07575; }
       #fieldlayoutform .fld-tab .fld-tabcontent .fld-field a:before {
         color: #c9c9c9; }
+      #fieldlayoutform .fld-tab .fld-tabcontent .fld-field + .fld-field {
+        margin: 0; }
     #fieldlayoutform .fld-tab .fld-tabcontent span {
       font-family: "Open Sans", "Helvetica", sans-serif;
       font-style: normal;
       font-weight: 400;
       text-transform: none;
       color: #2e2e2e; }
-
-.fld-tab.fld-tab.draghelper .tabs {
-  padding: 1px !important; }
-  .fld-tab.fld-tab.draghelper .tabs .tab {
-    border-radius: 0; }
-
-.fld-tab.draghelper .tabs .tab {
-  border-bottom-color: white !important; }
-
-.fld-tab.draghelper .tabs .tab, .fld-tab.draghelper .fld-tabcontent, .fld-field.draghelper {
-  background: transparent;
-  box-shadow: none;
-  border: 1px solid #47c5ca; }
-  .fld-tab.draghelper .tabs .tab span, .fld-tab.draghelper .fld-tabcontent span, .fld-field.draghelper span {
-    font-family: Roboto, HelveticaNeue, sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    text-transform: none;
-    color: #2e2e2e; }
-  .fld-tab.draghelper .tabs .tab a:before, .fld-tab.draghelper .fld-tabcontent a:before, .fld-field.draghelper a:before {
-    color: #c9c9c9; }
-  .fld-tab.draghelper .tabs .tab .fld-field, .fld-tab.draghelper .fld-tabcontent .fld-field, .fld-field.draghelper .fld-field {
-    padding: 8px;
+    #fieldlayoutform .fld-tab .fld-tabcontent .fld-tab-caboose {
+      border: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      min-height: auto !important;
+      height: 4px;
+      background: #47c5ca;
+      box-sizing: border-box; }
+  #fieldlayoutform .fld-tab.fld-insertion .tab {
     border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-    .fld-tab.draghelper .tabs .tab .fld-field:last-child, .fld-tab.draghelper .fld-tabcontent .fld-field:last-child, .fld-field.draghelper .fld-field:last-child {
-      border-bottom: none; }
-    .fld-tab.draghelper .tabs .tab .fld-field.fld-required span:after, .fld-tab.draghelper .fld-tabcontent .fld-field.fld-required span:after, .fld-field.draghelper .fld-field.fld-required span:after {
-      color: #f07575; }
-    .fld-tab.draghelper .tabs .tab .fld-field a:before, .fld-tab.draghelper .fld-tabcontent .fld-field a:before, .fld-field.draghelper .fld-field a:before {
-      color: #c9c9c9; }
-  .fld-tab.draghelper .tabs .tab span, .fld-tab.draghelper .fld-tabcontent span, .fld-field.draghelper span {
-    font-family: "Open Sans", "Helvetica", sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    text-transform: none;
-    color: #2e2e2e; }
+    border-bottom-color: white !important; }
+  #fieldlayoutform .fld-tab.fld-insertion .tabs {
+    min-height: 39px;
+    background: rgba(71, 197, 202, 0.1); }
+  #fieldlayoutform .fld-tab.fld-insertion .fld-tabcontent {
+    border: none;
+    background: rgba(71, 197, 202, 0.1); }
+  #fieldlayoutform .fld-tab.fld-tab-caboose {
+    border: 2px dotted #47c5ca; }
 
-.fld-field.draghelper {
-  background: transparent;
-  box-shadow: none;
-  border: none; }
-  .fld-field.draghelper span {
+.draghelper.fld-tab .tabs {
+  padding: 0;
+  width: 100%; }
+  .draghelper.fld-tab .tabs .tab {
+    background: rgba(128, 128, 128, 0.2) !important;
+    padding: 10px 20px;
+    margin: 0 !important;
+    float: none;
+    width: 100%;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-sizing: border-box; }
+    .draghelper.fld-tab .tabs .tab span {
+      font-family: Roboto, HelveticaNeue, sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      text-transform: none;
+      color: #2e2e2e; }
+    .draghelper.fld-tab .tabs .tab a:before {
+      color: #c9c9c9; }
+  .draghelper.fld-tab .tabs .settings {
+    float: right; }
+.draghelper.fld-tab .fld-tabcontent {
+  padding: 0;
+  border: none;
+  box-shadow: none !important; }
+  .draghelper.fld-tab .fld-tabcontent .fld-field {
+    padding: 15px 20px;
+    border: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+    background: rgba(128, 128, 128, 0.1);
+    -webkit-transition: background 0.3s ease;
+    -moz-transition: background 0.3s ease;
+    transition: background 0.3s ease; }
+    .draghelper.fld-tab .fld-tabcontent .fld-field:hover {
+      background: #fcfcfc; }
+    .draghelper.fld-tab .fld-tabcontent .fld-field:last-child {
+      border-bottom: none; }
+    .draghelper.fld-tab .fld-tabcontent .fld-field.fld-required span:after {
+      color: #f07575; }
+    .draghelper.fld-tab .fld-tabcontent .fld-field a:before {
+      color: #c9c9c9; }
+    .draghelper.fld-tab .fld-tabcontent .fld-field + .fld-field {
+      margin: 0; }
+  .draghelper.fld-tab .fld-tabcontent span {
     font-family: "Open Sans", "Helvetica", sans-serif;
     font-style: normal;
     font-weight: 400;
     text-transform: none;
     color: #2e2e2e; }
+.draghelper.fld-field {
+  padding: 15px 20px;
+  border: none;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: none; }
+  .draghelper.fld-field span {
+    font-family: "Open Sans", "Helvetica", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    text-transform: none;
+    color: white; }
+  .draghelper.fld-field .settings {
+    opacity: 0; }
+
+.unusedfields .unused .tab {
+  cursor: move; }

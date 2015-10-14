@@ -20,31 +20,35 @@
   background: none;
   padding: 0;
 
-  h1 {
-    margin-bottom: 24px;
-    font-family: HelveticaNeue-Light, HelveticaNeue, sans-serif;
-    font-size: 30px;
-    line-height: 1;
-    color: #da5a47;
-    font-weight: normal !important;
-    font-style: normal;
-    text-transform: none;
-    float: left;
-    margin-right: 40px;
+  header {
+    h2 {
+      margin: 0 0 2px 0 !important;
+      font-family: $opensans;
+      font-size: 14px;
+      line-height: 1;
+      color: black;
+      font-weight: 700 !important;
+      font-style: normal;
+      text-transform: none;
+      text-decoration: none;
+    }
+    p {
+      padding: 0;
+      margin: 0;
+      font-family: $opensans;
+      font-size: 11px;
+      font-weight: 400;
+      font-style: normal;
+      color: #8f98a3;
+      text-transform: none;
+    }
   }
 
-  h2 {
-    margin-bottom: 24px;
-    font-family: "Roboto", HelveticaNeue-Light, HelveticaNeue, sans-serif;
-    font-size: 16px;
-    line-height: 1;
-    color: black;
-    font-weight: 500 !important;
-    font-style: normal;
-    text-transform: none;
-    text-decoration: none;
+  .fld-tabs { 
+    margin: 0 0 0 -30px;
+    .fld-tab.last { margin-bottom: 30px !important; }
   }
-
+  
   .create-field {
     display: inline-block;
     font-style: normal;
@@ -71,12 +75,19 @@
   }
 
   .newtabbtn-container {
-    position: relative;
-    top: 1px;
-    left: 1px;
+    margin-bottom: 20px;
     .btn.icon {
+      padding-left: 0;
       text-transform: none;
       font-style: normal;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      float: none;
+      @include transition(color .3s ease);
+      &:hover {
+        color: $c-teal;
+      }
       &:before {
         content: "+";
       }
@@ -85,12 +96,23 @@
 
   // Field Tabs
   .fld-tab {
+    // &:first-child { margin-left: 0 !important; }
     .tabs {
-      padding: 0 1px;
+      padding: 0;
+      background: rgba(gray, .2);
+      width: 100%;
+      @include transition(background .3s ease);
+      &:hover {
+        background: rgba(gray, .3);
+      }
       .tab {
-        border: 1px solid #b9b9b9;
-        border-bottom-color: white;
-        border-radius: 0;
+        padding: 10px 20px;
+        margin: 0;
+        border: none;
+        float: none;
+        width: 100%;
+        border-radius: none;
+        box-sizing: border-box;
         span {
           font-family: Roboto, HelveticaNeue, sans-serif;
           font-style: normal;
@@ -104,24 +126,23 @@
           }
         }
       }
-    }
-
-    &.fld-insertion {
-      .tab {
-        border: 1px dotted #b9b9b9;
-        border-bottom-color: white !important;
-      }
-      .fld-tabcontent {
-        border: 1px dotted #b9b9b9;
+      .settings {
+        float: right;
       }
     }
 
     .fld-tabcontent {
-      border: 1px solid #b9b9b9;
+      padding: 0;
+      border: none;
       .fld-field {
-        padding: 8px;
+        padding: 15px 20px;
         border: none;
-        border-bottom: 1px solid rgba(black, .1);
+        border-bottom: 1px solid rgba(gray, .1);
+        background: rgba(gray, .1);
+        @include transition(background .3s ease);
+        &:hover {
+          background: darken(white, 1);
+        }
         &:last-child { border-bottom: none; }
         &.fld-required {
           span:after {
@@ -133,6 +154,108 @@
             color: #c9c9c9;
           }
         }
+        & + .fld-field { margin: 0; }
+      }
+      span {
+        font-family: $opensans;
+        font-style: normal;
+        font-weight: 400;
+        text-transform: none;
+        color: #2e2e2e;
+      }
+
+      .fld-tab-caboose {
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: auto !important;
+        height: 4px;
+        background: $c-teal;
+        box-sizing: border-box;
+      }
+    }
+
+    // Background insertion container
+    &.fld-insertion {
+      .tab {
+        border: none;
+        border-bottom-color: white !important;
+      }
+      .tabs { 
+        min-height: 39px; 
+        background: rgba($c-teal, .1);
+      }
+      .fld-tabcontent {
+        border: none;
+        background: rgba($c-teal, .1);
+      }
+    }
+
+    // Caboose
+    &.fld-tab-caboose {
+      border: 2px dotted $c-teal;
+    }
+  }
+}
+
+.draghelper {
+  // Tab
+  &.fld-tab {
+    .tabs {
+      padding: 0;
+      width: 100%;
+      .tab {
+        background: rgba(gray, .2) !important;
+        padding: 10px 20px;
+        margin: 0 !important;
+        float: none;
+        width: 100%;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-sizing: border-box;
+        span {
+          font-family: Roboto, HelveticaNeue, sans-serif;
+          font-style: normal;
+          font-weight: 500;
+          text-transform: none;
+          color: #2e2e2e;
+        }
+        a {
+          &:before {
+            color: #c9c9c9;
+          }
+        }
+      }
+      .settings {
+        float: right;
+      }
+    }
+
+    .fld-tabcontent {
+      padding: 0;
+      border: none;
+      box-shadow: none !important; 
+      .fld-field {
+        padding: 15px 20px;
+        border: none;
+        border-bottom: 1px solid rgba(gray, .1);
+        background: rgba(gray, .1);
+        @include transition(background .3s ease);
+        &:hover {
+          background: darken(white, 1);
+        }
+        &:last-child { border-bottom: none; }
+        &.fld-required {
+          span:after {
+            color: $c-red;
+          }
+        }
+        a {
+          &:before {
+            color: #c9c9c9;
+          }
+        }
+        & + .fld-field { margin: 0; }
       }
       span {
         font-family: $opensans;
@@ -142,64 +265,28 @@
         color: #2e2e2e;
       }
     }
+  }
 
-  }
-}
-
-.fld-tab.fld-tab.draghelper .tabs { padding: 1px !important; .tab { border-radius: 0; } }
-.fld-tab.draghelper .tabs .tab {
-  border-bottom-color: white !important;
-}
-.fld-tab.draghelper .tabs .tab, .fld-tab.draghelper .fld-tabcontent, .fld-field.draghelper { 
-  background: transparent; 
-  box-shadow: none; 
-  border: 1px solid $c-teal;
-  span {
-    font-family: Roboto, HelveticaNeue, sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    text-transform: none;
-    color: #2e2e2e;
-  }
-  a {
-    &:before {
-      color: #c9c9c9;
-    }
-  }
-  .fld-field {
-    padding: 8px;
+  // Field
+  &.fld-field {
+    padding: 15px 20px;
     border: none;
-    border-bottom: 1px solid rgba(black, .1);
-    &:last-child { border-bottom: none; }
-    &.fld-required {
-      span:after {
-        color: $c-red;
-      }
+    background: rgba(black, .3);
+    box-shadow: none;
+    span {
+      font-family: $opensans;
+      font-style: normal;
+      font-weight: 400;
+      text-transform: none;
+      color: white;
     }
-    a {
-      &:before {
-        color: #c9c9c9;
-      }
-    }
-  }
-  span {
-    font-family: $opensans;
-    font-style: normal;
-    font-weight: 400;
-    text-transform: none;
-    color: #2e2e2e;
+    .settings { opacity: 0; }
   }
 }
 
-.fld-field.draghelper { 
-  background: transparent; 
-  box-shadow: none; border: 
-  none; 
-  span {
-    font-family: $opensans;
-    font-style: normal;
-    font-weight: 400;
-    text-transform: none;
-    color: #2e2e2e;
+
+.unusedfields {
+  .unused {
+    .tab { cursor: move; }
   }
 }

@@ -89,14 +89,14 @@
 }
 
 .fb-new-form {
-
+  .forms.pane { padding: 30px !important; }
   .menu-tabs {
     margin-bottom: 20px;
     border-bottom: 2px solid rgba(gray, .1);
     h2 {
       display: inline-block;
       padding: 0 10px;
-      margin: 10px 0 6px 0;
+      margin: 0 0 6px 0;
       @include antialias;
       &:first-child { padding-left: 0; }
       &.current a {

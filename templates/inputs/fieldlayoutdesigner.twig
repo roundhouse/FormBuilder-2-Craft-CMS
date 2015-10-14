@@ -15,8 +15,6 @@
 	"Give your tab a name."
 %}
 
-{% includeCssFile "//fonts.googleapis.com/css?family=Roboto:500,400" %}
-
 {% macro tab(customizableTabs, tabName, tabFields) %}
 	<div class="fld-tab">
 		<div class="tabs">
@@ -41,15 +39,13 @@
 {% endmacro %}
 
 <div id="fieldlayoutform" class="fieldlayoutform">
-	
+
 	{% if customizableTabs %}
 		<div class="newtabbtn-container buttons">
-			<div class="btn icon">{{ "Add Fieldset"|t }}</div>
-			<a href="{{ url('settings/fields') }}" class="btn icon create-field">Create New Field</a>
+			<div class="btn icon">{{ "Add Fieldset Tab"|t }}</div>
 		</div>
 	{% endif %}
-
-
+	
 	<div class="fld-tabs">
 		{% if fieldLayout %}
 			{% import _self as macros %}
@@ -64,7 +60,10 @@
 		{% endif %}
 	</div>
 
-	<h2>Unused Fields</h2>
+	<header>
+		<h2>{{ "Unused Fields"|t }}</h2>
+		<p>{{ "Drag these fields or whole tabs to your form."|t }}</p>
+	</header>
 
 	<div class="unusedfields">
 		{% for group in groups %}
@@ -89,8 +88,8 @@
 				</div>
 			</div>
 		{% endfor %}
+		{# <a href="{{ url('settings/fields') }}" class="btn icon create-field">Create New Field</a> #}
 	</div>
-
 </div>
 
 {% set js %}
