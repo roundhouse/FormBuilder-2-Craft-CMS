@@ -91,29 +91,36 @@
 .fb-new-form {
 
   .menu-tabs {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(gray, .1);
     h2 {
       display: inline-block;
-      font-weight: 600;
-      font-size: 14px;
-      padding: 0 5px;
+      padding: 0 10px;
+      margin: 10px 0 6px 0;
       @include antialias;
       &:first-child { padding-left: 0; }
       &.current a {
-        padding-bottom: 4px;
         color: $c-blue;
-        border-bottom: 1px solid $c-teal;
+        &:after {
+          content: "";
+          display: block;
+          @include animation(slideDown .5s cubic-bezier(0.74, 0.21, 0, 0.88));
+          @include position(absolute, null 0 -8px 0);
+          @include size(100% 2px);
+          background: rgba($c-teal, .6);
+        }
       }
     }
     a {
+      position: relative;
       display: block;
+      font-family: $opensans;
+      font-size: 12px;
+      font-weight: 700;
       color: rgba($c-blue, .7);
       padding-bottom: 5px;
-      font-family: $opensans;
       text-decoration: none;
-      &:hover {
-        color: $c-blue;
-      }
+      &:hover { color: $c-blue; }
     }
   }
 
@@ -122,5 +129,59 @@
   }
   #form-settings {
     display: block;   
+  }
+
+  // Spam Methods
+  .method-time {
+    &.pane { padding: 0 !important; }
+  }
+  .checkbox-toggle {
+    position: relative;
+    cursor: pointer;
+    padding: 20px;
+    @include clearfix;
+    @include transition(background .3s ease);
+    &.selected {
+      background: $c-teal;
+      h3, p { color: white !important; }
+      svg * { fill: white !important; }
+    }
+    .togglebox, svg {
+      @include size(50px);
+    }
+    .togglebox {
+      float: left;
+      input { top: 0; }
+      label {
+        display: block;
+        @include size(100%);
+      }
+    }
+    svg {
+      position: absolute;
+      * {
+        fill: $c-blue;
+      }
+    }
+    .togglecontent {
+      overflow: hidden;
+      padding: 10px;
+      h3, p { margin: 0; padding: 0; }
+      p {
+        font-size: 11px;
+        color: #8f98a3;
+      }
+    }
+  }
+}
+
+@include keyframes(slideDown) {
+  from { 
+    opacity: 0;
+    @include transform(translateY(-5px));
+  }
+  to {
+    opacity: 1;
+    @include transform(translateY(0));
   }
 }

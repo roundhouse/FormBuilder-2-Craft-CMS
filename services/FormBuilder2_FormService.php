@@ -121,21 +121,21 @@ class FormBuilder2_FormService extends BaseApplicationComponent
 
     $formRecord->name                         = $form->name;
     $formRecord->handle                       = $form->handle;
-    $formRecord->notifySubmission             = $form->notifySubmission;
-    $formRecord->notifyEmail                  = $form->notifyEmail;
-    $formRecord->notifyTemplatePath           = $form->notifyTemplatePath;
     $formRecord->emailSubject                 = $form->emailSubject;
     $formRecord->redirectUrl                  = $form->redirectUrl;
-    $formRecord->successMessage               = $form->successMessage;
-    $formRecord->errorMessage                 = $form->errorMessage;
+    $formRecord->ajaxSubmit                   = $form->ajaxSubmit;
     $formRecord->spamTimeMethod               = $form->spamTimeMethod;
     $formRecord->spamTimeMethodTime           = $form->spamTimeMethodTime;
     $formRecord->spamHoneypotMethod           = $form->spamHoneypotMethod;
     $formRecord->spamHoneypotMethodString     = $form->spamHoneypotMethodString;
     $formRecord->spamHoneypotMethodMessage    = $form->spamHoneypotMethodMessage;
+    $formRecord->successMessage               = $form->successMessage;
+    $formRecord->errorMessage                 = $form->errorMessage;
+    $formRecord->notifySubmission             = $form->notifySubmission;
+    $formRecord->notifyEmail                  = $form->notifyEmail;
+    $formRecord->notifyTemplatePath           = $form->notifyTemplatePath;
     $formRecord->fileUploadSourceUrl          = $form->fileUploadSourceUrl;
     $formRecord->fieldLayoutId                = $form->fieldLayoutId;
-    $formRecord->ajaxSubmit                   = $form->ajaxSubmit;
 
     $formRecord->validate();
     $form->addErrors($formRecord->getErrors());

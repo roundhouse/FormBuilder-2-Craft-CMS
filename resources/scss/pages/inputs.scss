@@ -1,6 +1,21 @@
-// ------------------------------------------
-// Field Layout Designer
-// ------------------------------------------
+/* ============================================ *
+ * Input Defaults
+ * ============================================ */
+.instructions {
+  font-size: 11px;
+  color: #8f98a3;
+  p {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  &.switch {
+    p { margin-bottom: .5em !important; }
+  }
+}
+
+/* ============================================ *
+ * Field Layout Designer
+ * ============================================ */
 #fieldlayoutform {
   background: none;
   padding: 0;

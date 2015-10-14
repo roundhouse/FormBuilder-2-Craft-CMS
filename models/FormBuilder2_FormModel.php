@@ -22,21 +22,21 @@ class FormBuilder2_FormModel extends BaseModel
       'id'                                  => AttributeType::Number,
       'name'                                => array(AttributeType::Name, 'required' => true),
       'handle'                              => array(AttributeType::Handle, 'required' => true),
-      'notifySubmission'                    => AttributeType::Bool,
-      'notifyEmail'                         => AttributeType::String,
-      'notifyTemplatePath'                  => AttributeType::String,
       'emailSubject'                        => AttributeType::Name,
       'redirectUrl'                         => AttributeType::String,
-      'successMessage'                      => AttributeType::String,
-      'errorMessage'                        => AttributeType::String,
+      'ajaxSubmit'                          => AttributeType::Bool,
       'spamTimeMethod'                      => AttributeType::Bool,
       'spamTimeMethodTime'                  => AttributeType::Number,
       'spamHoneypotMethod'                  => AttributeType::Bool,
       'spamHoneypotMethodString'            => AttributeType::String,
       'spamHoneypotMethodMessage'           => AttributeType::String,
+      'successMessage'                      => AttributeType::String,
+      'errorMessage'                        => AttributeType::String,
+      'notifySubmission'                    => AttributeType::Bool,
+      'notifyEmail'                         => AttributeType::String,
+      'notifyTemplatePath'                  => AttributeType::String,
       'fileUploadSourceUrl'                 => AttributeType::String,
-      'fieldLayoutId'                       => AttributeType::Number,
-      'ajaxSubmit'                          => AttributeType::Bool
+      'fieldLayoutId'                       => AttributeType::Number
     );
   }
 

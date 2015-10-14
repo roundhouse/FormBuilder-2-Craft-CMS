@@ -53,6 +53,7 @@
               errors: form.getErrors('name'),
               autofocus: true,
               required: true,
+              size: 50,
               translatable: true
             }) }}
 
@@ -63,6 +64,7 @@
               class: 'code',
               name: 'handle',
               value: form.handle,
+              size: 50,
               errors: form.getErrors('handle'),
               required: true
             }) }}
@@ -74,6 +76,7 @@
               class: 'emailSubject',
               name: 'emailSubject',
               value: form.emailSubject,
+              size: 50,
               errors: form.getErrors('emailSubject'),
               required: false
             }) }}
@@ -85,23 +88,106 @@
               class: 'redirectUrl',
               name: 'redirectUrl',
               value: form.redirectUrl,
+              size: 50,
               errors: form.getErrors('redirectUrl'),
               required: false
             }) }}
+
+            <div class="heading">
+              <label for="ajaxSubmit">{{ "Use AJAX?"|t }}</label>
+              <div class="instructions switch"><p>{{ "Should we submit the form via ajax?"|t }}</p></div>
+            </div>
+            {{ forms.lightswitch({
+              name:     "ajaxSubmit",
+              onLabel:  "On",
+              offLabel: "Off",
+              on: (form.ajaxSubmit is defined) ? form.ajaxSubmit : ""
+            }) }}
+
           </div>
 
           <div id="spam-protection" class="tab-content">
-            <h3>{{ "Time Method"|t }}</h3>
-            <p>{{ "Time based spam protection"|t }}</p>
+
+
+            <div class="method-time pane">
+
+              <div class="checkbox-toggle">
+                <div class="togglebox">
+                  <svg><use xlink:href="#icon-clock" class="icon-clock"/></svg>
+                  <input type="checkbox" value="1" {% if form.spamTimeMethod %} checked {% endif %}id="spamTimeMethod" class="spamTimeMethod checkbox" name="spamTimeMethod">
+                </div>
+                <div class="togglecontent">
+                  <h3>{{ "Timed Submissions"|t }}</h3>
+                  <p>{{ "Allow minimum time to submit a form."|t }}</p>
+                </div>
+              </div>
+
+
+            {#   {{ forms.checkboxField({
+                label: "Timed Submissions?"|t,
+                instructions: "Allow minimum time to submit a form."|t,
+                id: 'spamTimeMethod',
+                class: 'spamTimeMethod',
+                name: 'spamTimeMethod',
+                value: 1,
+                checked: form.spamTimeMethod,
+                errors: form.getErrors('spamTimeMethod'),
+                required: false
+              }) }}
+ #}
+
+              {# {{ forms.textField({
+                label: "Time"|t,
+                instructions: "Enter how many seconds to wait untill submissions are valid."|t,
+                id: 'spamTimeMethodTime',
+                class: 'spamTimeMethodTime',
+                name: 'spamTimeMethodTime',
+                value: form.spamTimeMethodTime,
+                size: 50,
+                errors: form.getErrors('spamTimeMethodTime'),
+                required: false
+              }) }} #}
+            </div>
+
+            <div class="heading">
+              <label for="name">{{ "Honeypot"|t }}</label>
+              <div class="instructions switch"><p>{{ "String matching spam protection."|t }}</p></div>
+            </div>
             {{ forms.lightswitch({
-              id: 'spamTimeMethod',
-              class: 'spamTimeMethod',
-              name:     "spamTimeMethod",
-              onLabel:  "On",
+              id: 'spamHoneypotMethod',
+              class: 'spamHoneypotMethod',
+              name: "spamHoneypotMethod",
+              onLabel: "On",
               offLabel: "Off",
-              value: form.spamTimeMethod,
-              on: (settings.spamTimeMethod is defined) ? settings.spamTimeMethod : ""
+              value: form.spamHoneypotMethod,
+              on: (settings.spamHoneypotMethod is defined) ? settings.spamHoneypotMethod : ""
             }) }}
+
+            <div class="honeypot-method">
+              {{ forms.textField({
+                label: "Honeypot String"|t,
+                instructions: "Enter string to validate against."|t,
+                id: 'spamHoneypotMethodString',
+                class: 'spamHoneypotMethodString',
+                name: 'spamHoneypotMethodString',
+                value: form.spamHoneypotMethodString,
+                size: 50,
+                errors: form.getErrors('spamHoneypotMethodString'),
+                required: false
+              }) }}
+
+              {{ forms.textField({
+                label: "Honeypot Input Message"|t,
+                instructions: "Enter message for screen readers."|t,
+                id: 'spamHoneypotMethodMessage',
+                class: 'spamHoneypotMethodMessage',
+                name: 'spamHoneypotMethodMessage',
+                value: form.spamHoneypotMethodMessage,
+                size: 50,
+                errors: form.getErrors('spamHoneypotMethodMessage'),
+                required: false
+              }) }}
+            </div>
           </div>
 
           <div id="messages" class="tab-content">
@@ -112,6 +198,7 @@
               class: 'successMessage',
               name: 'successMessage',
               value: form.successMessage,
+              size: 100,
               errors: form.getErrors('successMessage'),
               required: false
             }) }}
@@ -123,11 +210,25 @@
               class: 'errorMessage',
               name: 'errorMessage',
               value: form.errorMessage,
+              size: 100,
               errors: form.getErrors('errorMessage'),
               required: false
             }) }}
           </div>
 
+          <div id="notifications" class="tab-content">
+            {# {{ forms.checkboxField({
+              label: "Send Notification?"|t,
+              instructions: "Should the form send notification to form owner?"|t,
+              id: 'notifyFormAdmin',
+              class: 'notifyFormAdmin',
+              name: 'notifyFormAdmin',
+              value: 1,
+              checked: form.notifyFormAdmin,
+              errors: form.getErrors('notifyFormAdmin'),
+              required: false
+            }) }} #}
+          </div>
           <div id="fields" class="tab-content">
             {% include "formbuilder2/inputs/fieldlayoutdesigner" with {
               fieldLayout: form.getFieldLayout(),
@@ -157,5 +258,29 @@
 
 {% set newFormJs %}
   {% if not form.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}
+    
+  if ($('#spamTimeMethod').is(":checked")) {
+    $(".checkbox-toggle").addClass('selected')
+  }
+
+  $(".checkbox-toggle").on('click', function() {
+    $(this).toggleClass('selected');
+    if ($(this).hasClass('selected')) {
+      console.log('has class selected');
+      $('#spamTimeMethod').prop('checked', true);
+    } else {
+    $('#spamTimeMethod').prop('checked', false);
+      console.log('not selected');
+    }
+  });
+
+
+  {# $("#spamTimeMethod").on('change', function() {
+    console.log('changed');
+  });
+
+  $('input[name="spamHoneypotMethod"]').on('change', function() {
+    $('.honeypot-method').slideToggle();
+  }); #}
 {% endset %}
 {% includeJs newFormJs %}

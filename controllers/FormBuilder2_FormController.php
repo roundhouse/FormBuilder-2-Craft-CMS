@@ -63,21 +63,21 @@ class FormBuilder2_FormController extends BaseController
     $form->id                           = craft()->request->getPost('formId');
     $form->name                         = craft()->request->getPost('name');
     $form->handle                       = craft()->request->getPost('handle');
-    $form->notifySubmission             = craft()->request->getPost('notifySubmission');
-    $form->notifyEmail                  = craft()->request->getPost('notifyEmail');
-    $form->notifyTemplatePath           = craft()->request->getPost('notifyTemplatePath');
     $form->emailSubject                 = craft()->request->getPost('emailSubject');
     $form->redirectUrl                  = craft()->request->getPost('redirectUrl');
-    $form->successMessage               = craft()->request->getPost('successMessage');
-    $form->errorMessage                 = craft()->request->getPost('errorMessage');
+    $form->ajaxSubmit                   = craft()->request->getPost('ajaxSubmit');
     $form->spamTimeMethod               = craft()->request->getPost('spamTimeMethod');
     $form->spamTimeMethodTime           = craft()->request->getPost('spamTimeMethodTime');
     $form->spamHoneypotMethod           = craft()->request->getPost('spamHoneypotMethod');
     $form->spamHoneypotMethodString     = craft()->request->getPost('spamHoneypotMethodString');
     $form->spamHoneypotMethodMessage    = craft()->request->getPost('spamHoneypotMethodMessage');
+    $form->notifySubmission             = craft()->request->getPost('notifySubmission');
+    $form->notifyEmail                  = craft()->request->getPost('notifyEmail');
+    $form->notifyTemplatePath           = craft()->request->getPost('notifyTemplatePath');
+    $form->successMessage               = craft()->request->getPost('successMessage');
+    $form->errorMessage                 = craft()->request->getPost('errorMessage');
     $form->fileUploadSourceUrl          = craft()->request->getPost('fileUploadSourceUrl');
     $form->fieldLayoutId                = craft()->request->getPost('fieldLayoutId');
-    $form->ajaxSubmit                   = craft()->request->getPost('ajaxSubmit');
 
     $fieldLayout = craft()->fields->assembleLayoutFromPost();
     $fieldLayout->type = ElementType::Asset;
