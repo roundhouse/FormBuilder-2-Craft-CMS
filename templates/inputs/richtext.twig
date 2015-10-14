@@ -1,4 +1,4 @@
-{%- set id = (id is defined ? id : 'textarea-' ~ random()) %}
+{%- set id = (id is defined ? id : 'richtext-' ~ random()) %}
 {%- set requiredJs = (requiredJs is defined ? requiredJs : null) %}
 
 <div class="field">
@@ -23,3 +23,8 @@
 			{%- if required is defined and required %} required {% endif %}>{%- if placeholder is defined %} {{ placeholder }}{% endif %}{{ value is defined ? value : null }}</textarea>
 	</div>
 </div>
+
+{% set redactorJs %}
+  $('#{{ id }}').redactor();
+{% endset %}
+{% includeJs redactorJs %}

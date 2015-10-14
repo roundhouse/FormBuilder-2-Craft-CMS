@@ -1,30 +1,37 @@
-{%- spaceless %}
-{%- set value = (value is defined ? value : 1) %}
-{%- set id = (id is defined and id ? id : 'checkbox-'~random()) %}
-{%- set label = (label is defined ? label) %}
-
-{%- set class = [
-	'checkbox',
-	(class is defined ? class : null),
-	((toggle is defined and toggle is not empty) or (reverseToggle is defined and reverseToggle is not empty) ? 'fieldtoggle' : null)
-]|filter|join(' ') %}
-
-
-{% if name is defined and (name|length < 3 or name|slice(-2) != '[]') %}
+{% if name is defined and name %}
 	<input type="hidden" name="{{ handle }}" value="">
-{% endif %}
+{% endif -%}
 
-<input type="checkbox" value="{{ value }}"
-	{%- if id %} id="{{ id }}"{% endif %}
-	class="{{ class }}"
-	{%- if handle is defined %} name="{{ handle }}[]"{% endif %}
-	{%- if checked is defined and checked %} checked{% endif %}
-	{%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}
-	{%- if disabled is defined and disabled %} disabled{% endif %}
-	{%- if required is defined and required %} required{% endif %}
-	{%- if toggle is defined %} data-target="{{ toggle }}"{% endif %}
-	{%- if reverseToggle is defined %} data-reverse-target="{{ reverseToggle }}"{% endif %}>
-
-<label for="{{ id }}">{{ label|raw }}</label>
-
-{% endspaceless -%}
+<div class="field">
+	{% if label or instructions %}
+	<div class="heading">
+		{% if label %}
+			<label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
+				{{- label|raw -}}
+			</label>
+		{% endif %}
+		{% if instructions %}
+			<div class="instructions">{{ instructions|md }}</div>
+		{% endif %}
+	</div>
+	{% endif %}
+	<div class="input">
+	{%- for key, option in options %}
+		{%- set optionLabel = (option.label is defined ? option.label : option) %}
+		{%- set optionValue = (option.value is defined ? option.value : key) -%}
+		{%- set id = 'checkbox-'~random() %}	
+		<div>
+			<input 
+			  type="checkbox" 
+				class="checkbox"
+				value="{{ optionValue }}"
+				{%- if id %} id="{{ id }}"{% endif %}
+				{%- if handle is defined %} name="{{ handle }}[]"{% endif %}
+				{%- if checked is defined and checked %} checked{% endif %}
+				{%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}
+				{% if loop.first and required %} required{% endif %}>
+			<label for="{{ id }}">{{ optionLabel|raw }}</label>
+		</div>
+	{%- endfor %}
+	</div>
+</div>

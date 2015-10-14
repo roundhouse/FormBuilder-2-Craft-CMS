@@ -34,22 +34,6 @@ class FormBuilder2Plugin extends BasePlugin
 		return 'https://github.com/roundhouse';
 	}
 
-  protected function defineSettings()
-  {
-    return array(
-      'inputTemplatePath'       => array(AttributeType::String, 'default' => 'inputs', 'required' => true),
-    );
-  }
-
-  public function getSettingsHtml()
-  {
-    $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
-
-    return craft()->templates->render('formbuilder2/configuration', array(
-      'settings' => $settings
-    ));
-  }
-
 	public function hasCpSection()
   {
     return true;

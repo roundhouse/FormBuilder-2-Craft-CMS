@@ -131,16 +131,19 @@
     display: block;   
   }
 
-  // Spam Methods
-  .method-time {
-    &.pane { padding: 0 !important; }
+  // Form Methods
+  .method-time, .method-honeypot, .method-notify, .method-ajax, .method-redirect {
+    &.pane { padding: 0 !important; margin-bottom: 20px !important; }
+    .checkbox-extra { display: none; padding: 20px; }
   }
   .checkbox-toggle {
     position: relative;
     cursor: pointer;
     padding: 20px;
     @include clearfix;
+    @include user-select(none);
     @include transition(background .3s ease);
+    .field { opacity: 0; }
     &.selected {
       background: $c-teal;
       h3, p { color: white !important; }

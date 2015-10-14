@@ -1,5 +1,4 @@
-{%- set type = (type is defined ? type : 'text') %}
-{%- set id = (id is defined ? id : 'text-' ~ random()) %}
+{%- set id = (id is defined ? id : 'number-' ~ random()) %}
 {%- set min = (min is defined ? min : null) %}
 {%- set max = (max is defined ? max : null) %}
 
@@ -18,8 +17,7 @@
   {% endif %}
   <div class="input">
     <input 
-      type="{{ type }}"
-      class="text" 
+      type="number"
       {%- if id is defined %} id="{{ id }}"{% endif %}
       {%- if max is defined %} size="{{ max }}"{% endif %}
       {%- if handle is defined %} name="{{ handle }}"{% endif %}

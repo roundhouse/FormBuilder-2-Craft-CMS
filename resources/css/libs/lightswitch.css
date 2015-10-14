@@ -12,11 +12,11 @@
   user-select: none;
 }
 input.switch-round + label {
-  padding: 2px;
-  width: 44px;
+  padding: 1px;
+  width: 33px;
   height: 22px;
-  background-color: #dddddd;
   border-radius: 22px;
+  background-color: #dddddd;
 }
 input.switch-round + label:before,
 input.switch-round + label:after {
@@ -37,13 +37,13 @@ input.switch-round + label:before {
 input.switch-round + label:after {
   width: 22px;
   background-color: #fff;
-  border-radius: 100%;
+  border-radius: 22px;
   -moz-transition: margin 0.4s;
   transition: margin 0.4s;
 }
 input.switch-round:checked + label:before {
-  background-color: #8ce196;
+  background-color: #00b007;
 }
 input.switch-round:checked + label:after {
-  margin-left: 24px;
+  margin-left: 11px;
 }

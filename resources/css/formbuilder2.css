@@ -484,12 +484,20 @@ svg.icon {
   display: none; }
 .fb-new-form #form-settings {
   display: block; }
-.fb-new-form .method-time.pane {
-  padding: 0 !important; }
+.fb-new-form .method-time.pane, .fb-new-form .method-honeypot.pane, .fb-new-form .method-notify.pane, .fb-new-form .method-ajax.pane, .fb-new-form .method-redirect.pane {
+  padding: 0 !important;
+  margin-bottom: 20px !important; }
+.fb-new-form .method-time .checkbox-extra, .fb-new-form .method-honeypot .checkbox-extra, .fb-new-form .method-notify .checkbox-extra, .fb-new-form .method-ajax .checkbox-extra, .fb-new-form .method-redirect .checkbox-extra {
+  display: none;
+  padding: 20px; }
 .fb-new-form .checkbox-toggle {
   position: relative;
   cursor: pointer;
   padding: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   -webkit-transition: background 0.3s ease;
   -moz-transition: background 0.3s ease;
   transition: background 0.3s ease; }
@@ -497,6 +505,8 @@ svg.icon {
     clear: both;
     content: "";
     display: table; }
+  .fb-new-form .checkbox-toggle .field {
+    opacity: 0; }
   .fb-new-form .checkbox-toggle.selected {
     background: #47c5ca; }
     .fb-new-form .checkbox-toggle.selected h3, .fb-new-form .checkbox-toggle.selected p {

@@ -31,7 +31,7 @@
             <input type="hidden" name="action" value="formBuilder2_Configuration/savePluginSettings">
             <input type="hidden" name="pluginClass" value="FormBuilder2">
             <input type="hidden" name="redirect" value="formbuilder2/configuration">
-            {{ forms.textField({
+            {# {{ forms.textField({
               first: true,
               label: "Input HTML Template Path"|t,
               instructions: "If you want custom input markup, change template path here. <br />Default Location: templates/inputs"|t,
@@ -42,7 +42,7 @@
               autofocus: false,
               required: true,
               translatable: true
-            }) }}
+            }) }} #}
 
             <div class="buttons">
               <input class="btn submit" type="submit" value="Save">

@@ -1,36 +1,25 @@
-{%- set requiredJs = (requiredJs is defined and requiredJs ? requiredJs : null) %}
 {%- set id = (id is defined and id ? id : 'colorpicker-'~random()) %}
+{%- set requiredJs = (requiredJs is defined and requiredJs ? requiredJs : null) %}
 
-{%- set class = [
-	'btn big',
-	(class is defined and class ? class : null)
-]|filter|join(' ') %}
-
-<div class="field{% if first is defined and first %} first{% endif %}"{% if id %} id="{{ id }}-field"{% endif %}>
+<div class="field">
   {% if label or instructions %}
     <div class="heading">
       {% if label %}
         <label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
           {{- label|raw -}}
         </label>
-        {% if locale %}
-          <span class="locale">{{ locale }}</span>
-        {% endif %}
       {% endif %}
       {% if instructions %}
         <div class="instructions">{{ instructions|md }}</div>
       {% endif %}
     </div>
   {% endif %}
-  <div class="input {% if errors %} errors{% endif %}">
-    <div class="input-group" id="{{ id }}">
-      <input 
-        type="text" 
-        {%- if value is defined %} value="{{ value }}"{% endif %}
-        {%- if handle is defined %} name="{{ handle }}"{% endif %}
-        class="form-control"/>
-      <span class="input-group-addon"><i></i></span>
-    </div>
+  <div class="input" id="{{ id }}">
+    <input 
+      type="text" 
+      {%- if value is defined %} value="{{ value }}"{% endif %}
+      {%- if handle is defined %} name="{{ handle }}"{% endif %}>
+    <span class="input-group-addon"><i></i></span>
   </div>
 </div>
 
