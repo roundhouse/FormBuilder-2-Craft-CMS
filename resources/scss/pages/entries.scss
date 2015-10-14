@@ -1,0 +1,11 @@
+.fb-entries {
+  .grid {
+    margin: 0;
+    & > .item { padding: 0; }
+  }
+
+  // Sidebar
+  #sidebar {
+    .buttons { display: none; }
+  }
+}

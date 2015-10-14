@@ -8,7 +8,7 @@ class FormBuilder2_EntryController extends BaseController
 
 
   /**
-   * Get All Forms
+   * Entries Index
    *
    */
   public function actionEntriesIndex()
@@ -21,7 +21,6 @@ class FormBuilder2_EntryController extends BaseController
       'formItems'  => $formItems,
       'settings'  => $settings
     ));
-
   }
 
   

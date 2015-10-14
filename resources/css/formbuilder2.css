@@ -569,6 +569,13 @@ svg.icon {
     -ms-transform: translateY(0);
     -o-transform: translateY(0);
     transform: translateY(0); } }
+.fb-entries .grid {
+  margin: 0; }
+  .fb-entries .grid > .item {
+    padding: 0; }
+.fb-entries #sidebar .buttons {
+  display: none; }
+
 /* ============================================ *
  * Configuration
  * ============================================ */
