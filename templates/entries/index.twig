@@ -5,8 +5,6 @@
 {% set page = 'Entries' %}
 
 {% set elementType = "FormBuilder2" %}
-{% set elementTypeClass = elementType %}
-{% set context = 'index' %}
   
 {% block pageHeader %}
   {% include 'formbuilder2/partials/header' %}
@@ -18,6 +16,19 @@
     <header class="page-header">
       <h1><svg class="icon"><use xlink:href="#icon-list" class="icon-list"/></svg> {{ page|t }}</h1>
     </header>
+
   {{ parent() }}
   </section>
 {% endblock %}
+
+{% block initJs %}
+  Craft.elementIndex = Craft.createElementIndex('{{ elementTypeClass }}', $('#main'), {
+    context:        '{{ context }}',
+    showStatusMenu: {{ showStatusMenu is defined ? showStatusMenu|json_encode|raw : "'auto'" }},
+    showLocaleMenu: {{ showLocaleMenu is defined ? showLocaleMenu|json_encode|raw : "'auto'" }},
+    storageKey:     'elementindex.{{ elementTypeClass }}',
+    criteria:       { localeEnabled: null }
+  });
+{% endblock %}
+
+{% includeJs initJs %}

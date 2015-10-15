@@ -23,6 +23,20 @@ class FormBuilder2_EntryController extends BaseController
     ));
   }
 
+  /**
+   * Submit Entry
+   *
+   */
+  public function actionSubmitEntry()
+  {
+    $this->requirePostRequest();
+
+    $post = craft()->request->getPost();
+    $redirectUrl = craft()->request->getPost('formRedirect');
+
+    var_dump($post);
+    var_dump($redirectUrl);
+  }
   
 
 }
