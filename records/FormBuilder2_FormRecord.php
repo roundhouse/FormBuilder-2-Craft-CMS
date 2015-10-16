@@ -20,7 +20,9 @@ class FormBuilder2_FormRecord extends BaseRecord
       'name'                                => array(AttributeType::Name, 'required' => true),
       'handle'                              => array(AttributeType::Handle, 'required' => true),
       'customRedirect'                      => AttributeType::Bool,
+      'saveSubmissionsToDatabase'           => AttributeType::Bool,
       'customRedirectUrl'                   => AttributeType::String,
+      'hasFileUploads'                      => AttributeType::Bool,
       'ajaxSubmit'                          => AttributeType::Bool,
       'spamTimeMethod'                      => AttributeType::Bool,
       'spamTimeMethodTime'                  => AttributeType::Number,
@@ -32,7 +34,6 @@ class FormBuilder2_FormRecord extends BaseRecord
       'notifySubmission'                    => AttributeType::Bool,
       'notifyEmail'                         => AttributeType::String,
       'emailSubject'                        => AttributeType::Name,
-      'notifyTemplatePath'                  => AttributeType::String,
       'fieldLayoutId'                       => AttributeType::Number
     );
   }

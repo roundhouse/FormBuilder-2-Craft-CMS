@@ -31,6 +31,14 @@ App = (function() {
         $('.tab-content').not(tab).css('display', 'none');
         return $(tab).fadeIn();
       });
+      if ($('#saveSubmissionsToDatabase').is(':checked')) {
+        $('.method-database .checkbox-toggle').addClass('selected');
+        $('.method-database .checkbox-extra').show();
+      }
+      if ($('#hasFileUploads').is(':checked')) {
+        $('.method-files .checkbox-toggle').addClass('selected');
+        $('.method-files .checkbox-extra').show();
+      }
       if ($('#customRedirect').is(':checked')) {
         $('.method-redirect .checkbox-toggle').addClass('selected');
         $('.method-redirect .checkbox-extra').show();

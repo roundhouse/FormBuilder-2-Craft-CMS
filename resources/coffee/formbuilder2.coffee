@@ -20,6 +20,16 @@ class App
         $('.tab-content').not(tab).css 'display', 'none'
         $(tab).fadeIn()
 
+      # Save Submissions To Database
+      if $('#saveSubmissionsToDatabase').is(':checked')
+        $('.method-database .checkbox-toggle').addClass 'selected'
+        $('.method-database .checkbox-extra').show()
+
+      # File Uplodas
+      if $('#hasFileUploads').is(':checked')
+        $('.method-files .checkbox-toggle').addClass 'selected'
+        $('.method-files .checkbox-extra').show()
+
       # Redirect
       if $('#customRedirect').is(':checked')
         $('.method-redirect .checkbox-toggle').addClass 'selected'

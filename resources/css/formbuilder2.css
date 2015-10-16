@@ -486,12 +486,18 @@ svg.icon {
   display: none; }
 .fb-new-form #form-settings {
   display: block; }
-.fb-new-form .method-time.pane, .fb-new-form .method-honeypot.pane, .fb-new-form .method-notify.pane, .fb-new-form .method-ajax.pane, .fb-new-form .method-redirect.pane {
-  padding: 0 !important;
-  margin-bottom: 20px !important; }
-.fb-new-form .method-time .checkbox-extra, .fb-new-form .method-honeypot .checkbox-extra, .fb-new-form .method-notify .checkbox-extra, .fb-new-form .method-ajax .checkbox-extra, .fb-new-form .method-redirect .checkbox-extra {
-  display: none;
-  padding: 20px; }
+.fb-new-form .method-time, .fb-new-form .method-honeypot, .fb-new-form .method-notify, .fb-new-form .method-ajax, .fb-new-form .method-redirect, .fb-new-form .method-files, .fb-new-form .method-database {
+  -webkit-transition: background 0.3s ease;
+  -moz-transition: background 0.3s ease;
+  transition: background 0.3s ease; }
+  .fb-new-form .method-time.pane, .fb-new-form .method-honeypot.pane, .fb-new-form .method-notify.pane, .fb-new-form .method-ajax.pane, .fb-new-form .method-redirect.pane, .fb-new-form .method-files.pane, .fb-new-form .method-database.pane {
+    padding: 0 !important;
+    margin-bottom: 20px !important; }
+  .fb-new-form .method-time:hover .checkbox-toggle, .fb-new-form .method-honeypot:hover .checkbox-toggle, .fb-new-form .method-notify:hover .checkbox-toggle, .fb-new-form .method-ajax:hover .checkbox-toggle, .fb-new-form .method-redirect:hover .checkbox-toggle, .fb-new-form .method-files:hover .checkbox-toggle, .fb-new-form .method-database:hover .checkbox-toggle {
+    background: #f7f7f7; }
+  .fb-new-form .method-time .checkbox-extra, .fb-new-form .method-honeypot .checkbox-extra, .fb-new-form .method-notify .checkbox-extra, .fb-new-form .method-ajax .checkbox-extra, .fb-new-form .method-redirect .checkbox-extra, .fb-new-form .method-files .checkbox-extra, .fb-new-form .method-database .checkbox-extra {
+    display: none;
+    padding: 20px; }
 .fb-new-form .checkbox-toggle {
   position: relative;
   cursor: pointer;
@@ -512,7 +518,7 @@ svg.icon {
   .fb-new-form .checkbox-toggle label {
     display: none !important; }
   .fb-new-form .checkbox-toggle.selected {
-    background: #47c5ca; }
+    background: #47c5ca !important; }
     .fb-new-form .checkbox-toggle.selected h3, .fb-new-form .checkbox-toggle.selected p {
       color: white !important; }
     .fb-new-form .checkbox-toggle.selected svg * {

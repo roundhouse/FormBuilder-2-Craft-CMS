@@ -22,8 +22,10 @@ class FormBuilder2_FormModel extends BaseModel
       'id'                                  => AttributeType::Number,
       'name'                                => array(AttributeType::Name, 'required' => true),
       'handle'                              => array(AttributeType::Handle, 'required' => true),
+      'saveSubmissionsToDatabase'           => AttributeType::Bool,
       'customRedirect'                      => AttributeType::Bool,
       'customRedirectUrl'                   => AttributeType::String,
+      'hasFileUploads'                      => AttributeType::Bool,
       'ajaxSubmit'                          => AttributeType::Bool,
       'spamTimeMethod'                      => AttributeType::Bool,
       'spamTimeMethodTime'                  => AttributeType::Number,
@@ -35,7 +37,6 @@ class FormBuilder2_FormModel extends BaseModel
       'notifySubmission'                    => AttributeType::Bool,
       'notifyEmail'                         => AttributeType::String,
       'emailSubject'                        => AttributeType::Name,
-      'notifyTemplatePath'                  => AttributeType::String,
       'fieldLayoutId'                       => AttributeType::Number
     );
   }

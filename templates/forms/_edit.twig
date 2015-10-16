@@ -69,6 +69,27 @@
               required: true
             }) }}
 
+            <div class="method-database pane">
+              <div class="checkbox-toggle" data-checkbox="saveSubmissionsToDatabase">
+                <div class="togglebox">
+                  <svg><use xlink:href="#icon-database" class="icon-database"/></svg>
+                   {{ forms.checkboxField({
+                    id: 'saveSubmissionsToDatabase',
+                    class: 'saveSubmissionsToDatabase',
+                    name: 'saveSubmissionsToDatabase',
+                    value: 1,
+                    checked: form.saveSubmissionsToDatabase,
+                    errors: form.getErrors('saveSubmissionsToDatabase'),
+                    required: false
+                  }) }}
+                </div>
+                <div class="togglecontent">
+                  <h3>{{ "Save Submissions To Database?"|t }}</h3>
+                  <p>{{ "All submissions made by this form will be saved to database."|t }}</p>
+                </div>
+              </div>
+            </div>
+
             <div class="method-redirect pane">
               <div class="checkbox-toggle" data-checkbox="customRedirect">
                 <div class="togglebox">
@@ -103,8 +124,26 @@
               </div>
             </div>
 
-            
-
+            <div class="method-files pane">
+              <div class="checkbox-toggle" data-checkbox="hasFileUploads">
+                <div class="togglebox">
+                  <svg><use xlink:href="#icon-upload" class="icon-upload"/></svg>
+                   {{ forms.checkboxField({
+                    id: 'hasFileUploads',
+                    class: 'hasFileUploads',
+                    name: 'hasFileUploads',
+                    value: 1,
+                    checked: form.hasFileUploads,
+                    errors: form.getErrors('hasFileUploads'),
+                    required: false
+                  }) }}
+                </div>
+                <div class="togglecontent">
+                  <h3>{{ "Has Files Uploads"|t }}</h3>
+                  <p>{{ "Will this form upload any files?"|t }}</p>
+                </div>
+              </div>
+            </div>
 
             <div class="method-ajax pane">
               <div class="checkbox-toggle" data-checkbox="ajaxSubmit">
@@ -295,18 +334,6 @@
                   value: form.emailSubject,
                   size: 50,
                   errors: form.getErrors('emailSubject'),
-                  required: false
-                }) }}
-
-                {{ forms.textField({
-                  label: "Notification Email Template Path"|t,
-                  instructions: "Enter Email Template Path. default 'formbuilder2/email/notification'"|t,
-                  id: 'notifyTemplatePath',
-                  class: 'notifyTemplatePath',
-                  name: 'notifyTemplatePath',
-                  value: form.notifyTemplatePath ? form.notifyTemplatePath : "formbuilder2/email/notification"|t,
-                  size: 50,
-                  errors: form.getErrors('notifyTemplatePath'),
                   required: false
                 }) }}
               </div>

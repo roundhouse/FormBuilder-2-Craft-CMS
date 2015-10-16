@@ -63,8 +63,10 @@ class FormBuilder2_FormController extends BaseController
     $form->id                           = craft()->request->getPost('formId');
     $form->name                         = craft()->request->getPost('name');
     $form->handle                       = craft()->request->getPost('handle');
+    $form->saveSubmissionsToDatabase    = craft()->request->getPost('saveSubmissionsToDatabase');
     $form->customRedirect               = craft()->request->getPost('customRedirect');
     $form->customRedirectUrl            = craft()->request->getPost('customRedirectUrl');
+    $form->hasFileUploads               = craft()->request->getPost('hasFileUploads');
     $form->ajaxSubmit                   = craft()->request->getPost('ajaxSubmit');
     $form->spamTimeMethod               = craft()->request->getPost('spamTimeMethod');
     $form->spamTimeMethodTime           = craft()->request->getPost('spamTimeMethodTime');
@@ -76,12 +78,29 @@ class FormBuilder2_FormController extends BaseController
     $form->notifySubmission             = craft()->request->getPost('notifySubmission');
     $form->notifyEmail                  = craft()->request->getPost('notifyEmail');
     $form->emailSubject                 = craft()->request->getPost('emailSubject');
-    $form->notifyTemplatePath           = craft()->request->getPost('notifyTemplatePath');
     $form->fieldLayoutId                = craft()->request->getPost('fieldLayoutId');
 
     $fieldLayout = craft()->fields->assembleLayoutFromPost();
     $fieldLayout->type = ElementType::Asset;
     $form->setFieldLayout($fieldLayout);
+
+    if (!$form->customRedirect) {
+      $form->customRedirectUrl = '';
+    }
+
+    if (!$form->spamTimeMethod) {
+      $form->spamTimeMethodTime = '';
+    }
+
+    if (!$form->spamHoneypotMethod) {
+      $form->spamHoneypotMethodString = '';
+      $form->spamHoneypotMethodMessage = '';
+    }
+
+    if (!$form->notifySubmission) {
+      $form->notifyEmail = '';
+      $form->emailSubject = '';
+    }
 
     if (craft()->formBuilder2_form->saveForm($form)) {
       craft()->userSession->setNotice(Craft::t('Form saved.'));

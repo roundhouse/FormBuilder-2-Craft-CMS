@@ -132,8 +132,10 @@
   }
 
   // Form Methods
-  .method-time, .method-honeypot, .method-notify, .method-ajax, .method-redirect {
+  .method-time, .method-honeypot, .method-notify, .method-ajax, .method-redirect, .method-files, .method-database {
+    @include transition(background .3s ease);
     &.pane { padding: 0 !important; margin-bottom: 20px !important; }
+    &:hover .checkbox-toggle { background: darken(white, 3); }
     .checkbox-extra { display: none; padding: 20px; }
   }
   .checkbox-toggle {
@@ -146,7 +148,7 @@
     .field { opacity: 0; }
     label { display: none !important; }
     &.selected {
-      background: $c-teal;
+      background: $c-teal !important;
       h3, p { color: white !important; }
       svg * { fill: white !important; }
     }

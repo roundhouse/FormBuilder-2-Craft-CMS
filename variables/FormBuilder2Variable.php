@@ -68,8 +68,9 @@ class FormBuilder2Variable
 	 * Get Input HTML for FieldTypes
 	 * 
 	 */
-	public function getInputHtml($field) 
+	public function getInputHtml($field, $value = null) 
 	{
+
 	  $theField = craft()->fields->getFieldById($field->fieldId);
 	  $fieldType = $theField->getFieldType();
 
@@ -83,25 +84,35 @@ class FormBuilder2Variable
 
 	  $templatePath = craft()->path->getPluginsPath() . 'plugins/formbuilder2/templates/inputs/';
 	  $customTemplatePath = craft()->path->getPluginsPath() . 'formbuilder2/templates/custom/inputs/';
-
 	  $extension = '.twig';
+
+	  if (isset($attributes['settings']['placeholder'])) { $varPlaceholder = $attributes['settings']['placeholder']; } else { $varPlaceholder = null; }
+	  if (isset($attributes['settings']['options'])) { $varOptions = $attributes['settings']['options']; } else { $varOptions = null; }
+	  if (isset($attributes['settings']['values'])) { $varValues = $attributes['settings']['values']; } else { $varValues = null; }
+	  if (isset($attributes['settings']['default'])) { $varOn = $attributes['settings']['default']; } else { $varOn = null; }
+	  if (isset($attributes['settings']['checked'])) { $varChecked = $attributes['settings']['checked']; } else { $varChecked = null; }
+	  if (isset($attributes['settings']['minuteIncrement'])) { $varMinuteIncrement = $attributes['settings']['minuteIncrement']; } else { $varMinuteIncrement = null; }
+	  if (isset($attributes['settings']['showTime'])) { $varShowTime = $attributes['settings']['showTime']; } else { $varShowTime = null; }
+	  if (isset($attributes['settings']['showDate'])) { $varShowDate = $attributes['settings']['showDate']; } else { $varShowDate = null; }
+	  if (isset($attributes['settings']['min'])) { $varMin = $attributes['settings']['min']; } else { $varMin = null; }
+	  if (isset($attributes['settings']['max'])) { $varMax = $attributes['settings']['max']; } else { $varMax = null; }
 
 	  $variables = [
 	  	'type'  					=> $attributes['type'],
 	  	'label'  					=> $attributes['name'],
 	  	'handle'  				=> $attributes['handle'],
 	  	'instructions'  	=> $attributes['instructions'],
-	  	'placeholder'  		=> $attributes['settings']['placeholder'],
-	  	'options'  				=> $attributes['settings']['options'],
+	  	'placeholder'  		=> $varPlaceholder,
+	  	'options'  				=> $varOptions,
 	  	'value'  				  => null,
-	  	'values'  				=> $attributes['settings']['values'],
-	  	'on'		  				=> $attributes['settings']['default'],
-	  	'ocheckedn'		  	=> $attributes['settings']['checked'],
-	  	'minuteIncrement' => $attributes['settings']['minuteIncrement'],
-	  	'showTime'			 	=> $attributes['settings']['showTime'],
-	  	'showDate'			 	=> $attributes['settings']['showDate'],
-	  	'min'  						=> $attributes['settings']['min'],
-	  	'max'  						=> $attributes['settings']['max'],
+	  	'values'  				=> $varValues,
+	  	'on'		  				=> $varOn,
+	  	'checked'		  		=> $varChecked,
+	  	'minuteIncrement' => $varMinuteIncrement,
+	  	'showTime'			 	=> $varShowTime,
+	  	'showDate'			 	=> $varShowDate,
+	  	'min'  						=> $varMin,
+	  	'max'  						=> $varMax,
 	  	'requiredJs'			=> null,
 	  	'required'	  		=> $theField->required
 	  ];

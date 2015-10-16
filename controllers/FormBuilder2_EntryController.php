@@ -29,29 +29,69 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionSubmitEntry()
   {
-    $this->requirePostRequest();
-    // $this->requireAjaxRequest();
-
     // Set Up Form Submission
     $form = craft()->formBuilder2_entry->getFormByHandle(craft()->request->getPost('formHandle'));
+    $formFields = $form->fieldLayout->getFieldLayout()->getFields();
     $submission = craft()->request->getPost();
     $submissionData = $this->filterSubmissionKeys($submission);
 
     // Defaults
-    $customRedirect = false;
-    $useAjax = false;
-    $spamTimeSubmissions = false;
-    $spamHoneypotSubmissions = false;
-    $notifyAdminOfSubmission = false;
-    $files = false;
+    $saveSubmissionsToDatabase  = $form->saveSubmissionsToDatabase;
+    $customRedirect             = $form->customRedirect;
+    $useAjax                    = $form->ajaxSubmit;
+    $spamTimeSubmissions        = $form->spamTimeMethod;
+    $spamHoneypotSubmissions    = $form->spamHoneypotMethod;
+    $notifyAdminOfSubmission    = $form->notifySubmission;
+    $hasFileUploads             = $form->hasFileUploads;
+
+    // Using Ajax
+    if ($useAjax) {
+      $this->requireAjaxRequest();
+    } else {
+      $this->requirePostRequest();
+    }
 
     // Set Up Entry Model
     $submissionEntry = new FormBuilder2_EntryModel();
 
-    if (is_array($_FILES)) {
-      echo 'yes files';
-    } 
-    var_dump($submissionData);
+    // Custom Redirect
+    if ($customRedirect) {
+      $redirectUrl = $form->customRedirectUrl;
+    }
+
+    
+
+    var_dump($submission);
+
+
+    // Form File Uplodas
+    if ($form->hasFileUploads) {
+      $fileName = [];
+      $fileTmpName = [];
+      $fileSize = [];
+      $fileKind = [];
+      foreach ($_FILES as $key => $value) {
+        $fileName[] = $value['name'];
+        $fileTmpName[] = $value['tmp_name'];
+        $fileSize[] = $value['size'];
+        $fileKind[] = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
+      }
+    }
+
+
+
+    // VALIDATE FIELDS
+    $validated = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
+    if (!empty($validated)) {
+      foreach ($validated as $key => $value) {
+        craft()->userSession->setFlash('error', $value);
+      }
+      craft()->urlManager->setRouteVariables(array(
+        'value' => $submissionData,
+        'errors' => $validated
+      ));
+    }
+
   }
 
   /**
