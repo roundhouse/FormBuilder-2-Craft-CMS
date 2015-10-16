@@ -47,4 +47,18 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     return count($this->getAllEntryIds());
   }
 
+  /**
+   * Get Form By Handle
+   *
+   */
+  public function getFormByHandle($handle)
+  {
+    $formRecord = FormBuilder2_FormRecord::model()->findByAttributes(array(
+      'handle' => $handle,
+    ));
+
+    if (!$formRecord) { return false; }
+    return FormBuilder2_FormModel::populateModel($formRecord);
+  }
+
 }

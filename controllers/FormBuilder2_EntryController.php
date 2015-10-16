@@ -30,12 +30,49 @@ class FormBuilder2_EntryController extends BaseController
   public function actionSubmitEntry()
   {
     $this->requirePostRequest();
+    // $this->requireAjaxRequest();
 
-    $post = craft()->request->getPost();
-    $redirectUrl = craft()->request->getPost('formRedirect');
+    // Set Up Form Submission
+    $form = craft()->formBuilder2_entry->getFormByHandle(craft()->request->getPost('formHandle'));
+    $submission = craft()->request->getPost();
+    $submissionData = $this->filterSubmissionKeys($submission);
 
-    var_dump($post);
-    var_dump($redirectUrl);
+    // Defaults
+    $customRedirect = false;
+    $useAjax = false;
+    $spamTimeSubmissions = false;
+    $spamHoneypotSubmissions = false;
+    $notifyAdminOfSubmission = false;
+    $files = false;
+
+    // Set Up Entry Model
+    $submissionEntry = new FormBuilder2_EntryModel();
+
+    if (is_array($_FILES)) {
+      echo 'yes files';
+    } 
+    var_dump($submissionData);
+  }
+
+  /**
+   * Filter Out Unused Post Submission
+   *
+   */
+  protected function filterSubmissionKeys($submission)
+  {
+    $filterKeys = array(
+      'action',
+      'formRedirect',
+      'formHandle'
+    );
+    if (is_array($submission)) {
+      foreach ($submission as $k => $v) {
+        if (in_array($k, $filterKeys)) {
+          unset($submission[$k]);
+        }
+      }
+    }
+    return $submission;
   }
   
 

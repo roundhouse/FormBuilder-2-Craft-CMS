@@ -509,6 +509,8 @@ svg.icon {
     display: table; }
   .fb-new-form .checkbox-toggle .field {
     opacity: 0; }
+  .fb-new-form .checkbox-toggle label {
+    display: none !important; }
   .fb-new-form .checkbox-toggle.selected {
     background: #47c5ca; }
     .fb-new-form .checkbox-toggle.selected h3, .fb-new-form .checkbox-toggle.selected p {
