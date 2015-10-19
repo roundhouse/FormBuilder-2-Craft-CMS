@@ -86,7 +86,6 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
         return $message;
       };
 
-
       switch ($field->type) {
         case "PlainText":
           if ($field->required) {

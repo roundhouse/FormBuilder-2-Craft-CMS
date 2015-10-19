@@ -60,37 +60,37 @@ class FormBuilder2_EntryController extends BaseController
     }
 
     
-
-    var_dump($submission);
-
-
     // Form File Uplodas
     if ($form->hasFileUploads) {
       $fileName = [];
       $fileTmpName = [];
       $fileSize = [];
       $fileKind = [];
+      $uniqueFileName = [];
       foreach ($_FILES as $key => $value) {
         $fileName[] = $value['name'];
         $fileTmpName[] = $value['tmp_name'];
         $fileSize[] = $value['size'];
         $fileKind[] = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
+        $submissionData[$key] = uniqid() . '-' . $value['name'];
       }
     }
 
 
-
-    // VALIDATE FIELDS
+    // Validate Fields
     $validated = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
     if (!empty($validated)) {
       foreach ($validated as $key => $value) {
         craft()->userSession->setFlash('error', $value);
       }
       craft()->urlManager->setRouteVariables(array(
-        'value' => $submissionData,
         'errors' => $validated
       ));
     }
+
+    $submissionEntry->formId     = $form->id;
+    $submissionEntry->title      = $form->name;
+    $submissionEntry->data       = $submissionData;
 
   }
 
