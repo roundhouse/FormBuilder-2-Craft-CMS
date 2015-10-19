@@ -19,7 +19,7 @@
     <a href="{{ url('formbuilder2/entries') }}"{% if page == 'Entries' %} class="active"{% endif %}>
       <svg><use xlink:href="#icon-list" class="icon-list"/></svg>
       {{ "Entries"|t }}
-      <span class="count">{{ entryItems|length }}</span>
+      <span class="count">{{ entriesCount }}</span>
     </a>
     
     <h2>{{ "Quick Links"|t }}</h2>

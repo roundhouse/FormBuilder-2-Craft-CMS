@@ -10,6 +10,15 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
   private $_fetchedAllEntries = false;
 
   /**
+   * Fires 'onBeforeSave' Form Entry
+   *
+   */
+  public function onBeforeSave(Event $event)
+  {
+    $this->raiseEvent('onBeforeSave', $event);
+  }
+
+  /**
    * Get All Entry ID's
    *
    */
@@ -62,14 +71,35 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
   }
 
   /**
+   * Get Form Entry By Id
+   *
+   */
+  public function getFormEntryById($id)
+  {
+    return craft()->elements->getElementById($id, 'FormBuilder2');
+  }
+
+  /**
+   * Get All Entries From Form ID
+   *
+   */
+  public function getAllEntriesFromFormID($formId)
+  {
+    $result = craft()->db->createCommand()
+      ->select('*')
+      ->from('formbuilder2_entries')
+      ->where('formId = :formId', array(':formId' => $formId))
+      ->queryAll();
+    return $result;
+  }
+
+  /**
    * Validate values of a submitted form
    *
    */
   public function validateEntry($form, $submissionData){
     $fieldLayoutFields = $form->getFieldLayout()->getFields();
-    
     $errorMessage = [];
-
     foreach ($fieldLayoutFields as $key => $fieldLayoutField) {
       $requiredField = $fieldLayoutField->attributes['required'];
       $fieldId = $fieldLayoutField->fieldId;
@@ -81,11 +111,6 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
         $field->required = true;
       }
       
-      $_processError = function($field, $message) {
-        craft()->userSession->setFlash('error', $message);
-        return $message;
-      };
-
       switch ($field->type) {
         case "PlainText":
           if ($field->required) {
@@ -149,7 +174,59 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
         break;
       }
     }
-    return $errorMessage;
+
+    if (!empty($errorMessage)) {
+      return craft()->urlManager->setRouteVariables(array(
+        'errors' => $errorMessage
+      ));
+    } else {
+      return true;
+    }
+  }
+
+  /**
+   * Process Submission Entry
+   *
+   */
+  public function processSubmissionEntry(FormBuilder2_EntryModel $submission)
+  { 
+    // Fire Before Save Event
+    $this->onBeforeSave(new Event($this, array(
+      'entry' => $submission
+    )));
+    
+    $form = craft()->formBuilder2_form->getFormById($submission->formId);
+    $saveSubmissionsToDatabase = $form->saveSubmissionsToDatabase;
+
+    $submissionRecord = new FormBuilder2_EntryRecord();
+    $submissionRecord->formId  = $submission->formId;
+    $submissionRecord->title   = $submission->title;
+    $submissionRecord->data    = $submission->data;
+
+    $submissionRecord->validate();
+    $submission->addErrors($submissionRecord->getErrors());
+
+    if ($saveSubmissionsToDatabase) {
+      var_dump('save to database');
+      if (!$submission->hasErrors()) {
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+        try {
+          if (craft()->elements->saveElement($submission)) {
+            $submissionRecord->id = $submission->id;
+            $submissionRecord->save(false);
+
+            if ($transaction !== null) { $transaction->commit(); }
+            return $submissionRecord->id;
+          } else { return false; }
+        } catch (\Exception $e) {
+          if ($transaction !== null) { $transaction->rollback(); }
+          throw $e;
+        }
+        return true;
+      } else { 
+        return false; 
+      }
+    }
   }
 
 }

@@ -31,6 +31,19 @@ App = (function() {
         $('.tab-content').not(tab).css('display', 'none');
         return $(tab).fadeIn();
       });
+      if ($('#form-settings').find('.errors').length > 0) {
+        $('.tab-toggle-form-settings').addClass('has-errors');
+      }
+      if ($('#spam-protection').find('.errors').length > 0) {
+        $('.tab-toggle-spam-protection').addClass('has-errors');
+      }
+      if ($('#notify').find('.errors').length > 0) {
+        $('.tab-toggle-notify').addClass('has-errors');
+      }
+      if ($('.has-errors').length > 0) {
+        $('.menu-tabs h2').removeClass('current');
+        $('.has-errors').first().addClass('current').find('a').trigger('click');
+      }
       if ($('#saveSubmissionsToDatabase').is(':checked')) {
         $('.method-database .checkbox-toggle').addClass('selected');
         $('.method-database .checkbox-extra').show();

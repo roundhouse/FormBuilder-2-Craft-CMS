@@ -3,13 +3,10 @@
 {% set bodyClass = 'formbuilder fb-dashboard' %}
 {% set page = 'Dashboard' %}
 
-{# Page Header | Reference craft/app/templates/_layouts/cp.html #}
 {% block pageHeader %}
-  {# {{ parent() }} #}
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{# Main Container | Reference craft/app/templates/_layouts/cp.html #}
 {% block main %}
   {% set formsCount = craft.formBuilder2.totalForms() %}
   {% set entriesCount = craft.formBuilder2.totalEntries() %}

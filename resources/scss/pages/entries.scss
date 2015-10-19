@@ -1,3 +1,7 @@
+/* ============================================ *
+ * Entries
+ * ============================================ */
+
 .fb-entries {
   .grid {
     margin: 0;
@@ -7,5 +11,70 @@
   // Sidebar
   #sidebar {
     .buttons { display: none; }
+    a {
+      padding: 10px 0 10px 25px;
+      &:hover { color: $c-teal; background: rgba(gray, .1); margin-left: -22px !important; }
+      &.sel:hover { color: white; }
+      &.sel {
+        border-radius: 0;
+        margin-left: -18px !important;
+        background: $c-blue;
+      }
+    }
+  }
+
+  .toolbar { display: none; }
+
+  // View Entry
+  .view-entry {
+    .form-details, .submission-details {
+      h1 { color: $c-blue; margin-bottom: 10px; }
+      p { margin: 0; padding: 0; }
+      span { font-weight: 700; }
+    }
+
+    .form-details {
+      margin-bottom: 30px !important;
+    }
+
+    .submission-details {
+      header {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .data {
+    thead tr:hover { background: white; }
+    th {
+      padding: 20px;
+    }
+    tr {
+      @include transition(all .3s ease);
+      &:hover {
+        background: darken(white, 2);
+      }
+      td {
+        padding: 12px 20px;
+        color: $c-blue;
+        font-family: $opensans;
+        .title a {
+          text-decoration: none;
+          color: $c-blue;
+          font-weight: 700;
+          &:hover { color: $c-teal; }
+        }
+        &.action {
+          svg {
+            cursor: pointer;
+            margin-right: 4px;
+            * { fill: $c-blue; @include transition(all .3s ease); }
+            &:hover {
+              * { fill: $c-teal; }
+            }
+          }
+        }
+      }
+    }
   }
 }

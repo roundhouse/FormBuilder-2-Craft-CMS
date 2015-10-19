@@ -20,6 +20,18 @@ class App
         $('.tab-content').not(tab).css 'display', 'none'
         $(tab).fadeIn()
 
+      # Errors
+      if $('#form-settings').find('.errors').length > 0
+        $('.tab-toggle-form-settings').addClass 'has-errors'
+      if $('#spam-protection').find('.errors').length > 0
+        $('.tab-toggle-spam-protection').addClass 'has-errors'
+      if $('#notify').find('.errors').length > 0
+        $('.tab-toggle-notify').addClass 'has-errors' 
+
+      if $('.has-errors').length > 0
+        $('.menu-tabs h2').removeClass 'current'
+        $('.has-errors').first().addClass('current').find('a').trigger('click')
+
       # Save Submissions To Database
       if $('#saveSubmissionsToDatabase').is(':checked')
         $('.method-database .checkbox-toggle').addClass 'selected'
@@ -47,7 +59,7 @@ class App
         $('.method-honeypot .checkbox-toggle').addClass 'selected'
         $('.method-honeypot .checkbox-extra').show()
       
-      # Notificationss
+      # Notifications
       if $('#notifySubmission').is(':checked')
         $('.method-notify .checkbox-toggle').addClass 'selected'
         $('.method-notify .checkbox-extra').show()

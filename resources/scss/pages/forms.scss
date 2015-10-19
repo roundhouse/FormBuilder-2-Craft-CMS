@@ -110,6 +110,9 @@
           background: rgba($c-teal, .6);
         }
       }
+      &.has-errors {
+        a { color: $c-red; }
+      }
     }
     a {
       position: relative;

@@ -3,16 +3,11 @@
 {% set bodyClass = 'formbuilder fb-forms' %}
 {% set page = 'Forms' %}
 
-{# Page Header | Reference craft/app/templates/_layouts/cp.html #}
 {% block pageHeader %}
-  {# {{ parent() }} #}
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-
-{# Main Container | Reference craft/app/templates/_layouts/cp.html #}
 {% block main %}
-
   
   {% include 'formbuilder2/partials/sidebar' %} 
 
@@ -25,7 +20,6 @@
     {# Form List #}
     {% if formItems|length %}
     <div class="forms pane">
-    
 
       <table class="data fullwidth collapsible" id="forms">
         <thead>
@@ -40,13 +34,15 @@
 
         <tbody>
           {% for form in formItems %}
+          {% set submissions = craft.formBuilder2.getAllEntriesFromFormID(form.id) %}
+
           <tr data-id="{{ form.id }}" data-name="{{ form.name }}">
             <td data-title="{{ "ID"|t }}" class="id">{{ form.id }}</td>
             <td data-title="{{ "Name"|t }}" class="name"><a href="{{ url('formbuilder2/forms/' ~ form.id ~ '/edit') }}">{{ form.name }}</a></td>
             <td data-title="{{ "Handle"|t }}" class="handle">
               {{ form.handle }}
             </td>
-            <td data-title="{{ "Entries"|t }}" class="count">[45]</td>
+            <td data-title="{{ "Entries"|t }}" class="count">{{ submissions|length }}</td>
             <td data-title="{{ "Action"|t }}" class="action">
               <span data-tooltip="Copy Handle"><svg class="icon copy" data-clipboard-text="{{ form.handle }}"><use xlink:href="#icon-copy" class="icon-copy"/></svg></span>
               <a href="#" class="delete-from delete" title="Delete {{ form.name }}" role="button" data-tooltip="Delete Form">

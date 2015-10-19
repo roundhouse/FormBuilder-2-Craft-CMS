@@ -15,17 +15,16 @@
       {% endif %}
     </div>
   {% endif %}
-  <div class="input">
-    <input 
-      type="number"
-      {%- if id is defined %} id="{{ id }}"{% endif %}
-      {%- if max is defined %} size="{{ max }}"{% endif %}
-      {%- if handle is defined %} name="{{ handle }}"{% endif %}
-      {%- if value is defined %} value="{{ value }}"{% endif %}
-      {%- if maxlength is defined and maxlength %} maxlength="{{ maxlength }}"{% endif %}
-      {%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}
-      {%- if required is defined and required %} required {% endif %}
-      {%- if placeholder is defined %} placeholder="{{ placeholder }}"{% endif %}
-      autocomplete="off">
-  </div>
+  <input 
+    type="number"
+    class="number"
+    {%- if id is defined %} id="{{ id }}"{% endif %}
+    {%- if max is defined %} size="{{ max }}"{% endif %}
+    {%- if handle is defined %} name="{{ handle }}"{% endif %}
+    {%- if value is defined %} value="{{ value }}"{% endif %}
+    {%- if maxlength is defined and maxlength %} maxlength="{{ maxlength }}"{% endif %}
+    {%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}
+    {%- if required is defined and required %} required {% endif %}
+    {%- if placeholder is defined %} placeholder="{{ placeholder }}"{% endif %}
+    autocomplete="off">
 </div>

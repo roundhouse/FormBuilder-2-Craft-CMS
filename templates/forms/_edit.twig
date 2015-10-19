@@ -4,13 +4,10 @@
 {% set bodyClass = 'formbuilder fb-new-form' %}
 {% set pageSlug = craft.request.lastSegment %}
 
-{# Page Header | Reference craft/app/templates/_layouts/cp.html #}
 {% block pageHeader %}
-  {# {{ parent() }} #}
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{# Main Container | Reference craft/app/templates/_layouts/cp.html #}
 {% block main %}
   {% if pageSlug == 'edit' %}
     {% set page = 'Edit Form' %}
@@ -33,11 +30,11 @@
         {% if form.id %}<input type="hidden" name="formId" value="{{ form.id }}">{% endif %}
         
         <div class="menu-tabs">
-          <h2 class="current"><a href="#form-settings">{{ "Form Settings"|t }}</a></h2>
-          <h2><a href="#spam-protection">{{ "Spam Protection"|t }}</a></h2>
-          <h2><a href="#messages">{{ "Messages"|t }}</a></h2>
-          <h2><a href="#notify">{{ "Notifications"|t }}</a></h2>
-          <h2><a href="#fields">{{ "Fields"|t }}</a></h2>
+          <h2 class="current tab-toggle-form-settings"><a href="#form-settings">{{ "Form Settings"|t }}</a></h2>
+          <h2 class="tab-toggle-spam-protection"><a href="#spam-protection">{{ "Spam Protection"|t }}</a></h2>
+          <h2 class="tab-toggle-messages"><a href="#messages">{{ "Messages"|t }}</a></h2>
+          <h2 class="tab-toggle-notify"><a href="#notify">{{ "Notifications"|t }}</a></h2>
+          <h2 class="tab-toggle-fields"><a href="#fields">{{ "Fields"|t }}</a></h2>
         </div>
 
         <div class="tabs-container">
@@ -256,7 +253,7 @@
                   id: 'spamHoneypotMethodMessage',
                   class: 'spamHoneypotMethodMessage',
                   name: 'spamHoneypotMethodMessage',
-                  value: form.spamHoneypotMethodMessage,
+                  value: form.spamHoneypotMethodMessage ? form.spamHoneypotMethodMessage : 'Don\'t enter anything here.',
                   size: 50,
                   errors: form.getErrors('spamHoneypotMethodMessage'),
                   required: false
@@ -350,11 +347,18 @@
 
         </div>
 
+        {# Errors #}
+        {%- set errors = (errors is defined ? errors : null) -%}
+        {% if errors %}
+          {% include "formbuilder2/templates/inputs/errorList" with { errors: errors } %}
+        {% endif %}
+
         <div class="buttons">
           <input type="submit" class="btn submit" value="{{ 'Save'|t }}">
         </div>
 
       </form>
+
 
     </div>
 

@@ -4,15 +4,11 @@
 {% set bodyClass = 'formbuilder fb-configuration' %}
 {% set page = 'Configuration' %}
 
-{# Page Header | Reference craft/app/templates/_layouts/cp.html #}
 {% block pageHeader %}
-  {# {{ parent() }} #}
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{# Main Container | Reference craft/app/templates/_layouts/cp.html #}
 {% block main %}
-  {# {{ parent() }} #}
   {% include 'formbuilder2/partials/sidebar' %} 
 
   <section id="fb-content">
@@ -59,6 +55,7 @@
           <li>{{ "Name"|t }}: <span>{{ plugin.getName() }}</span></li>
           <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
           <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
+          <li>{{ "Author"|t }}: <span><a href="https://github.com/owldesign" target="_balank" title="Vadim Goncharov">Vadim Goncharov</a> (<a href="https://twitter.com/owldesign" target="_blank">@owldesign</a>)</span></li>
         </ul>
       </div>
     </div>

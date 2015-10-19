@@ -19,15 +19,16 @@ class FormBuilder2_FormController extends BaseController
     $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
     return $this->renderTemplate('formbuilder2/forms/index', array(
-      'formItems'  => $formItems,
-      'settings'  => $settings,
-      'plugin'  => $plugins
+      'title'       => 'FormBuilder2',
+      'formItems'   => $formItems,
+      'settings'    => $settings,
+      'plugin'      => $plugins
     ));
   }
 
 
   /**
-   * Edit a Form
+   * View/Edit Form
    *
    */
   public function actionEditForm(array $variables = array())

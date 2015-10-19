@@ -55,13 +55,22 @@ class FormBuilder2Variable
 	}
 
 	/**
-	 * Get Total Number of Entries
+	 * Get Total Number of Submissions
 	 * 
 	 */
 	public function totalEntries()
 	{
 		$count = craft()->formBuilder2_entry->getTotalEntries();
 		return $count;
+	}
+
+	/**
+	 * Get Total Number of Submissions Per Form
+	 * 
+	 */
+	public function getAllEntriesFromFormID($formId)
+	{
+		return craft()->formBuilder2_entry->getAllEntriesFromFormID($formId);
 	}
 	
 	/**

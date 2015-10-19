@@ -17,9 +17,10 @@ class FormBuilder2_ConfigurationController extends BaseController
     $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
     return $this->renderTemplate('formbuilder2/configuration', array(
-      'formItems'  => $formItems,
-      'settings'  => $settings,
-      'plugin'  => $plugins
+      'title'       => 'FormBuilder2',
+      'formItems'   => $formItems,
+      'settings'    => $settings,
+      'plugin'      => $plugins
     ));
   }
 

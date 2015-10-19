@@ -1,0 +1,70 @@
+{% extends "_layouts/cp" %}
+
+{% set bodyClass = 'formbuilder fb-entries' %}
+{% set page = 'Entry' %}
+
+{% block pageHeader %}
+  {% include 'formbuilder2/partials/header' %}
+{% endblock %}
+
+{% block main %}
+
+  {% include 'formbuilder2/partials/sidebar' %} 
+
+  <section id="fb-content">
+    <header class="page-header">
+      <h1><svg class="icon"><use xlink:href="#icon-text" class="icon-text"/></svg> {{ page|t }}</h1>
+    </header>
+
+    <div class="pane view-entry">
+
+      <div class="pane form-details">
+        <header>
+          <h1>{{ "Form Details"|t }}</h1>
+          <p>{{ "Name"|t }}: <span>{{ form.name }}</span></p>
+          <p>{{ "ID"|t }}: <span>{{ form.id }}</span></p>
+        </header>
+      </div>
+
+      <div class="pane submission-details">
+        <header>
+          <h1>{{ "Submission Details"|t }}</h1>
+          <p>{{ "ID"|t }}: <span>{{ entry.id }}</span></p>
+          <p>{{ "Date"|t }}: <span>{{ entry.dateCreated | date('F jS, Y') }} at {{ entry.dateCreated | date('g:h A') }}</span></p>
+        </header>
+
+        <table class="data fullwidth collapsible">
+          {% for name, value in data %}
+            {% set field = craft.fields.getFieldByHandle(name) %}
+            {% if value %}
+            <tr>
+              <td><strong>{{ field.name }}</strong></td>
+              {% if value | checkArray == '1' %}
+                <td>
+                {% for key, item in value %}
+                  <span class="item">{{ item }}</span>
+                {% endfor %}
+                </td>
+              {% else %}
+                <td>{{ value|nl2br }}</td>
+              {% endif %}
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+
+    <div class="pane">
+      <form method="post" accept-charset="utf-8">
+        <input type="hidden" name="action" value="formBuilder2/entry/deleteSubmission">
+        <input type="hidden" name="redirect" value="formbuilder2/entries">
+        <input type="hidden" name="entryId" value="{{ entry.id }}">
+        <button class="btn delete submit">{{ "Delete Submission"|t }}</button>
+      </form>
+    </div>
+
+  </section>
+
+{% endblock %}
+

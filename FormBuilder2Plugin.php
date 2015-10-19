@@ -39,17 +39,23 @@ class FormBuilder2Plugin extends BasePlugin
     return true;
   }
 
+  public function addTwigExtension()  
+  {
+    Craft::import('plugins.formbuilder2.twigextensions.FormBuilder2TwigExtension');
+    return new FormBuilder2TwigExtension();
+  }
+
   public function registerCpRoutes()
   {
     return array(
-      'formbuilder2'                              => array('action' => 'formBuilder2/dashboard'),
-      'formbuilder2/configuration'                => array('action' => 'formBuilder2_Configuration/configurationIndex'),
-      'formbuilder2/forms'                        => array('action' => 'formBuilder2_Form/formsIndex'),
-      'formbuilder2/forms/new'                    => array('action' => 'formBuilder2_Form/editForm'),
-      'formbuilder2/forms/(?P<formId>\d+)'        => array('action' => 'formBuilder2_Form/editForm'),
-      'formbuilder2/forms/(?P<formId>\d+)/edit'   => array('action' => 'formBuilder2_Form/editForm'),
-      'formbuilder2/entries'                      => array('action' => 'formBuilder2_Entry/entriesIndex'),
-      'formbuilder2/entries/(?P<entryId>\d+)'     => array('action' => 'formBuilder2_Entry/viewEntry')
+      'formbuilder2'                                  => array('action' => 'formBuilder2/dashboard'),
+      'formbuilder2/configuration'                    => array('action' => 'formBuilder2_Configuration/configurationIndex'),
+      'formbuilder2/forms'                            => array('action' => 'formBuilder2_Form/formsIndex'),
+      'formbuilder2/forms/new'                        => array('action' => 'formBuilder2_Form/editForm'),
+      'formbuilder2/forms/(?P<formId>\d+)'            => array('action' => 'formBuilder2_Form/editForm'),
+      'formbuilder2/forms/(?P<formId>\d+)/edit'       => array('action' => 'formBuilder2_Form/editForm'),
+      'formbuilder2/entries'                          => array('action' => 'formBuilder2_Entry/entriesIndex'),
+      'formbuilder2/entries/(?P<entryId>\d+)/edit'    => array('action' => 'formBuilder2_Entry/viewEntry')
     );
   }
 

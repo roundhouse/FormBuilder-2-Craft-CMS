@@ -28,7 +28,6 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     return $this->_allFormIds;
   }
 
-
   /**
    * Get All Form
    *
@@ -54,7 +53,6 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     }
   }
 
-
   /**
    * Get Form By Handle
    *
@@ -69,7 +67,6 @@ class FormBuilder2_FormService extends BaseApplicationComponent
       return FormBuilder2_FormModel::populateModel($formRecord);
     }
   }
-
 
   /**
    * Get Form by ID
@@ -97,7 +94,6 @@ class FormBuilder2_FormService extends BaseApplicationComponent
   {
     return count($this->getAllFormIds());
   }
-
 
   /**
    * Save New Form
@@ -138,6 +134,27 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     $formRecord->emailSubject                 = $form->emailSubject;
     $formRecord->fieldLayoutId                = $form->fieldLayoutId;
 
+
+    if ($form->customRedirect && $form->customRedirectUrl == '') {
+      $form->addError('customRedirectUrl', Craft::t('Please enter Redirect URL.'));
+    }
+
+    if ($form->spamTimeMethod && $form->spamTimeMethodTime == '') {
+      $form->addError('spamTimeMethodTime', Craft::t('Please enter time.'));
+    }
+
+    if ($form->spamHoneypotMethod && $form->spamHoneypotMethodString == '') {
+      $form->addError('spamHoneypotMethodString', Craft::t('Please enter honeypot string.'));
+    }
+
+    if ($form->notifySubmission && $form->notifyEmail == '') {
+      $form->addError('notifyEmail', Craft::t('Please enter notification email.'));
+    }
+
+    if ($form->notifySubmission && $form->emailSubject == '') {
+      $form->addError('emailSubject', Craft::t('Please enter notification email subject.'));
+    }
+    
     $formRecord->validate();
     $form->addErrors($formRecord->getErrors());
 

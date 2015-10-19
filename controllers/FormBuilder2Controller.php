@@ -83,7 +83,8 @@ class FormBuilder2Controller extends BaseController
 
     return $this->renderTemplate('formbuilder2/dashboard', array(
       'settings'  => $settings,
-      'plugin'  => $plugins
+      'plugin'  => $plugins,
+      'title'  => 'FormBuilder2'
     ));
 	}
 

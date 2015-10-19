@@ -1,6 +1,5 @@
 <?php
 namespace Craft;
-
 class FormBuilder2ElementType extends BaseElementType
 {
   //======================================================================
@@ -10,7 +9,6 @@ class FormBuilder2ElementType extends BaseElementType
   {
     return Craft::t('FormBuilder2');
   }
-
   //======================================================================
   // Get Sources
   //======================================================================
@@ -21,7 +19,6 @@ class FormBuilder2ElementType extends BaseElementType
         'label' => Craft::t('All Submissons'),
       ),
     );
-
     foreach (craft()->formBuilder2_form->getAllForms() as $form) {
       $key = 'formId:' . $form->id;
       $sources[$key] = array(
@@ -31,7 +28,6 @@ class FormBuilder2ElementType extends BaseElementType
     }
     return $sources;
   }
-
   //======================================================================
   // Define Table Attributes
   //======================================================================
@@ -39,12 +35,11 @@ class FormBuilder2ElementType extends BaseElementType
   {
     return array(
       'id'          => Craft::t('ID'),
-      'title'       => Craft::t('Title'),
+      'title'       => Craft::t('Form'),
       'dateCreated' => Craft::t('Date'),
       'data'        => Craft::t('Submission Data'),
     );
   }
-
   //======================================================================
   // Get Tablet Attribute HTML
   //======================================================================
@@ -60,7 +55,6 @@ class FormBuilder2ElementType extends BaseElementType
         break;
     }
   }
-
   //======================================================================
   // Define Criteria Attributes
   //======================================================================
@@ -71,7 +65,6 @@ class FormBuilder2ElementType extends BaseElementType
       'order'  => array(AttributeType::String, 'default' => 'formbuilder2_entries.dateCreated desc'),
     );
   }
-
   //======================================================================
   // Modify Elements Query
   //======================================================================
@@ -80,23 +73,19 @@ class FormBuilder2ElementType extends BaseElementType
     $query
       ->addSelect('formbuilder2_entries.formId, formbuilder2_entries.title, formbuilder2_entries.data')
       ->join('formbuilder2_entries formbuilder2_entries', 'formbuilder2_entries.id = elements.id');
-
     if ($criteria->formId) {
       $query->andWhere(DbHelper::parseParam('formbuilder2_entries.formId', $criteria->formId, $query->params));
     }
   }
-
   //======================================================================
   // Populate Element Model
   //======================================================================
   public function populateElementModel($row, $normalize = false)
   {
     $entry = FormBuilder2_EntryModel::populateModel($row);
-
     if ($normalize) {
       $entry = $entry->_normalizeDataForElementsTable();
     }
     return $entry;
   }
-
 }

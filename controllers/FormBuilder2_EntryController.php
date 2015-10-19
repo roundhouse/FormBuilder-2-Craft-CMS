@@ -19,8 +19,27 @@ class FormBuilder2_EntryController extends BaseController
 
     return $this->renderTemplate('formbuilder2/entries/index', array(
       'formItems'  => $formItems,
-      'settings'  => $settings
+      'settings'  => $settings,
+      'title'     => 'FormBuilder2'
     ));
+  }
+
+  /**
+   * View/Edit Entry
+   *
+   */
+  public function actionViewEntry(array $variables = array())
+  {
+    $entry              = craft()->formBuilder2_entry->getFormEntryById($variables['entryId']);
+    $variables['entry'] = $entry;
+
+    if (empty($entry)) { throw new HttpException(404); }
+
+    $variables['title']       = 'FormBuilder2';
+    $variables['form']        = craft()->formBuilder2_form->getFormById($entry->formId);
+    $variables['data']        = json_decode($entry->data, true);
+
+    $this->renderTemplate('formbuilder2/entries/_view', $variables);
   }
 
   /**
@@ -51,47 +70,111 @@ class FormBuilder2_EntryController extends BaseController
       $this->requirePostRequest();
     }
 
-    // Set Up Entry Model
-    $submissionEntry = new FormBuilder2_EntryModel();
-
     // Custom Redirect
     if ($customRedirect) {
       $redirectUrl = $form->customRedirectUrl;
     }
 
+    // Validate Required Fields
+    $validateRequired = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
     
-    // Form File Uplodas
-    if ($form->hasFileUploads) {
-      $fileName = [];
-      $fileTmpName = [];
-      $fileSize = [];
-      $fileKind = [];
-      $uniqueFileName = [];
-      foreach ($_FILES as $key => $value) {
-        $fileName[] = $value['name'];
-        $fileTmpName[] = $value['tmp_name'];
-        $fileSize[] = $value['size'];
-        $fileKind[] = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
-        $submissionData[$key] = uniqid() . '-' . $value['name'];
+    // Prepare submissionEntry for processing
+    $submissionEntry = new FormBuilder2_EntryModel();
+    $submissionEntry->formId      = $form->id;
+    $submissionEntry->title       = $form->name;
+    $submissionEntry->data        = $submissionData;
+
+
+    // File Uploads
+    if ($hasFileUploads) {
+      foreach ($formFields as $key => $value) {
+        $field = $value->getField();
+        switch ($field->type) {
+          case 'Assets':
+            var_dump($field);
+            foreach ($_FILES as $key => $value) {
+              $fileName = $value['name'];
+              $fileTmpName = $value['tmp_name'];
+              $fileSize = $value['size'];
+              $fileKind = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
+              $submissionData[$key] = uniqid() . '-' . $value['name'];
+            }
+          break;
+        }
       }
     }
 
+    die();
 
-    // Validate Fields
-    $validated = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
-    if (!empty($validated)) {
-      foreach ($validated as $key => $value) {
-        craft()->userSession->setFlash('error', $value);
+
+    // Process Submission Entry
+    if ($validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
+      craft()->userSession->setFlash('success', $form->successMessage);
+
+      if ($hasFileUploads) {
+        if (move_uploaded_file($file, $uploadDir . $uniqe_filename)) {
+          IOHelper::deleteFile($file);
+
+          $file = $uploadDir . $uniqe_filename;
+          $fileModel = new AssetFileModel();
+
+          $fileModel->sourceId = $form->uploadSource;
+          $fileModel->folderId = $this->assetFolderId;
+
+          $fileModel->filename = IOHelper::getFileName($uniqe_filename);
+          $fileModel->originalName = IOHelper::getFileName($filename);
+          $fileModel->kind = IOHelper::getFileKind(IOHelper::getExtension($uniqe_filename));
+          $fileModel->size = filesize($file);
+          $fileModel->dateModified = IOHelper::getLastTimeModified($file);
+
+          if ($fileModel->kind == 'image') {
+            list ($width, $height) = ImageHelper::getImageSize($file);
+            $fileModel->width = $width;
+            $fileModel->height = $height;
+          }
+
+          craft()->assets->storeFile($fileModel);
+
+        } else {
+          $fileupload = false;
+        }
       }
-      craft()->urlManager->setRouteVariables(array(
-        'errors' => $validated
-      ));
+
+
+
+
+
+
+      // Custom Redirect
+      if ($customRedirect) {
+        $this->redirect($redirectUrl);
+      }
+
+
+
+
+    } else {
+      if (!$saveSubmissionsToDatabase && !$notifyAdminOfSubmission) {
+        craft()->userSession->setFlash('notice', Craft::t('Update form settings to save to database or notify form admin. If form submits nothing will happen.'));
+      }
+      craft()->userSession->setFlash('error', $form->errorMessage);
     }
+  }
 
-    $submissionEntry->formId     = $form->id;
-    $submissionEntry->title      = $form->name;
-    $submissionEntry->data       = $submissionData;
+  /**
+   * Delete Submission
+   *
+   */
+  public function actionDeleteSubmission()
+  {
+    $this->requirePostRequest();
+    $entryId = craft()->request->getRequiredPost('entryId');
 
+    if (craft()->elements->deleteElementById($entryId)) {
+      craft()->userSession->setNotice(Craft::t('Entry deleted.'));
+      $this->redirectToPostedUrl();
+      craft()->userSession->setError(Craft::t('Couldn’t delete entry.'));
+    }
   }
 
   /**

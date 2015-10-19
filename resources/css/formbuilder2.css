@@ -471,6 +471,8 @@ svg.icon {
         height: 2px;
         width: 100%;
         background: rgba(71, 197, 202, 0.6); }
+    .fb-new-form .menu-tabs h2.has-errors a {
+      color: #f07575; }
   .fb-new-form .menu-tabs a {
     position: relative;
     display: block;
@@ -577,12 +579,71 @@ svg.icon {
     -ms-transform: translateY(0);
     -o-transform: translateY(0);
     transform: translateY(0); } }
+/* ============================================ *
+ * Entries
+ * ============================================ */
 .fb-entries .grid {
   margin: 0; }
   .fb-entries .grid > .item {
     padding: 0; }
 .fb-entries #sidebar .buttons {
   display: none; }
+.fb-entries #sidebar a {
+  padding: 10px 0 10px 25px; }
+  .fb-entries #sidebar a:hover {
+    color: #47c5ca;
+    background: rgba(128, 128, 128, 0.1);
+    margin-left: -22px !important; }
+  .fb-entries #sidebar a.sel:hover {
+    color: white; }
+  .fb-entries #sidebar a.sel {
+    border-radius: 0;
+    margin-left: -18px !important;
+    background: #333f4d; }
+.fb-entries .toolbar {
+  display: none; }
+.fb-entries .view-entry .form-details h1, .fb-entries .view-entry .submission-details h1 {
+  color: #333f4d;
+  margin-bottom: 10px; }
+.fb-entries .view-entry .form-details p, .fb-entries .view-entry .submission-details p {
+  margin: 0;
+  padding: 0; }
+.fb-entries .view-entry .form-details span, .fb-entries .view-entry .submission-details span {
+  font-weight: 700; }
+.fb-entries .view-entry .form-details {
+  margin-bottom: 30px !important; }
+.fb-entries .view-entry .submission-details header {
+  margin-bottom: 20px; }
+.fb-entries .data thead tr:hover {
+  background: white; }
+.fb-entries .data th {
+  padding: 20px; }
+.fb-entries .data tr {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease; }
+  .fb-entries .data tr:hover {
+    background: #fafafa; }
+  .fb-entries .data tr td {
+    padding: 12px 20px;
+    color: #333f4d;
+    font-family: "Open Sans", "Helvetica", sans-serif; }
+    .fb-entries .data tr td .title a {
+      text-decoration: none;
+      color: #333f4d;
+      font-weight: 700; }
+      .fb-entries .data tr td .title a:hover {
+        color: #47c5ca; }
+    .fb-entries .data tr td.action svg {
+      cursor: pointer;
+      margin-right: 4px; }
+      .fb-entries .data tr td.action svg * {
+        fill: #333f4d;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        transition: all 0.3s ease; }
+      .fb-entries .data tr td.action svg:hover * {
+        fill: #47c5ca; }
 
 /* ============================================ *
  * Configuration
