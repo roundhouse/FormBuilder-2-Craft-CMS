@@ -88,24 +88,23 @@ class FormBuilder2_EntryController extends BaseController
         switch ($field->type) {
           case 'Assets':
             foreach ($_FILES as $key => $value) {
-              // $fileName = $value['name'];
-              // $fileTmpName = $value['tmp_name'];
-              // $fileSize = $value['size'];
-              // $fileKind = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
-              // $submissionData[$key] = uniqid() . '-' . $value['name'];
-              // $submissionData[$key] = \CUploadedFile::getInstanceByName($key);
               $fileModel = new AssetFileModel();
               $folderId = $field->settings['singleUploadLocationSource'][0];
               $sourceId = $field->settings['singleUploadLocationSource'][0];
-              $fileModel->sourceId = $sourceId;
-              $fileModel->folderId = '1';
-              $fileModel->filename = IOHelper::getFileName($value['name']);
-              $fileModel->kind = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
-              // $fileModel->size = filesize($localFilePath);
-              // $fileModel->dateModified = IOHelper::getLastTimeModified($localFilePath);
+              $fileModel->originalName  = $value['tmp_name'];
+              $fileModel->sourceId      = $sourceId;
+              $fileModel->folderId      = '1';
+              $fileModel->filename      = IOHelper::getFileName($value['name']);
+              $fileModel->kind          = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
+              $fileModel->size          = filesize($value['tmp_name']);
+              $fileModel->dateModified  = IOHelper::getLastTimeModified($value['tmp_name']);
 
-              $submissionData[$key] = $fileModel;
-              // $submissionData[$key] = \CUploadedFile::getInstanceByName($key);
+              if ($fileModel->kind == 'image') {
+                list ($width, $height) = ImageHelper::getImageSize($value['tmp_name']);
+                $fileModel->width = $width;
+                $fileModel->height = $height;
+              }
+              $submissionData[$key]     = $fileModel;
             }
           break;
         }

@@ -207,37 +207,43 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $submissionRecord->validate();
     $submission->addErrors($submissionRecord->getErrors());
 
+    
+    // File Uploads
+    foreach ($submission->data as $key => $value) {
+      if (is_object($value)) {
+        $folder = $value->getFolder();
+        $source = $folder->getSource()['settings'];
+        // craft()->assets->insertFileByLocalPath($fileLocation, $fileName, $value->getFolder(), AssetConflictResolution::KeepBoth);
+
+        $fileName = AssetsHelper::cleanAssetName($value->filename);
+        // $fileLocation = AssetsHelper::getTempFilePath($fileName);
+        // $fileLocation = AssetsHelper::getTempFilePath($fileName);
+        
+
+        move_uploaded_file($value->originalName, $value->originalName.$fileName);
+        craft()->assets->storeFile($value);
+        $response = craft()->assets->insertFileByLocalPath($value->originalName.$fileName, $fileName, $value->folderId, AssetConflictResolution::KeepBoth);
+
+        IOHelper::deleteFile($value->originalName.$fileName, true);
+        
+        if ($response->isError())
+        {
+          $response->setError(Craft::t('There was an error with file uploads.'));
+        }
+
+        // var_dump($response);
+        // die();
+
+        // if (move_uploaded_file($value, $source['url'])) {
+        //   var_dump('moved file');
+        // }
+      }
+    }
+   
+
+
     if ($saveSubmissionsToDatabase) {
       var_dump('save to database');
-      
-      // File Uploads
-      foreach ($submission->data as $key => $value) {
-        if (is_object($value)) {
-          var_dump($value);
-          die();
-          craft()->assets->storeFile($value);
-          craft()->assets->insertFileByLocalPath($fileLocation, $fileName, $value->getFolder(), AssetConflictResolution::KeepBoth);
-        }
-      }
-
-      // SEE AssetFileModel.php
-      // SEE AssetService.php
-
-      // if ($form->hasFileUploads) {
-      //   foreach ($formFields as $key => $value) {
-      //     $field = $value->getField();
-      //     switch ($field->type) {
-      //       case 'Assets':
-      //         foreach ($_FILES as $key => $value) {
-      //         //   $submissionData[$key] = \CUploadedFile::getInstanceByName($key);
-      //         }
-      //       break;
-      //     }
-      //   }
-      // }
-
-      die();
-
 
       if (!$submission->hasErrors()) {
         $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
