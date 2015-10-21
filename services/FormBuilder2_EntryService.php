@@ -196,6 +196,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     )));
     
     $form = craft()->formBuilder2_form->getFormById($submission->formId);
+    $formFields = $form->fieldLayout->getFieldLayout()->getFields();
     $saveSubmissionsToDatabase = $form->saveSubmissionsToDatabase;
 
     $submissionRecord = new FormBuilder2_EntryRecord();
@@ -208,6 +209,36 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
 
     if ($saveSubmissionsToDatabase) {
       var_dump('save to database');
+      
+      // File Uploads
+      foreach ($submission->data as $key => $value) {
+        if (is_object($value)) {
+          var_dump($value);
+          die();
+          craft()->assets->storeFile($value);
+          craft()->assets->insertFileByLocalPath($fileLocation, $fileName, $value->getFolder(), AssetConflictResolution::KeepBoth);
+        }
+      }
+
+      // SEE AssetFileModel.php
+      // SEE AssetService.php
+
+      // if ($form->hasFileUploads) {
+      //   foreach ($formFields as $key => $value) {
+      //     $field = $value->getField();
+      //     switch ($field->type) {
+      //       case 'Assets':
+      //         foreach ($_FILES as $key => $value) {
+      //         //   $submissionData[$key] = \CUploadedFile::getInstanceByName($key);
+      //         }
+      //       break;
+      //     }
+      //   }
+      // }
+
+      die();
+
+
       if (!$submission->hasErrors()) {
         $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
         try {

@@ -80,10 +80,6 @@ class FormBuilder2_EntryController extends BaseController
     
     // Prepare submissionEntry for processing
     $submissionEntry = new FormBuilder2_EntryModel();
-    $submissionEntry->formId      = $form->id;
-    $submissionEntry->title       = $form->name;
-    $submissionEntry->data        = $submissionData;
-
 
     // File Uploads
     if ($hasFileUploads) {
@@ -91,54 +87,67 @@ class FormBuilder2_EntryController extends BaseController
         $field = $value->getField();
         switch ($field->type) {
           case 'Assets':
-            var_dump($field);
             foreach ($_FILES as $key => $value) {
-              $fileName = $value['name'];
-              $fileTmpName = $value['tmp_name'];
-              $fileSize = $value['size'];
-              $fileKind = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
-              $submissionData[$key] = uniqid() . '-' . $value['name'];
+              // $fileName = $value['name'];
+              // $fileTmpName = $value['tmp_name'];
+              // $fileSize = $value['size'];
+              // $fileKind = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
+              // $submissionData[$key] = uniqid() . '-' . $value['name'];
+              // $submissionData[$key] = \CUploadedFile::getInstanceByName($key);
+              $fileModel = new AssetFileModel();
+              $folderId = $field->settings['singleUploadLocationSource'][0];
+              $sourceId = $field->settings['singleUploadLocationSource'][0];
+              $fileModel->sourceId = $sourceId;
+              $fileModel->folderId = '1';
+              $fileModel->filename = IOHelper::getFileName($value['name']);
+              $fileModel->kind = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
+              // $fileModel->size = filesize($localFilePath);
+              // $fileModel->dateModified = IOHelper::getLastTimeModified($localFilePath);
+
+              $submissionData[$key] = $fileModel;
+              // $submissionData[$key] = \CUploadedFile::getInstanceByName($key);
             }
           break;
         }
       }
     }
-
-    die();
-
+    
+    $submissionEntry->formId  = $form->id;
+    $submissionEntry->title   = $form->name;
+    $submissionEntry->data    = $submissionData;
 
     // Process Submission Entry
     if ($validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
       craft()->userSession->setFlash('success', $form->successMessage);
 
-      if ($hasFileUploads) {
-        if (move_uploaded_file($file, $uploadDir . $uniqe_filename)) {
-          IOHelper::deleteFile($file);
+      // if ($hasFileUploads) {
+      //   if (move_uploaded_file($file, $uploadDir . $uniqe_filename)) {
+      //     IOHelper::deleteFile($file);
 
-          $file = $uploadDir . $uniqe_filename;
-          $fileModel = new AssetFileModel();
+      //     $file = $uploadDir . $uniqe_filename;
+      //     $fileModel = new AssetFileModel();
 
-          $fileModel->sourceId = $form->uploadSource;
-          $fileModel->folderId = $this->assetFolderId;
+      //     $fileModel->sourceId = $form->uploadSource;
+      //     $fileModel->folderId = $this->assetFolderId;
 
-          $fileModel->filename = IOHelper::getFileName($uniqe_filename);
-          $fileModel->originalName = IOHelper::getFileName($filename);
-          $fileModel->kind = IOHelper::getFileKind(IOHelper::getExtension($uniqe_filename));
-          $fileModel->size = filesize($file);
-          $fileModel->dateModified = IOHelper::getLastTimeModified($file);
+      //     $fileModel->filename = IOHelper::getFileName($uniqe_filename);
+      //     $fileModel->originalName = IOHelper::getFileName($filename);
+      //     $fileModel->kind = IOHelper::getFileKind(IOHelper::getExtension($uniqe_filename));
+      //     $fileModel->size = filesize($file);
+      //     $fileModel->dateModified = IOHelper::getLastTimeModified($file);
 
-          if ($fileModel->kind == 'image') {
-            list ($width, $height) = ImageHelper::getImageSize($file);
-            $fileModel->width = $width;
-            $fileModel->height = $height;
-          }
+      //     if ($fileModel->kind == 'image') {
+      //       list ($width, $height) = ImageHelper::getImageSize($file);
+      //       $fileModel->width = $width;
+      //       $fileModel->height = $height;
+      //     }
 
-          craft()->assets->storeFile($fileModel);
+      //     craft()->assets->storeFile($fileModel);
 
-        } else {
-          $fileupload = false;
-        }
-      }
+      //   } else {
+      //     $fileupload = false;
+      //   }
+      // }
 
 
 
