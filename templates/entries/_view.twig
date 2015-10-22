@@ -18,19 +18,20 @@
 
     <div class="pane view-entry">
 
-      <div class="pane form-details">
-        <header>
-          <h1>{{ "Form Details"|t }}</h1>
-          <p>{{ "Name"|t }}: <span>{{ form.name }}</span></p>
-          <p>{{ "ID"|t }}: <span>{{ form.id }}</span></p>
-        </header>
-      </div>
-
       <div class="pane submission-details">
         <header>
           <h1>{{ "Submission Details"|t }}</h1>
-          <p>{{ "ID"|t }}: <span>{{ entry.id }}</span></p>
-          <p>{{ "Date"|t }}: <span>{{ entry.dateCreated | date('F jS, Y') }} at {{ entry.dateCreated | date('g:h A') }}</span></p>
+          <p>{{ "Form ID"|t }}: <span>{{ form.id }}</span></p>
+          <p>{{ "Form Name"|t }}: <span>{{ form.name }}</span></p>
+          <p>{{ "Submission ID"|t }}: <span>{{ entry.id }}</span></p>
+          <p>{{ "Submission Date"|t }}: <span>{{ entry.dateCreated | date('F jS, Y') }} at {{ entry.dateCreated | date('g:h A') }}</span></p>
+        </header>
+      </div>
+
+      {% if data %}
+      <div class="pane submission-details">
+        <header>
+          <h1>{{ "Submission Content"|t }}</h1>
         </header>
 
         <table class="data fullwidth collapsible">
@@ -53,6 +54,9 @@
           {% endfor %}
         </table>
       </div>
+      {% else %}
+        <p class="no-content">{{ "Submission has no content."|t }}</p>
+      {% endif %}
 
       {% if files %}
         <div class="pane upload-details">
@@ -61,11 +65,45 @@
           </header>
           <div class="files">
             {% for file in files %}
+              {# {{ file|inspect }} #}
               <div class="file">
                 {% if file.kind == 'image' %}
-                  <a href="{{ file.getUrl() }}" target="_blank"><img src="{{ file.getUrl() }}" width="80" /></a>
+                  <div class="icon">
+                    <a href="{{ file.getUrl() }}" target="_blank"><img src="{{ file.getUrl() }}" /></a>
+                  </div>
+                  <div class="details">
+                    <p class="item">Name: <a href="{{ file.getUrl() }}" target="_blank">{{ file.title }}</a></p>
+                    <p class="item">Dimensions: <span>{{ file.width }}x{{ file.height }}</span></p>
+                    <p class="item">File Size: <span>{{ file.size|filesize }}</span></p>
+                  </div>
+
+                {% elseif file.kind == 'compressed' %}
+                  <div class="icon">
+                    <a href="{{ file.getUrl() }}" target="_blank" class="compressed"><svg class="icon"><use xlink:href="#icon-zip" class="icon-zip"/></svg></a>
+                  </div>
+                  <div class="details">
+                    <p class="item">Name: <a href="{{ file.getUrl() }}" target="_blank">{{ file.title }}</a></p>
+                    <p class="item">File Size: <span>{{ file.size|filesize }}</span></p>
+                  </div>
+
+                {% elseif file.kind == 'word' %}
+                  <div class="icon">
+                    <a href="{{ file.getUrl() }}" target="_blank" class="document"><svg class="icon"><use xlink:href="#icon-doc" class="icon-doc"/></svg></a>
+                  </div>
+                  <div class="details">
+                    <p class="item">Name: <a href="{{ file.getUrl() }}" target="_blank">{{ file.title }}</a></p>
+                    <p class="item">File Size: <span>{{ file.size|filesize }}</span></p>
+                  </div>
+                {% elseif file.kind == 'pdf' %}
+                  <div class="icon">
+                    <a href="{{ file.getUrl() }}" target="_blank" class="pdf"><svg class="icon"><use xlink:href="#icon-pdf" class="icon-pdf"/></svg></a>
+                  </div>
+                  <div class="details">
+                    <p class="item">Name: <a href="{{ file.getUrl() }}" target="_blank">{{ file.title }}</a></p>
+                    <p class="item">File Size: <span>{{ file.size|filesize }}</span></p>
+                  </div>
                 {% else %}
-                  <a href="{{ file.getUrl() }}" target="_blank">{{ file.getUrl() }}</a>
+                  <a href="{{ file.getUrl() }}" target="_blank">{{ file.title() }}</a>
                 {% endif %}
               </div>
             {% endfor %}

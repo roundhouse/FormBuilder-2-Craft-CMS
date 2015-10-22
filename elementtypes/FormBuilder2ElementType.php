@@ -2,16 +2,19 @@
 namespace Craft;
 class FormBuilder2ElementType extends BaseElementType
 {
-  //======================================================================
-  // Get ElementType Name
-  //======================================================================
+  /**
+   * Get ElementType Name
+   *
+   */
   public function getName()
   {
     return Craft::t('FormBuilder2');
   }
-  //======================================================================
-  // Get Sources
-  //======================================================================
+
+  /**
+   * Get Sources
+   *
+   */
   public function getSources($context = null)
   {
     $sources = array(
@@ -28,9 +31,11 @@ class FormBuilder2ElementType extends BaseElementType
     }
     return $sources;
   }
-  //======================================================================
-  // Define Table Attributes
-  //======================================================================
+
+  /**
+   * Define Table Attributes
+   *
+   */
   public function defineTableAttributes($source = null)
   {
     return array(
@@ -38,26 +43,35 @@ class FormBuilder2ElementType extends BaseElementType
       'title'       => Craft::t('Form'),
       'dateCreated' => Craft::t('Date'),
       'data'        => Craft::t('Submission Data'),
+      'files'       => Craft::t('Uploads'),
     );
   }
-  //======================================================================
-  // Get Tablet Attribute HTML
-  //======================================================================
+
+  /**
+   * Get Tablet Attribute HTML
+   *
+   */
   public function getTableAttributeHtml(BaseElementModel $element, $attribute)
   {
     switch ($attribute) {
       case 'data':
-        $data = $element->_normalizeDataForElementsTable();
+        $data = $element->viewEntryLinkOnElementsTable();
         return $element->data;
         break;
+      case 'files':
+        $files = $element->normalizeFilesForElementsTable();
+        return $element->files;
+      break;
       default:
         return parent::getTableAttributeHtml($element, $attribute);
         break;
     }
   }
-  //======================================================================
-  // Define Criteria Attributes
-  //======================================================================
+
+  /**
+   * Define Criteria Attributes
+   *
+   */
   public function defineCriteriaAttributes()
   {
     return array(
@@ -65,9 +79,11 @@ class FormBuilder2ElementType extends BaseElementType
       'order'  => array(AttributeType::String, 'default' => 'formbuilder2_entries.dateCreated desc'),
     );
   }
-  //======================================================================
-  // Modify Elements Query
-  //======================================================================
+
+  /**
+   * Modify Elements Query
+   *
+   */
   public function modifyElementsQuery(DbCommand $query, ElementCriteriaModel $criteria)
   {
     $query
@@ -77,9 +93,11 @@ class FormBuilder2ElementType extends BaseElementType
       $query->andWhere(DbHelper::parseParam('formbuilder2_entries.formId', $criteria->formId, $query->params));
     }
   }
-  //======================================================================
-  // Populate Element Model
-  //======================================================================
+
+  /**
+   * Populate Element Model
+   *
+   */
   public function populateElementModel($row, $normalize = false)
   {
     $entry = FormBuilder2_EntryModel::populateModel($row);

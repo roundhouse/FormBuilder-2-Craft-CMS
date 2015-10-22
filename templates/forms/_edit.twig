@@ -236,24 +236,12 @@
 
               <div class="checkbox-extra">
                 {{ forms.textField({
-                  label: "Honeypot String"|t,
-                  instructions: "Enter string to validate against."|t,
-                  id: 'spamHoneypotMethodString',
-                  class: 'spamHoneypotMethodString',
-                  name: 'spamHoneypotMethodString',
-                  value: form.spamHoneypotMethodString,
-                  size: 50,
-                  errors: form.getErrors('spamHoneypotMethodString'),
-                  required: false
-                }) }}
-
-                {{ forms.textField({
                   label: "Honeypot Input Message"|t,
                   instructions: "Enter message for screen readers."|t,
                   id: 'spamHoneypotMethodMessage',
                   class: 'spamHoneypotMethodMessage',
                   name: 'spamHoneypotMethodMessage',
-                  value: form.spamHoneypotMethodMessage ? form.spamHoneypotMethodMessage : 'Don\'t enter anything here.',
+                  value: form.spamHoneypotMethodMessage ? form.spamHoneypotMethodMessage : null,
                   size: 50,
                   errors: form.getErrors('spamHoneypotMethodMessage'),
                   required: false

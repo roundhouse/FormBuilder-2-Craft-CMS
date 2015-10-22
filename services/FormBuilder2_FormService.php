@@ -125,7 +125,6 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     $formRecord->spamTimeMethod               = $form->spamTimeMethod;
     $formRecord->spamTimeMethodTime           = $form->spamTimeMethodTime;
     $formRecord->spamHoneypotMethod           = $form->spamHoneypotMethod;
-    $formRecord->spamHoneypotMethodString     = $form->spamHoneypotMethodString;
     $formRecord->spamHoneypotMethodMessage    = $form->spamHoneypotMethodMessage;
     $formRecord->successMessage               = $form->successMessage;
     $formRecord->errorMessage                 = $form->errorMessage;
@@ -143,8 +142,8 @@ class FormBuilder2_FormService extends BaseApplicationComponent
       $form->addError('spamTimeMethodTime', Craft::t('Please enter time.'));
     }
 
-    if ($form->spamHoneypotMethod && $form->spamHoneypotMethodString == '') {
-      $form->addError('spamHoneypotMethodString', Craft::t('Please enter honeypot string.'));
+    if ($form->spamHoneypotMethod && $form->spamHoneypotMethodMessage == '') {
+      $form->addError('spamHoneypotMethodMessage', Craft::t('Please enter message for screen readers.'));
     }
 
     if ($form->notifySubmission && $form->notifyEmail == '') {

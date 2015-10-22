@@ -45,10 +45,46 @@ class FormBuilder2_EntryModel extends BaseElementModel
   }
 
   /**
+   * Normalize Files For Elements Table
+   *
+   */
+  public function normalizeFilesForElementsTable()
+  {
+    $entry = craft()->formBuilder2_entry->getSubmissionById($this->id);
+    $files = count($entry->files);
+
+    if ($files == 0) {
+      $files = 'No Uploads';
+    } elseif ($files == 1) {
+      $files = '<span class="upload-count">'.$files.'</span> File Uploaded';
+    } else {
+      $files = '<span class="upload-count">'.$files.'</span> Files Uploaded';
+    }
+
+    $this->__set('files', $files);
+    return $this;
+  }
+
+  /**
    * Normalize Data For Elements Table
    *
    */
-  public function _normalizeDataForElementsTable()
+  public function viewEntryLinkOnElementsTable()
+  {
+    $entry = craft()->formBuilder2_entry->getSubmissionById($this->id);
+    // url('formbuilder2/forms/' ~ form.id ~ '/edit')
+    $url = UrlHelper::getUrl('formbuilder2/entries/' .$this->id. '/edit');
+    $link = '<a href="'.$url.'" class="view-submission">'.Craft::t('View Submission').'</a>';
+
+    $this->__set('data', $link);
+    return $this;
+  }
+
+  /**
+   * Normalize Data For Elements Table
+   *
+   */
+  public function normalizeDataForElementsTable()
   {
     $data = json_decode($this->data, true);
 

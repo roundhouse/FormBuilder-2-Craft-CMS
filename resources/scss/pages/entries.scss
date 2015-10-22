@@ -10,39 +10,38 @@
 
   // Sidebar
   #sidebar {
+    height: 100%;
+    max-height: 100% !important;
+    background: rgba(gray, .1); 
+    padding-right: 0;
+    overflow: hidden !important;
     .buttons { display: none; }
     a {
+      font-family: $opensans;
       padding: 10px 0 10px 25px;
-      &:hover { color: $c-teal; background: rgba(gray, .1); margin-left: -22px !important; }
-      &.sel:hover { color: white; }
+      color: rgba($c-blue, .6);
+      font-weight: 700;
+      border-bottom: 1px solid white;
+      @include antialias;
+      &:hover { 
+        color: $c-gray; 
+        background: rgba(gray, .1); 
+      }
+      &.sel:hover { 
+        color: white;
+        margin-left: -24px !important;
+      }
       &.sel {
         border-radius: 0;
-        margin-left: -18px !important;
-        background: $c-blue;
+        color: white !important;
+        background: rgba($c-blue, .5);
       }
     }
   }
 
   .toolbar { display: none; }
 
-  // View Entry
-  .view-entry {
-    .form-details, .submission-details, .upload-details  {
-      h1 { color: $c-blue; margin-bottom: 10px; }
-      p { margin: 0; padding: 0; }
-      span { font-weight: 700; }
-    }
-
-    .form-details, .submission-details {
-      margin-bottom: 30px !important;
-    }
-
-    .submission-details {
-      header {
-        margin-bottom: 20px;
-      }
-    }
-  }
+  
 
   .data {
     thead tr:hover { background: white; }
@@ -59,10 +58,11 @@
         color: $c-blue;
         font-family: $opensans;
         .title a {
+          font-family: $opensans;
           text-decoration: none;
-          color: $c-blue;
-          font-weight: 700;
-          &:hover { color: $c-teal; }
+          font-weight: 600;
+          color: $c-teal;
+          &:hover { color: $c-blue; }
         }
         &.action {
           svg {
@@ -76,24 +76,69 @@
         }
       }
     }
+
+    .view-submission {
+      font-family: $opensans;
+      text-decoration: none;
+      font-weight: 600;
+      color: $c-teal;
+      &:hover { color: $c-blue; }
+    }
+
+    .upload-count {
+      font-family: $opensans;
+      font-weight: 800;
+      padding-right: 10px;
+    }
+  }
+
+  // View Entry
+  .view-entry {
+    .submission-details, .upload-details  {
+      h1 { color: $c-blue; margin-bottom: 10px; }
+      p { margin: 0; padding: 0; }
+      span { font-weight: 700; }
+    }
+
+    .submission-details {
+      margin-bottom: 30px !important;
+    }
+
+    .no-content { margin-bottom: 30px; }
   }
 
   // File Uploads
   .upload-details {
-    .files {
-      @include align-items(center);
-      @include display(flex);
-      @include flex-direction(row);
-      @include justify-content(flex-start);
-    }
     .file {
-      padding: 5px;
+      padding: 15px 15px 15px 0;
       margin: 0 5px;
-      height: 100%;
+      border-bottom: 1px solid rgba(gray, .2);
+      @include clearfix;
       @include transition(all .3s ease);
-      img, a { display: block; }
-      &:hover {
-        background: rgba($c-teal, 1);
+      &:last-child { border-bottom: none; }
+      &:hover { background: darken(white, 2); }
+      img { 
+        display: block;
+        margin: 0 auto;
+        width: 90%; 
+      }
+      .icon {
+        float: left;
+        width: 100px;
+        margin-right: 10px;
+      }
+      .details {
+        a {
+          color: $c-teal;
+          text-decoration: none;
+          &:hover { color: $c-blue; }
+        }
+      }
+      .compressed, .document, .pdf {
+        svg {
+          @include size(80px 40px);
+          * { fill: $c-blue; @include transition(all .3s ease);}
+        }
       }
     }
   }

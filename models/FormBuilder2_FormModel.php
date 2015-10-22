@@ -30,7 +30,6 @@ class FormBuilder2_FormModel extends BaseModel
       'spamTimeMethod'                      => AttributeType::Bool,
       'spamTimeMethodTime'                  => AttributeType::Number,
       'spamHoneypotMethod'                  => AttributeType::Bool,
-      'spamHoneypotMethodString'            => AttributeType::String,
       'spamHoneypotMethodMessage'           => AttributeType::String,
       'successMessage'                      => AttributeType::String,
       'errorMessage'                        => AttributeType::String,

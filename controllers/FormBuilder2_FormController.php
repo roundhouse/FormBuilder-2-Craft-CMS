@@ -72,7 +72,6 @@ class FormBuilder2_FormController extends BaseController
     $form->spamTimeMethod               = craft()->request->getPost('spamTimeMethod');
     $form->spamTimeMethodTime           = craft()->request->getPost('spamTimeMethodTime');
     $form->spamHoneypotMethod           = craft()->request->getPost('spamHoneypotMethod');
-    $form->spamHoneypotMethodString     = craft()->request->getPost('spamHoneypotMethodString');
     $form->spamHoneypotMethodMessage    = craft()->request->getPost('spamHoneypotMethodMessage');
     $form->successMessage               = craft()->request->getPost('successMessage');
     $form->errorMessage                 = craft()->request->getPost('errorMessage');
@@ -94,7 +93,6 @@ class FormBuilder2_FormController extends BaseController
     }
 
     if (!$form->spamHoneypotMethod) {
-      $form->spamHoneypotMethodString = '';
       $form->spamHoneypotMethodMessage = '';
     }
 

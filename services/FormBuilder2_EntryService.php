@@ -203,13 +203,12 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $this->onBeforeSave(new Event($this, array(
       'entry' => $submission
     )));
-    
+
     $form = craft()->formBuilder2_form->getFormById($submission->formId);
     $formFields = $form->fieldLayout->getFieldLayout()->getFields();
     $saveSubmissionsToDatabase = $form->saveSubmissionsToDatabase;
 
     $submissionRecord = new FormBuilder2_EntryRecord();
-
 
     // File Uploads
     if ($submission->files) {
@@ -217,15 +216,18 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       foreach ($submission->files as $key => $value) {
         if ($value->size) {
           $folder = $value->getFolder();
+
+          // Make sure folder excist
           $source = $folder->getSource()['settings'];
-          $fileName = AssetsHelper::cleanAssetName($value->filename);
           IOHelper::ensureFolderExists($source['path']);
-          move_uploaded_file($value->originalName, $value->originalName.$fileName);
-          craft()->assets->storeFile($value);
-          $response = craft()->assets->insertFileByLocalPath($value->originalName.$fileName, $fileName, $value->folderId, AssetConflictResolution::KeepBoth);
+          
+          // Save/Store Files
+          $fileName = IOHelper::getFileName($value->filename, true);
+          $response = craft()->assets->insertFileByLocalPath($value->originalName, $fileName, $value->folderId, AssetConflictResolution::KeepBoth);
           $fileIds[] = $response->getDataItem('fileId');
 
-          IOHelper::deleteFile($value->originalName.$fileName, true);
+          // Delete Temp Files
+          IOHelper::deleteFile($value->originalName, true);
 
           if ($response->isError()) {
             $response->setError(Craft::t('There was an error with file uploads.'));
@@ -242,7 +244,6 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
 
     $submissionRecord->validate();
     $submission->addErrors($submissionRecord->getErrors());
-
 
     if ($saveSubmissionsToDatabase) {
       var_dump('save to database');

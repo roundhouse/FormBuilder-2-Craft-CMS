@@ -69,9 +69,10 @@
           font-weight: 400;
         }
         &.name a {
+          color: $c-teal;
           text-decoration: none;
           font-weight: 600;
-          &:hover { color: $c-teal; }
+          &:hover { color: $c-blue; }
         }
         &.action {
           svg {

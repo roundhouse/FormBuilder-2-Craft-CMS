@@ -46,7 +46,6 @@ class FormBuilder2_EntryController extends BaseController
     $variables['form']        = craft()->formBuilder2_form->getFormById($entry->formId);
     $variables['files']       = $files;
     $variables['data']        = $entry->data;
-    // $variables['data']        = json_decode($entry->data, true);
 
     $this->renderTemplate('formbuilder2/entries/_view', $variables);
   }
@@ -72,6 +71,10 @@ class FormBuilder2_EntryController extends BaseController
     $notifyAdminOfSubmission    = $form->notifySubmission;
     $hasFileUploads             = $form->hasFileUploads;
     $files                      = '';
+    $errorMessage               = [];
+
+    // Prepare submissionEntry for processing
+    $submissionEntry = new FormBuilder2_EntryModel();
 
     // Using Ajax
     if ($useAjax) {
@@ -85,12 +88,36 @@ class FormBuilder2_EntryController extends BaseController
       $redirectUrl = $form->customRedirectUrl;
     }
 
+    // Spam Protection | Timed Method
+    if ($spamTimeSubmissions) {
+      $formSubmissionTime = (int)craft()->request->getPost('spamTimeMethod');
+      $submissionDuration = time() - $formSubmissionTime;
+      $allowedTime = (int)$form->spamTimeMethodTime;
+
+      if ($submissionDuration < $allowedTime) {
+        $spamTimeSubmissions = false;
+        $errorMessage[] = Craft::t('You submitted too fast, you are robot!');
+        // $form->addError('spamTimeSubmissions', Craft::t('You submitted too fast, you are robot!'));
+      } else {
+        $spamTimeSubmissions = true;
+      }
+    }
+
+    // Spam Protection | Honeypot Method
+    if ($spamHoneypotSubmissions) {
+      $honeypotField = (int)craft()->request->getPost('email-address-new');
+
+      if ($honeypotField != '') {
+        $spamHoneypotSubmissions = false;
+      } else {
+        $spamHoneypotSubmissions = true;
+      }
+    }
+
+
     // Validate Required Fields
     $validateRequired = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
     
-    // Prepare submissionEntry for processing
-    $submissionEntry = new FormBuilder2_EntryModel();
-
     // File Uploads
     if ($hasFileUploads) {
       foreach ($formFields as $key => $value) {
@@ -130,10 +157,20 @@ class FormBuilder2_EntryController extends BaseController
     $submissionEntry->files   = $files;
     $submissionEntry->data    = $submissionData;
 
-    // Process Submission Entry
-    if ($validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
-      craft()->userSession->setFlash('success', $form->successMessage);
+    // Process Errors
+    if ($errorMessage) {
+      craft()->urlManager->setRouteVariables(array(
+        'errors' => $errorMessage
+      ));
+    }
 
+    var_dump($errorMessage);
+    var_dump($spamTimeSubmissions);
+    var_dump($spamHoneypotSubmissions);
+
+    // Process Submission Entry
+    if (!$errorMessage && $spamTimeSubmissions && $spamHoneypotSubmissions && $validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
+      craft()->userSession->setFlash('success', $form->successMessage);
 
       // Custom Redirect
       if ($customRedirect) {
@@ -173,7 +210,9 @@ class FormBuilder2_EntryController extends BaseController
     $filterKeys = array(
       'action',
       'formRedirect',
-      'formHandle'
+      'formHandle',
+      'spamTimeMethod',
+      'email-address-new',
     );
     if (is_array($submission)) {
       foreach ($submission as $k => $v) {
