@@ -53,6 +53,26 @@
           {% endfor %}
         </table>
       </div>
+
+      {% if files %}
+        <div class="pane upload-details">
+          <header>
+            <h1>{{ "Form Uploads"|t }}</h1>
+          </header>
+          <div class="files">
+            {% for file in files %}
+              <div class="file">
+                {% if file.kind == 'image' %}
+                  <a href="{{ file.getUrl() }}" target="_blank"><img src="{{ file.getUrl() }}" width="80" /></a>
+                {% else %}
+                  <a href="{{ file.getUrl() }}" target="_blank">{{ file.getUrl() }}</a>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
     </div>
 
     <div class="pane">

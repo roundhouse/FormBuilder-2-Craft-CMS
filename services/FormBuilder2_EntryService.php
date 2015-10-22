@@ -80,6 +80,15 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
   }
 
   /**
+   * Get Submission By ID
+   *
+   */
+  public function getSubmissionById($entryId)
+  {
+    return FormBuilder2_EntryRecord::model()->findById($entryId);
+  }
+
+  /**
    * Get All Entries From Form ID
    *
    */
@@ -200,46 +209,39 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $saveSubmissionsToDatabase = $form->saveSubmissionsToDatabase;
 
     $submissionRecord = new FormBuilder2_EntryRecord();
+
+
+    // File Uploads
+    if ($submission->files) {
+      $fileIds = [];
+      foreach ($submission->files as $key => $value) {
+        if ($value->size) {
+          $folder = $value->getFolder();
+          $source = $folder->getSource()['settings'];
+          $fileName = AssetsHelper::cleanAssetName($value->filename);
+          IOHelper::ensureFolderExists($source['path']);
+          move_uploaded_file($value->originalName, $value->originalName.$fileName);
+          craft()->assets->storeFile($value);
+          $response = craft()->assets->insertFileByLocalPath($value->originalName.$fileName, $fileName, $value->folderId, AssetConflictResolution::KeepBoth);
+          $fileIds[] = $response->getDataItem('fileId');
+
+          IOHelper::deleteFile($value->originalName.$fileName, true);
+
+          if ($response->isError()) {
+            $response->setError(Craft::t('There was an error with file uploads.'));
+          }
+        }
+        $submissionRecord->files = $fileIds;
+      }
+    }
+    
+    // Build Entry Record
     $submissionRecord->formId  = $submission->formId;
     $submissionRecord->title   = $submission->title;
     $submissionRecord->data    = $submission->data;
 
     $submissionRecord->validate();
     $submission->addErrors($submissionRecord->getErrors());
-
-    
-    // File Uploads
-    foreach ($submission->data as $key => $value) {
-      if (is_object($value)) {
-        $folder = $value->getFolder();
-        $source = $folder->getSource()['settings'];
-        // craft()->assets->insertFileByLocalPath($fileLocation, $fileName, $value->getFolder(), AssetConflictResolution::KeepBoth);
-
-        $fileName = AssetsHelper::cleanAssetName($value->filename);
-        // $fileLocation = AssetsHelper::getTempFilePath($fileName);
-        // $fileLocation = AssetsHelper::getTempFilePath($fileName);
-        
-
-        move_uploaded_file($value->originalName, $value->originalName.$fileName);
-        craft()->assets->storeFile($value);
-        $response = craft()->assets->insertFileByLocalPath($value->originalName.$fileName, $fileName, $value->folderId, AssetConflictResolution::KeepBoth);
-
-        IOHelper::deleteFile($value->originalName.$fileName, true);
-        
-        if ($response->isError())
-        {
-          $response->setError(Craft::t('There was an error with file uploads.'));
-        }
-
-        // var_dump($response);
-        // die();
-
-        // if (move_uploaded_file($value, $source['url'])) {
-        //   var_dump('moved file');
-        // }
-      }
-    }
-   
 
 
     if ($saveSubmissionsToDatabase) {

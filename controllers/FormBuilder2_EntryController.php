@@ -30,14 +30,23 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionViewEntry(array $variables = array())
   {
-    $entry              = craft()->formBuilder2_entry->getFormEntryById($variables['entryId']);
-    $variables['entry'] = $entry;
-
+    $entry = craft()->formBuilder2_entry->getSubmissionById($variables['entryId']);
     if (empty($entry)) { throw new HttpException(404); }
 
+    $files = '';
+    if ($entry->files) {
+      $files = [];
+      foreach ($entry->files as $key => $value) {
+        $files[] = craft()->assets->getFileById($value);
+      }
+    }
+
+    $variables['entry']       = $entry;
     $variables['title']       = 'FormBuilder2';
     $variables['form']        = craft()->formBuilder2_form->getFormById($entry->formId);
-    $variables['data']        = json_decode($entry->data, true);
+    $variables['files']       = $files;
+    $variables['data']        = $entry->data;
+    // $variables['data']        = json_decode($entry->data, true);
 
     $this->renderTemplate('formbuilder2/entries/_view', $variables);
   }
@@ -62,6 +71,7 @@ class FormBuilder2_EntryController extends BaseController
     $spamHoneypotSubmissions    = $form->spamHoneypotMethod;
     $notifyAdminOfSubmission    = $form->notifySubmission;
     $hasFileUploads             = $form->hasFileUploads;
+    $files                      = '';
 
     // Using Ajax
     if ($useAjax) {
@@ -88,78 +98,47 @@ class FormBuilder2_EntryController extends BaseController
         switch ($field->type) {
           case 'Assets':
             foreach ($_FILES as $key => $value) {
-              $fileModel = new AssetFileModel();
-              $folderId = $field->settings['singleUploadLocationSource'][0];
-              $sourceId = $field->settings['singleUploadLocationSource'][0];
-              $fileModel->originalName  = $value['tmp_name'];
-              $fileModel->sourceId      = $sourceId;
-              $fileModel->folderId      = '1';
-              $fileModel->filename      = IOHelper::getFileName($value['name']);
-              $fileModel->kind          = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
-              $fileModel->size          = filesize($value['tmp_name']);
-              $fileModel->dateModified  = IOHelper::getLastTimeModified($value['tmp_name']);
+              if (!$value['tmp_name'] == '') {
+                $fileModel = new AssetFileModel();
+                $folderId = $field->settings['singleUploadLocationSource'][0];
+                $sourceId = $field->settings['singleUploadLocationSource'][0];
+                $fileModel->originalName  = $value['tmp_name'];
+                $fileModel->sourceId      = $sourceId;
+                $fileModel->folderId      = $folderId;
+                $fileModel->filename      = IOHelper::getFileName($value['name']);
+                $fileModel->kind          = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
+                $fileModel->size          = filesize($value['tmp_name']);
+                if ($value['tmp_name']) {
+                  $fileModel->dateModified  = IOHelper::getLastTimeModified($value['tmp_name']);
+                }
 
-              if ($fileModel->kind == 'image') {
-                list ($width, $height) = ImageHelper::getImageSize($value['tmp_name']);
-                $fileModel->width = $width;
-                $fileModel->height = $height;
+                if ($fileModel->kind == 'image') {
+                  list ($width, $height) = ImageHelper::getImageSize($value['tmp_name']);
+                  $fileModel->width = $width;
+                  $fileModel->height = $height;
+                }
+                $files[$key]     = $fileModel;
               }
-              $submissionData[$key]     = $fileModel;
             }
           break;
         }
       }
     }
-    
+
     $submissionEntry->formId  = $form->id;
     $submissionEntry->title   = $form->name;
+    $submissionEntry->files   = $files;
     $submissionEntry->data    = $submissionData;
 
     // Process Submission Entry
     if ($validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
       craft()->userSession->setFlash('success', $form->successMessage);
 
-      // if ($hasFileUploads) {
-      //   if (move_uploaded_file($file, $uploadDir . $uniqe_filename)) {
-      //     IOHelper::deleteFile($file);
-
-      //     $file = $uploadDir . $uniqe_filename;
-      //     $fileModel = new AssetFileModel();
-
-      //     $fileModel->sourceId = $form->uploadSource;
-      //     $fileModel->folderId = $this->assetFolderId;
-
-      //     $fileModel->filename = IOHelper::getFileName($uniqe_filename);
-      //     $fileModel->originalName = IOHelper::getFileName($filename);
-      //     $fileModel->kind = IOHelper::getFileKind(IOHelper::getExtension($uniqe_filename));
-      //     $fileModel->size = filesize($file);
-      //     $fileModel->dateModified = IOHelper::getLastTimeModified($file);
-
-      //     if ($fileModel->kind == 'image') {
-      //       list ($width, $height) = ImageHelper::getImageSize($file);
-      //       $fileModel->width = $width;
-      //       $fileModel->height = $height;
-      //     }
-
-      //     craft()->assets->storeFile($fileModel);
-
-      //   } else {
-      //     $fileupload = false;
-      //   }
-      // }
-
-
-
-
-
 
       // Custom Redirect
       if ($customRedirect) {
         $this->redirect($redirectUrl);
       }
-
-
-
 
     } else {
       if (!$saveSubmissionsToDatabase && !$notifyAdminOfSubmission) {

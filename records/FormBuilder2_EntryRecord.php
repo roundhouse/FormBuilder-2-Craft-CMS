@@ -21,6 +21,7 @@ class FormBuilder2_EntryRecord extends BaseRecord
     return array(
       'formId' => AttributeType::Number,
       'title'  => AttributeType::String,
+      'files'  => AttributeType::Mixed,
       'data'   => AttributeType::Mixed,
     );
   }
@@ -32,8 +33,9 @@ class FormBuilder2_EntryRecord extends BaseRecord
   public function defineRelations()
   {
     return array(
-      'element' => array(static::BELONGS_TO, 'ElementRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE),
-      'form'    => array(static::BELONGS_TO, 'FormBuilder2_FormRecord', 'required' => true, 'onDelete' => static::CASCADE),
+      'files'     => array(static::HAS_MANY, 'AssetFileRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE),
+      'element'   => array(static::BELONGS_TO, 'ElementRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE),
+      'form'      => array(static::BELONGS_TO, 'FormBuilder2_FormRecord', 'required' => true, 'onDelete' => static::CASCADE),
     );
   }
 }

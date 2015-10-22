@@ -21,6 +21,7 @@ class FormBuilder2_EntryModel extends BaseElementModel
       'id'          => AttributeType::Number,
       'formId'      => AttributeType::Number,
       'title'       => AttributeType::String,
+      'files'       => AttributeType::String,
       'data'        => AttributeType::String
     ));
   }

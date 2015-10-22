@@ -27,13 +27,13 @@
 
   // View Entry
   .view-entry {
-    .form-details, .submission-details {
+    .form-details, .submission-details, .upload-details  {
       h1 { color: $c-blue; margin-bottom: 10px; }
       p { margin: 0; padding: 0; }
       span { font-weight: 700; }
     }
 
-    .form-details {
+    .form-details, .submission-details {
       margin-bottom: 30px !important;
     }
 
@@ -74,6 +74,26 @@
             }
           }
         }
+      }
+    }
+  }
+
+  // File Uploads
+  .upload-details {
+    .files {
+      @include align-items(center);
+      @include display(flex);
+      @include flex-direction(row);
+      @include justify-content(flex-start);
+    }
+    .file {
+      padding: 5px;
+      margin: 0 5px;
+      height: 100%;
+      @include transition(all .3s ease);
+      img, a { display: block; }
+      &:hover {
+        background: rgba($c-teal, 1);
       }
     }
   }
