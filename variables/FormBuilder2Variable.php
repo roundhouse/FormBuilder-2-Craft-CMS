@@ -10,6 +10,9 @@ class FormBuilder2Variable
 	 */
 	public function includeScripts($form)
   {
+  	// TODO: load only if ajaxSubmit is activated
+  	craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/ajaxsubmit.js'));
+  	
   	$fieldLayout = $form->fieldLayout->getFieldLayout();
   	$fields = $fieldLayout->getFields();
   	foreach ($fields as $key => $value) {

@@ -1,0 +1,29 @@
+{% if form is defined %}
+  <h3>New {{ form.name }} Submission [{{ entry.id }}]</h3>
+{% endif %}
+<hr>
+{% if data is defined %}
+  <table>
+  {% for key, value in data %}
+    {% set field = craft.fields.getFieldByHandle(key) %}
+    {% if value %}
+    <tr>
+      <td><strong>{{ field.name }}: </strong></td>
+      
+      {% if value | checkArray == '1' %}
+      <td>
+      {% for key, item in value %}
+        {% if item != '' %}
+          {{ item }},  
+        {% endif %}
+      {% endfor %}
+      </td>
+      {% else %}
+      <td>{{ value|nl2br }}</td>
+      {% endif %}
+
+    </tr>
+    {% endif %}
+  {% endfor %}
+  </table>
+{% endif %}

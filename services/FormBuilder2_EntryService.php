@@ -245,6 +245,10 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $submissionRecord->validate();
     $submission->addErrors($submissionRecord->getErrors());
 
+
+    // Notify Admin of Submission 
+
+    // Save To Database
     if ($saveSubmissionsToDatabase) {
       var_dump('save to database');
 
@@ -266,7 +270,46 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       } else { 
         return false; 
       }
+    } else {
+      if (!$submission->hasErrors()) {
+        return true;
+      }
     }
   }
 
+  /**
+   * Send Email Notification
+   *
+   */
+  public function sendEmailNotification($form, $postUploads, $message, $html = true, $email = null)
+  { 
+    $errors = false;
+    $toEmails = ArrayHelper::stringToArray($form->notifyEmail);
+
+    // TODO: FIX EMAIL NOTIFICATIONS
+    
+    foreach ($toEmails as $toEmail) {
+      $email = new EmailModel();
+      $emailSettings = craft()->email->getSettings();
+      $email->fromEmail = $emailSettings['emailAddress'];
+      $email->replyTo   = $emailSettings['emailAddress'];
+      $email->sender    = $emailSettings['emailAddress'];
+      $email->fromName  = $form->name;
+      $email->toEmail   = $toEmail;
+      $email->subject   = $form->emailSubject;
+      $email->body      = $message->message;
+
+
+      if ($postUploads) {
+        foreach ($postUploads as $key => $value) {
+          $email->addAttachment($value->getTempName(), $value->getName(), 'base64', $value->getType());
+        }
+      }
+
+      // $email->addAttachment($files->getTempName(), $files->getName(), 'base64', $files->getType());
+      craft()->email->sendEmail($email);
+    }
+
+    // return $errors ? false : true;
+  }
 }

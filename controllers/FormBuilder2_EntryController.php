@@ -78,6 +78,7 @@ class FormBuilder2_EntryController extends BaseController
 
     // Using Ajax
     if ($useAjax) {
+      $this->requirePostRequest();
       $this->requireAjaxRequest();
     } else {
       $this->requirePostRequest();
@@ -93,27 +94,29 @@ class FormBuilder2_EntryController extends BaseController
       $formSubmissionTime = (int)craft()->request->getPost('spamTimeMethod');
       $submissionDuration = time() - $formSubmissionTime;
       $allowedTime = (int)$form->spamTimeMethodTime;
-
       if ($submissionDuration < $allowedTime) {
-        $spamTimeSubmissions = false;
+        $spamMethodOne = false;
         $errorMessage[] = Craft::t('You submitted too fast, you are robot!');
         // $form->addError('spamTimeSubmissions', Craft::t('You submitted too fast, you are robot!'));
       } else {
-        $spamTimeSubmissions = true;
+        $spamMethodOne = true;
       }
+    } else {
+      $spamMethodOne = true;
     }
 
     // Spam Protection | Honeypot Method
     if ($spamHoneypotSubmissions) {
-      $honeypotField = (int)craft()->request->getPost('email-address-new');
-
+      $honeypotField = craft()->request->getPost('email-address-new');
       if ($honeypotField != '') {
-        $spamHoneypotSubmissions = false;
+        $spamMethodTwo = false;
+        $errorMessage[] = Craft::t('You tried the honey, you are robot bear!');
       } else {
-        $spamHoneypotSubmissions = true;
+        $spamMethodTwo = ture;
       }
+    } else {
+      $spamMethodTwo = true;
     }
-
 
     // Validate Required Fields
     $validateRequired = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
@@ -164,17 +167,25 @@ class FormBuilder2_EntryController extends BaseController
       ));
     }
 
-    var_dump($errorMessage);
-    var_dump($spamTimeSubmissions);
-    var_dump($spamHoneypotSubmissions);
-
     // Process Submission Entry
-    if (!$errorMessage && $spamTimeSubmissions && $spamHoneypotSubmissions && $validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
-      craft()->userSession->setFlash('success', $form->successMessage);
+    if (!$errorMessage && $spamMethodOne && $spamMethodTwo && $validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
 
       // Custom Redirect
       if ($customRedirect) {
         $this->redirect($redirectUrl);
+      }
+      // Notify Admin of Submission
+      if ($notifyAdminOfSubmission) {
+        // $this->notifyAdminOfSubmission($submissionEntry, $form);
+      }
+
+      // Messages
+      if ($useAjax) {
+        $this->returnJson(
+          ['success' => true, 'message' => $form->successMessage]
+        );
+      } else {
+        craft()->userSession->setFlash('success', $form->successMessage);
       }
 
     } else {
@@ -198,6 +209,42 @@ class FormBuilder2_EntryController extends BaseController
       craft()->userSession->setNotice(Craft::t('Entry deleted.'));
       $this->redirectToPostedUrl();
       craft()->userSession->setError(Craft::t('Couldn’t delete entry.'));
+    }
+  }
+
+  /**
+   * Notify Admin of Submission
+   *
+   */
+  protected function notifyAdminOfSubmission($submission, $form)
+  {  
+    // $data         = new \stdClass($data);
+    $postUploads  = $submission->files;
+    $postData     = $submission->data;
+    $postData     = $this->filterSubmissionKeys($postData);
+    
+    craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
+    $templatePath = craft()->path->getPluginsPath() . 'plugins/formbuilder2/templates/email/';
+    $customTemplatePath = craft()->path->getPluginsPath() . 'formbuilder2/templates/custom/email/';
+    $extension = '.twig';
+
+    $variables = array(
+      'data'  => $postData,
+      'files' => $postUploads,
+      'form'  => $form,
+      'entry' => $submission
+    );
+
+    if (IOHelper::fileExists($customTemplatePath . 'default' . $extension)) {
+      $message  = craft()->templates->render('formbuilder2/templates/custom/email/default', $variables);
+    } else {
+      $message  = craft()->templates->render('formbuilder2/templates/email/default', $variables);
+    }
+
+    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $message, true, null)) {
+      return true;
+    } else {
+      return false;
     }
   }
 
