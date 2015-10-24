@@ -1,27 +1,27 @@
-var AjaxSubmit,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-AjaxSubmit = (function() {
-  function AjaxSubmit() {
-    this.init = bind(this.init, this);
-  }
-
-  AjaxSubmit.prototype.init = function() {
-    return $('form').submit(function(event) {
-      var fd;
-      event.preventDefault();
-      fd = new FormData(document.querySelector('form'));
-      fd.append('CustomField', 'This is some extra data');
-      return console.log(fd);
-    });
-  };
-
-  return AjaxSubmit;
-
-})();
-
 $(document).ready(function() {
-  var Application;
-  Application = new AjaxSubmit();
-  return Application.init();
+  var notificationContainer, theForm;
+  notificationContainer = $('.notifications');
+  theForm = $('form.formbuilder2');
+  return theForm.submit(function(e) {
+    var data, redirect, redirectUrl, url;
+    notificationContainer.html('');
+    e.preventDefault();
+    url = '/actions/' + $(this).children('[name=action]').attr('value');
+    redirect = $(this).children('[name=formRedirect]').attr('data-custom-redirect');
+    redirectUrl = $(this).children('[name=formRedirect]').attr('value');
+    data = $(this).serialize();
+    notificationContainer.html('<p>Sending...</p>');
+    return $.post(url, data, function(response) {
+      if (response.success) {
+        if (redirect === '1') {
+          return window.location.href = redirectUrl;
+        } else {
+          notificationContainer.html('<p class="success-message">' + response.message + '</p>');
+          return theForm[0].reset();
+        }
+      } else {
+        return notificationContainer.html('<p class="error-message">' + response.message + '</p>');
+      }
+    });
+  });
 });

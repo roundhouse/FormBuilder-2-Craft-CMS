@@ -13,15 +13,25 @@ class FormBuilder2_ConfigurationController extends BaseController
   public function actionConfigurationIndex()
   {
     $formItems = craft()->formBuilder2_form->getAllForms();
-    $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
-    $plugins = craft()->plugins->getPlugin('FormBuilder2');
+    $plugin = craft()->plugins->getPlugin('FormBuilder2');
+    $settings = $plugin->getSettings();
+    
+    // Get Logo Asset
+    if ($settings['emailNotificationLogo']) {
+      $criteria           = craft()->elements->getCriteria(ElementType::Asset);
+      $criteria->id       = $settings['emailNotificationLogo'];
+      $criteria->limit    = 1;
+      $elements           = $criteria->find();
+    } else {
+      $elements = [];
+    }
 
-    return $this->renderTemplate('formbuilder2/configuration', array(
-      'title'       => 'FormBuilder2',
-      'formItems'   => $formItems,
-      'settings'    => $settings,
-      'plugin'      => $plugins
-    ));
+    $variables['title']     = 'FormBuilder2';
+    $variables['settings']  = $settings;
+    $variables['plugin']    = $plugin;
+    $variables['elements']  = $elements;
+    
+    $this->renderTemplate('formbuilder2/configuration', $variables);
   }
 
   /**
@@ -51,7 +61,7 @@ class FormBuilder2_ConfigurationController extends BaseController
 
     // Send the plugin back to the template
     craft()->urlManager->setRouteVariables(array(
-      'plugin' => $plugin
+      'settings' => $settings
     ));
   }
 

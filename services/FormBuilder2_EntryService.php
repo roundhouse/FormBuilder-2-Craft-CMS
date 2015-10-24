@@ -203,7 +203,6 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $this->onBeforeSave(new Event($this, array(
       'entry' => $submission
     )));
-
     $form = craft()->formBuilder2_form->getFormById($submission->formId);
     $formFields = $form->fieldLayout->getFieldLayout()->getFields();
     $saveSubmissionsToDatabase = $form->saveSubmissionsToDatabase;
@@ -236,6 +235,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
         $submissionRecord->files = $fileIds;
       }
     }
+
     
     // Build Entry Record
     $submissionRecord->formId  = $submission->formId;
@@ -245,12 +245,8 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $submissionRecord->validate();
     $submission->addErrors($submissionRecord->getErrors());
 
-
-    // Notify Admin of Submission 
-
     // Save To Database
     if ($saveSubmissionsToDatabase) {
-      var_dump('save to database');
 
       if (!$submission->hasErrors()) {
         $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
@@ -261,7 +257,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
 
             if ($transaction !== null) { $transaction->commit(); }
             return $submissionRecord->id;
-          } else { return false; }
+          } else { 
+            return false; 
+          }
         } catch (\Exception $e) {
           if ($transaction !== null) { $transaction->rollback(); }
           throw $e;
@@ -285,31 +283,32 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
   { 
     $errors = false;
     $toEmails = ArrayHelper::stringToArray($form->notifyEmail);
-
-    // TODO: FIX EMAIL NOTIFICATIONS
     
+    // TODO: finish email tempalte notification 
+    // var_dump($message);
+    // die();
     foreach ($toEmails as $toEmail) {
       $email = new EmailModel();
-      $emailSettings = craft()->email->getSettings();
+      $emailSettings    = craft()->email->getSettings();
       $email->fromEmail = $emailSettings['emailAddress'];
       $email->replyTo   = $emailSettings['emailAddress'];
       $email->sender    = $emailSettings['emailAddress'];
       $email->fromName  = $form->name;
       $email->toEmail   = $toEmail;
       $email->subject   = $form->emailSubject;
-      $email->body      = $message->message;
+      $email->body      = $message;
 
-
-      if ($postUploads) {
-        foreach ($postUploads as $key => $value) {
-          $email->addAttachment($value->getTempName(), $value->getName(), 'base64', $value->getType());
-        }
+      // if ($postUploads) {
+      //   foreach ($postUploads as $key => $value) {
+      //     die();
+      //     $email->addAttachment($value->url, $value->title, 'base64', $value->mimeType);
+      //   }
+      // }
+      if (!craft()->email->sendEmail($email)) {
+        $errors = true;
       }
-
-      // $email->addAttachment($files->getTempName(), $files->getName(), 'base64', $files->getType());
-      craft()->email->sendEmail($email);
     }
-
-    // return $errors ? false : true;
+    
+    return $errors ? false : true;
   }
 }

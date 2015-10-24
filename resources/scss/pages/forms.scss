@@ -183,6 +183,16 @@
       }
     }
   }
+
+  // Toggle Errors
+  div.toggle-error {
+    & > .selected {
+      border: 3px dotted $c-red;
+    }
+  }
+  h2.toggle-error {
+    color: $c-red;
+  }
 }
 
 @include keyframes(slideDown) {

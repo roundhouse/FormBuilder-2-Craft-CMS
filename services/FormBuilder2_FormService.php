@@ -133,6 +133,10 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     $formRecord->emailSubject                 = $form->emailSubject;
     $formRecord->fieldLayoutId                = $form->fieldLayoutId;
 
+    // Cant use Ajax with file uplaods (for now)
+    if ($form->hasFileUploads && $form->ajaxSubmit) {
+      $form->addError('cannotUseFileUploadAndAjax', Craft::t('Cannot use file uploads with ajax at the moment. Please unselect one.'));
+    }
 
     if ($form->customRedirect && $form->customRedirectUrl == '') {
       $form->addError('customRedirectUrl', Craft::t('Please enter Redirect URL.'));

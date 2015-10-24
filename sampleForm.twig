@@ -1,0 +1,44 @@
+{% extends "_layout" %}
+
+{% set form = craft.formBuilder2.getFormByHandle('contactForm') %}
+{% set tabs = form.fieldLayout.getFieldLayout().getTabs() %}
+{% set scripts = craft.formBuilder2.includeScripts(form) %}
+
+{% block content %}
+<form method="post" accept-charset="utf-8" name="{{ form.handle }}" class="formbuilder2" id="{{ form.handle }}"{% if form.hasFileUploads %} enctype="multipart/form-data"{% endif %}>
+  <input type="hidden" name="action" value="formBuilder2/entry/submitEntry">
+  <input type="hidden" name="formRedirect" data-custom-redirect="{{ form.customRedirect }}" value="{{ form.customRedirectUrl }}">
+  <input type="hidden" name="formHandle" value="{{ form.handle }}">
+  {% if form.spamTimeMethod %}<input type="hidden" name="spamTimeMethod" value="{{ 'now'|date('U') }}">{% endif %}
+  {% if form.spamHoneypotMethod %}<div style="display:none;"><label for="email-addresss-new">{{ form.spamHoneypotMethodMessage }}</label><input name="email-address-new" value="" id="email-addresss-new"></div>{% endif %}
+
+  {# Fields #}
+  {% for tab in tabs %}
+    {% set fields = tab.getFields() %}
+    <fieldset class="{{ tab.name |lower|replace(' ', '-') }}">
+      <legend>{{ tab.name }}</legend>
+      {% for field in fields %}
+        {% set input = craft.formBuilder2.getInputHtml(field) %}
+        {{ input |raw }}
+      {% endfor %} 
+    </fieldset>
+  {% endfor %}
+
+  {# Errors/Success Messages #}
+  <div class="notifications">
+    <p class="notification error-message">{{ craft.session.getFlash('error') | raw }}<p>
+    <p class="notification success-message">{{ craft.session.getFlash('success') | raw }}</p>
+    {% set errors = (errors is defined ? errors : null) %}
+    {% if errors %}
+    <ul class="errors">
+      {% for error in errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+
+  <button type="submit">Submit Message</button>
+</form>
+
+{% endblock %}

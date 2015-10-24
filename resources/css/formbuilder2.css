@@ -550,6 +550,10 @@ svg.icon {
     .fb-new-form .checkbox-toggle .togglecontent p {
       font-size: 11px;
       color: #8f98a3; }
+.fb-new-form div.toggle-error > .selected {
+  border: 3px dotted #f07575; }
+.fb-new-form h2.toggle-error {
+  color: #f07575; }
 
 @-webkit-keyframes slideDown {
   from {
@@ -712,7 +716,7 @@ svg.icon {
  * ============================================ */
 .fb-configuration #fb-content {
   min-height: 600px; }
-  .fb-configuration #fb-content .pane {
+  .fb-configuration #fb-content > .pane {
     -webkit-box-align: stretch;
     -moz-box-align: stretch;
     box-align: stretch;
@@ -750,6 +754,8 @@ svg.icon {
     -ms-flex-pack: start; }
   .fb-configuration #fb-content .settings {
     width: 400px; }
+    .fb-configuration #fb-content .settings input[type="text"] {
+      width: 100%; }
   .fb-configuration #fb-content .information li span {
     font-weight: 700; }
 

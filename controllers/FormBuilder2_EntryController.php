@@ -56,8 +56,9 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionSubmitEntry()
   {
-    // Set Up Form Submission
     $form = craft()->formBuilder2_entry->getFormByHandle(craft()->request->getPost('formHandle'));
+    
+    // Set Up Form Submission
     $formFields = $form->fieldLayout->getFieldLayout()->getFields();
     $submission = craft()->request->getPost();
     $submissionData = $this->filterSubmissionKeys($submission);
@@ -75,10 +76,8 @@ class FormBuilder2_EntryController extends BaseController
 
     // Prepare submissionEntry for processing
     $submissionEntry = new FormBuilder2_EntryModel();
-
     // Using Ajax
     if ($useAjax) {
-      $this->requirePostRequest();
       $this->requireAjaxRequest();
     } else {
       $this->requirePostRequest();
@@ -112,7 +111,7 @@ class FormBuilder2_EntryController extends BaseController
         $spamMethodTwo = false;
         $errorMessage[] = Craft::t('You tried the honey, you are robot bear!');
       } else {
-        $spamMethodTwo = ture;
+        $spamMethodTwo = true;
       }
     } else {
       $spamMethodTwo = true;
@@ -155,6 +154,7 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
+
     $submissionEntry->formId  = $form->id;
     $submissionEntry->title   = $form->name;
     $submissionEntry->files   = $files;
@@ -170,29 +170,36 @@ class FormBuilder2_EntryController extends BaseController
     // Process Submission Entry
     if (!$errorMessage && $spamMethodOne && $spamMethodTwo && $validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
 
-      // Custom Redirect
-      if ($customRedirect) {
-        $this->redirect($redirectUrl);
-      }
       // Notify Admin of Submission
       if ($notifyAdminOfSubmission) {
-        // $this->notifyAdminOfSubmission($submissionEntry, $form);
+        $this->notifyAdminOfSubmission($submissionEntry, $form);
       }
 
       // Messages
       if ($useAjax) {
         $this->returnJson(
-          ['success' => true, 'message' => $form->successMessage]
+          ['success' => true, 'message' => $form->successMessage, 'form' => $form]
         );
       } else {
         craft()->userSession->setFlash('success', $form->successMessage);
+        if ($customRedirect) {
+          $this->redirect($redirectUrl);
+        } else {
+          $this->redirectToPostedUrl();
+        }
       }
 
     } else {
       if (!$saveSubmissionsToDatabase && !$notifyAdminOfSubmission) {
-        craft()->userSession->setFlash('notice', Craft::t('Update form settings to save to database or notify form admin. If form submits nothing will happen.'));
+        craft()->userSession->setFlash('error', Craft::t('Update form settings to save to database or notify form admin. If form submits nothing will happen.'));
       }
-      craft()->userSession->setFlash('error', $form->errorMessage);
+      if ($useAjax) {
+        $this->returnJson(
+          ['error' => true, 'message' => $form->errorMessage, 'form' => $form]
+        );
+      } else {
+        craft()->userSession->setFlash('error', $form->errorMessage);
+      }
     }
   }
 
@@ -228,11 +235,25 @@ class FormBuilder2_EntryController extends BaseController
     $customTemplatePath = craft()->path->getPluginsPath() . 'formbuilder2/templates/custom/email/';
     $extension = '.twig';
 
+    // Get Plugin
+    $plugin = craft()->plugins->getPlugin('FormBuilder2');
+    $settings = $plugin->getSettings();
+
+    // Get Logo
+    if ($settings['emailNotificationLogo']) {
+      $criteria         = craft()->elements->getCriteria(ElementType::Asset);
+      $criteria->id     = $settings['emailNotificationLogo'];
+      $criteria->limit  = 1;
+      $customLogo       = $criteria->find();
+    }
+
     $variables = array(
-      'data'  => $postData,
-      'files' => $postUploads,
-      'form'  => $form,
-      'entry' => $submission
+      'data'        => $postData,
+      'files'       => $postUploads,
+      'form'        => $form,
+      'entry'       => $submission,
+      'settings'    => $settings,
+      'customLogo'  => $customLogo
     );
 
     if (IOHelper::fileExists($customTemplatePath . 'default' . $extension)) {

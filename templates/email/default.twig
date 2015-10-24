@@ -1,4 +1,4 @@
-{% if form is defined %}
+{# {% if form is defined %}
   <h3>New {{ form.name }} Submission [{{ entry.id }}]</h3>
 {% endif %}
 <hr>
@@ -25,5 +25,33 @@
     </tr>
     {% endif %}
   {% endfor %}
+
+  <tr>
+    {% for file in files %}
+      {{ file.url }}
+    {% endfor %}
+  </tr>
   </table>
-{% endif %}
+{% endif %} #}
+
+{{ customLogo |inspect }}
+
+
+{# TODO: finish email notification template #}
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+  <tbody><tr><td><table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>  
+        <td>
+          <table width="500" height="122" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
+
+            <td><a href="" style="width: 161px;"><img src="{% for logo in customLogo %}{% set logo = logo.url %}{{ logo }}{% endfor %}" style="width: 100%;" /></a></td>
+            <td width="338" align="right"><p style="font:9px Helvetica Neue,Helvetica,Arial,sans-serif;letter-spacing:3px;margin:0;padding:0"><span style="color:#1a1a1a">ACCOUNT INFORMATION</span></p></td>
+            <td width="1"><img src="http://formbuilder-craft.s3.amazonaws.com/unnamed.gif" alt="" width="1" height="122"></td>
+          </tr></tbody></table>
+        </td> 
+      </tr>
+    </tbody>
+  </table></td></tr></tbody> 
+</table>

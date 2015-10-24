@@ -18,27 +18,96 @@
 
     <div class="pane">
       <div class="settings">
-        <header class="page-header">
-          <h2>{{ "Plugin Settings"|t }}</h2>
-        </header>
         <div class="inner form">
            
           <form method="post" accept-charset="UTF-8">
-            <input type="hidden" name="action" value="formBuilder2_Configuration/savePluginSettings">
+            <input type="hidden" name="action" value="formBuilder2/configuration/savePluginSettings">
             <input type="hidden" name="pluginClass" value="FormBuilder2">
             <input type="hidden" name="redirect" value="formbuilder2/configuration">
-            {# {{ forms.textField({
-              first: true,
-              label: "Input HTML Template Path"|t,
-              instructions: "If you want custom input markup, change template path here. <br />Default Location: templates/inputs"|t,
-              id: 'inputTemplatePath',
-              name: 'inputTemplatePath',
-              value: settings.inputTemplatePath,
-              errors: settings.getErrors('inputTemplatePath'),
-              autofocus: false,
-              required: true,
-              translatable: true
-            }) }} #}
+            
+          <div class="pane">
+            <h2>{{ "Email Settings"|t }}</h2>
+
+            <div class="field">
+              <div class="heading">
+                <label for="emailNotificationLogo">{{ "Custom Logo"|t }}</label>
+                <div class="instructions"><p>{{ "Brand your email template with custom logo"|t }}</p></div>
+              </div>
+              <div class="input">
+                {% set elements = (elements is defined ? elements : []) -%}
+                {{ forms.elementSelectField({
+                  id: 'emailNotificationLogo',
+                  name: 'emailNotificationLogo',
+                  selectionLabel: "Select Logo"|t,
+                  elementType: craft.elements.getElementType("Asset"),
+                  elements: elements,
+                  criteria: {"kind":[],"localeEnabled":null,"locale":"en_us"},
+                  jsClass: 'Craft.AssetSelectInput',
+                  limit: 1,
+                  errors: settings.getErrors('emailNotificationLogo'),
+                }) }}
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="heading">
+                <label for="emailBackgroundColor">{{ "Template Background Color"|t }}</label>
+                <div class="instructions"><p>{{ "Choose background color for your email template"|t }}</p></div>
+              </div>
+              <div class="input">
+                {{ forms.color({
+                  id: 'emailBackgroundColor',
+                  class: 'emailBackgroundColor',
+                  name: 'emailBackgroundColor',
+                  value: settings.emailBackgroundColor,
+                  errors: settings.getErrors('emailBackgroundColor'),
+                  required: true
+                }) }}
+              </div>
+            </div>
+
+            {{ forms.textField({
+              label: "Container With"|t,
+              instructions: "Enter container with for your email template (pixels)."|t,
+              id: 'emailContainerWidth',
+              class: 'emailContainerWidth',
+              name: 'emailContainerWidth',
+              value: settings.emailContainerWidth ? settings.emailContainerWidth : '500',
+              errors: settings.getErrors('emailContainerWidth'),
+            }) }}
+
+            {{ forms.textField({
+              label: "Footer Company Address"|t,
+              instructions: "Optionally add address that'll appear in the footer."|t,
+              id: 'emailFooterCompanyAddress',
+              class: 'emailFooterCompanyAddress',
+              name: 'emailFooterCompanyAddress',
+              value: settings.emailFooterCompanyAddress,
+              errors: settings.getErrors('emailFooterCompanyAddress'),
+            }) }}
+
+            {{ forms.textField({
+              label: "Footer Optional Copy"|t,
+              instructions: "Optional copy that'll appear in the footer"|t,
+              id: 'emailFooterOptionalCopy',
+              class: 'emailFooterOptionalCopy',
+              name: 'emailFooterOptionalCopy',
+              value: settings.emailFooterOptionalCopy,
+              errors: settings.getErrors('emailFooterOptionalCopy'),
+            }) }}
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+            
 
             <div class="buttons">
               <input class="btn submit" type="submit" value="Save">
@@ -64,3 +133,23 @@
 
 {% endblock %}
 
+{% set configJs %}
+
+
+ {#  var myModal = Craft.createElementSelectorModal('Asset', {
+    resizable:          true,
+    storageKey:         'someUniqueID',
+    criteria:           { status: null },
+    multiSelect:        false,
+    disableOnSelect:    true,
+    onCancel:           function(){},
+    onSelect:           function(asset){
+      console.log(asset[0].url);
+    }
+  });
+
+  $('.add').on('click', function(e){
+    myModal.show();
+  }); #}
+{% endset %}
+{% includeJs configJs %}

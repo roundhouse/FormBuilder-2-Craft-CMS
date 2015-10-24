@@ -40,6 +40,8 @@
         <div class="tabs-container">
 
           <div id="form-settings" class="tab-content">
+            {% set ajaxUploadErrors = form.getErrors('cannotUseFileUploadAndAjax') %}
+
             {{ forms.textField({
               first: true,
               label: "Form Name"|t,
@@ -121,7 +123,7 @@
               </div>
             </div>
 
-            <div class="method-files pane">
+            <div class="method-files pane{% if ajaxUploadErrors %} errors toggle-error{% endif %}">
               <div class="checkbox-toggle" data-checkbox="hasFileUploads">
                 <div class="togglebox">
                   <svg><use xlink:href="#icon-upload" class="icon-upload"/></svg>
@@ -142,7 +144,7 @@
               </div>
             </div>
 
-            <div class="method-ajax pane">
+            <div class="method-ajax pane{% if ajaxUploadErrors %} errors toggle-error{% endif %}">
               <div class="checkbox-toggle" data-checkbox="ajaxSubmit">
                 <div class="togglebox">
                   <svg><use xlink:href="#icon-rocket" class="icon-rocket"/></svg>
@@ -162,19 +164,10 @@
                 </div>
               </div>
             </div>
-
-
-            {# <div class="heading">
-              <label for="ajaxSubmit">{{ "Use AJAX?"|t }}</label>
-              <div class="instructions switch"><p>{{ "Should we submit the form via ajax? No page refresh will happen."|t }}</p></div>
-            </div>
-            {{ forms.lightswitch({
-              name:     "ajaxSubmit",
-              onLabel:  "On",
-              offLabel: "Off",
-              on: (form.ajaxSubmit is defined) ? form.ajaxSubmit : ""
-            }) }} #}
-
+            
+            {% for ajaxError in ajaxUploadErrors %}
+              <h2 class="toggle-error">{{ ajaxError }}</h2>
+            {% endfor %}
           </div>
 
           <div id="spam-protection" class="tab-content">
@@ -260,7 +253,7 @@
               value: form.successMessage,
               size: 100,
               errors: form.getErrors('successMessage'),
-              required: false
+              required: true
             }) }}
 
             {{ forms.textField({
@@ -272,7 +265,7 @@
               value: form.errorMessage,
               size: 100,
               errors: form.getErrors('errorMessage'),
-              required: false
+              required: true
             }) }}
           </div>
 

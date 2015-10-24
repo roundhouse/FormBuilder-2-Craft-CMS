@@ -37,6 +37,9 @@ App = (function() {
       if ($('#spam-protection').find('.errors').length > 0) {
         $('.tab-toggle-spam-protection').addClass('has-errors');
       }
+      if ($('#messages').find('.errors').length > 0) {
+        $('.tab-toggle-messages').addClass('has-errors');
+      }
       if ($('#notify').find('.errors').length > 0) {
         $('.tab-toggle-notify').addClass('has-errors');
       }
@@ -76,7 +79,6 @@ App = (function() {
         toggle = $(this).data('checkbox');
         $(this).toggleClass('selected');
         if ($(this).hasClass('selected')) {
-          console.log('has class selected');
           $('#' + toggle).prop('checked', true);
           return $(this).next('.checkbox-extra').stop().slideDown();
         } else {

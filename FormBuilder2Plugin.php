@@ -39,6 +39,17 @@ class FormBuilder2Plugin extends BasePlugin
     return true;
   }
 
+  protected function defineSettings()
+  {
+    return array(
+      'emailNotificationLogo' => AttributeType::String,
+      'emailBackgroundColor' => AttributeType::String,
+      'emailContainerWidth' => AttributeType::String,
+      'emailFooterCompanyAddress' => AttributeType::String,
+      'emailFooterOptionalCopy' => AttributeType::String,
+    );
+  }
+
   public function addTwigExtension()  
   {
     Craft::import('plugins.formbuilder2.twigextensions.FormBuilder2TwigExtension');

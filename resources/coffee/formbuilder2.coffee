@@ -25,6 +25,8 @@ class App
         $('.tab-toggle-form-settings').addClass 'has-errors'
       if $('#spam-protection').find('.errors').length > 0
         $('.tab-toggle-spam-protection').addClass 'has-errors'
+      if $('#messages').find('.errors').length > 0
+        $('.tab-toggle-messages').addClass 'has-errors' 
       if $('#notify').find('.errors').length > 0
         $('.tab-toggle-notify').addClass 'has-errors' 
 
@@ -68,7 +70,6 @@ class App
         toggle = $(@).data 'checkbox'
         $(@).toggleClass 'selected'
         if $(@).hasClass('selected')
-          console.log 'has class selected'
           $('#'+toggle).prop 'checked', true
           $(@).next('.checkbox-extra').stop().slideDown()
         else
