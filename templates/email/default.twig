@@ -34,24 +34,65 @@
   </table>
 {% endif %} #}
 
-{{ customLogo |inspect }}
-
 
 {# TODO: finish email notification template #}
+{{ settings |inspect}}
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="{{ settings.emailBackgroundColor }}">
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
-  <tbody><tr><td><table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td>
+      <table width="{{ settings.emailContainerWidth }}" height="122" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <td width="500" style="padding: 0 20px;">
+            <a href="{{ siteUrl }}"><img src="{% for logo in customLogo %}{% set logo = logo.url %}{{ logo }}{% endfor %}" style="display: block; max-width: 500px;" /></a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <table width="{{ settings.emailContainerWidth }}" border="0" cellspacing="0" cellpadding="0" align="center" style="border: 1px solid black;">
+        <tr>
+          <td style="padding: 20px;">
+            <p style="font-size: 12px; font-family: 'Open Sans', 'OpenSans', Helvetica, sans-serif;">Hello</p>
+            
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <table width="{{ settings.emailContainerWidth }}" height="100" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <td style="padding: 20px;">
+            <p style="text-align: center; font-size: 12px; font-family: 'Open Sans', 'OpenSans', Helvetica, sans-serif; margin-bottom: 0px;">{{ settings.emailFooterOptionalCopyOne }}</p>
+            <p style="text-align: center; font-size: 12px; font-family: 'Open Sans', 'OpenSans', Helvetica, sans-serif; margin-top: 3px;">{{ settings.emailFooterOptionalCopyTwo }}</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+</table>
+
+
+
+
+{# 
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="{{ settings.emailBackgroundColor }}">
+  <tbody><tr><td><table width="{{ settings.emailContainerWidth }}" border="0" align="center" cellpadding="0" cellspacing="0">
     <tbody>
       <tr>  
         <td>
-          <table width="500" height="122" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
-
-            <td><a href="" style="width: 161px;"><img src="{% for logo in customLogo %}{% set logo = logo.url %}{{ logo }}{% endfor %}" style="width: 100%;" /></a></td>
-            <td width="338" align="right"><p style="font:9px Helvetica Neue,Helvetica,Arial,sans-serif;letter-spacing:3px;margin:0;padding:0"><span style="color:#1a1a1a">ACCOUNT INFORMATION</span></p></td>
-            <td width="1"><img src="http://formbuilder-craft.s3.amazonaws.com/unnamed.gif" alt="" width="1" height="122"></td>
+          <table width="{{ settings.emailContainerWidth }}" height="122" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
+            <td width="500" style="padding: 0 20px;"><a href="{{ siteUrl }}" style="width: 499px;"><img src="{% for logo in customLogo %}{% set logo = logo.url %}{{ logo }}{% endfor %}" width="160" /></a></td>
           </tr></tbody></table>
         </td> 
       </tr>
     </tbody>
   </table></td></tr></tbody> 
-</table>
+</table> #}

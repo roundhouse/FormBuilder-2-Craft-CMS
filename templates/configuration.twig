@@ -77,23 +77,23 @@
             }) }}
 
             {{ forms.textField({
-              label: "Footer Company Address"|t,
-              instructions: "Optionally add address that'll appear in the footer."|t,
-              id: 'emailFooterCompanyAddress',
-              class: 'emailFooterCompanyAddress',
-              name: 'emailFooterCompanyAddress',
-              value: settings.emailFooterCompanyAddress,
-              errors: settings.getErrors('emailFooterCompanyAddress'),
+              label: "Footer Optional Copy"|t,
+              instructions: "Optional copy that'll appear in the footer."|t,
+              id: 'emailFooterOptionalCopyOne',
+              class: 'emailFooterOptionalCopyOne',
+              name: 'emailFooterOptionalCopyOne',
+              value: settings.emailFooterOptionalCopyOne,
+              errors: settings.getErrors('emailFooterOptionalCopyOne'),
             }) }}
 
             {{ forms.textField({
-              label: "Footer Optional Copy"|t,
-              instructions: "Optional copy that'll appear in the footer"|t,
-              id: 'emailFooterOptionalCopy',
-              class: 'emailFooterOptionalCopy',
-              name: 'emailFooterOptionalCopy',
-              value: settings.emailFooterOptionalCopy,
-              errors: settings.getErrors('emailFooterOptionalCopy'),
+              label: "Footer Additional Optional Copy"|t,
+              instructions: "Additional optional copy that'll appear in the footer."|t,
+              id: 'emailFooterOptionalCopyTwo',
+              class: 'emailFooterOptionalCopyTwo',
+              name: 'emailFooterOptionalCopyTwo',
+              value: settings.emailFooterOptionalCopyTwo,
+              errors: settings.getErrors('emailFooterOptionalCopyTwo'),
             }) }}
 
           </div>

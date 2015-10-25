@@ -285,8 +285,8 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $toEmails = ArrayHelper::stringToArray($form->notifyEmail);
     
     // TODO: finish email tempalte notification 
-    // var_dump($message);
-    // die();
+    var_dump($message);
+    die();
     foreach ($toEmails as $toEmail) {
       $email = new EmailModel();
       $emailSettings    = craft()->email->getSettings();

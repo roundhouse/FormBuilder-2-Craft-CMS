@@ -245,6 +245,8 @@ class FormBuilder2_EntryController extends BaseController
       $criteria->id     = $settings['emailNotificationLogo'];
       $criteria->limit  = 1;
       $customLogo       = $criteria->find();
+    } else {
+      $customLogo = '';
     }
 
     $variables = array(

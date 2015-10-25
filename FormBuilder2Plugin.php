@@ -42,11 +42,11 @@ class FormBuilder2Plugin extends BasePlugin
   protected function defineSettings()
   {
     return array(
-      'emailNotificationLogo' => AttributeType::String,
-      'emailBackgroundColor' => AttributeType::String,
-      'emailContainerWidth' => AttributeType::String,
-      'emailFooterCompanyAddress' => AttributeType::String,
-      'emailFooterOptionalCopy' => AttributeType::String,
+      'emailNotificationLogo'       => AttributeType::String,
+      'emailBackgroundColor'        => AttributeType::String,
+      'emailContainerWidth'         => AttributeType::String,
+      'emailFooterOptionalCopyOne'  => AttributeType::String,
+      'emailFooterOptionalCopyTwo'  => AttributeType::String,
     );
   }
 
