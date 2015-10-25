@@ -6,11 +6,21 @@ class App
     clipboard.on 'success', (e) ->
       e.clearSelection()
 
-
   newForm: =>
     if $('.fb-new-form').length > 0
       # New Form Tabs
       newFormActiveTab = Cookies.get 'newform-active-tab'
+      
+      # Email Notifications & Templates
+      $('.notification-tabs a').click (event) ->
+        event.preventDefault()
+        $(@).parent().addClass 'current'
+        $(@).parent().siblings().removeClass 'current'
+        tab = $(@).attr('href')
+        $('.email-tab-content').not(tab).css 'display', 'none'
+        $(tab).fadeIn()
+
+
       $('.menu-tabs a').click (event) ->
         event.preventDefault()
         $(@).parent().addClass 'current'

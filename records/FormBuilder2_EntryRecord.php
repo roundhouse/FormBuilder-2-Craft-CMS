@@ -19,10 +19,10 @@ class FormBuilder2_EntryRecord extends BaseRecord
   public function defineAttributes()
   {
     return array(
-      'formId' => AttributeType::Number,
-      'title'  => AttributeType::String,
-      'files'  => AttributeType::Mixed,
-      'data'   => AttributeType::Mixed,
+      'formId'      => AttributeType::Number,
+      'title'       => AttributeType::String,
+      'files'       => AttributeType::Mixed,
+      'submission'  => AttributeType::Mixed,
     );
   }
 

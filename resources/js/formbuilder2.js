@@ -19,6 +19,15 @@ App = (function() {
     var newFormActiveTab;
     if ($('.fb-new-form').length > 0) {
       newFormActiveTab = Cookies.get('newform-active-tab');
+      $('.notification-tabs a').click(function(event) {
+        var tab;
+        event.preventDefault();
+        $(this).parent().addClass('current');
+        $(this).parent().siblings().removeClass('current');
+        tab = $(this).attr('href');
+        $('.email-tab-content').not(tab).css('display', 'none');
+        return $(tab).fadeIn();
+      });
       $('.menu-tabs a').click(function(event) {
         var tab;
         event.preventDefault();

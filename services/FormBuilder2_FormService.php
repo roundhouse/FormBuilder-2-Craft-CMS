@@ -122,15 +122,26 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     $formRecord->customRedirectUrl            = $form->customRedirectUrl;
     $formRecord->hasFileUploads               = $form->hasFileUploads;
     $formRecord->ajaxSubmit                   = $form->ajaxSubmit;
-    $formRecord->spamTimeMethod               = $form->spamTimeMethod;
-    $formRecord->spamTimeMethodTime           = $form->spamTimeMethodTime;
-    $formRecord->spamHoneypotMethod           = $form->spamHoneypotMethod;
-    $formRecord->spamHoneypotMethodMessage    = $form->spamHoneypotMethodMessage;
-    $formRecord->successMessage               = $form->successMessage;
-    $formRecord->errorMessage                 = $form->errorMessage;
-    $formRecord->notifySubmission             = $form->notifySubmission;
-    $formRecord->notifyEmail                  = $form->notifyEmail;
-    $formRecord->emailSubject                 = $form->emailSubject;
+    
+    $formRecord->spamProtectionSettings       = JsonHelper::encode($form->spamProtectionSettings);
+    // $formRecord->spamTimeMethod               = $form->spamTimeMethod;
+    // $formRecord->spamTimeMethodTime           = $form->spamTimeMethodTime;
+    // $formRecord->spamHoneypotMethod           = $form->spamHoneypotMethod;
+    // $formRecord->spamHoneypotMethodMessage    = $form->spamHoneypotMethodMessage;
+    
+    $formRecord->messages                     = JsonHelper::encode($form->messages);
+    // $formRecord->successMessage               = $form->successMessage;
+    // $formRecord->errorMessage                 = $form->errorMessage;
+    
+    $formRecord->notificationSettings         = JsonHelper::encode($form->notificationSettings);
+    // $formRecord->notifySubmission             = $form->notifySubmission;
+    
+    // $formRecord->emailSettings                = JsonHelper::encode($form->emailSettings);
+    // $formRecord->templateSettings             = JsonHelper::encode($form->templateSettings);
+
+    // $formRecord->notifyEmail                  = $form->notifyEmail;
+    // $formRecord->emailSubject                 = $form->emailSubject;
+    
     $formRecord->fieldLayoutId                = $form->fieldLayoutId;
 
     // Cant use Ajax with file uplaods (for now)
@@ -142,21 +153,21 @@ class FormBuilder2_FormService extends BaseApplicationComponent
       $form->addError('customRedirectUrl', Craft::t('Please enter Redirect URL.'));
     }
 
-    if ($form->spamTimeMethod && $form->spamTimeMethodTime == '') {
-      $form->addError('spamTimeMethodTime', Craft::t('Please enter time.'));
-    }
+    // if ($form->spamTimeMethod && $form->spamTimeMethodTime == '') {
+    //   $form->addError('spamTimeMethodTime', Craft::t('Please enter time.'));
+    // }
 
-    if ($form->spamHoneypotMethod && $form->spamHoneypotMethodMessage == '') {
-      $form->addError('spamHoneypotMethodMessage', Craft::t('Please enter message for screen readers.'));
-    }
+    // if ($form->spamHoneypotMethod && $form->spamHoneypotMethodMessage == '') {
+    //   $form->addError('spamHoneypotMethodMessage', Craft::t('Please enter message for screen readers.'));
+    // }
 
-    if ($form->notifySubmission && $form->notifyEmail == '') {
-      $form->addError('notifyEmail', Craft::t('Please enter notification email.'));
-    }
+    // if ($form->notifySubmission && $form->notifyEmail == '') {
+    //   $form->addError('notifyEmail', Craft::t('Please enter notification email.'));
+    // }
 
-    if ($form->notifySubmission && $form->emailSubject == '') {
-      $form->addError('emailSubject', Craft::t('Please enter notification email subject.'));
-    }
+    // if ($form->notifySubmission && $form->emailSubject == '') {
+    //   $form->addError('emailSubject', Craft::t('Please enter notification email subject.'));
+    // }
     
     $formRecord->validate();
     $form->addErrors($formRecord->getErrors());

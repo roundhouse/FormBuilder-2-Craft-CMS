@@ -45,7 +45,7 @@ class FormBuilder2_EntryController extends BaseController
     $variables['title']       = 'FormBuilder2';
     $variables['form']        = craft()->formBuilder2_form->getFormById($entry->formId);
     $variables['files']       = $files;
-    $variables['data']        = $entry->data;
+    $variables['submission']  = $entry->submission;
 
     $this->renderTemplate('formbuilder2/entries/_view', $variables);
   }
@@ -155,10 +155,10 @@ class FormBuilder2_EntryController extends BaseController
     }
 
 
-    $submissionEntry->formId  = $form->id;
-    $submissionEntry->title   = $form->name;
-    $submissionEntry->files   = $files;
-    $submissionEntry->data    = $submissionData;
+    $submissionEntry->formId        = $form->id;
+    $submissionEntry->title         = $form->name;
+    $submissionEntry->files         = $files;
+    $submissionEntry->submission    = $submissionData;
 
     // Process Errors
     if ($errorMessage) {
@@ -227,7 +227,7 @@ class FormBuilder2_EntryController extends BaseController
   {  
     // $data         = new \stdClass($data);
     $postUploads  = $submission->files;
-    $postData     = $submission->data;
+    $postData     = $submission->submission;
     $postData     = $this->filterSubmissionKeys($postData);
     
     craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
@@ -250,7 +250,7 @@ class FormBuilder2_EntryController extends BaseController
     }
 
     $variables = array(
-      'data'        => $postData,
+      'submission'  => $postData,
       'files'       => $postUploads,
       'form'        => $form,
       'entry'       => $submission,

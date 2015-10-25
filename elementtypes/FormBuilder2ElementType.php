@@ -42,7 +42,7 @@ class FormBuilder2ElementType extends BaseElementType
       'id'          => Craft::t('ID'),
       'title'       => Craft::t('Form'),
       'dateCreated' => Craft::t('Date'),
-      'data'        => Craft::t('Submission Data'),
+      'submission'  => Craft::t('Submission Data'),
       'files'       => Craft::t('Uploads'),
     );
   }
@@ -54,9 +54,9 @@ class FormBuilder2ElementType extends BaseElementType
   public function getTableAttributeHtml(BaseElementModel $element, $attribute)
   {
     switch ($attribute) {
-      case 'data':
+      case 'submission':
         $data = $element->viewEntryLinkOnElementsTable();
-        return $element->data;
+        return $element->submission;
         break;
       case 'files':
         $files = $element->normalizeFilesForElementsTable();
@@ -87,7 +87,7 @@ class FormBuilder2ElementType extends BaseElementType
   public function modifyElementsQuery(DbCommand $query, ElementCriteriaModel $criteria)
   {
     $query
-      ->addSelect('formbuilder2_entries.formId, formbuilder2_entries.title, formbuilder2_entries.data')
+      ->addSelect('formbuilder2_entries.formId, formbuilder2_entries.title, formbuilder2_entries.submission')
       ->join('formbuilder2_entries formbuilder2_entries', 'formbuilder2_entries.id = elements.id');
     if ($criteria->formId) {
       $query->andWhere(DbHelper::parseParam('formbuilder2_entries.formId', $criteria->formId, $query->params));

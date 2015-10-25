@@ -27,15 +27,24 @@ class FormBuilder2_FormModel extends BaseModel
       'customRedirectUrl'                   => AttributeType::String,
       'hasFileUploads'                      => AttributeType::Bool,
       'ajaxSubmit'                          => AttributeType::Bool,
+      
+      'spamProtectionSettings'              => AttributeType::Mixed,
       'spamTimeMethod'                      => AttributeType::Bool,
       'spamTimeMethodTime'                  => AttributeType::Number,
       'spamHoneypotMethod'                  => AttributeType::Bool,
       'spamHoneypotMethodMessage'           => AttributeType::String,
+      
+      'messages'                            => AttributeType::Mixed,
       'successMessage'                      => array(AttributeType::String, 'required' => true),
       'errorMessage'                        => array(AttributeType::String, 'required' => true),
+      
+      'notificationSettings'                => AttributeType::Mixed,
       'notifySubmission'                    => AttributeType::Bool,
+      // 'emailSettings'                       => AttributeType::Mixed,
+      // 'templateSettings'                    => AttributeType::Mixed,
       'notifyEmail'                         => AttributeType::String,
       'emailSubject'                        => AttributeType::Name,
+      
       'fieldLayoutId'                       => AttributeType::Number
     );
   }

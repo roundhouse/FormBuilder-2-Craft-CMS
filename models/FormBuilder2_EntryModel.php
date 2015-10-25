@@ -22,7 +22,7 @@ class FormBuilder2_EntryModel extends BaseElementModel
       'formId'      => AttributeType::Number,
       'title'       => AttributeType::String,
       'files'       => AttributeType::String,
-      'data'        => AttributeType::String
+      'submission'  => AttributeType::String
     ));
   }
 
@@ -66,7 +66,7 @@ class FormBuilder2_EntryModel extends BaseElementModel
   }
 
   /**
-   * Normalize Data For Elements Table
+   * View Submission Link in Elements Table
    *
    */
   public function viewEntryLinkOnElementsTable()
@@ -76,17 +76,17 @@ class FormBuilder2_EntryModel extends BaseElementModel
     $url = UrlHelper::getUrl('formbuilder2/entries/' .$this->id. '/edit');
     $link = '<a href="'.$url.'" class="view-submission">'.Craft::t('View Submission').'</a>';
 
-    $this->__set('data', $link);
+    $this->__set('submission', $link);
     return $this;
   }
 
   /**
-   * Normalize Data For Elements Table
+   * Normalize Submission For Elements Table
    *
    */
   public function normalizeDataForElementsTable()
   {
-    $data = json_decode($this->data, true);
+    $data = json_decode($this->submission, true);
 
     // Pop off the first (4) items from the data array
     $data = array_slice($data, 0, 4);
@@ -117,7 +117,7 @@ class FormBuilder2_EntryModel extends BaseElementModel
     }
 
     $newData .= '</ul>';
-    $this->__set('data', $newData);
+    $this->__set('submission', $newData);
     return $this;
   }
 

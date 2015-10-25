@@ -33,7 +33,7 @@
           <h2 class="current tab-toggle-form-settings"><a href="#form-settings">{{ "Form Settings"|t }}</a></h2>
           <h2 class="tab-toggle-spam-protection"><a href="#spam-protection">{{ "Spam Protection"|t }}</a></h2>
           <h2 class="tab-toggle-messages"><a href="#messages">{{ "Messages"|t }}</a></h2>
-          <h2 class="tab-toggle-notify"><a href="#notify">{{ "Notifications"|t }}</a></h2>
+          <h2 class="tab-toggle-notify"><a href="#notify">{{ "Email Notifications"|t }}</a></h2>
           <h2 class="tab-toggle-fields"><a href="#fields">{{ "Fields"|t }}</a></h2>
         </div>
 
@@ -178,9 +178,9 @@
                    {{ forms.checkboxField({
                     id: 'spamTimeMethod',
                     class: 'spamTimeMethod',
-                    name: 'spamTimeMethod',
+                    name: 'spamProtectionSettings[spamTimeMethod]',
                     value: 1,
-                    checked: form.spamTimeMethod,
+                    checked: form.spamProtectionSettings.spamTimeMethod is defined ? form.spamProtectionSettings.spamTimeMethod : 0,
                     errors: form.getErrors('spamTimeMethod'),
                     required: false
                   }) }}
@@ -197,8 +197,8 @@
                   instructions: "Enter how many seconds to wait untill submissions are valid."|t,
                   id: 'spamTimeMethodTime',
                   class: 'spamTimeMethodTime',
-                  name: 'spamTimeMethodTime',
-                  value: form.spamTimeMethodTime,
+                  name: 'spamProtectionSettings[spamTimeMethodTime]',
+                  value: form.spamProtectionSettings.spamTimeMethodTime is defined ? form.spamProtectionSettings.spamTimeMethodTime : '',
                   size: 50,
                   errors: form.getErrors('spamTimeMethodTime'),
                   required: false
@@ -214,9 +214,9 @@
                    {{ forms.checkboxField({
                     id: 'spamHoneypotMethod',
                     class: 'spamHoneypotMethod',
-                    name: 'spamHoneypotMethod',
+                    name: 'spamProtectionSettings[spamHoneypotMethod]',
                     value: 1,
-                    checked: form.spamHoneypotMethod,
+                    checked: form.spamProtectionSettings.spamHoneypotMethod is defined ? form.spamProtectionSettings.spamHoneypotMethod : 0,
                     errors: form.getErrors('spamHoneypotMethod'),
                     required: false
                   }) }}
@@ -233,8 +233,8 @@
                   instructions: "Enter message for screen readers."|t,
                   id: 'spamHoneypotMethodMessage',
                   class: 'spamHoneypotMethodMessage',
-                  name: 'spamHoneypotMethodMessage',
-                  value: form.spamHoneypotMethodMessage ? form.spamHoneypotMethodMessage : null,
+                  name: 'spamProtectionSettings[spamHoneypotMethodMessage]',
+                  value: (form.spamProtectionSettings.spamHoneypotMethodMessage is defined ? form.spamProtectionSettings.spamHoneypotMethodMessage : null),
                   size: 50,
                   errors: form.getErrors('spamHoneypotMethodMessage'),
                   required: false
@@ -249,8 +249,8 @@
               instructions: "Please enter success message."|t,
               id: 'successMessage',
               class: 'successMessage',
-              name: 'successMessage',
-              value: form.successMessage,
+              name: 'messages[successMessage]',
+              value: (form.messages.successMessage is defined ? form.messages.successMessage : null),
               size: 100,
               errors: form.getErrors('successMessage'),
               required: true
@@ -261,8 +261,8 @@
               instructions: "Please enter error message."|t,
               id: 'errorMessage',
               class: 'errorMessage',
-              name: 'errorMessage',
-              value: form.errorMessage,
+              name: 'messages[errorMessage]',
+              value: (form.messages.errorMessage is defined ? form.messages.errorMessage : null),
               size: 100,
               errors: form.getErrors('errorMessage'),
               required: true
@@ -272,15 +272,16 @@
           <div id="notify" class="tab-content">
 
             <div class="method-notify pane">
+            
               <div class="checkbox-toggle" data-checkbox="notifySubmission">
                 <div class="togglebox">
                   <svg><use xlink:href="#icon-notify" class="icon-notify"/></svg>
                    {{ forms.checkboxField({
                     id: 'notifySubmission',
                     class: 'notifySubmission',
-                    name: 'notifySubmission',
+                    name: 'notificationSettings[notifySubmission]',
                     value: 1,
-                    checked: form.notifySubmission,
+                    checked: form.notificationSettings.notifySubmission is defined ? form.notificationSettings.notifySubmission : 0,
                     errors: form.getErrors('notifySubmission'),
                     required: false
                   }) }}
@@ -291,29 +292,51 @@
                 </div>
               </div>
               <div class="checkbox-extra">
-                {{ forms.textField({
-                  label: "Notification Email"|t,
-                  instructions: "Where should submission notification be sent to?"|t,
-                  id: 'notifyEmail',
-                  class: 'notifyEmail',
-                  name: 'notifyEmail',
-                  value: form.notifyEmail,
-                  size: 50,
-                  errors: form.getErrors('notifyEmail'),
-                  required: false
-                }) }}
+                <header>
+                  <h3>{{ "Email Settings & Template"|t }}</h3>
+                  <div class="instructions">
+                    <p>{{ "Please update your email settings and apply optional template styles."|t }}</p>
+                  </div>
+                </header>
 
-                {{ forms.textField({
-                  label: "Email Subject"|t,
-                  instructions: "Subject line for email notifications."|t,
-                  id: 'emailSubject',
-                  class: 'emailSubject',
-                  name: 'emailSubject',
-                  value: form.emailSubject,
-                  size: 50,
-                  errors: form.getErrors('emailSubject'),
-                  required: false
-                }) }}
+                <div class="notification-tabs-wrapper">
+                  <div class="notification-tabs">
+                    <h2 class="current"><a href="#email-admin-settings"><svg><use xlink:href="#icon-settings" class="icon-settings"/></svg></a></h2>
+                    <h2><a href="#email-admin-templates"><svg><use xlink:href="#icon-news" class="icon-news"/></svg></a></h2>
+                  </div>
+                  <div class="notification-tabs-container">
+                    <div id="email-admin-settings" class="email-tab-content">
+                      <h1>{{ "Email Settings"|t }}</h1>
+                      {{ forms.textField({
+                        label: "Notification Email"|t,
+                        instructions: "Where should submission notification be sent to?"|t,
+                        id: 'notifyEmail',
+                        class: 'notifyEmail',
+                        name: 'notificationSettings[emailSettings][notifyEmail]',
+                        value: (form.notificationSettings.emailSettings.notifyEmail is defined ? form.notificationSettings.emailSettings.notifyEmail : null),
+                        size: 50,
+                        errors: form.getErrors('notifyEmail'),
+                        required: false
+                      }) }}
+                     
+                      {{ forms.textField({
+                        label: "Email Subject"|t,
+                        instructions: "Subject line for email notifications."|t,
+                        id: 'emailSubject',
+                        class: 'emailSubject',
+                        name: 'notificationSettings[emailSettings][emailSubject]',
+                        value: (form.notificationSettings.emailSettings.emailSubject is defined ? form.notificationSettings.emailSettings.emailSubject : null),
+                        size: 50,
+                        errors: form.getErrors('emailSubject'),
+                        required: false
+                      }) }}
+                    </div>
+
+                    <div id="email-admin-templates" class="email-tab-content">
+                      <h1>{{ "Template Settings"|t }}</h1>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

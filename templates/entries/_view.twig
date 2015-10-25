@@ -28,14 +28,14 @@
         </header>
       </div>
 
-      {% if data %}
+      {% if submission %}
       <div class="pane submission-details">
         <header>
           <h1>{{ "Submission Content"|t }}</h1>
         </header>
 
-        <table class="data fullwidth collapsible">
-          {% for name, value in data %}
+        <table class="submission fullwidth collapsible">
+          {% for name, value in submission %}
             {% set field = craft.fields.getFieldByHandle(name) %}
             {% if value %}
             <tr>

@@ -554,6 +554,87 @@ svg.icon {
   border: 3px dotted #f07575; }
 .fb-new-form h2.toggle-error {
   color: #f07575; }
+.fb-new-form .checkbox-extra::after {
+  clear: both;
+  content: "";
+  display: table; }
+.fb-new-form .method-notify .checkbox-extra {
+  padding: 0;
+  margin-bottom: 20px; }
+  .fb-new-form .method-notify .checkbox-extra header {
+    padding: 20px; }
+    .fb-new-form .method-notify .checkbox-extra header h3 {
+      margin: 0; }
+.fb-new-form .notification-tabs-wrapper {
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+  -webkit-align-items: stretch;
+  -moz-align-items: stretch;
+  -ms-align-items: stretch;
+  -o-align-items: stretch;
+  align-items: stretch;
+  -ms-flex-align: stretch;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  box-direction: normal;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-direction: row;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  box-pack: start;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  -ms-justify-content: flex-start;
+  -o-justify-content: flex-start;
+  justify-content: flex-start;
+  -ms-flex-pack: start; }
+.fb-new-form .notification-tabs {
+  width: 55px;
+  margin-right: 20px;
+  border-right: 2px solid rgba(128, 128, 128, 0.1); }
+  .fb-new-form .notification-tabs h2 {
+    margin: 0; }
+  .fb-new-form .notification-tabs a {
+    position: relative;
+    display: block;
+    padding: 15px;
+    margin-right: -2px;
+    border-right: 2px solid rgba(128, 128, 128, 0.1); }
+    .fb-new-form .notification-tabs a:hover svg * {
+      fill: rgba(51, 63, 77, 0.9); }
+  .fb-new-form .notification-tabs .current a {
+    border-right: 2px solid #47c5ca; }
+    .fb-new-form .notification-tabs .current a svg * {
+      fill: #47c5ca; }
+  .fb-new-form .notification-tabs svg {
+    height: 25px;
+    width: 25px;
+    vertical-align: middle; }
+    .fb-new-form .notification-tabs svg * {
+      fill: rgba(51, 63, 77, 0.7);
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      transition: all 0.3s ease; }
+.fb-new-form .notification-tabs-container h1 {
+  color: #333f4d;
+  font-size: 20px; }
+.fb-new-form .email-tab-content {
+  display: none; }
+.fb-new-form #email-admin-settings {
+  display: block; }
 
 @-webkit-keyframes slideDown {
   from {

@@ -238,9 +238,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
 
     
     // Build Entry Record
-    $submissionRecord->formId  = $submission->formId;
-    $submissionRecord->title   = $submission->title;
-    $submissionRecord->data    = $submission->data;
+    $submissionRecord->formId       = $submission->formId;
+    $submissionRecord->title        = $submission->title;
+    $submissionRecord->submission   = $submission->submission;
 
     $submissionRecord->validate();
     $submission->addErrors($submissionRecord->getErrors());

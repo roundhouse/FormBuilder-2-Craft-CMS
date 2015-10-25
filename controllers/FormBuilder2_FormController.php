@@ -48,7 +48,6 @@ class FormBuilder2_FormController extends BaseController
       }
       $variables['title'] = Craft::t('Create a new form');
     }
-
     $this->renderTemplate('formbuilder2/forms/_edit', $variables);
   }
 
@@ -69,16 +68,26 @@ class FormBuilder2_FormController extends BaseController
     $form->customRedirectUrl            = craft()->request->getPost('customRedirectUrl');
     $form->hasFileUploads               = craft()->request->getPost('hasFileUploads');
     $form->ajaxSubmit                   = craft()->request->getPost('ajaxSubmit');
-    $form->spamTimeMethod               = craft()->request->getPost('spamTimeMethod');
-    $form->spamTimeMethodTime           = craft()->request->getPost('spamTimeMethodTime');
-    $form->spamHoneypotMethod           = craft()->request->getPost('spamHoneypotMethod');
-    $form->spamHoneypotMethodMessage    = craft()->request->getPost('spamHoneypotMethodMessage');
-    $form->successMessage               = craft()->request->getPost('successMessage');
-    $form->errorMessage                 = craft()->request->getPost('errorMessage');
-    $form->notifySubmission             = craft()->request->getPost('notifySubmission');
-    $form->notifyEmail                  = craft()->request->getPost('notifyEmail');
-    $form->emailSubject                 = craft()->request->getPost('emailSubject');
+    
+    $form->spamProtectionSettings       = craft()->request->getPost('spamProtectionSettings');
+    // $form->spamTimeMethod               = craft()->request->getPost('spamTimeMethod');
+    // $form->spamTimeMethodTime           = craft()->request->getPost('spamTimeMethodTime');
+    // $form->spamHoneypotMethod           = craft()->request->getPost('spamHoneypotMethod');
+    // $form->spamHoneypotMethodMessage    = craft()->request->getPost('spamHoneypotMethodMessage');
+    
+    $form->messages                     = craft()->request->getPost('messages');
+    // $form->successMessage               = craft()->request->getPost('successMessage');
+    // $form->errorMessage                 = craft()->request->getPost('errorMessage');
+
+    $form->notificationSettings         = craft()->request->getPost('notificationSettings');
+    // $form->notifySubmission             = craft()->request->getPost('notifySubmission');
+    // $form->emailSettings                = craft()->request->getPost('emailSettings');
+    // $form->templateSettings             = craft()->request->getPost('templateSettings');
+
+    // $form->notifyEmail                  = craft()->request->getPost('notifyEmail');
+    // $form->emailSubject                 = craft()->request->getPost('emailSubject');
     $form->fieldLayoutId                = craft()->request->getPost('fieldLayoutId');
+
 
     $fieldLayout = craft()->fields->assembleLayoutFromPost();
     $fieldLayout->type = ElementType::Asset;
