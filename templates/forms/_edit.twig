@@ -75,9 +75,9 @@
                    {{ forms.checkboxField({
                     id: 'saveSubmissionsToDatabase',
                     class: 'saveSubmissionsToDatabase',
-                    name: 'saveSubmissionsToDatabase',
+                    name: 'formSettings[saveSubmissionsToDatabase]',
                     value: 1,
-                    checked: form.saveSubmissionsToDatabase,
+                    checked: form.formSettings.saveSubmissionsToDatabase is defined ? form.formSettings.saveSubmissionsToDatabase : null,
                     errors: form.getErrors('saveSubmissionsToDatabase'),
                     required: false
                   }) }}
@@ -96,9 +96,9 @@
                    {{ forms.checkboxField({
                     id: 'customRedirect',
                     class: 'customRedirect',
-                    name: 'customRedirect',
+                    name: 'formSettings[formRedirect][customRedirect]',
                     value: 1,
-                    checked: form.customRedirect,
+                    checked: form.formSettings.formRedirect.customRedirect is defined ? form.formSettings.formRedirect.customRedirect : null,
                     errors: form.getErrors('customRedirect'),
                     required: false
                   }) }}
@@ -114,8 +114,8 @@
                   instructions: "Enter relative redirect page url."|t,
                   id: 'customRedirectUrl',
                   class: 'customRedirectUrl',
-                  name: 'customRedirectUrl',
-                  value: form.customRedirectUrl,
+                  name: 'formSettings[formRedirect][customRedirectUrl]',
+                  value: form.formSettings.formRedirect.customRedirectUrl is defined ? form.formSettings.formRedirect.customRedirectUrl : '',
                   size: 50,
                   errors: form.getErrors('customRedirectUrl'),
                   required: false
@@ -130,9 +130,9 @@
                    {{ forms.checkboxField({
                     id: 'hasFileUploads',
                     class: 'hasFileUploads',
-                    name: 'hasFileUploads',
+                    name: 'formSettings[hasFileUploads]',
                     value: 1,
-                    checked: form.hasFileUploads,
+                    checked: form.formSettings.hasFileUploads is defined ? form.formSettings.hasFileUploads : null,
                     errors: form.getErrors('hasFileUploads'),
                     required: false
                   }) }}
@@ -151,9 +151,9 @@
                    {{ forms.checkboxField({
                     id: 'ajaxSubmit',
                     class: 'ajaxSubmit',
-                    name: 'ajaxSubmit',
+                    name: 'formSettings[ajaxSubmit]',
                     value: 1,
-                    checked: form.ajaxSubmit,
+                    checked: form.formSettings.ajaxSubmit is defined ? form.formSettings.ajaxSubmit : null,
                     errors: form.getErrors('ajaxSubmit'),
                     required: false
                   }) }}
@@ -180,7 +180,7 @@
                     class: 'spamTimeMethod',
                     name: 'spamProtectionSettings[spamTimeMethod]',
                     value: 1,
-                    checked: form.spamProtectionSettings.spamTimeMethod is defined ? form.spamProtectionSettings.spamTimeMethod : 0,
+                    checked: form.spamProtectionSettings.spamTimeMethod is defined ? form.spamProtectionSettings.spamTimeMethod : null,
                     errors: form.getErrors('spamTimeMethod'),
                     required: false
                   }) }}
@@ -216,7 +216,7 @@
                     class: 'spamHoneypotMethod',
                     name: 'spamProtectionSettings[spamHoneypotMethod]',
                     value: 1,
-                    checked: form.spamProtectionSettings.spamHoneypotMethod is defined ? form.spamProtectionSettings.spamHoneypotMethod : 0,
+                    checked: form.spamProtectionSettings.spamHoneypotMethod is defined ? form.spamProtectionSettings.spamHoneypotMethod : null,
                     errors: form.getErrors('spamHoneypotMethod'),
                     required: false
                   }) }}
@@ -249,11 +249,11 @@
               instructions: "Please enter success message."|t,
               id: 'successMessage',
               class: 'successMessage',
-              name: 'messages[successMessage]',
-              value: (form.messages.successMessage is defined ? form.messages.successMessage : null),
+              name: 'messageSettings[successMessage]',
+              value: (form.messageSettings.successMessage is defined ? form.messageSettings.successMessage : null),
               size: 100,
               errors: form.getErrors('successMessage'),
-              required: true
+              required: false
             }) }}
 
             {{ forms.textField({
@@ -261,11 +261,11 @@
               instructions: "Please enter error message."|t,
               id: 'errorMessage',
               class: 'errorMessage',
-              name: 'messages[errorMessage]',
-              value: (form.messages.errorMessage is defined ? form.messages.errorMessage : null),
+              name: 'messageSettings[errorMessage]',
+              value: (form.messageSettings.errorMessage is defined ? form.messageSettings.errorMessage : null),
               size: 100,
               errors: form.getErrors('errorMessage'),
-              required: true
+              required: false
             }) }}
           </div>
 
@@ -281,7 +281,7 @@
                     class: 'notifySubmission',
                     name: 'notificationSettings[notifySubmission]',
                     value: 1,
-                    checked: form.notificationSettings.notifySubmission is defined ? form.notificationSettings.notifySubmission : 0,
+                    checked: form.notificationSettings.notifySubmission is defined ? form.notificationSettings.notifySubmission : null,
                     errors: form.getErrors('notifySubmission'),
                     required: false
                   }) }}
@@ -330,10 +330,111 @@
                         errors: form.getErrors('emailSubject'),
                         required: false
                       }) }}
+
+                      <div class="field" id="sendSubmissionData-field">
+                        <div class="heading">
+                           <label for="emailSubject">{{ "Include Submission Data"|t }}</label>
+                          <div class="instructions"><p>{{ "Send submission data with the email?"|t }}</p></div>
+                        </div>
+                        <div class="input">
+                          {{ forms.lightswitch({
+                            id: 'sendSubmissionData',
+                            class: 'sendSubmissionData',
+                            name: 'notificationSettings[emailSettings][sendSubmissionData]',
+                            on: (form.notificationSettings.emailSettings.sendSubmissionData is defined ? form.notificationSettings.emailSettings.sendSubmissionData : null),
+                            errors: form.getErrors('sendSubmissionData'),
+                          }) }}
+                        </div>
+                      </div>
                     </div>
 
                     <div id="email-admin-templates" class="email-tab-content">
                       <h1>{{ "Template Settings"|t }}</h1>
+                      
+                      <div class="field" id="emailTemplateStyle-field">
+                        <div class="heading">
+                          <label for="emailTemplateStyle">{{ "Email Template Style"|t }}</label>
+                          <div class="instructions"><p>{{ "Choose template style for your email notification."|t }}</p></div>
+                        </div>
+
+                        <div class="input">
+                          {% set templateSettings = (form.notificationSettings.templateSettings.emailTemplateStyle is defined ? form.notificationSettings.templateSettings.emailTemplateStyle : 'text') %}
+                          <div class="radio">
+                            <input type="radio" value="text" id="emailTemplateStyle" name="notificationSettings[templateSettings][emailTemplateStyle]"{% if templateSettings == 'text' %} checked{% endif %}>
+                            <label for="emailTemplateStyle"><span><svg><use xlink:href="#icon-text" class="icon-text"/></svg></span>{{ "Text Only"|t }}</label>
+                          </div>
+                          <div class="radio">
+                            <input type="radio" value="html" id="emailTemplateStyle2" name="notificationSettings[templateSettings][emailTemplateStyle]"{% if templateSettings == 'html' %} checked{% endif %}>
+                            <label for="emailTemplateStyle2"><span><svg><use xlink:href="#icon-news" class="icon-news"/></svg></span>{{ "HTML Template"|t }}</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="html-template-extra">
+                        <div class="field">
+                          <div class="heading">
+                            <label for="emailCustomLogo">{{ "Custom Logo"|t }}</label>
+                            <div class="instructions"><p>{{ "Brand your email template with custom logo"|t }}</p></div>
+                          </div>
+                          <div class="input">
+                            {% set elements = (elements is defined ? elements : []) -%}
+                            {{ forms.elementSelectField({
+                              id: 'emailCustomLogo',
+                              name: 'notificationSettings[templateSettings][emailCustomLogo]',
+                              selectionLabel: "Select Logo"|t,
+                              elementType: craft.elements.getElementType("Asset"),
+                              elements: elements,
+                              criteria: {"kind":[],"localeEnabled":null,"locale":"en_us"},
+                              jsClass: 'Craft.AssetSelectInput',
+                              limit: 1,
+                              errors: form.getErrors('emailCustomLogo'),
+                            }) }}
+                          </div>
+                        </div>
+
+                        <div class="field">
+                          <div class="heading">
+                            <label for="emailBackgroundColor">{{ "Template Background Color"|t }}</label>
+                            <div class="instructions"><p>{{ "Choose background color for your email template"|t }}</p></div>
+                          </div>
+                          <div class="input">
+                            {{ forms.color({
+                              id: 'emailBackgroundColor',
+                              class: 'emailBackgroundColor',
+                              name: 'notificationSettings[templateSettings][emailBackgroundColor]',
+                              value: (form.notificationSettings.templateSettings.emailBackgroundColor is defined ? form.notificationSettings.templateSettings.emailBackgroundColor : '#f5f5f5'),
+                              errors: form.getErrors('emailBackgroundColor'),
+                              required: false
+                            }) }}
+                          </div>
+                        </div>
+
+                        {{ forms.textField({
+                          label: "Container With"|t,
+                          instructions: "Enter container with for your email template (pixels)."|t,
+                          id: 'emailContainerWidth',
+                          class: 'emailContainerWidth',
+                          name: 'notificationSettings[templateSettings][emailContainerWidth]',
+                          value: (form.notificationSettings.templateSettings.emailContainerWidth is defined ? form.notificationSettings.templateSettings.emailContainerWidth : '500'),
+                          size: 50,
+                          errors: form.getErrors('emailContainerWidth'),
+                        }) }}
+
+                      </div>
+                      
+                      {% includeCssResource "lib/redactor/redactor.css" %}
+                      {% includeJsResource "lib/redactor/redactor.js" %}
+                      {{ forms.textareaField({
+                        label: "Body Copy"|t,
+                        instructions: "Enter copy that will appear in the email notification."|t,
+                        id: 'emailBodyCopy',
+                        class: 'emailBodyCopy',
+                        name: 'notificationSettings[templateSettings][emailBodyCopy]',
+                        value: (form.notificationSettings.templateSettings.emailBodyCopy is defined ? form.notificationSettings.templateSettings.emailBodyCopy : null),
+                        errors: form.getErrors('emailBodyCopy'),
+                        required: false
+                      }) }}
+
                     </div>
                   </div>
                 </div>
@@ -378,5 +479,6 @@
 
 {% set newFormJs %}
   {% if not form.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}
+  $('#emailBodyCopy').redactor();
 {% endset %}
 {% includeJs newFormJs %}

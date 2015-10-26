@@ -6,7 +6,6 @@ class FormBuilder2_EntryController extends BaseController
 
   protected $allowAnonymous = true;
 
-
   /**
    * Entries Index
    *
@@ -64,39 +63,45 @@ class FormBuilder2_EntryController extends BaseController
     $submissionData = $this->filterSubmissionKeys($submission);
 
     // Defaults
-    $saveSubmissionsToDatabase  = $form->saveSubmissionsToDatabase;
-    $customRedirect             = $form->customRedirect;
-    $useAjax                    = $form->ajaxSubmit;
-    $spamTimeSubmissions        = $form->spamTimeMethod;
-    $spamHoneypotSubmissions    = $form->spamHoneypotMethod;
-    $notifyAdminOfSubmission    = $form->notifySubmission;
-    $hasFileUploads             = $form->hasFileUploads;
+    $attributes                   = $form->getAttributes();
+    $formSettings                 = $attributes['formSettings'];
+    $spamProtectionSettings       = $attributes['spamProtectionSettings'];
+    $messageSettings              = $attributes['messageSettings'];
+    $notificationSettings         = $attributes['notificationSettings'];
+
+
+    // $saveSubmissionsToDatabase  = $form->saveSubmissionsToDatabase;
+    // $customRedirect             = $form->customRedirect;
+    // $useAjax                    = $form->ajaxSubmit;
+    // $spamTimeSubmissions        = $form->spamTimeMethod;
+    // $spamHoneypotSubmissions    = $form->spamHoneypotMethod;
+    // $notifyAdminOfSubmission    = $form->notifySubmission;
+    // $hasFileUploads             = $form->hasFileUploads;
     $files                      = '';
     $errorMessage               = [];
 
     // Prepare submissionEntry for processing
     $submissionEntry = new FormBuilder2_EntryModel();
     // Using Ajax
-    if ($useAjax) {
+    if ($formSettings['ajaxSubmit'] == '1') {
       $this->requireAjaxRequest();
     } else {
       $this->requirePostRequest();
     }
 
     // Custom Redirect
-    if ($customRedirect) {
-      $redirectUrl = $form->customRedirectUrl;
+    if ($formSettings['formRedirect']['customRedirect'] != '') {
+      $redirectUrl = $formSettings['formRedirect']['customRedirectUrl'];
     }
-
+    
     // Spam Protection | Timed Method
-    if ($spamTimeSubmissions) {
+    if ($spamProtectionSettings['spamTimeMethod'] == '1') {
       $formSubmissionTime = (int)craft()->request->getPost('spamTimeMethod');
       $submissionDuration = time() - $formSubmissionTime;
-      $allowedTime = (int)$form->spamTimeMethodTime;
+      $allowedTime = (int)$spamProtectionSettings['spamTimeMethodTime'];
       if ($submissionDuration < $allowedTime) {
         $spamMethodOne = false;
         $errorMessage[] = Craft::t('You submitted too fast, you are robot!');
-        // $form->addError('spamTimeSubmissions', Craft::t('You submitted too fast, you are robot!'));
       } else {
         $spamMethodOne = true;
       }
@@ -105,7 +110,7 @@ class FormBuilder2_EntryController extends BaseController
     }
 
     // Spam Protection | Honeypot Method
-    if ($spamHoneypotSubmissions) {
+    if ($spamProtectionSettings['spamHoneypotMethod'] == '1') {
       $honeypotField = craft()->request->getPost('email-address-new');
       if ($honeypotField != '') {
         $spamMethodTwo = false;
@@ -121,7 +126,7 @@ class FormBuilder2_EntryController extends BaseController
     $validateRequired = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
     
     // File Uploads
-    if ($hasFileUploads) {
+    if ($formSettings['hasFileUploads'] == '1') {
       foreach ($formFields as $key => $value) {
         $field = $value->getField();
         switch ($field->type) {
@@ -154,7 +159,6 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-
     $submissionEntry->formId        = $form->id;
     $submissionEntry->title         = $form->name;
     $submissionEntry->files         = $files;
@@ -171,18 +175,18 @@ class FormBuilder2_EntryController extends BaseController
     if (!$errorMessage && $spamMethodOne && $spamMethodTwo && $validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
 
       // Notify Admin of Submission
-      if ($notifyAdminOfSubmission) {
+      if ($notificationSettings['notifySubmission'] == '1') {
         $this->notifyAdminOfSubmission($submissionEntry, $form);
       }
 
       // Messages
-      if ($useAjax) {
+      if ($formSettings['ajaxSubmit'] == '1') {
         $this->returnJson(
-          ['success' => true, 'message' => $form->successMessage, 'form' => $form]
+          ['success' => true, 'message' => $messageSettings['successMessage'], 'form' => $form]
         );
       } else {
-        craft()->userSession->setFlash('success', $form->successMessage);
-        if ($customRedirect) {
+        craft()->userSession->setFlash('success', $messageSettings['successMessage']);
+        if ($formSettings['formRedirect']['customRedirect'] != '') {
           $this->redirect($redirectUrl);
         } else {
           $this->redirectToPostedUrl();
@@ -193,12 +197,12 @@ class FormBuilder2_EntryController extends BaseController
       if (!$saveSubmissionsToDatabase && !$notifyAdminOfSubmission) {
         craft()->userSession->setFlash('error', Craft::t('Update form settings to save to database or notify form admin. If form submits nothing will happen.'));
       }
-      if ($useAjax) {
+      if ($formSettings['ajaxSubmit'] == '1') {
         $this->returnJson(
-          ['error' => true, 'message' => $form->errorMessage, 'form' => $form]
+          ['error' => true, 'message' => $messageSettings['errorMessage'], 'form' => $form]
         );
       } else {
-        craft()->userSession->setFlash('error', $form->errorMessage);
+        craft()->userSession->setFlash('error', $messageSettings['errorMessage']);
       }
     }
   }
@@ -235,34 +239,48 @@ class FormBuilder2_EntryController extends BaseController
     $customTemplatePath = craft()->path->getPluginsPath() . 'formbuilder2/templates/custom/email/';
     $extension = '.twig';
 
-    // Get Plugin
-    $plugin = craft()->plugins->getPlugin('FormBuilder2');
-    $settings = $plugin->getSettings();
+    $attributes             = $form->getAttributes();
+    $formSettings           = $attributes['formSettings'];
+    $notificationSettings   = $attributes['notificationSettings'];
+    $templateSettings       = $notificationSettings['templateSettings'];
+
+    
 
     // Get Logo
-    if ($settings['emailNotificationLogo']) {
-      $criteria         = craft()->elements->getCriteria(ElementType::Asset);
-      $criteria->id     = $settings['emailNotificationLogo'];
-      $criteria->limit  = 1;
-      $customLogo       = $criteria->find();
-    } else {
-      $customLogo = '';
+    // if ($settings['emailNotificationLogo']) {
+    //   $criteria         = craft()->elements->getCriteria(ElementType::Asset);
+    //   $criteria->id     = $settings['emailNotificationLogo'];
+    //   $criteria->limit  = 1;
+    //   $customLogo       = $criteria->find();
+    // } else {
+    //   $customLogo = '';
+    // }
+
+    $variables['form']                  = $form;
+    $variables['files']                 = $postUploads;
+    $variables['formSettings']          = $formSettings;
+    $variables['emailSettings']         = $notificationSettings['emailSettings'];
+    $variables['templateSettings']      = $notificationSettings['templateSettings'];
+    if ($notificationSettings['emailSettings']['sendSubmissionData'] == '1') {
+      $variables['data']                = $postData;
     }
 
-    $variables = array(
-      'submission'  => $postData,
-      'files'       => $postUploads,
-      'form'        => $form,
-      'entry'       => $submission,
-      'settings'    => $settings,
-      'customLogo'  => $customLogo
-    );
-
-    if (IOHelper::fileExists($customTemplatePath . 'default' . $extension)) {
-      $message  = craft()->templates->render('formbuilder2/templates/custom/email/default', $variables);
+    if ($templateSettings['emailTemplateStyle'] == 'html') {
+      if (IOHelper::fileExists($customTemplatePath . 'html' . $extension)) {
+        $message  = craft()->templates->render('formbuilder2/templates/custom/email/html', $variables);
+      } else {
+        $message  = craft()->templates->render('formbuilder2/templates/email/html', $variables);
+      }
     } else {
-      $message  = craft()->templates->render('formbuilder2/templates/email/default', $variables);
+      if (IOHelper::fileExists($customTemplatePath . 'text' . $extension)) {
+        $message  = craft()->templates->render('formbuilder2/templates/custom/email/text', $variables);
+      } else {
+        $message  = craft()->templates->render('formbuilder2/templates/email/text', $variables);
+      }
     }
+
+    var_dump($message);
+    die();
 
     if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $message, true, null)) {
       return true;

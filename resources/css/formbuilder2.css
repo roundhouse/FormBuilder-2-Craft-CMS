@@ -628,13 +628,59 @@ svg.icon {
       -webkit-transition: all 0.3s ease;
       -moz-transition: all 0.3s ease;
       transition: all 0.3s ease; }
-.fb-new-form .notification-tabs-container h1 {
-  color: #333f4d;
-  font-size: 20px; }
+.fb-new-form .notification-tabs-container {
+  width: 100%;
+  padding-right: 20px; }
+  .fb-new-form .notification-tabs-container h1 {
+    color: #333f4d;
+    font-size: 20px; }
 .fb-new-form .email-tab-content {
   display: none; }
+.fb-new-form #optionalFooterCopy-field {
+  margin-top: 0; }
+.fb-new-form #html-template-extra {
+  display: none;
+  margin-bottom: 24px; }
 .fb-new-form #email-admin-settings {
   display: block; }
+.fb-new-form #emailTemplateStyle-field input[type="radio"]:checked + label {
+  color: rgba(128, 128, 128, 0.8);
+  border: 4px solid #47c5ca; }
+.fb-new-form #emailTemplateStyle-field .input::after {
+  clear: both;
+  content: "";
+  display: table; }
+.fb-new-form #emailTemplateStyle-field .radio {
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+  text-align: center; }
+  .fb-new-form #emailTemplateStyle-field .radio span {
+    display: block; }
+  .fb-new-form #emailTemplateStyle-field .radio input {
+    display: none; }
+  .fb-new-form #emailTemplateStyle-field .radio svg {
+    margin-bottom: 4px;
+    height: 40px;
+    width: 40px; }
+    .fb-new-form #emailTemplateStyle-field .radio svg * {
+      fill: white; }
+  .fb-new-form #emailTemplateStyle-field .radio label {
+    display: block;
+    padding: 10px;
+    background: rgba(128, 128, 128, 0.1);
+    border: 4px solid rgba(128, 128, 128, 0.1);
+    font-size: 11px;
+    line-height: 1.2;
+    color: rgba(128, 128, 128, 0.7);
+    cursor: pointer;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    height: 70px;
+    width: 60px; }
+    .fb-new-form #emailTemplateStyle-field .radio label:hover {
+      border: 4px solid rgba(128, 128, 128, 0.3); }
 
 @-webkit-keyframes slideDown {
   from {

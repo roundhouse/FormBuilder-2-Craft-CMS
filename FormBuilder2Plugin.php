@@ -39,16 +39,16 @@ class FormBuilder2Plugin extends BasePlugin
     return true;
   }
 
-  protected function defineSettings()
-  {
-    return array(
-      'emailNotificationLogo'       => AttributeType::String,
-      'emailBackgroundColor'        => AttributeType::String,
-      'emailContainerWidth'         => AttributeType::String,
-      'emailFooterOptionalCopyOne'  => AttributeType::String,
-      'emailFooterOptionalCopyTwo'  => AttributeType::String,
-    );
-  }
+  // protected function defineSettings()
+  // {
+  //   return array(
+  //     'emailNotificationLogo'       => AttributeType::String,
+  //     'emailBackgroundColor'        => AttributeType::String,
+  //     'emailContainerWidth'         => AttributeType::String,
+  //     'emailFooterOptionalCopyOne'  => AttributeType::String,
+  //     'emailFooterOptionalCopyTwo'  => AttributeType::String,
+  //   );
+  // }
 
   public function addTwigExtension()  
   {

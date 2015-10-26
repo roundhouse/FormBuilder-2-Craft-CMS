@@ -1,0 +1,39 @@
+{% set bodyCopy = templateSettings.emailBodyCopy %}
+{% set sendSubmission = emailSettings.sendSubmissionData %}
+
+{% if form is defined %}
+  <h2>New {{ form.name }} Submission</h2>
+  {{ bodyCopy |raw }}
+{% endif %}
+
+{% if sendSubmission %}
+  <table>
+  {% for key, value in data %}
+    {% set field = craft.fields.getFieldByHandle(key) %}
+    {% if value %}
+    <tr>
+      <td><strong>{{ field.name }}: </strong></td>
+      
+      {% if value | checkArray == '1' %}
+      <td>
+      {% for key, item in value %}
+        {% if item != '' %}
+          {{ item }},  
+        {% endif %}
+      {% endfor %}
+      </td>
+      {% else %}
+      <td>{{ value|nl2br }}</td>
+      {% endif %}
+
+    </tr>
+    {% endif %}
+  {% endfor %}
+
+  <tr>
+    {% for file in files %}
+      {{ file.url }}
+    {% endfor %}
+  </tr>
+  </table>
+{% endif %}

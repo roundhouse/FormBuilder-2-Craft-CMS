@@ -38,7 +38,20 @@ class FormBuilder2_FormController extends BaseController
     if (!empty($variables['formId'])) {
       if (empty($variables['form'])) {
         $variables['form'] = craft()->formBuilder2_form->getFormById($variables['formId']);
-        if (!$variables['form']) { throw new HttpException(404); }
+        if (!$variables['form']) { 
+          throw new HttpException(404);
+        }
+        // Get Logo Asset
+        $customEmailLogo = $variables['form']->notificationSettings['templateSettings']['emailCustomLogo'];
+        if ($customEmailLogo) {
+          $criteria           = craft()->elements->getCriteria(ElementType::Asset);
+          $criteria->id       = $customEmailLogo[0];
+          $criteria->limit    = 1;
+          $elements           = $criteria->find();
+        } else {
+          $elements = [];
+        }
+        $variables['elements']  = $elements;
       }
       $variables['title'] = $variables['form']->name;
     } else {
@@ -63,52 +76,38 @@ class FormBuilder2_FormController extends BaseController
     $form->id                           = craft()->request->getPost('formId');
     $form->name                         = craft()->request->getPost('name');
     $form->handle                       = craft()->request->getPost('handle');
-    $form->saveSubmissionsToDatabase    = craft()->request->getPost('saveSubmissionsToDatabase');
-    $form->customRedirect               = craft()->request->getPost('customRedirect');
-    $form->customRedirectUrl            = craft()->request->getPost('customRedirectUrl');
-    $form->hasFileUploads               = craft()->request->getPost('hasFileUploads');
-    $form->ajaxSubmit                   = craft()->request->getPost('ajaxSubmit');
-    
-    $form->spamProtectionSettings       = craft()->request->getPost('spamProtectionSettings');
-    // $form->spamTimeMethod               = craft()->request->getPost('spamTimeMethod');
-    // $form->spamTimeMethodTime           = craft()->request->getPost('spamTimeMethodTime');
-    // $form->spamHoneypotMethod           = craft()->request->getPost('spamHoneypotMethod');
-    // $form->spamHoneypotMethodMessage    = craft()->request->getPost('spamHoneypotMethodMessage');
-    
-    $form->messages                     = craft()->request->getPost('messages');
-    // $form->successMessage               = craft()->request->getPost('successMessage');
-    // $form->errorMessage                 = craft()->request->getPost('errorMessage');
-
-    $form->notificationSettings         = craft()->request->getPost('notificationSettings');
-    // $form->notifySubmission             = craft()->request->getPost('notifySubmission');
-    // $form->emailSettings                = craft()->request->getPost('emailSettings');
-    // $form->templateSettings             = craft()->request->getPost('templateSettings');
-
-    // $form->notifyEmail                  = craft()->request->getPost('notifyEmail');
-    // $form->emailSubject                 = craft()->request->getPost('emailSubject');
     $form->fieldLayoutId                = craft()->request->getPost('fieldLayoutId');
-
+    $form->formSettings                 = craft()->request->getPost('formSettings');
+    $form->spamProtectionSettings       = craft()->request->getPost('spamProtectionSettings');
+    $form->messageSettings              = craft()->request->getPost('messageSettings');
+    $form->notificationSettings         = craft()->request->getPost('notificationSettings');
 
     $fieldLayout = craft()->fields->assembleLayoutFromPost();
     $fieldLayout->type = ElementType::Asset;
     $form->setFieldLayout($fieldLayout);
 
-    if (!$form->customRedirect) {
-      $form->customRedirectUrl = '';
-    }
+    // $attributes                   = $form->getAttributes();
+    // $formSettings                 = $form->getAttributes()['formSettings'];
+    // $spamProtectionSettings       = $form->getAttributes()['spamProtectionSettings'];
+    // $messageSettings              = $form->getAttributes()['messageSettings'];
+    // $notificationSettings         = $form->getAttributes()['notificationSettings'];
 
-    if (!$form->spamTimeMethod) {
-      $form->spamTimeMethodTime = '';
-    }
+    // if ($formSettings['formRedirect']['customRedirect'] == '') {
+    //   $formSettings['formRedirect']['customRedirectUrl'] = '';
+    // }
 
-    if (!$form->spamHoneypotMethod) {
-      $form->spamHoneypotMethodMessage = '';
-    }
+    // if (!$spamProtectionSettings['spamTimeMethod']) {
+    //   $spamProtectionSettings['spamTimeMethodTime'] = '';
+    // }
 
-    if (!$form->notifySubmission) {
-      $form->notifyEmail = '';
-      $form->emailSubject = '';
-    }
+    // if (!$spamProtectionSettings['spamHoneypotMethod']) {
+    //   $spamProtectionSettings['spamHoneypotMethodMessage'] = '';
+    // }
+
+    // if (!$notificationSettings['notifySubmission']) {
+    //   $notificationSettings['emailSettings']['notifyEmail'] = '';
+    //   $notificationSettings['notifySubmission']['emailSubject'] = '';
+    // }
 
     if (craft()->formBuilder2_form->saveForm($form)) {
       craft()->userSession->setNotice(Craft::t('Form saved.'));
