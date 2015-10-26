@@ -203,9 +203,12 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $this->onBeforeSave(new Event($this, array(
       'entry' => $submission
     )));
-    $form = craft()->formBuilder2_form->getFormById($submission->formId);
-    $formFields = $form->fieldLayout->getFieldLayout()->getFields();
-    $saveSubmissionsToDatabase = $form->saveSubmissionsToDatabase;
+
+    $form                       = craft()->formBuilder2_form->getFormById($submission->formId);
+    $formFields                 = $form->fieldLayout->getFieldLayout()->getFields();
+    $attributes                 = $form->getAttributes();
+    $formSettings               = $attributes['formSettings'];
+    $saveSubmissionsToDatabase  = $formSettings['saveSubmissionsToDatabase'];
 
     $submissionRecord = new FormBuilder2_EntryRecord();
 
@@ -246,7 +249,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $submission->addErrors($submissionRecord->getErrors());
 
     // Save To Database
-    if ($saveSubmissionsToDatabase) {
+    if ($saveSubmissionsToDatabase != '') {
 
       if (!$submission->hasErrors()) {
         $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
@@ -282,20 +285,20 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
   public function sendEmailNotification($form, $postUploads, $message, $html = true, $email = null)
   { 
     $errors = false;
-    $toEmails = ArrayHelper::stringToArray($form->notifyEmail);
+    $attributes = $form->getAttributes();
+    $notificationSettings = $attributes['notificationSettings'];
+    $toEmails = ArrayHelper::stringToArray($notificationSettings['emailSettings']['notifyEmail']);
     
-    // TODO: finish email tempalte notification 
-    var_dump($message);
-    die();
     foreach ($toEmails as $toEmail) {
       $email = new EmailModel();
       $emailSettings    = craft()->email->getSettings();
+
       $email->fromEmail = $emailSettings['emailAddress'];
       $email->replyTo   = $emailSettings['emailAddress'];
       $email->sender    = $emailSettings['emailAddress'];
       $email->fromName  = $form->name;
       $email->toEmail   = $toEmail;
-      $email->subject   = $form->emailSubject;
+      $email->subject   = $notificationSettings['emailSettings']['emailSubject'];
       $email->body      = $message;
 
       // if ($postUploads) {

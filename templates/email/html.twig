@@ -34,14 +34,17 @@
   </table>
 {% endif %} #}
 
+{% set bodyCopy = templateSettings.emailBodyCopy %}
+{% set footerCopy = templateSettings.emailAdditionalFooterCopy %}
+{% set sendSubmission = emailSettings.sendSubmissionData %}
+{% set sendSubmission = emailSettings.sendSubmissionData %}
 
 {# TODO: finish email notification template #}
-{{ settings |inspect}}
-<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="{{ settings.emailBackgroundColor }}">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="{{ templateSettings.emailBackgroundColor }}">
 
   <tr>
     <td>
-      <table width="{{ settings.emailContainerWidth }}" height="122" border="0" cellspacing="0" cellpadding="0" align="center">
+      <table width="{{ templateSettings.emailContainerWidth }}" height="122" border="0" cellspacing="0" cellpadding="0" align="center">
         <tr>
           <td width="500">
             <a href="{{ siteUrl }}"><img src="{% for logo in customLogo %}{% set logo = logo.url %}{{ logo }}{% endfor %}" style="display: block; max-width: 500px;" /></a>
@@ -53,11 +56,52 @@
 
   <tr>
     <td>
-      <table width="{{ settings.emailContainerWidth }}" border="0" cellspacing="0" cellpadding="0" align="center" style="border: 1px solid black;">
+      <table width="{{ templateSettings.emailContainerWidth }}" border="0" cellspacing="0" cellpadding="0" align="center" style="border: 1px solid #edf1f4; border-radius: 3px; background: white;">
         <tr>
           <td style="padding: 20px;">
-            <p style="font-size: 12px; font-family: 'Open Sans', 'OpenSans', Helvetica, sans-serif;">Hello</p>
-            
+            {{ bodyCopy|raw }}
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 0 20px 20px 20px;">
+            {% if sendSubmission %}
+              <h2>{{ "Submission Data"|t }}</h2>
+              <table style="width:100%;">
+              {% for key, value in data %}
+                {% set field = craft.fields.getFieldByHandle(key) %}
+                {% if value %}
+                <tr>
+                  <td style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eaecee;">
+                    <h3 style="margin-bottom: 2px; margin-top: 5px;">{{ field.name }}</h3>
+                    {% if value | checkArray == '1' %}
+                      {% for key, item in value %}
+                        {% if item != '' %}
+                          {{ item }},  
+                        {% endif %}
+                      {% endfor %}
+                    {% else %}
+                      <p style="margin: 5px 0;">{{ value|raw|nl2br }}</p>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endif %}
+              {% endfor %}
+              </table>
+
+              {% if files %}
+              <h2 style="margin-bottom: 0px;">{{ "File Uploads"|t }}</h2>
+              <table>
+                <tr>
+                  <td>
+                  {% for file in files %}
+                    {{ file.url }}
+                  {% endfor %}
+                  </td>
+                </tr>
+              </table>
+              {% endif %}
+
+            {% endif %}
           </td>
         </tr>
       </table>
@@ -66,11 +110,10 @@
 
   <tr>
     <td>
-      <table width="{{ settings.emailContainerWidth }}" height="100" border="0" cellspacing="0" cellpadding="0" align="center">
+      <table width="{{ templateSettings.emailContainerWidth }}" height="100" border="0" cellspacing="0" cellpadding="0" align="center">
         <tr>
           <td style="padding: 20px;">
-            <p style="text-align: center; font-size: 12px; font-family: 'Open Sans', 'OpenSans', Helvetica, sans-serif; margin-bottom: 0px;">{{ settings.emailFooterOptionalCopyOne }}</p>
-            <p style="text-align: center; font-size: 12px; font-family: 'Open Sans', 'OpenSans', Helvetica, sans-serif; margin-top: 3px;">{{ settings.emailFooterOptionalCopyTwo }}</p>
+            {{ footerCopy|raw }}
           </td>
         </tr>
       </table>
@@ -78,21 +121,3 @@
   </tr>
 
 </table>
-
-
-
-
-{# 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="{{ settings.emailBackgroundColor }}">
-  <tbody><tr><td><table width="{{ settings.emailContainerWidth }}" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tbody>
-      <tr>  
-        <td>
-          <table width="{{ settings.emailContainerWidth }}" height="122" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
-            <td width="500" style="padding: 0 20px;"><a href="{{ siteUrl }}" style="width: 499px;"><img src="{% for logo in customLogo %}{% set logo = logo.url %}{{ logo }}{% endfor %}" width="160" /></a></td>
-          </tr></tbody></table>
-        </td> 
-      </tr>
-    </tbody>
-  </table></td></tr></tbody> 
-</table> #}

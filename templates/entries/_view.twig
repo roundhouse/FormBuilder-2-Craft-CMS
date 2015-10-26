@@ -39,15 +39,15 @@
             {% set field = craft.fields.getFieldByHandle(name) %}
             {% if value %}
             <tr>
-              <td><strong>{{ field.name }}</strong></td>
+              <td style="padding-top:10px;"><strong>{{ field.name }}</strong></td>
               {% if value | checkArray == '1' %}
-                <td>
+                <td style="padding-top:10px;">
                 {% for key, item in value %}
                   <span class="item">{{ item }}</span>
                 {% endfor %}
                 </td>
               {% else %}
-                <td>{{ value|nl2br }}</td>
+                <td style="padding-top:10px;">{{ value|raw|nl2br }}</td>
               {% endif %}
             </tr>
             {% endif %}

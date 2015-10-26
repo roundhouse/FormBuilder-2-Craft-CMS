@@ -435,6 +435,17 @@
                         required: false
                       }) }}
 
+                      {{ forms.textareaField({
+                        label: "Footer Copy"|t,
+                        instructions: "Enter copy that will appear in the email footer."|t,
+                        id: 'emailAdditionalFooterCopy',
+                        class: 'emailAdditionalFooterCopy',
+                        name: 'notificationSettings[templateSettings][emailAdditionalFooterCopy]',
+                        value: (form.notificationSettings.templateSettings.emailAdditionalFooterCopy is defined ? form.notificationSettings.templateSettings.emailAdditionalFooterCopy : null),
+                        errors: form.getErrors('emailAdditionalFooterCopy'),
+                        required: false
+                      }) }}
+
                     </div>
                   </div>
                 </div>
@@ -480,5 +491,6 @@
 {% set newFormJs %}
   {% if not form.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}
   $('#emailBodyCopy').redactor();
+  $('#emailAdditionalFooterCopy').redactor();
 {% endset %}
 {% includeJs newFormJs %}

@@ -17,19 +17,19 @@ class FormBuilder2_ConfigurationController extends BaseController
     $settings = $plugin->getSettings();
     
     // Get Logo Asset
-    if ($settings['emailNotificationLogo']) {
-      $criteria           = craft()->elements->getCriteria(ElementType::Asset);
-      $criteria->id       = $settings['emailNotificationLogo'];
-      $criteria->limit    = 1;
-      $elements           = $criteria->find();
-    } else {
-      $elements = [];
-    }
+    // if ($settings['emailNotificationLogo']) {
+    //   $criteria           = craft()->elements->getCriteria(ElementType::Asset);
+    //   $criteria->id       = $settings['emailNotificationLogo'];
+    //   $criteria->limit    = 1;
+    //   $elements           = $criteria->find();
+    // } else {
+    //   $elements = [];
+    // }
 
     $variables['title']     = 'FormBuilder2';
     $variables['settings']  = $settings;
     $variables['plugin']    = $plugin;
-    $variables['elements']  = $elements;
+    // $variables['elements']  = $elements;
     
     $this->renderTemplate('formbuilder2/configuration', $variables);
   }

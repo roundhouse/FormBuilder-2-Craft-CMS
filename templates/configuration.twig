@@ -19,13 +19,22 @@
     <div class="pane">
       <div class="settings">
         <div class="inner form">
+          <header class="page-header">
+            <h2>{{ "Plugin Information"|t }}</h2>
+          </header>
+          <ul class="inner information">
+            <li>{{ "Name"|t }}: <span>{{ plugin.getName() }}</span></li>
+            <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
+            <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
+            <li>{{ "Author"|t }}: <span><a href="https://github.com/owldesign" target="_balank" title="Vadim Goncharov">Vadim Goncharov</a> (<a href="https://twitter.com/owldesign" target="_blank">@owldesign</a>)</span></li>
+          </ul>
            
-          <form method="post" accept-charset="UTF-8">
+          {# <form method="post" accept-charset="UTF-8">
             <input type="hidden" name="action" value="formBuilder2/configuration/savePluginSettings">
             <input type="hidden" name="pluginClass" value="FormBuilder2">
-            <input type="hidden" name="redirect" value="formbuilder2/configuration">
+            <input type="hidden" name="redirect" value="formbuilder2/configuration"> #}
             
-          <div class="pane">
+
             {# <h2>{{ "Email Settings"|t }}</h2> #}
 
             {# <div class="field">
@@ -96,36 +105,14 @@
               errors: settings.getErrors('emailFooterOptionalCopyTwo'),
             }) }} #}
 
-          </div>
-
-
-
-
-
-
-
-
-
-
-            
-
-            <div class="buttons">
+          {#   <div class="buttons">
               <input class="btn submit" type="submit" value="Save">
             </div>
-          </form>
+          </form> #}
         </div>
       </div>
 
       <div class="information">
-        <header class="page-header">
-          <h2>{{ "Plugin Information"|t }}</h2>
-        </header>
-        <ul class="inner information">
-          <li>{{ "Name"|t }}: <span>{{ plugin.getName() }}</span></li>
-          <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
-          <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
-          <li>{{ "Author"|t }}: <span><a href="https://github.com/owldesign" target="_balank" title="Vadim Goncharov">Vadim Goncharov</a> (<a href="https://twitter.com/owldesign" target="_blank">@owldesign</a>)</span></li>
-        </ul>
       </div>
     </div>
 

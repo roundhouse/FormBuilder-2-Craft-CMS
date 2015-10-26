@@ -68,15 +68,6 @@ class FormBuilder2_EntryController extends BaseController
     $spamProtectionSettings       = $attributes['spamProtectionSettings'];
     $messageSettings              = $attributes['messageSettings'];
     $notificationSettings         = $attributes['notificationSettings'];
-
-
-    // $saveSubmissionsToDatabase  = $form->saveSubmissionsToDatabase;
-    // $customRedirect             = $form->customRedirect;
-    // $useAjax                    = $form->ajaxSubmit;
-    // $spamTimeSubmissions        = $form->spamTimeMethod;
-    // $spamHoneypotSubmissions    = $form->spamHoneypotMethod;
-    // $notifyAdminOfSubmission    = $form->notifySubmission;
-    // $hasFileUploads             = $form->hasFileUploads;
     $files                      = '';
     $errorMessage               = [];
 
@@ -173,7 +164,7 @@ class FormBuilder2_EntryController extends BaseController
 
     // Process Submission Entry
     if (!$errorMessage && $spamMethodOne && $spamMethodTwo && $validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
-
+      
       // Notify Admin of Submission
       if ($notificationSettings['notifySubmission'] == '1') {
         $this->notifyAdminOfSubmission($submissionEntry, $form);
@@ -247,20 +238,23 @@ class FormBuilder2_EntryController extends BaseController
     
 
     // Get Logo
-    // if ($settings['emailNotificationLogo']) {
-    //   $criteria         = craft()->elements->getCriteria(ElementType::Asset);
-    //   $criteria->id     = $settings['emailNotificationLogo'];
-    //   $criteria->limit  = 1;
-    //   $customLogo       = $criteria->find();
-    // } else {
-    //   $customLogo = '';
-    // }
+    if ($notificationSettings['templateSettings']['emailCustomLogo'] != '') {
+      $criteria         = craft()->elements->getCriteria(ElementType::Asset);
+      $criteria->id     = $notificationSettings['templateSettings']['emailCustomLogo'];
+      $criteria->limit  = 1;
+      $customLogo       = $criteria->find();
+    } else {
+      $customLogo = '';
+    }
 
     $variables['form']                  = $form;
     $variables['files']                 = $postUploads;
     $variables['formSettings']          = $formSettings;
     $variables['emailSettings']         = $notificationSettings['emailSettings'];
     $variables['templateSettings']      = $notificationSettings['templateSettings'];
+    if ($notificationSettings['templateSettings']['emailCustomLogo'] != '') {
+      $variables['customLogo']          = $customLogo;
+    }
     if ($notificationSettings['emailSettings']['sendSubmissionData'] == '1') {
       $variables['data']                = $postData;
     }
@@ -279,9 +273,8 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    var_dump($message);
-    die();
-
+    // var_dump($message);
+    // die();
     if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $message, true, null)) {
       return true;
     } else {

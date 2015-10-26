@@ -44,6 +44,7 @@ class FormBuilder2_FormModel extends BaseModel
       'sendSubmissionData'                  => AttributeType::Bool,
       'emailTemplateStyle'                  => AttributeType::String,
       'emailBodyCopy'                       => AttributeType::String,
+      'emailAdditionalFooterCopy'           => AttributeType::String,
       'emailCustomLogo'                     => AttributeType::Number,
       'emailBackgroundColor'                => AttributeType::String,
       'emailContainerWidth'                 => AttributeType::Number,
