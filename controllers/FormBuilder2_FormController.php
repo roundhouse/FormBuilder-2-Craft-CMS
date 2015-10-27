@@ -86,29 +86,6 @@ class FormBuilder2_FormController extends BaseController
     $fieldLayout->type = ElementType::Asset;
     $form->setFieldLayout($fieldLayout);
 
-    // $attributes                   = $form->getAttributes();
-    // $formSettings                 = $form->getAttributes()['formSettings'];
-    // $spamProtectionSettings       = $form->getAttributes()['spamProtectionSettings'];
-    // $messageSettings              = $form->getAttributes()['messageSettings'];
-    // $notificationSettings         = $form->getAttributes()['notificationSettings'];
-
-    // if ($formSettings['formRedirect']['customRedirect'] == '') {
-    //   $formSettings['formRedirect']['customRedirectUrl'] = '';
-    // }
-
-    // if (!$spamProtectionSettings['spamTimeMethod']) {
-    //   $spamProtectionSettings['spamTimeMethodTime'] = '';
-    // }
-
-    // if (!$spamProtectionSettings['spamHoneypotMethod']) {
-    //   $spamProtectionSettings['spamHoneypotMethodMessage'] = '';
-    // }
-
-    // if (!$notificationSettings['notifySubmission']) {
-    //   $notificationSettings['emailSettings']['notifyEmail'] = '';
-    //   $notificationSettings['notifySubmission']['emailSubject'] = '';
-    // }
-
     if (craft()->formBuilder2_form->saveForm($form)) {
       craft()->userSession->setNotice(Craft::t('Form saved.'));
       $this->redirectToPostedUrl($form);

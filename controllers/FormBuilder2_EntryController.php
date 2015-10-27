@@ -163,11 +163,13 @@ class FormBuilder2_EntryController extends BaseController
     }
 
     // Process Submission Entry
-    if (!$errorMessage && $spamMethodOne && $spamMethodTwo && $validateRequired && craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry)) {
+    if (!$errorMessage && $spamMethodOne && $spamMethodTwo && $validateRequired) {
+
+      $submissionResponseId = craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry);
       
       // Notify Admin of Submission
       if ($notificationSettings['notifySubmission'] == '1') {
-        $this->notifyAdminOfSubmission($submissionEntry, $form);
+        $this->notifyAdminOfSubmission($submissionResponseId, $form);
       }
 
       // Messages
@@ -185,9 +187,6 @@ class FormBuilder2_EntryController extends BaseController
       }
 
     } else {
-      if (!$saveSubmissionsToDatabase && !$notifyAdminOfSubmission) {
-        craft()->userSession->setFlash('error', Craft::t('Update form settings to save to database or notify form admin. If form submits nothing will happen.'));
-      }
       if ($formSettings['ajaxSubmit'] == '1') {
         $this->returnJson(
           ['error' => true, 'message' => $messageSettings['errorMessage'], 'form' => $form]
@@ -218,24 +217,34 @@ class FormBuilder2_EntryController extends BaseController
    * Notify Admin of Submission
    *
    */
-  protected function notifyAdminOfSubmission($submission, $form)
+  protected function notifyAdminOfSubmission($submissionResponseId, $form)
   {  
+    $submission   = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
     // $data         = new \stdClass($data);
+    $files        = [];
     $postUploads  = $submission->files;
     $postData     = $submission->submission;
     $postData     = $this->filterSubmissionKeys($postData);
-    
+
     craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
     $templatePath = craft()->path->getPluginsPath() . 'plugins/formbuilder2/templates/email/';
     $customTemplatePath = craft()->path->getPluginsPath() . 'formbuilder2/templates/custom/email/';
     $extension = '.twig';
 
+    // Uploaded Files
+    if ($postUploads) {
+      foreach ($postUploads as $key => $id) {
+        $criteria         = craft()->elements->getCriteria(ElementType::Asset);
+        $criteria->id     = $id;
+        $criteria->limit  = 1;
+        $files[]          = $criteria->find();
+      }
+    }
+
     $attributes             = $form->getAttributes();
     $formSettings           = $attributes['formSettings'];
     $notificationSettings   = $attributes['notificationSettings'];
     $templateSettings       = $notificationSettings['templateSettings'];
-
-    
 
     // Get Logo
     if ($notificationSettings['templateSettings']['emailCustomLogo'] != '') {
@@ -248,7 +257,7 @@ class FormBuilder2_EntryController extends BaseController
     }
 
     $variables['form']                  = $form;
-    $variables['files']                 = $postUploads;
+    $variables['files']                 = $files;
     $variables['formSettings']          = $formSettings;
     $variables['emailSettings']         = $notificationSettings['emailSettings'];
     $variables['templateSettings']      = $notificationSettings['templateSettings'];
@@ -273,8 +282,6 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    // var_dump($message);
-    // die();
     if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $message, true, null)) {
       return true;
     } else {

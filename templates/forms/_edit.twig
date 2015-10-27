@@ -68,27 +68,6 @@
               required: true
             }) }}
 
-            <div class="method-database pane">
-              <div class="checkbox-toggle" data-checkbox="saveSubmissionsToDatabase">
-                <div class="togglebox">
-                  <svg><use xlink:href="#icon-database" class="icon-database"/></svg>
-                   {{ forms.checkboxField({
-                    id: 'saveSubmissionsToDatabase',
-                    class: 'saveSubmissionsToDatabase',
-                    name: 'formSettings[saveSubmissionsToDatabase]',
-                    value: 1,
-                    checked: form.formSettings.saveSubmissionsToDatabase is defined ? form.formSettings.saveSubmissionsToDatabase : null,
-                    errors: form.getErrors('saveSubmissionsToDatabase'),
-                    required: false
-                  }) }}
-                </div>
-                <div class="togglecontent">
-                  <h3>{{ "Save Submissions To Database?"|t }}</h3>
-                  <p>{{ "All submissions made by this form will be saved to database."|t }}</p>
-                </div>
-              </div>
-            </div>
-
             <div class="method-redirect pane">
               <div class="checkbox-toggle" data-checkbox="customRedirect">
                 <div class="togglebox">

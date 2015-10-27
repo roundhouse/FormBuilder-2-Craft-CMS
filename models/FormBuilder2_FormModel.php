@@ -24,7 +24,6 @@ class FormBuilder2_FormModel extends BaseModel
       'handle'                              => array(AttributeType::Handle, 'required' => true),
       'fieldLayoutId'                       => AttributeType::Number,
       'formSettings'                        => AttributeType::Mixed,
-      'saveSubmissionsToDatabase'           => AttributeType::Bool,
       'customRedirect'                      => AttributeType::Bool,
       'customRedirectUrl'                   => AttributeType::String,
       'hasFileUploads'                      => AttributeType::Bool,

@@ -1,4 +1,5 @@
 {% set bodyCopy = templateSettings.emailBodyCopy %}
+{% set footerCopy = templateSettings.emailAdditionalFooterCopy %}
 {% set sendSubmission = emailSettings.sendSubmissionData %}
 
 {% if form is defined %}
@@ -8,8 +9,7 @@
 
 {% if sendSubmission %}
   <h2>{{ "Submission Data"|t }}</h2>
-
-  <table>
+  <table style="width:100%;">
   {% for key, value in data %}
     {% set field = craft.fields.getFieldByHandle(key) %}
     {% if value %}
@@ -32,16 +32,26 @@
   </table>
 
   {% if files %}
-  <h2 style="margin-bottom: 0px;">{{ "File Uploads"|t }}</h2>
-  <table>
+
+  <hr />
+  <h2>File Uploads</h2>
+  <table style="width:100%;">
     <tr>
       <td>
-      {% for file in files %}
-        {{ file.url }}
-      {% endfor %}
+        <ul>
+        {% for file in files %}
+          {% for item in file %}
+            <li>{{ item.getLink() }}</li>
+          {% endfor %}
+        {% endfor %}
+        </ul>
       </td>
     </tr>
   </table>
+  <hr />
   {% endif %}
+{% endif %}
 
+{% if form is defined %}
+  {{ footerCopy |raw }}
 {% endif %}

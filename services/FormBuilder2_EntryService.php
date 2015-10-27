@@ -74,10 +74,10 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Get Form Entry By Id
    *
    */
-  public function getFormEntryById($id)
-  {
-    return craft()->elements->getElementById($id, 'FormBuilder2');
-  }
+  // public function getFormEntryById($id)
+  // {
+  //   return craft()->elements->getElementById($id, 'FormBuilder2');
+  // }
 
   /**
    * Get Submission By ID
@@ -208,7 +208,6 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $formFields                 = $form->fieldLayout->getFieldLayout()->getFields();
     $attributes                 = $form->getAttributes();
     $formSettings               = $attributes['formSettings'];
-    $saveSubmissionsToDatabase  = $formSettings['saveSubmissionsToDatabase'];
 
     $submissionRecord = new FormBuilder2_EntryRecord();
 
@@ -218,7 +217,6 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       foreach ($submission->files as $key => $value) {
         if ($value->size) {
           $folder = $value->getFolder();
-
           // Make sure folder excist
           $source = $folder->getSource()['settings'];
           IOHelper::ensureFolderExists($source['path']);
@@ -249,32 +247,29 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $submission->addErrors($submissionRecord->getErrors());
 
     // Save To Database
-    if ($saveSubmissionsToDatabase != '') {
+    if (!$submission->hasErrors()) {
+      $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+      try {
+        if (craft()->elements->saveElement($submission)) {
+          $submissionRecord->id = $submission->id;
+          $submissionRecord->save(false);
 
-      if (!$submission->hasErrors()) {
-        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
-        try {
-          if (craft()->elements->saveElement($submission)) {
-            $submissionRecord->id = $submission->id;
-            $submissionRecord->save(false);
-
-            if ($transaction !== null) { $transaction->commit(); }
-            return $submissionRecord->id;
-          } else { 
-            return false; 
+          if ($transaction !== null) { 
+            $transaction->commit(); 
           }
-        } catch (\Exception $e) {
-          if ($transaction !== null) { $transaction->rollback(); }
-          throw $e;
+          return $submissionRecord->id;
+        } else { 
+          return false; 
         }
-        return true;
-      } else { 
-        return false; 
+      } catch (\Exception $e) {
+        if ($transaction !== null) { 
+          $transaction->rollback(); 
+        }
+        throw $e;
       }
-    } else {
-      if (!$submission->hasErrors()) {
-        return true;
-      }
+      return true;
+    } else { 
+      return false; 
     }
   }
 
@@ -301,12 +296,14 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       $email->subject   = $notificationSettings['emailSettings']['emailSubject'];
       $email->body      = $message;
 
+      // TODO: Add attachments to emails
       // if ($postUploads) {
       //   foreach ($postUploads as $key => $value) {
-      //     die();
-      //     $email->addAttachment($value->url, $value->title, 'base64', $value->mimeType);
+      //     $file = \CUploadedFile::getInstanceByName($key);
+      //     $email->addAttachment($file->getTempName(), $file->getName(), 'base64', $file->getType());
       //   }
       // }
+      
       if (!craft()->email->sendEmail($email)) {
         $errors = true;
       }
