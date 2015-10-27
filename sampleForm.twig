@@ -1,16 +1,18 @@
 {% extends "_layout" %}
 
 {% set form = craft.formBuilder2.getFormByHandle('contactForm') %}
+{% set formSettings = form.formSettings %}
+{% set spamProtectionSettings = form.spamProtectionSettings %}
 {% set tabs = form.fieldLayout.getFieldLayout().getTabs() %}
 {% set scripts = craft.formBuilder2.includeScripts(form) %}
 
 {% block content %}
-<form method="post" accept-charset="utf-8" name="{{ form.handle }}" class="formbuilder2" id="{{ form.handle }}"{% if form.hasFileUploads %} enctype="multipart/form-data"{% endif %}>
+<form method="post" accept-charset="utf-8" name="{{ form.handle }}" class="formbuilder2" id="{{ form.handle }}"{% if formSettings.hasFileUploads == '1' %} enctype="multipart/form-data"{% endif %}>
   <input type="hidden" name="action" value="formBuilder2/entry/submitEntry">
-  <input type="hidden" name="formRedirect" data-custom-redirect="{{ form.customRedirect }}" value="{{ form.customRedirectUrl }}">
+  <input type="hidden" name="formRedirect" data-custom-redirect="{{ formSettings.formRedirect.customRedirect }}" value="{{ formSettings.formRedirect.customRedirectUrl }}">
   <input type="hidden" name="formHandle" value="{{ form.handle }}">
-  {% if form.spamTimeMethod %}<input type="hidden" name="spamTimeMethod" value="{{ 'now'|date('U') }}">{% endif %}
-  {% if form.spamHoneypotMethod %}<div style="display:none;"><label for="email-addresss-new">{{ form.spamHoneypotMethodMessage }}</label><input name="email-address-new" value="" id="email-addresss-new"></div>{% endif %}
+  {% if spamProtectionSettings.spamTimeMethod == '1' %}<input type="hidden" name="spamTimeMethod" value="{{ 'now'|date('U') }}">{% endif %}
+  {% if spamProtectionSettings.spamHoneypotMethod == '1' %}<div style="display:none;"><label for="email-addresss-new">{{ spamProtectionSettings.spamHoneypotMethodMessage }}</label><input name="email-address-new" value="" id="email-addresss-new"></div>{% endif %}
 
   {# Fields #}
   {% for tab in tabs %}
