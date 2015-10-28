@@ -237,16 +237,11 @@ svg.icon {
     font-weight: 600; }
   .formbuilder .logo img {
     width: 174px; }
-  .formbuilder .logo h1 {
-    color: white;
-    font-size: 24px;
-    margin-bottom: 0;
-    padding-bottom: 0; }
-    .formbuilder .logo h1 .second {
-      font-weight: 800; }
-    .formbuilder .logo h1 .number {
-      font-weight: 800;
-      font-size: 42px; }
+  .formbuilder .logo h1 svg {
+    height: 21px;
+    width: 151px; }
+    .formbuilder .logo h1 svg * {
+      fill: white; }
 
 /* ============================================ *
  * Tooltips

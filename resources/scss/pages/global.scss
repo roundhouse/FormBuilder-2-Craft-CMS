@@ -184,12 +184,16 @@ svg.icon {
     }
     img { width: 174px; }
     h1 {
-      color: white;
-      font-size: 24px;
-      margin-bottom: 0;
-      padding-bottom: 0;
-      .second { font-weight: 800; }
-      .number { font-weight: 800; font-size: 42px; }
+      // color: white;
+      // font-size: 24px;
+      // margin-bottom: 0;
+      // padding-bottom: 0;
+      // .second { font-weight: 800; }
+      // .number { font-weight: 800; font-size: 42px; }
+      svg {
+        @include size(151px 21px);
+        * { fill: white; }
+      }
     }
   }
 }
