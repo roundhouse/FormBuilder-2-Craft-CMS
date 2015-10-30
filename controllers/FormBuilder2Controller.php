@@ -1,76 +1,10 @@
 <?php
 namespace Craft;
 
-/**
- * OFFICIAL DOCUMENTATION:
- * http://buildwithcraft.com/docs/plugins/controllers
- */
-
-/**
- * Business Logic Controller
- *
- * Controller methods get a little more complicated... There are several ways to access them:
- *
- *     1. Submitting a form can trigger a controller action.
- *     2. Using an AJAX request can trigger a controller action.
- *     3. Routing to an action URL will trigger a controller action.
- *
- * A controller can do many things, but be wary... If your logic gets too complex, you may want
- * to off-load much of it to the Service file.
- */
-
 class FormBuilder2Controller extends BaseController
 {
-
-	/**
-	 * By default, access to controllers is restricted to logged-in users.
-	 * However, you can allow anonymous access by uncommenting the line below.
-	 *
-	 * It is also possible to allow anonymous access to only certain methods,
-	 * by supplying an array of method names, rather than a boolean value.
-	 *
-	 * See also:
-	 * http://buildwithcraft.com/docs/plugins/controllers#allowing-anonymous-access-to-actions
-	 */
-	protected $allowAnonymous = true;
-
-	/**
-	 * For a normal form submission, send it here.
-	 *
-	 * HOW TO USE IT
-	 * The HTML form in your template should include this hidden field:
-	 *
-	 *     <input type="hidden" name="action" value="formbuilder2/exampleFormSubmit">
-	 *
-	 */
-	public function actionExampleFormSubmit()
-	{
-		// ... whatever you want to do with the submitted data...
-		$this->redirect('thankyou/page/url');
-	}
-
-	/**
-	 * When you need AJAX, this is how to do it.
-	 *
-	 * HOW TO USE IT
-	 * In your front-end JavaScript, POST your AJAX call like this:
-	 *
-	 *     // example uses jQuery
-	 *     $.post('actions/formbuilder2/exampleAjax' ...
-	 *
-	 * Or if your plugin is doing something within the control panel,
-	 * you've got a built-in function available which Craft provides:
-	 *
-	 *     Craft.postActionRequest('formBuilder2/exampleAjax' ...
-	 *
-	 */
-	public function actionExampleAjax()
-	{
-		$this->requireAjaxRequest();
-		// ... whatever your AJAX does...
-		$response = array('response' => 'Round trip via AJAX!');
-		$this->returnJson($response);
-	}
+ 
+ 	protected $allowAnonymous = true;
 
 	/**
 	 * Load Dashboard
@@ -86,6 +20,97 @@ class FormBuilder2Controller extends BaseController
       'plugin'  => $plugins,
       'title'  => 'FormBuilder2'
     ));
+	}
+
+	/**
+	 * Get Plugin Settings for Configuration Page
+	 *
+	 */
+	public function actionConfigurationIndex()
+	{
+	  $plugin = craft()->plugins->getPlugin('FormBuilder2');
+	  $settings = $plugin->getSettings();
+	  
+	  $variables['title']     = 'FormBuilder2';
+	  $variables['settings']  = $settings;
+	  $variables['plugin']    = $plugin;
+	  
+	  $this->renderTemplate('formbuilder2/tools/configuration', $variables);
+	}
+
+	/**
+	 * Saves a plugin's settings.
+	 *
+	 */
+	public function actionSavePluginSettings()
+	{
+	  $this->requirePostRequest();
+	  $pluginClass = craft()->request->getRequiredPost('pluginClass');
+	  $settings = craft()->request->getPost();
+
+	  $plugin = craft()->plugins->getPlugin($pluginClass);
+	  if (!$plugin)
+	  {
+	    throw new Exception(Craft::t('No plugin exists with the class “{class}”', array('class' => $pluginClass)));
+	  }
+
+	  if (craft()->plugins->savePluginSettings($plugin, $settings))
+	  {
+	    craft()->userSession->setNotice(Craft::t('Plugin settings saved.'));
+
+	    $this->redirectToPostedUrl();
+	  }
+
+	  craft()->userSession->setError(Craft::t('Couldn’t save plugin settings.'));
+
+	  // Send the plugin back to the template
+	  craft()->urlManager->setRouteVariables(array(
+	    'settings' => $settings
+	  ));
+	}
+
+	/**
+	 * Export & Import Index
+	 *
+	 */
+	public function actionBackupRestoreIndex()
+	{
+    $plugin = craft()->plugins->getPlugin('FormBuilder2');
+    $settings = $plugin->getSettings();
+    
+    $variables['title']     = 'FormBuilder2';
+    $variables['settings']  = $settings;
+    $variables['plugin']    = $plugin;
+    
+    $this->renderTemplate('formbuilder2/tools/backup-restore', $variables);
+	}
+
+	/**
+	 * Export All Forms
+	 *
+	 */
+	public function actionBackupAllForms()
+	{
+		$this->requirePostRequest();
+		$response = craft()->formBuilder2->backupAllForms();
+		if (!$response) {
+			craft()->templates->includeJs('var message = "You do not have any forms to backup!"; var notifications = new Craft.CP; notifications.displayNotification("error", message);');
+		}
+	}
+
+	/**
+	 * Restore Forms
+	 *
+	 */
+	public function actionRestoreForms()
+	{
+		$this->requirePostRequest();
+		$restoreFile = craft()->request->getPost('restoreForms');
+		$filePath = \CUploadedFile::getInstanceByName('restoreForms');
+		$sqlFileContents = StringHelper::arrayToString(IOHelper::getFileContents($filePath->getTempName(), true), '');
+
+		$result = craft()->db->createCommand()->setText($sqlFileContents)->queryAll();
+
 	}
 
 }

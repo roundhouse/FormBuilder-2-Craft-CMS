@@ -29,18 +29,12 @@
     </a>
 
     <h2>{{ "Tools"|t }}</h2>
-    <a href="{{ url('formbuilder2/tools/exportforms') }}"{% if page == 'Export/Import Forms' %} class="active"{% endif %}>
-      <svg><use xlink:href="#icon-export" class="icon-export"/></svg>
-      {{ "Export/Import Forms"|t }}
+    <a href="{{ url('formbuilder2/tools/backup-restore') }}"{% if page == 'Backup/Restore' %} class="active"{% endif %}>
+      <svg><use xlink:href="#icon-database" class="icon-database"/></svg>
+      {{ "Backup & Restore"|t }}
     </a>
 
-    <a href="{{ url('formbuilder2/tools/exportentries') }}"{% if page == 'Export Entries' %} class="active"{% endif %}>
-      <svg><use xlink:href="#icon-export" class="icon-export"/></svg>
-      {{ "Export Entries"|t }}
-    </a>
-      
-    <h2>{{ "Settings"|t }}</h2>
-    <a href="{{ url('formbuilder2/configuration') }}"{% if page == 'Configuration' %} class="active"{% endif %}>
+    <a href="{{ url('formbuilder2/tools/configuration') }}"{% if page == 'Configuration' %} class="active"{% endif %}>
       <svg><use xlink:href="#icon-tools" class="icon-tools"/></svg>
       {{ "Configuration"|t }}
     </a>

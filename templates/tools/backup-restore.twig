@@ -1,0 +1,61 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% set bodyClass = 'formbuilder fb-backup-restore' %}
+{% set page = 'Backup/Restore' %}
+
+{% block pageHeader %}
+  {% include 'formbuilder2/partials/header' %}
+{% endblock %}
+
+{% block main %}
+  {% include 'formbuilder2/partials/sidebar' %} 
+
+  <section id="fb-content">
+    <header class="page-header">
+      <h1><svg class="icon"><use xlink:href="#icon-database" class="icon-database"/></svg> {{ page|t }}</h1>
+    </header>
+
+    <div class="backup-restore pane">
+      <div class="backup-forms pane">
+        <header>
+          <h2>{{ "Backup Forms"|t }}</h2>
+          <p>{{ "This will download a database sql file with all the available forms."|t }}</p>
+        </header>
+        <form method="post" accept-charset="UTF-8">
+          <input type="hidden" name="action" value="formBuilder2/backupAllForms">
+          <input type="hidden" name="redirect" value="formbuilder2/tools/backup-restore">
+          <button type="submit" class="btn submit">{{ "Backup"|t }}</button>
+        </form>
+      </div>
+      
+      <div class="restore-forms pane">
+        <header>
+          <h2>{{ "Restore Forms"|t }}</h2>
+          <p>{{ "To restore forms please attach sql file."|t }}</p>
+        </header>
+        <form method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+          <input type="hidden" name="action" value="formBuilder2/restoreForms">
+          <input type="hidden" name="redirect" value="formbuilder2/tools/backup-restore">
+          <div class="heading">
+            <label for="restoreForms">{{ "Attach SQL File"|t }}</label>
+          </div>
+          <div class="field">
+            <input type="file" name="restoreForms" id="restoreForms" />
+          </div>
+          <button type="submit" class="btn submit">{{ "Restore"|t }}</button>
+        </form>
+      </div>
+
+
+    </div>
+
+  </section>
+
+{% endblock %}
+
+{% set exportImportJs %}
+  
+  
+{% endset %}
+{% includeJs exportImportJs %}

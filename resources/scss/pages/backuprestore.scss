@@ -1,0 +1,27 @@
+/* ============================================ *
+ * Backup & Restore
+ * ============================================ */
+
+.fb-backup-restore {
+
+  .backup-forms {
+    max-width: 250px;
+  }
+
+  .backup-restore {
+    @include align-items(stretch);
+    @include display(flex);
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+
+    h2 { margin-bottom: 4px; }
+    p { margin: 0 0 10px 0 !important; color: lighten($c-blue, 15); font-size: 12px; }
+
+    .restore-forms {
+      .field {
+        margin: 3px 0 0 0; 
+      }
+      button { margin-top: 10px; }
+    }
+  }
+}
