@@ -62,6 +62,7 @@ class FormBuilder2Plugin extends BasePlugin
       'formbuilder2'                                  => array('action' => 'formBuilder2/dashboard'),
       'formbuilder2/tools/configuration'              => array('action' => 'formBuilder2/configurationIndex'),
       'formbuilder2/tools/backup-restore'             => array('action' => 'formBuilder2/backupRestoreIndex'),
+      'formbuilder2/tools/export'                     => array('action' => 'formBuilder2/exportIndex'),
       'formbuilder2/forms'                            => array('action' => 'formBuilder2_Form/formsIndex'),
       'formbuilder2/forms/new'                        => array('action' => 'formBuilder2_Form/editForm'),
       'formbuilder2/forms/(?P<formId>\d+)'            => array('action' => 'formBuilder2_Form/editForm'),

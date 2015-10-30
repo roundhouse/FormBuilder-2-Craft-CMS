@@ -13,13 +13,41 @@ class FormBuilder2Controller extends BaseController
 	public function actionDashboard()
 	{
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
-    $plugins = craft()->plugins->getPlugin('FormBuilder2');
+    $plugin = craft()->plugins->getPlugin('FormBuilder2');
 
-    return $this->renderTemplate('formbuilder2/dashboard', array(
-      'settings'  => $settings,
-      'plugin'  => $plugins,
-      'title'  => 'FormBuilder2'
-    ));
+    $variables['title']     = 'FormBuilder2';
+    $variables['settings']  = $settings;
+    $variables['plugin']    = $plugin;
+
+    return $this->renderTemplate('formbuilder2/dashboard', $variables);
+	}
+
+	/**
+	 * Export Page
+	 *
+	 */
+	public function actionExportIndex()
+	{
+    $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
+    $plugin = craft()->plugins->getPlugin('FormBuilder2');
+
+    $variables['title']     = 'FormBuilder2';
+    $variables['settings']  = $settings;
+    $variables['plugin']    = $plugin;
+
+    return $this->renderTemplate('formbuilder2/tools/export', $variables);
+	}
+
+	/**
+	 * Export All Forms
+	 *
+	 */
+	public function actionExportAllEntries()
+	{
+		// TODO: look at this for saving files http://craftcms.stackexchange.com/questions/2179/how-can-i-force-a-download-of-entry-data-to-an-excel-file
+		$this->requirePostRequest();
+		$contents = 'row1column1,row2column2'.PHP_EOL.'row2column1,row2column2'.PHP_EOL; 
+		craft()->request->sendFile('filename.csv', $contents, array('forceDownload' => true));
 	}
 
 	/**
@@ -91,6 +119,7 @@ class FormBuilder2Controller extends BaseController
 	 */
 	public function actionBackupAllForms()
 	{
+		// TODO: look at this for saving files http://craftcms.stackexchange.com/questions/2179/how-can-i-force-a-download-of-entry-data-to-an-excel-file
 		$this->requirePostRequest();
 		$response = craft()->formBuilder2->backupAllForms();
 		if (!$response) {

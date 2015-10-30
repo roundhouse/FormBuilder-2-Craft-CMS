@@ -29,9 +29,9 @@
     </a>
 
     <h2>{{ "Tools"|t }}</h2>
-    <a href="{{ url('formbuilder2/tools/backup-restore') }}"{% if page == 'Backup/Restore' %} class="active"{% endif %}>
-      <svg><use xlink:href="#icon-database" class="icon-database"/></svg>
-      {{ "Backup & Restore"|t }}
+    <a href="{{ url('formbuilder2/tools/export') }}"{% if page == 'Export' %} class="active"{% endif %}>
+      <svg><use xlink:href="#icon-export" class="icon-export"/></svg>
+      {{ "Export"|t }}
     </a>
 
     <a href="{{ url('formbuilder2/tools/configuration') }}"{% if page == 'Configuration' %} class="active"{% endif %}>
