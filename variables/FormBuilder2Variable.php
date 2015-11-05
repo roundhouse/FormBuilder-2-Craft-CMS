@@ -131,6 +131,8 @@ class FormBuilder2Variable
 	  	'required'	  		=> $theField->required
 	  ];
 
+	  $html = '';
+
 	  switch ($theField->type) {
 	    case "PlainText":
 	    	if ($attributes['settings']['multiline']) {

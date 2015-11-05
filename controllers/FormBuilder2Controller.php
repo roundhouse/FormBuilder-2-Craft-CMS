@@ -44,10 +44,48 @@ class FormBuilder2Controller extends BaseController
 	 */
 	public function actionExportAllEntries()
 	{
-		// TODO: look at this for saving files http://craftcms.stackexchange.com/questions/2179/how-can-i-force-a-download-of-entry-data-to-an-excel-file
+		// TODO: Make EXPORTS WORK
 		$this->requirePostRequest();
-		$contents = 'row1column1,row2column2'.PHP_EOL.'row2column1,row2column2'.PHP_EOL; 
-		craft()->request->sendFile('filename.csv', $contents, array('forceDownload' => true));
+
+		$entries = FormBuilder2_EntryRecord::model()->findAll();
+
+		$attributes = [];
+		$submission = [];
+		$files 			= [];
+
+    foreach ($entries as $key => $entry)  {
+    	$entry = $entry->getAttributes();
+    	
+    	foreach ($entry['submission'] as $index => $value) {
+    		$field = craft()->fields->getFieldByHandle($index);
+    		$submission[$index] = $field->name . ':' . $value;
+    	}
+
+    	if ($entry['files']) {
+    		foreach ($entry['files'] as $index => $value) {
+    			$file = craft()->assets->getFileById($value);
+    			$submission[$index] = 'File:' . $file->getUrl();
+    		}
+    	}
+    	$attributes[$key]['id'] 				= $entry['id'];
+    	$attributes[$key]['formId'] 		= $entry['formId'];
+    	$attributes[$key]['title'] 			= $entry['title'];
+    	$attributes[$key]['submission'] = StringHelper::arrayToString($submission, ',');
+    }
+
+    $date = uniqid(gmdate('Y-m-d-'));
+    $filename = 'formbuilder2_entries_' . $date . '.csv';
+  	
+		header('Content-Type: application/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename=' . $filename);
+		$output = fopen('php://output', 'w');
+    fputcsv($output, array('ID', 'Form ID', 'Form Name', 'Submission'));
+    foreach ($attributes as $line) {
+      fputcsv($output, $line, ',');
+    }
+    exit();
+
+		// craft()->request->sendFile('filename.csv', $output, array('forceDownload' => true));
 	}
 
 	/**

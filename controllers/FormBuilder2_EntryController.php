@@ -115,7 +115,6 @@ class FormBuilder2_EntryController extends BaseController
 
     // Validate Required Fields
     $validateRequired = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
-    
     // File Uploads
     if ($formSettings['hasFileUploads'] == '1') {
       foreach ($formFields as $key => $value) {
