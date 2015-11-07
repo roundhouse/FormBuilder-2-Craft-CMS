@@ -1,0 +1,15 @@
+{
+    "name": "roundhouse/formbuilder2",
+    "description": "FormBuilder 2 is a Craft CMS Plugin for creating forms for your front-end templates.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vadim Goncharov",
+            "email": "vadim@owl-design.net",
+            "homepage": "http://owl-design.net",
+            "role": "Developer"
+        }
+    ],
+    "type": "craft-plugin",
+    "require": {}
+}
