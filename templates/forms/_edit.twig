@@ -97,7 +97,7 @@
                   value: form.formSettings.formRedirect.customRedirectUrl is defined ? form.formSettings.formRedirect.customRedirectUrl : '',
                   size: 50,
                   errors: form.getErrors('customRedirectUrl'),
-                  required: false
+                  required: true
                 }) }}
               </div>
             </div>
@@ -180,7 +180,7 @@
                   value: form.spamProtectionSettings.spamTimeMethodTime is defined ? form.spamProtectionSettings.spamTimeMethodTime : '',
                   size: 50,
                   errors: form.getErrors('spamTimeMethodTime'),
-                  required: false
+                  required: true
                 }) }}
               </div>
             </div>
@@ -216,7 +216,7 @@
                   value: (form.spamProtectionSettings.spamHoneypotMethodMessage is defined ? form.spamProtectionSettings.spamHoneypotMethodMessage : null),
                   size: 50,
                   errors: form.getErrors('spamHoneypotMethodMessage'),
-                  required: false
+                  required: true
                 }) }}
               </div>
             </div>
