@@ -20,11 +20,42 @@ Preview all submission. You can filter submission by forms. For each submission 
 
 ***
 
-#### Documentation
+# Front-End Template Usage
 
-Take a look at `sampleForm.twig` for sample code. You will need to copy everything in that file and paste it to where you want to display your form (front-end template).
+Take a look at `sampleForm.twig` for required code. You will need to copy everything in that file and paste it to where you want to display your form.
 
-#### Form Creation
+***
+
+# Spam Protection
+
+There are 2 options for spam protection, Time Submissions and Honeypot method.
+
+#### 1. Time Submission
+
+Time submission will prevent spam bots for submitting the form too quickly. You need to enter a time (seconds) it should take a real person to submit a form. Typically 3 seconds is good enought.
+
+##### 2. Honeypot Method
+
+With honeypot there is a hidden field that should be left blank. When spam bots run through the form they tend to fill out all the fields. If the honeypot field will get field the submission will fail. Real people will not be able to fill out this field so the form will submit succesfully.
+
+
+***
+
+# File Uploads
+
+Create an Asset field and add it to your form. You need to select **Has File Uploads** box when creating your form to make sure files get submitted. 
+
+***
+
+# Email Notifications
+
+Set up your forms to send email notifications to any emails you like. Email notifications can be customized a little. You can choose between plain text or an HTML email template. For each option you can add an optional body and footer text. If you going with HTML template you can upload a custom logo, pick background color and add container width.
+
+***
+
+
+
+# Creating Forms
 
 Hit `Create New Form` to creat a new form.
 
@@ -50,10 +81,12 @@ Hit `Create New Form` to creat a new form.
   * `HTML Template` - With this option you can upload a `custom logo`, give email template a `custom background color`, give a `container width` as well as optional `Body Copy` and `Footer Copy`.
 * **Fields**
   * `Add Fieldset Tab` - Click this to add a fieldset. Then drag and drop fields into those fieldsets. You can also drag predefined fieldsets with fields form the `Unused Fields` section. If you dont see any fields you will need to head over to `admin/settings/fields` to create some fields.
-  
-#### Fields
+ 
+***
 
-Here's a list of currently supported fields. Unlike FormBuilder there are no more custom fieldtypes, you can use Craft's predefined fields.
+# Supported Fields
+
+Here's a list of currently supported fields. Unlike FormBuilder there are no more custom fieldtypes, you only need to use Craft's predefined fields.
 
 * Plain Text
 * Checkboxes
@@ -67,3 +100,26 @@ Here's a list of currently supported fields. Unlike FormBuilder there are no mor
 * Number
 * Assets (Only local file uploads supported for now, no s3, no rackspace)
 
+***
+
+## Issue Tracking and Bug Reporting
+
+If you have found a bug or would like to request a feature please use [Github's Issues](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/issues) to report and track issues.
+
+## Contributing
+
+For contributing use the "fork-and-pull" Git workflow. In general use the following steps **(Be sure to merge the latest from "master" before making a pull request)**:
+
+* Fork the repo on GitHub
+* Commit changes to a branch in your fork
+* Pull request "development" with your changes
+
+
+## License
+
+[The MIT License (MIT)](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2014 Roundhouse Agency
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
