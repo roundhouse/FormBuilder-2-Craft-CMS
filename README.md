@@ -6,6 +6,10 @@ FormBuilder 2 is a Craft CMS plugin that lets you create & manage forms for your
 
 ***
 
+Note: Craft 2.5 will be released on December 1st. Looks like the admin UI is similar to what I built for this plugin. If I keep it the way it is now, it'll just look weird with 2 sidebars. Soooooo after just releasing this I realize that I'll need to rethink UI. Besides the UI change I'll need to make sure everything works as it should with 2.5. You can use this now, but I just wanted to make sure you guys know it might look different in a month. 
+
+***
+
 #### Dashboard [Screenshot](http://vadim-dev.s3.amazonaws.com/formbuilder2/screenshots/Dashboard.jpg)
 
 Here you can have an overview of how many forms you have as well as total entries count.
