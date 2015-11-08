@@ -1,4 +1,26 @@
-<section id="fb-sidebar">
+<section class="primary">
+  <ul>
+  {% for key, nav in navigation %}
+    {% if nav.heading is defined %}
+      <li class="heading"><span>{{ nav.heading }}</span></li>
+    {% endif %}
+      {% for item in nav.nav %}
+        <li><a href="{{ item.url }}"{% if (page == item.label) %} class="sel"{% endif %}><span class="icon"><span class="fa fa-{{ item.icon }}"></span></span> {{ item.label }} {% if item.extra %}<span class="extra">{{ item.extra }}</span>{% endif %}</a></li>
+      {% endfor %}
+  {% endfor %}
+  </ul>
+</section>
+
+{# {% include 'formbuilder2/partials/sidebar' %}  #}
+
+{# {% if customizableSources %}
+  <div class="heading"><span></span></div>
+  <a class="customize-sources settings icon" title="{{ 'Customize sources'|t }}"></a>
+{% endif %} #}
+
+
+
+{# <section id="fb-sidebar">
   {% set formsCount = craft.formBuilder2.totalForms() %}
   {% set entriesCount = craft.formBuilder2.totalEntries() %}
 
@@ -40,4 +62,4 @@
     </a>
 
   </nav>
-</section>
+</section> #}

@@ -18,12 +18,13 @@ class FormBuilder2_FormController extends BaseController
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
     $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
-    return $this->renderTemplate('formbuilder2/forms/index', array(
-      'title'       => 'FormBuilder2',
-      'formItems'   => $formItems,
-      'settings'    => $settings,
-      'plugin'      => $plugins
-    ));
+    $variables['title']       = 'FormBuilder2';
+    $variables['formItems']   = $formItems;
+    $variables['settings']    = $settings;
+    $variables['plugin']      = $plugins;
+    $variables['navigation']  = $this->navigation();
+
+    return $this->renderTemplate('formbuilder2/forms/index', $variables);
   }
 
 
@@ -34,6 +35,7 @@ class FormBuilder2_FormController extends BaseController
   public function actionEditForm(array $variables = array())
   {
     $variables['brandNewForm'] = false;
+    $variables['navigation']  = $this->navigation();
 
     if (!empty($variables['formId'])) {
       if (empty($variables['form'])) {
@@ -113,6 +115,65 @@ class FormBuilder2_FormController extends BaseController
     $this->returnJson(array('success' => true));
   }
 
-  
-
+  /**
+   * Sidebar Navigation
+   *
+   */
+  public function navigation()
+  {
+    $navigationSections = [
+      [
+        'heading' => Craft::t('Menu'),
+        'nav'     => [
+          [
+            'label' => Craft::t('Dashboard'),
+            'icon'  => 'tachometer',
+            'extra' => '',
+            'url'   => UrlHelper::getCpUrl('formbuilder2'),
+          ],
+          [
+            'label' => Craft::t('Forms'),
+            'icon'  => 'list-alt',
+            'extra' => craft()->formBuilder2_form->getTotalForms(),
+            'url'   => UrlHelper::getCpUrl('formbuilder2/forms'),
+          ],
+          [
+            'label' => Craft::t('Entries'),
+            'icon'  => 'file-text-o',
+            'extra' => craft()->formBuilder2_entry->getTotalEntries(),
+            'url'   => UrlHelper::getCpUrl('formbuilder2/entries'),
+          ],
+        ]
+      ],
+      [
+        'heading' => Craft::t('Quick Links'),
+        'nav'     => [
+          [
+            'label' => Craft::t('Create New Form'),
+            'icon'  => 'pencil-square-o',
+            'extra' => '',
+            'url'   => UrlHelper::getCpUrl('formbuilder2/forms/new'),
+          ],
+        ]
+      ],
+      [
+        'heading' => Craft::t('Tools'),
+        'nav'     => [
+          [
+            'label' => Craft::t('Export'),
+            'icon'  => 'share-square-o',
+            'extra' => '',
+            'url'   => UrlHelper::getCpUrl('formbuilder2/tools/export'),
+          ],
+          [
+            'label' => Craft::t('Configuration'),
+            'icon'  => 'sliders',
+            'extra' => '',
+            'url'   => UrlHelper::getCpUrl('formbuilder2/tools/configuration'),
+          ],
+        ]
+      ],
+    ];
+    return $navigationSections;
+  }
 }

@@ -7,19 +7,25 @@
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{% block main %}
-  
-  {% include 'formbuilder2/partials/sidebar' %} 
+{% block sidebar %}
+  <h2 class="nav-trigger">Navigation <a href="#"><span class="fa fa-bars"></span></a></h2>
+  {% if navigation is not empty %}
+    {% include 'formbuilder2/partials/sidebar' %}
+  {% endif %}
+{% endblock %}
 
+{% block content %}
+  
   <section id="fb-content">
     {% if formItems|length %}
     <header class="page-header">
-      <h1><svg class="icon"><use xlink:href="#icon-documents" class="icon-documents"/></svg> {{ page|t }}</h1>
+      <h1>{{ page|t }}</h1>
     </header>
     {% endif %}
+
     {# Form List #}
     {% if formItems|length %}
-    <div class="forms pane">
+    <div class="forms">
 
       <table class="data fullwidth collapsible" id="forms">
         <thead>

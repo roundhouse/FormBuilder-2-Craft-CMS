@@ -1,6 +1,29 @@
 class App
   init: =>
 
+    # Sidebar Navigation
+    if $('.formbuilder').length > 0
+      sidebar = $('#sidebar .primary')
+      navTrigger = $('.nav-trigger')
+      navTrigger.on 'click', (e) ->
+        e.preventDefault()
+        sidebar.slideToggle()
+    
+    if $('.fb-entries').length > 0
+      sidebar.hide()
+    # SidebarNavigation = Garnish.Base.extend(init: ->
+    #   @addListener Garnish.$win, 'resize', ->
+    #     wSize = Math.min(Garnish.$win.width(), Craft.CP.maxWidth)
+    #     console.log wSize
+    #     if wSize <= 992
+    #       if !@showingNavToggle
+    #         @showNavToggle()
+    #     else
+    #       if @showingNavToggle
+    #         @hideNavToggle()
+    # )
+    # Craft.SidebarNavigation = new SidebarNavigation
+
     # Copy Text Function
     clipboard = new Clipboard('.copy')
     clipboard.on 'success', (e) ->
