@@ -258,11 +258,13 @@ svg.icon {
 * Header
 * ============================================ */
 .formbuilder #page-header {
-  display: block; }
+  display: block;
+  background: #8f98a3; }
 .formbuilder .page-header {
   display: block; }
+.formbuilder .logo-number {
+  fill: #96f7f1 !important; }
 .formbuilder .logo {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box; }
   .formbuilder .logo a {
     text-decoration: none;

@@ -32,9 +32,10 @@ class FormBuilder2Controller extends BaseController
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
     $plugin = craft()->plugins->getPlugin('FormBuilder2');
 
-    $variables['title']     = 'FormBuilder2';
-    $variables['settings']  = $settings;
-    $variables['plugin']    = $plugin;
+    $variables['title']       = 'FormBuilder2';
+    $variables['settings']    = $settings;
+    $variables['plugin']      = $plugin;
+    $variables['navigation']  = $this->navigation();
 
     return $this->renderTemplate('formbuilder2/tools/export', $variables);
 	}
@@ -98,9 +99,10 @@ class FormBuilder2Controller extends BaseController
 	  $plugin = craft()->plugins->getPlugin('FormBuilder2');
 	  $settings = $plugin->getSettings();
 	  
-	  $variables['title']     = 'FormBuilder2';
-	  $variables['settings']  = $settings;
-	  $variables['plugin']    = $plugin;
+	  $variables['title']       = 'FormBuilder2';
+	  $variables['settings']    = $settings;
+    $variables['plugin']      = $plugin;
+	  $variables['navigation']  = $this->navigation();
 	  
 	  $this->renderTemplate('formbuilder2/tools/configuration', $variables);
 	}
@@ -145,9 +147,10 @@ class FormBuilder2Controller extends BaseController
     $plugin = craft()->plugins->getPlugin('FormBuilder2');
     $settings = $plugin->getSettings();
     
-    $variables['title']     = 'FormBuilder2';
-    $variables['settings']  = $settings;
-    $variables['plugin']    = $plugin;
+    $variables['title']       = 'FormBuilder2';
+    $variables['settings']    = $settings;
+    $variables['plugin']      = $plugin;
+    $variables['navigation']  = $this->navigation();
     
     $this->renderTemplate('formbuilder2/tools/backup-restore', $variables);
 	}

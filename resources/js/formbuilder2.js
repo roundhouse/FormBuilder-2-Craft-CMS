@@ -17,9 +17,6 @@ App = (function() {
         return sidebar.slideToggle();
       });
     }
-    if ($('.fb-entries').length > 0) {
-      sidebar.hide();
-    }
     clipboard = new Clipboard('.copy');
     return clipboard.on('success', function(e) {
       return e.clearSelection();
