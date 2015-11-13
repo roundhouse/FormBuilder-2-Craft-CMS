@@ -2,6 +2,7 @@
 	{% if label or instructions %}
 	<div class="heading">
 		{% if label %}
+			{%- set id = (id is defined and id ? id : null) %}	
 			<label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
 				{{- label|raw -}}
 			</label>
