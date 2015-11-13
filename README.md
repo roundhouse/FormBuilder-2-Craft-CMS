@@ -1,3 +1,5 @@
+#### Under development for Craft 2.5 some things might not be working.
+
 ![Mou icon](http://vadim-dev.s3.amazonaws.com/formbuilder2/formbuilder2_logo.png)
 
 ***
