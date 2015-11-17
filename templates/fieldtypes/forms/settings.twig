@@ -1,0 +1,20 @@
+{%- set forms = (forms is defined ? forms : []) %}
+{%- set value = (settings.formId is defined ? settings.formId : null) %}
+
+<div class="field">
+	<div class="heading">
+		<label for="formId">Select Form</label>
+		<div class="instructions"><p>What form would you like to use?</p></div>
+	</div>
+
+	<div class="select">
+	<select class="forms" id="formId" name="formId">
+		{% for key, option in forms %}
+				{% set optionLabel = (option.label is defined ? option.label : option) %}
+				{% set optionValue = (option.value is defined ? option.value : key) %}
+				{% set optionDisabled = (option.disabled is defined ? option.disabled : false) %}
+				<option value="{{ optionValue }}"{% if optionValue == value %} selected{% endif %}>{{ optionLabel }}</option>
+		{% endfor %}
+	</select>
+	</div>
+</div>
