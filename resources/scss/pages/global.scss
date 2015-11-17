@@ -2,7 +2,7 @@
  * Global
  * ============================================ */
 
-body > .container {
+.formbuilder > .container {
   max-width: 100%;
   padding: 0;
 }
@@ -15,10 +15,15 @@ body > .container {
 }
 
 #nav li a.sel {
-  background: rgba($c-blue, 2);
-  border: 1px solid rgba(white, .2);
-  color: white;
-  z-index: 2;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body.ltr #nav li ul li a {
+  padding-left: 46px;
+}
+
+#nav li:not(.has-subnav) a.sel {
+  background: rgba(175, 187, 197, 0.1);
 }
 
 svg.icon {
@@ -62,20 +67,20 @@ svg.icon {
     @include transition(all .3s ease);
   }
 
-  .page-header {
-    padding: 20px;
-    svg { position: relative; top: 1px; margin-right: 5px; * { fill: $c-blue; } }
-    h1 {
-      padding: 0;
-      margin: 0;
-      font-family: $opensans;
-      font-size: 18px;
-      font-weight: 400;
-      text-transform: uppercase;
-      color: $c-blue;
-      @include antialias;
-    }
-  }
+  // .page-header {
+  //   padding: 20px;
+  //   svg { position: relative; top: 1px; margin-right: 5px; * { fill: $c-blue; } }
+  //   h1 {
+  //     padding: 0;
+  //     margin: 0;
+  //     font-family: $opensans;
+  //     font-size: 18px;
+  //     font-weight: 400;
+  //     text-transform: uppercase;
+  //     color: $c-blue;
+  //     @include antialias;
+  //   }
+  // }
 
   .pane {
     margin: 0;
@@ -155,19 +160,71 @@ svg.icon {
 
 
 /* ============================================ *
+ * Sidebar Navigation
+ * ============================================ */
+.formbuilder .show-sidebar {
+  .icon {
+    margin-right: 10px;
+    width: 16px;
+  }
+  .extra { display: none; }
+}
+
+.formbuilder #sidebar {
+  .nav-trigger {
+    margin: 0;
+    a { float: right; color: #8f98a3; }
+  }
+  .primary {
+    li a {
+      @include display(flex);
+      @include align-items(center);
+      @include transition(all .3s ease);
+      margin-left: -24px;
+      padding: 9px 0;
+      padding-left: 24px;
+      color: #29323d;
+      @include user-select(none);
+      outline: none;
+      &:hover {
+        text-decoration: none;
+        color: #29323d;
+        background: #f0f2f5;
+        .icon { opacity: 1; }
+      }
+      &.sel {
+        background: #737f8c;
+        color: white;
+      }
+    }
+    .icon {
+      margin-right: 10px;
+      width: 16px;
+      opacity: .7;
+    }
+    .extra {
+      margin-left: auto;
+      margin-right: 20px;
+    }
+  }
+}
+
+ /* ============================================ *
  * Header
  * ============================================ */
 .formbuilder {
   // Page Header
   #page-header { 
-    background: $c-blue;
-    padding: 10px 0 0 0;
-    margin-top: -1px;
-    border-top: 1px solid rgba(white, .2);
+    display: block;
+    background: #8f98a3;
+  }
+  .page-header {
+    display: block;
+  }
+  .logo-number {
+    fill: #96f7f1 !important;
   }
   .logo {
-    padding: 0 0 15px 20px;
-    border-bottom: 1px solid rgba(white, .1);
     box-sizing: border-box;
     a {
       text-decoration: none;
@@ -181,9 +238,11 @@ svg.icon {
     .subhead { 
       display: block;
       font-weight: 600;
+      color: white;
     }
     img { width: 174px; }
     h1 {
+      margin-bottom: 0;
       // color: white;
       // font-size: 24px;
       // margin-bottom: 0;

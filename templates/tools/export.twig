@@ -8,16 +8,22 @@
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{% block main %}
-  {% include 'formbuilder2/partials/sidebar' %} 
+{% block sidebar %}
+  <h2 class="nav-trigger">Navigation <a href="#"><span class="fa fa-bars"></span></a></h2>
+  {% if navigation is not empty %}
+    {% include 'formbuilder2/partials/sidebar' %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
 
   <section id="fb-content">
     <header class="page-header">
-      <h1><svg class="icon"><use xlink:href="#icon-export" class="icon-export"/></svg> {{ page|t }}</h1>
+      <h1>{{ page|t }}</h1>
     </header>
 
     <div class="pane">
-      <div class="backup-forms pane">
+      <div class="backup-forms">
         <header>
           <h2>{{ "Export Entries"|t }}</h2>
           <p>{{ "This will export all entries."|t }}</p>

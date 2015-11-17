@@ -16,11 +16,12 @@ class FormBuilder2_EntryController extends BaseController
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
     $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
-    return $this->renderTemplate('formbuilder2/entries/index', array(
-      'formItems'  => $formItems,
-      'settings'  => $settings,
-      'title'     => 'FormBuilder2'
-    ));
+    $variables['title']       = 'FormBuilder2';
+    $variables['formItems']   = $formItems;
+    $variables['settings']    = $settings;
+    $variables['navigation']  = $this->navigation();
+
+    return $this->renderTemplate('formbuilder2/entries/index', $variables);
   }
 
   /**
@@ -311,5 +312,66 @@ class FormBuilder2_EntryController extends BaseController
     return $submission;
   }
   
+  /**
+   * Sidebar Navigation
+   *
+   */
+  public function navigation()
+  {
+    $navigationSections = [
+      [
+        'heading' => Craft::t('Menu'),
+        'nav'     => [
+          [
+            'label' => Craft::t('Dashboard'),
+            'icon'  => 'tachometer',
+            'extra' => '',
+            'url'   => UrlHelper::getCpUrl('formbuilder2'),
+          ],
+          [
+            'label' => Craft::t('Forms'),
+            'icon'  => 'list-alt',
+            'extra' => craft()->formBuilder2_form->getTotalForms(),
+            'url'   => UrlHelper::getCpUrl('formbuilder2/forms'),
+          ],
+          [
+            'label' => Craft::t('Entries'),
+            'icon'  => 'file-text-o',
+            'extra' => craft()->formBuilder2_entry->getTotalEntries(),
+            'url'   => UrlHelper::getCpUrl('formbuilder2/entries'),
+          ],
+        ]
+      ],
+      [
+        'heading' => Craft::t('Quick Links'),
+        'nav'     => [
+          [
+            'label' => Craft::t('Create New Form'),
+            'icon'  => 'pencil-square-o',
+            'extra' => '',
+            'url'   => UrlHelper::getCpUrl('formbuilder2/forms/new'),
+          ],
+        ]
+      ],
+      [
+        'heading' => Craft::t('Tools'),
+        'nav'     => [
+          [
+            'label' => Craft::t('Export'),
+            'icon'  => 'share-square-o',
+            'extra' => '',
+            'url'   => UrlHelper::getCpUrl('formbuilder2/tools/export'),
+          ],
+          [
+            'label' => Craft::t('Configuration'),
+            'icon'  => 'sliders',
+            'extra' => '',
+            'url'   => UrlHelper::getCpUrl('formbuilder2/tools/configuration'),
+          ],
+        ]
+      ],
+    ];
+    return $navigationSections;
+  }
 
 }

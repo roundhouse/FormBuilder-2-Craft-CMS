@@ -8,7 +8,15 @@ App = (function() {
   }
 
   App.prototype.init = function() {
-    var clipboard;
+    var clipboard, navTrigger, sidebar;
+    if ($('.formbuilder').length > 0) {
+      sidebar = $('#sidebar .primary');
+      navTrigger = $('.nav-trigger');
+      navTrigger.on('click', function(e) {
+        e.preventDefault();
+        return sidebar.slideToggle();
+      });
+    }
     clipboard = new Clipboard('.copy');
     return clipboard.on('success', function(e) {
       return e.clearSelection();

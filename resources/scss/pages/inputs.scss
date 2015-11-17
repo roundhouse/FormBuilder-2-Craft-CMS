@@ -113,6 +113,8 @@
         width: 100%;
         border-radius: none;
         box-sizing: border-box;
+        box-shadow: none;
+        background: rgba(gray, .2);
         span {
           font-family: Roboto, HelveticaNeue, sans-serif;
           font-style: normal;
@@ -122,7 +124,7 @@
         }
         a {
           &:before {
-            color: #c9c9c9;
+            color: white;
           }
         }
       }
@@ -179,6 +181,7 @@
     &.fld-insertion {
       .tab {
         border: none;
+        background: none;
         border-bottom-color: white !important;
       }
       .tabs { 

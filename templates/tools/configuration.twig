@@ -8,112 +8,28 @@
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{% block main %}
-  {% include 'formbuilder2/partials/sidebar' %} 
+{% block sidebar %}
+  <h2 class="nav-trigger">Navigation <a href="#"><span class="fa fa-bars"></span></a></h2>
+  {% if navigation is not empty %}
+    {% include 'formbuilder2/partials/sidebar' %}
+  {% endif %}
+{% endblock %}
+
+
+{% block content %}
 
   <section id="fb-content">
     <header class="page-header">
-      <h1><svg class="icon"><use xlink:href="#icon-tools" class="icon-tools"/></svg> {{ page|t }}</h1>
+      <h1>{{ page|t }}</h1>
     </header>
 
     <div class="pane">
-      <div class="settings">
-        <div class="inner form">
-          <header class="page-header">
-            <h2>{{ "Plugin Information"|t }}</h2>
-          </header>
-          <ul class="inner information">
-            <li>{{ "Name"|t }}: <span>{{ plugin.getName() }}</span></li>
-            <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
-            <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
-            <li>{{ "Author"|t }}: <span><a href="https://github.com/owldesign" target="_balank" title="Vadim Goncharov">Vadim Goncharov</a> (<a href="https://twitter.com/owldesign" target="_blank">@owldesign</a>)</span></li>
-          </ul>
-           
-          {# <form method="post" accept-charset="UTF-8">
-            <input type="hidden" name="action" value="formBuilder2/configuration/savePluginSettings">
-            <input type="hidden" name="pluginClass" value="FormBuilder2">
-            <input type="hidden" name="redirect" value="formbuilder2/configuration"> #}
-            
-
-            {# <h2>{{ "Email Settings"|t }}</h2> #}
-
-            {# <div class="field">
-              <div class="heading">
-                <label for="emailNotificationLogo">{{ "Custom Logo"|t }}</label>
-                <div class="instructions"><p>{{ "Brand your email template with custom logo"|t }}</p></div>
-              </div>
-              <div class="input">
-                {% set elements = (elements is defined ? elements : []) -%}
-                {{ forms.elementSelectField({
-                  id: 'emailNotificationLogo',
-                  name: 'emailNotificationLogo',
-                  selectionLabel: "Select Logo"|t,
-                  elementType: craft.elements.getElementType("Asset"),
-                  elements: elements,
-                  criteria: {"kind":[],"localeEnabled":null,"locale":"en_us"},
-                  jsClass: 'Craft.AssetSelectInput',
-                  limit: 1,
-                  errors: settings.getErrors('emailNotificationLogo'),
-                }) }}
-              </div>
-            </div> #}
-
-            {# <div class="field">
-              <div class="heading">
-                <label for="emailBackgroundColor">{{ "Template Background Color"|t }}</label>
-                <div class="instructions"><p>{{ "Choose background color for your email template"|t }}</p></div>
-              </div>
-              <div class="input">
-                {{ forms.color({
-                  id: 'emailBackgroundColor',
-                  class: 'emailBackgroundColor',
-                  name: 'emailBackgroundColor',
-                  value: settings.emailBackgroundColor,
-                  errors: settings.getErrors('emailBackgroundColor'),
-                  required: true
-                }) }}
-              </div>
-            </div> #}
-
-            {# {{ forms.textField({
-              label: "Container With"|t,
-              instructions: "Enter container with for your email template (pixels)."|t,
-              id: 'emailContainerWidth',
-              class: 'emailContainerWidth',
-              name: 'emailContainerWidth',
-              value: settings.emailContainerWidth ? settings.emailContainerWidth : '500',
-              errors: settings.getErrors('emailContainerWidth'),
-            }) }} #}
-
-            {# {{ forms.textField({
-              label: "Footer Optional Copy"|t,
-              instructions: "Optional copy that'll appear in the footer."|t,
-              id: 'emailFooterOptionalCopyOne',
-              class: 'emailFooterOptionalCopyOne',
-              name: 'emailFooterOptionalCopyOne',
-              value: settings.emailFooterOptionalCopyOne,
-              errors: settings.getErrors('emailFooterOptionalCopyOne'),
-            }) }}
-
-            {{ forms.textField({
-              label: "Footer Additional Optional Copy"|t,
-              instructions: "Additional optional copy that'll appear in the footer."|t,
-              id: 'emailFooterOptionalCopyTwo',
-              class: 'emailFooterOptionalCopyTwo',
-              name: 'emailFooterOptionalCopyTwo',
-              value: settings.emailFooterOptionalCopyTwo,
-              errors: settings.getErrors('emailFooterOptionalCopyTwo'),
-            }) }} #}
-
-          {#   <div class="buttons">
-              <input class="btn submit" type="submit" value="Save">
-            </div>
-          </form> #}
-        </div>
-      </div>
-
-      <div class="information">
-      </div>
+      <ul class="">
+        <li>{{ "Name"|t }}: <span>{{ plugin.getName() }}</span></li>
+        <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
+        <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
+        <li>{{ "Author"|t }}: <span><a href="https://github.com/owldesign" target="_balank" title="Vadim Goncharov">Vadim Goncharov</a> (<a href="https://twitter.com/owldesign" target="_blank">@owldesign</a>)</span></li>
+      </ul>
     </div>
 
   </section>

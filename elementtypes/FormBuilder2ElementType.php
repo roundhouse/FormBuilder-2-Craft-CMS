@@ -36,15 +36,64 @@ class FormBuilder2ElementType extends BaseElementType
    * Define Table Attributes
    *
    */
-  public function defineTableAttributes($source = null)
+  // public function defineTableAttributes($source = null)
+  // {
+  //   return array(
+  //     'id'          => Craft::t('ID'),
+  //     'title'       => Craft::t('Form'),
+  //     'dateCreated' => Craft::t('Date'),
+  //     'submission'  => Craft::t('Submission Data'),
+  //     'files'       => Craft::t('Uploads'),
+  //   );
+  // }
+
+  /**
+   * @inheritDoc IElementType::defineAvailableTableAttributes()
+   *
+   * @return array
+   */
+  public function defineAvailableTableAttributes()
   {
-    return array(
+    $attributes = array(
       'id'          => Craft::t('ID'),
       'title'       => Craft::t('Form'),
       'dateCreated' => Craft::t('Date'),
       'submission'  => Craft::t('Submission Data'),
       'files'       => Craft::t('Uploads'),
+      // 'title'       => array('label' => Craft::t('Title')),
+      // 'section'     => array('label' => Craft::t('Section')),
+      // 'type'        => array('label' => Craft::t('Entry Type')),
+      // 'author'      => array('label' => Craft::t('Author')),
+      // 'slug'        => array('label' => Craft::t('Slug')),
+      // 'uri'         => array('label' => Craft::t('URI')),
+      // 'postDate'    => array('label' => Craft::t('Post Date')),
+      // 'expiryDate'  => array('label' => Craft::t('Expiry Date')),
+      // 'link'        => array('label' => Craft::t('Link'), 'icon' => 'world'),
+      // 'id'          => array('label' => Craft::t('ID')),
+      // 'dateCreated' => array('label' => Craft::t('Date Created')),
+      // 'dateUpdated' => array('label' => Craft::t('Date Updated')),
     );
+
+    return $attributes;
+  }
+
+  /**
+   * @inheritDoc IElementType::getDefaultTableAttributes()
+   *
+   * @param string|null $source
+   *
+   * @return array
+   */
+  public function getDefaultTableAttributes($source = null)
+  {
+    $attributes = array();
+
+    if ($source == '*')
+    {
+      $attributes[] = 'title';
+    }
+
+    return $attributes;
   }
 
   /**

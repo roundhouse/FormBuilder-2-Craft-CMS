@@ -1,6 +1,17 @@
 class App
   init: =>
 
+    # Sidebar Navigation
+    if $('.formbuilder').length > 0
+      sidebar = $('#sidebar .primary')
+      navTrigger = $('.nav-trigger')
+      navTrigger.on 'click', (e) ->
+        e.preventDefault()
+        sidebar.slideToggle()
+    
+    # if $('.fb-entries').length > 0
+      # sidebar.hide()
+
     # Copy Text Function
     clipboard = new Clipboard('.copy')
     clipboard.on 'success', (e) ->

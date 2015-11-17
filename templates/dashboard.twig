@@ -7,21 +7,24 @@
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{% block main %}
+{% block sidebar %}
+  <h2 class="nav-trigger">Navigation <a href="#"><span class="fa fa-bars"></span></a></h2>
+  {% if navigation is not empty %}
+    {% include 'formbuilder2/partials/sidebar' %}
+  {% endif %}
+{% endblock %}
+
+
+{% block content %}
   {% set formsCount = craft.formBuilder2.totalForms() %}
   {% set entriesCount = craft.formBuilder2.totalEntries() %}
 
-  {% include 'formbuilder2/partials/sidebar' %} 
-
   <section id="fb-content">
     <header class="page-header">
-      <h1><svg class="icon"><use xlink:href="#icon-layers" class="icon-layers"/></svg> {{ page|t }}</h1>
+      <h1>{{ page|t }}</h1>
     </header>
 
     <div class="pane">
-      <header class="page-header">
-        <h2>{{ "Overview"|t }}</h2>
-      </header>
 
       <div class="overview">
 
@@ -39,6 +42,4 @@
     </div>
 
   </section>
-
 {% endblock %}
-

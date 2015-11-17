@@ -4,25 +4,33 @@
 {% set bodyClass = 'formbuilder fb-new-form' %}
 {% set pageSlug = craft.request.lastSegment %}
 
+{% if pageSlug == 'edit' %}
+  {% set page = 'Edit Form' %}
+{% else %}
+  {% set page = 'New Form' %}
+{% endif %}
+
 {% block pageHeader %}
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{% block main %}
-  {% if pageSlug == 'edit' %}
-    {% set page = 'Edit Form' %}
-  {% else %}
-    {% set page = 'New Form' %}
+{% block sidebar %}
+  <h2 class="nav-trigger">Navigation <a href="#"><span class="fa fa-bars"></span></a></h2>
+  {% if navigation is not empty %}
+    {% include 'formbuilder2/partials/sidebar' %}
   {% endif %}
+{% endblock %}
 
-  {% include 'formbuilder2/partials/sidebar' %} 
+{% block content %}
+
+  {# {% include 'formbuilder2/partials/sidebar' %}  #}
 
   <section id="fb-content">
     <header class="page-header">
-      <h1><svg class="icon"><use xlink:href="#icon-edit" class="icon-edit"/></svg> {{ page|t }}</h1>
+      <h1>{{ page|t }}</h1>
     </header>
 
-    <div class="forms pane">
+    <div class="forms">
       <form method="post" accept-charset="UTF-8" data-saveshortcut="1">
         <input type="hidden" name="action" value="formBuilder2/form/saveForm">
         <input type="hidden" name="redirect" value="formbuilder2/forms">

@@ -34,6 +34,16 @@ class FormBuilder2Plugin extends BasePlugin
 		return 'https://github.com/roundhouse';
 	}
 
+  public function getDocumentationUrl()
+  {
+    return 'https://github.com/roundhouse/FormBuilder-2-Craft-CMS';
+  }
+  
+  public function getDescription()
+  {
+    return Craft::t('Simply Forms Manager');;
+  }
+
 	public function hasCpSection()
   {
     return true;

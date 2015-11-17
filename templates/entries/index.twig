@@ -1,20 +1,26 @@
 {% extends "_layouts/elementindex" %}
-
+{% set title = "Entries"|t %}
+{% set elementType = 'FormBuilder2' %}
 {% set bodyClass = 'formbuilder fb-entries' %}
 {% set page = 'Entries' %}
-
-{% set elementType = "FormBuilder2" %}
-  
 {% block pageHeader %}
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{% block main %}
-  {% include 'formbuilder2/partials/sidebar' %} 
-  <section id="fb-content">
-    <header class="page-header">
-      <h1><svg class="icon"><use xlink:href="#icon-list" class="icon-list"/></svg> {{ page|t }}</h1>
-    </header>
+{% block sidebar %}
+  {% if navigation is not empty %}
+    <h2 class="nav-trigger">Navigation <a href="#"><span class="fa fa-bars"></span></a></h2>
+    {% include 'formbuilder2/partials/sidebar' %}
+  {% endif %}
+  <h2>Forms</h2>
   {{ parent() }}
-  </section>
 {% endblock %}
+
+
+{% block content %}
+  {{ parent() }}
+{% endblock %}
+
+{% if sectionHandle is defined %}
+  {% includejs 'window.defaultSectionHandle = "'~sectionHandle~'";' %}
+{% endif %}
