@@ -14,6 +14,13 @@ namespace Craft;
 class FormBuilder2Plugin extends BasePlugin
 {
 
+  public function init()
+  {
+    if (craft()->request->isCpRequest()) {
+      craft()->templates->hook('formBuilder2.prepCpTemplate', array($this, 'prepCpTemplate'));
+    }
+  }
+
 	public function getName()
 	{
 		return 'FormBuilder 2';
@@ -49,16 +56,19 @@ class FormBuilder2Plugin extends BasePlugin
     return true;
   }
 
-  // protected function defineSettings()
-  // {
-  //   return array(
-  //     'emailNotificationLogo'       => AttributeType::String,
-  //     'emailBackgroundColor'        => AttributeType::String,
-  //     'emailContainerWidth'         => AttributeType::String,
-  //     'emailFooterOptionalCopyOne'  => AttributeType::String,
-  //     'emailFooterOptionalCopyTwo'  => AttributeType::String,
-  //   );
-  // }
+  public function getSettingsUrl()
+  {
+    return 'formbuilder2/tools/configuration';
+  }
+
+  public function prepCpTemplate(&$context)
+  {
+    $context['subnav'] = array();
+    $context['subnav']['dashboard'] = array('label' => Craft::t('Dashboard'), 'url' => 'formbuilder2/dashboard');
+    $context['subnav']['forms'] = array('label' => Craft::t('Forms'), 'url' => 'formbuilder2/forms');
+    $context['subnav']['entries'] = array('label' => Craft::t('Entries'), 'url' => 'formbuilder2/entries');
+    $context['subnav']['configuration'] = array('icon' => 'settings', 'label' => Craft::t('Configuration'), 'url' => 'formbuilder2/tools/configuration');
+  }
 
   public function addTwigExtension()  
   {
@@ -70,6 +80,7 @@ class FormBuilder2Plugin extends BasePlugin
   {
     return array(
       'formbuilder2'                                  => array('action' => 'formBuilder2/dashboard'),
+      'formbuilder2/dashboard'                        => array('action' => 'formBuilder2/dashboard'),
       'formbuilder2/tools/configuration'              => array('action' => 'formBuilder2/configurationIndex'),
       'formbuilder2/tools/backup-restore'             => array('action' => 'formBuilder2/backupRestoreIndex'),
       'formbuilder2/tools/export'                     => array('action' => 'formBuilder2/exportIndex'),

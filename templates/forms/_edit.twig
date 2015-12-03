@@ -1,6 +1,8 @@
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
+{% hook 'formBuilder2.prepCpTemplate' %}
 
+{% set selectedSubnavItem = "forms" %}
 {% set bodyClass = 'formbuilder fb-new-form' %}
 {% set pageSlug = craft.request.lastSegment %}
 
@@ -14,17 +16,7 @@
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{% block sidebar %}
-  <h2 class="nav-trigger">Navigation <a href="#"><span class="fa fa-bars"></span></a></h2>
-  {% if navigation is not empty %}
-    {% include 'formbuilder2/partials/sidebar' %}
-  {% endif %}
-{% endblock %}
-
 {% block content %}
-
-  {# {% include 'formbuilder2/partials/sidebar' %}  #}
-
   <section id="fb-content">
     <header class="page-header">
       <h1>{{ page|t }}</h1>

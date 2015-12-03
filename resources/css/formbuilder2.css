@@ -344,7 +344,7 @@ svg.icon {
  * Dashboard
  * ============================================ */
 .fb-dashboard .overview {
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 20px 0;
   box-sizing: border-box;
   -webkit-box-align: stretch;
   -moz-box-align: stretch;
@@ -407,6 +407,9 @@ svg.icon {
 /* ============================================ *
  * Forms
  * ============================================ */
+.fb-new-form #crumbs li:last-child:after {
+  content: ""; }
+
 .fb-forms .no-forms {
   text-align: center;
   padding: 90px 0 300px 0; }
@@ -756,6 +759,8 @@ svg.icon {
 /* ============================================ *
  * Entries
  * ============================================ */
+.fb-entries #crumbs li:last-child:after {
+  content: ""; }
 .fb-entries .view-entry .submission-details h1, .fb-entries .view-entry .upload-details h1 {
   color: #333f4d;
   margin-bottom: 10px; }

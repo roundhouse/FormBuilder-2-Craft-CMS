@@ -3,95 +3,10 @@
  * ============================================ */
 
 .fb-entries {
-  // .primary { display: none; }
-  // .grid {
-  //   margin: 0;
-  //   & > .item { padding: 0; }
-  // }
-
-  // Sidebar
-  // #sidebar {
-  //   height: 100%;
-  //   max-height: 100% !important;
-  //   background: rgba(gray, .1); 
-  //   padding-right: 0;
-  //   overflow: hidden !important;
-  //   .buttons { display: none; }
-  //   a {
-  //     font-family: $opensans;
-  //     padding: 10px 0 10px 25px;
-  //     color: rgba($c-blue, .6);
-  //     font-weight: 700;
-  //     border-bottom: 1px solid white;
-  //     @include antialias;
-  //     &:hover { 
-  //       color: $c-gray; 
-  //       background: rgba(gray, .1); 
-  //     }
-  //     &.sel:hover { 
-  //       color: white;
-  //       margin-left: -24px !important;
-  //     }
-  //     &.sel {
-  //       border-radius: 0;
-  //       color: white !important;
-  //       background: rgba($c-blue, .5);
-  //     }
-  //   }
-  // }
-
-  // .toolbar { display: none; }
-
   
-
-  // .data {
-  //   thead tr:hover { background: white; }
-  //   th {
-  //     padding: 20px;
-  //   }
-  //   tr {
-  //     @include transition(all .3s ease);
-  //     &:hover {
-  //       background: darken(white, 2);
-  //     }
-  //     td {
-  //       padding: 12px 20px;
-  //       color: $c-blue;
-  //       font-family: $opensans;
-  //       .title a {
-  //         font-family: $opensans;
-  //         text-decoration: none;
-  //         font-weight: 600;
-  //         color: $c-teal;
-  //         &:hover { color: $c-blue; }
-  //       }
-  //       &.action {
-  //         svg {
-  //           cursor: pointer;
-  //           margin-right: 4px;
-  //           * { fill: $c-blue; @include transition(all .3s ease); }
-  //           &:hover {
-  //             * { fill: $c-teal; }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   .view-submission {
-  //     font-family: $opensans;
-  //     text-decoration: none;
-  //     font-weight: 600;
-  //     color: $c-teal;
-  //     &:hover { color: $c-blue; }
-  //   }
-
-  //   .upload-count {
-  //     font-family: $opensans;
-  //     font-weight: 800;
-  //     padding-right: 10px;
-  //   }
-  // }
+  #crumbs li:last-child {
+    &:after { content: ""; }
+  }
 
   // View Entry
   .view-entry {

@@ -2,8 +2,16 @@
  * Forms
  * ============================================ */
 
+.fb-new-form {
+  
+  #crumbs li:last-child {
+    &:after { content: ""; }
+  }
+}
+
 .fb-forms {
 
+  
   // No Forms 
   .no-forms {
     text-align: center;

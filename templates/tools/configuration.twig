@@ -1,6 +1,8 @@
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
+{% hook 'formBuilder2.prepCpTemplate' %}
 
+{% set selectedSubnavItem = "configuration" %}
 {% set bodyClass = 'formbuilder fb-configuration' %}
 {% set page = 'Configuration' %}
 
@@ -8,27 +10,19 @@
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{% block sidebar %}
-  <h2 class="nav-trigger">Navigation <a href="#"><span class="fa fa-bars"></span></a></h2>
-  {% if navigation is not empty %}
-    {% include 'formbuilder2/partials/sidebar' %}
-  {% endif %}
-{% endblock %}
-
-
 {% block content %}
-
   <section id="fb-content">
     <header class="page-header">
       <h1>{{ page|t }}</h1>
     </header>
 
-    <div class="pane">
-      <ul class="">
+    <div>
+      <ul>
         <li>{{ "Name"|t }}: <span>{{ plugin.getName() }}</span></li>
         <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
         <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
         <li>{{ "Author"|t }}: <span><a href="https://github.com/owldesign" target="_balank" title="Vadim Goncharov">Vadim Goncharov</a> (<a href="https://twitter.com/owldesign" target="_blank">@owldesign</a>)</span></li>
+        <li>{{ "View Documentation"|t }}: <span><a href="{{ plugin.getDocumentationUrl() }}" target="_blank">GitHub</a></span></li>
       </ul>
     </div>
 

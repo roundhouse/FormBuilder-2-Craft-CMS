@@ -1,5 +1,7 @@
 {% extends "_layouts/cp" %}
+{% hook 'formBuilder2.prepCpTemplate' %}
 
+{% set selectedSubnavItem = "entries" %}
 {% set bodyClass = 'formbuilder fb-entries' %}
 {% set page = 'Entry' %}
 
@@ -7,16 +9,13 @@
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
-{% block main %}
-
-  {% include 'formbuilder2/partials/sidebar' %} 
-
+{% block content %}
   <section id="fb-content">
     <header class="page-header">
-      <h1><svg class="icon"><use xlink:href="#icon-text" class="icon-text"/></svg> {{ page|t }}</h1>
+      <h1>{{ page|t }}</h1>
     </header>
 
-    <div class="pane view-entry">
+    <div class="view-entry">
 
       <div class="pane submission-details">
         <header>
@@ -113,7 +112,7 @@
 
     </div>
 
-    <div class="pane">
+    <div>
       <form method="post" accept-charset="utf-8">
         <input type="hidden" name="action" value="formBuilder2/entry/deleteSubmission">
         <input type="hidden" name="redirect" value="formbuilder2/entries">

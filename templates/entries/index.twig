@@ -1,17 +1,17 @@
 {% extends "_layouts/elementindex" %}
+{% hook 'formBuilder2.prepCpTemplate' %}
+
 {% set title = "Entries"|t %}
 {% set elementType = 'FormBuilder2' %}
+{% set selectedSubnavItem = "entries" %}
 {% set bodyClass = 'formbuilder fb-entries' %}
 {% set page = 'Entries' %}
+
 {% block pageHeader %}
   {% include 'formbuilder2/partials/header' %}
 {% endblock %}
 
 {% block sidebar %}
-  {% if navigation is not empty %}
-    <h2 class="nav-trigger">Navigation <a href="#"><span class="fa fa-bars"></span></a></h2>
-    {% include 'formbuilder2/partials/sidebar' %}
-  {% endif %}
   <h2>Forms</h2>
   {{ parent() }}
 {% endblock %}
