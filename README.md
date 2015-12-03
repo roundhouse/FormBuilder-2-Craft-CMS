@@ -32,7 +32,7 @@ There are 2 options for spam protection, Time Submissions and Honeypot method.
 
 #### 1. Time Submission
 
-Time submission will prevent spam bots for submitting the form too quickly. You need to enter a time (seconds) it should take a real person to submit a form. Typically 3 seconds is good enought.
+Time submission will prevent spam bots for submitting the form too quickly. You need to enter a time (seconds) it should take a real person to submit a form. Typically 3 seconds is good enough.
 
 ##### 2. Honeypot Method
 
