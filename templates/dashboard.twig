@@ -14,11 +14,12 @@
   {% set entriesCount = craft.formBuilder2.totalEntries() %}
 
   <section id="fb-content">
-    <header class="page-header">
-      <h1>{{ page|t }}</h1>
+    <header class="page-header" id="page-header">
+      <div id="page-title"><h1>{{ page|t }}</h1></div>
+      <div id="extra-headers"><div class="buttons right"><div class="btngroup"><a href="{{ url('formbuilder2/forms/new') }}" class="btn submit add icon"><span>{{ "Create a Form"|t }}</span></a></div></div></div>
     </header>
 
-    <div>
+    <div class="pane">
       <div class="overview">
         <div class="item">
           <h2>{{ formsCount }}</h2>

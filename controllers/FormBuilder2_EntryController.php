@@ -41,11 +41,11 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    $variables['crumbs'] = array(
-      array('label' => Craft::t('FormBuilder 2'), 'url' => UrlHelper::getUrl('formbuilder2')),
-      array('label' => Craft::t('Entries'),   'url' => UrlHelper::getUrl('formbuilder2/entries')),
-      array('label' => $entry->id,  'url' => UrlHelper::getUrl('formbuilder2/entries/' . $entry->id . '/edit')),
-    );
+    // $variables['crumbs'] = array(
+    //   array('label' => Craft::t('FormBuilder 2'), 'url' => UrlHelper::getUrl('formbuilder2')),
+    //   array('label' => Craft::t('Entries'),   'url' => UrlHelper::getUrl('formbuilder2/entries')),
+    //   array('label' => $entry->id,  'url' => UrlHelper::getUrl('formbuilder2/entries/' . $entry->id . '/edit')),
+    // );
 
     $variables['entry']       = $entry;
     $variables['title']       = 'FormBuilder2';

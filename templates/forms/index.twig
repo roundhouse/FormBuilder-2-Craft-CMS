@@ -12,11 +12,10 @@
 {% block content %}
   
   <section id="fb-content">
-    {% if formItems|length %}
-    <header class="page-header">
-      <h1>{{ page|t }}</h1>
+    <header class="page-header" id="page-header">
+      <div id="page-title"><h1>{{ page|t }}</h1></div>
+      <div id="extra-headers"><div class="buttons right"><div class="btngroup"><a href="{{ url('formbuilder2/forms/new') }}" class="btn submit add icon"><span>{{ "Create a Form"|t }}</span></a></div></div></div>
     </header>
-    {% endif %}
 
     {# Form List #}
     {% if formItems|length %}
@@ -61,11 +60,14 @@
     {# No Forms #}
     <div class="no-forms" id="noforms">
       <p>{{ "Hello! You don't have any forms yet."|t }}</p>
-      <div id="create-form-button"><a href="{{ url('formbuilder2/forms/new') }}" class="create-form-button"><svg><use xlink:href="#icon-text" class="icon-text"/></svg> <span>{{ "Create a Form"|t }}</span></a></div>
     </div>
     {% endif %}
 
   </section>
+
+ {#  <section class="action-buttons">
+    <div id="create-form-button"><a href="{{ url('formbuilder2/forms/new') }}" class="create-form-button"><svg><use xlink:href="#icon-text" class="icon-text"/></svg> <span>{{ "Create a Form"|t }}</span></a></div>
+  </section> #}
 
 {% endblock %}
 

@@ -67,21 +67,6 @@ svg.icon {
     @include transition(all .3s ease);
   }
 
-  // .page-header {
-  //   padding: 20px;
-  //   svg { position: relative; top: 1px; margin-right: 5px; * { fill: $c-blue; } }
-  //   h1 {
-  //     padding: 0;
-  //     margin: 0;
-  //     font-family: $opensans;
-  //     font-size: 18px;
-  //     font-weight: 400;
-  //     text-transform: uppercase;
-  //     color: $c-blue;
-  //     @include antialias;
-  //   }
-  // }
-
   .pane {
     margin: 0;
     padding: 20px;
@@ -215,11 +200,14 @@ svg.icon {
 .formbuilder {
   // Page Header
   #page-header { 
-    display: block;
     background: #8f98a3;
   }
   .page-header {
-    display: block;
+    background: darken(white, 5) !important;
+    border-bottom: 1px solid lighten($c-gray, 60);
+  }
+  &:not(.fb-entries-index) .single-pane > .pane {
+    padding: 0;
   }
   .logo-number {
     fill: #96f7f1 !important;

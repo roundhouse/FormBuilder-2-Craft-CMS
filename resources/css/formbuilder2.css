@@ -258,10 +258,12 @@ svg.icon {
 * Header
 * ============================================ */
 .formbuilder #page-header {
-  display: block;
   background: #8f98a3; }
 .formbuilder .page-header {
-  display: block; }
+  background: #f2f2f2 !important;
+  border-bottom: 1px solid #e0e0e0; }
+.formbuilder:not(.fb-entries-index) .single-pane > .pane {
+  padding: 0; }
 .formbuilder .logo-number {
   fill: #96f7f1 !important; }
 .formbuilder .logo {

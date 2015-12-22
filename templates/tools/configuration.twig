@@ -12,11 +12,11 @@
 
 {% block content %}
   <section id="fb-content">
-    <header class="page-header">
-      <h1>{{ page|t }}</h1>
+    <header class="page-header" id="page-header">
+      <div id="page-title"><h1>{{ page|t }}</h1></div>
     </header>
 
-    <div>
+    <div class="pane">
       <ul>
         <li>{{ "Name"|t }}: <span>{{ plugin.getName() }}</span></li>
         <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>

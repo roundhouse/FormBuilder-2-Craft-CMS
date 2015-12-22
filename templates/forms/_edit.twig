@@ -18,11 +18,13 @@
 
 {% block content %}
   <section id="fb-content">
-    <header class="page-header">
-      <h1>{{ page|t }}</h1>
+    <header class="page-header" id="page-header">
+      <div id="page-title"><h1>{{ page|t }}</h1></div>
+      <div id="extra-headers"><div class="buttons right"><div class="btngroup"><a href="{{ url('formbuilder2/forms') }}" class="btn icon"><span>{{ "Back to Forms"|t }}</span></a></div></div></div>
     </header>
 
-    <div class="forms">
+
+    <div class="forms pane">
       <form method="post" accept-charset="UTF-8" data-saveshortcut="1">
         <input type="hidden" name="action" value="formBuilder2/form/saveForm">
         <input type="hidden" name="redirect" value="formbuilder2/forms">
@@ -449,7 +451,7 @@
         {% endif %}
 
         <div class="buttons">
-          <input type="submit" class="btn submit" value="{{ 'Save'|t }}">
+          <input type="submit" class="btn submit" value="{{ 'Save Form'|t }}">
         </div>
 
       </form>
