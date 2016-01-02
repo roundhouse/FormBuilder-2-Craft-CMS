@@ -199,12 +199,31 @@ svg.icon {
  * ============================================ */
 .formbuilder {
   // Page Header
-  #page-header { 
+  #page-header:not(.page-header) { 
     background: #8f98a3;
+    height: 42px;
   }
-  .page-header {
+  
+  // Override Layout
+  .padded { 
+    width: 100%;
+  }
+
+  &:not(.fb-entries-index) .padded > .pane { padding: 0; }
+
+  .section-header {
     background: darken(white, 5) !important;
     border-bottom: 1px solid lighten($c-gray, 60);
+    @include display(flex);
+    @include align-items(justify);
+    @include justify-content(space-between);
+    position: relative;
+    z-index: 1;
+    padding: 20px 24px;
+    h1 {
+      margin-bottom: 0;
+      line-height: 30px;
+    }
   }
   &:not(.fb-entries-index) .single-pane > .pane {
     padding: 0;
@@ -231,12 +250,6 @@ svg.icon {
     img { width: 174px; }
     h1 {
       margin-bottom: 0;
-      // color: white;
-      // font-size: 24px;
-      // margin-bottom: 0;
-      // padding-bottom: 0;
-      // .second { font-weight: 800; }
-      // .number { font-weight: 800; font-size: 42px; }
       svg {
         @include size(151px 21px);
         * { fill: white; }

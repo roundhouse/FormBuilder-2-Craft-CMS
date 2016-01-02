@@ -1,6 +1,6 @@
 $(document).ready(function() {
   var notificationContainer, theForm;
-  notificationContainer = $('.notifications');
+  notificationContainer = $('.formbuilder2 .notifications');
   theForm = $('form.formbuilder2');
   return theForm.submit(function(e) {
     var data, redirect, redirectUrl, url;
@@ -12,15 +12,20 @@ $(document).ready(function() {
     data = $(this).serialize();
     notificationContainer.html('<p>Sending...</p>');
     return $.post(url, data, function(response) {
+      var errorsContainer;
       if (response.success) {
         if (redirect === '1') {
           return window.location.href = redirectUrl;
         } else {
-          notificationContainer.html('<p class="success-message">' + response.message + '</p>');
+          notificationContainer.html('<p class="success-message">' + response.customSuccessMessage + '</p>');
           return theForm[0].reset();
         }
       } else {
-        return notificationContainer.html('<p class="error-message">' + response.message + '</p>');
+        notificationContainer.html('<p class="error-message">' + response.customErrorMessage + '</p>');
+        errorsContainer = $('.notifications').append('<ul class="errors"></ul>').find('ul.errors');
+        return $.each(response.validationErrors, function(index, value) {
+          return errorsContainer.append('<li>' + value + '</li>');
+        });
       }
     });
   });

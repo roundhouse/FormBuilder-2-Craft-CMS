@@ -11,7 +11,7 @@ class FormBuilder2Variable
 	public function includeScripts($form)
   {	
   	// Ajax Submit Script
-  	if ($form->ajaxSubmit) {
+  	if ($form->formSettings["ajaxSubmit"] == "1") {
   		craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/ajaxsubmit.js'));
   	}
   	
@@ -99,7 +99,7 @@ class FormBuilder2Variable
 	 * Get Input HTML for FieldTypes
 	 * 
 	 */
-	public function getInputHtml($field, $value = null) 
+	public function getInputHtml($field, $value = []) 
 	{
 
 	  $theField = craft()->fields->getFieldById($field->fieldId);
@@ -128,6 +128,9 @@ class FormBuilder2Variable
 	  if (isset($attributes['settings']['min'])) { $varMin = $attributes['settings']['min']; } else { $varMin = null; }
 	  if (isset($attributes['settings']['max'])) { $varMax = $attributes['settings']['max']; } else { $varMax = null; }
 
+	  // Check if there was a value
+	  $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;
+
 	  $variables = [
 	  	'type'  					=> $attributes['type'],
 	  	'label'  					=> $attributes['name'],
@@ -135,7 +138,7 @@ class FormBuilder2Variable
 	  	'instructions'  	=> $attributes['instructions'],
 	  	'placeholder'  		=> $varPlaceholder,
 	  	'options'  				=> $varOptions,
-	  	'value'  				  => null,
+	  	'value'  				  => $value,
 	  	'values'  				=> $varValues,
 	  	'on'		  				=> $varOn,
 	  	'checked'		  		=> $varChecked,

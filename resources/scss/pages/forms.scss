@@ -225,6 +225,7 @@
     @include display(flex);
     @include flex-direction(row);
     @include justify-content(flex-start);
+    padding-bottom: 20px;
   }
 
   .notification-tabs {

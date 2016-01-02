@@ -1,5 +1,5 @@
 $(document).ready ->
-  notificationContainer = $('.notifications')
+  notificationContainer = $('.formbuilder2 .notifications')
   theForm = $('form.formbuilder2')
 
   # AJAX Form Submit
@@ -13,15 +13,18 @@ $(document).ready ->
 
     # Start Loading
     notificationContainer.html '<p>Sending...</p>'
-
     $.post url, data, (response) ->
       if response.success
         if redirect == '1' 
           window.location.href = redirectUrl
         else
-          notificationContainer.html '<p class="success-message">' + response.message + '</p>'
+          notificationContainer.html '<p class="success-message">' + response.customSuccessMessage + '</p>'
           theForm[0].reset()
       else
-        notificationContainer.html '<p class="error-message">' + response.message + '</p>'
+        notificationContainer.html '<p class="error-message">' + response.customErrorMessage + '</p>'
+        errorsContainer = $('.notifications').append('<ul class="errors"></ul>').find('ul.errors')
+        $.each response.validationErrors, (index, value) ->
+          errorsContainer.append '<li>'+value+'</li>'
+
 
 

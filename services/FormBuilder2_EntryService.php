@@ -106,9 +106,10 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Validate values of a submitted form
    *
    */
-  public function validateEntry($form, $submissionData){
+  public function validateEntry($form, $submissionData) {
     $fieldLayoutFields = $form->getFieldLayout()->getFields();
     $errorMessage = [];
+
     foreach ($fieldLayoutFields as $key => $fieldLayoutField) {
       $requiredField = $fieldLayoutField->attributes['required'];
       $fieldId = $fieldLayoutField->fieldId;
@@ -183,14 +184,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
         break;
       }
     }
-
-    if (!empty($errorMessage)) {
-      return craft()->urlManager->setRouteVariables(array(
-        'errors' => $errorMessage
-      ));
-    } else {
-      return true;
-    }
+    return $errorMessage;
   }
 
   /**
@@ -217,6 +211,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       foreach ($submission->files as $key => $value) {
         if ($value->size) {
           $folder = $value->getFolder();
+          
           // Make sure folder excist
           $source = $folder->getSource()['settings'];
           IOHelper::ensureFolderExists($source['path']);
@@ -236,7 +231,6 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
         $submissionRecord->files = $fileIds;
       }
     }
-
     
     // Build Entry Record
     $submissionRecord->formId       = $submission->formId;

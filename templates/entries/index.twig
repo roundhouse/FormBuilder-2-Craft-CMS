@@ -12,16 +12,20 @@
 {% endblock %}
 
 {% block sidebar %}
-  <h2>Forms</h2>
   {{ parent() }}
 {% endblock %}
 
-
 {% block content %}
-
   {{ parent() }}
 {% endblock %}
 
 {% if sectionHandle is defined %}
   {% includejs 'window.defaultSectionHandle = "'~sectionHandle~'";' %}
 {% endif %}
+
+{% set exportImportJs %}
+  var pageHeader = $('#page-header');
+  pageHeader.after('<header class="section-header"><div id="page-title"><h1>{{ page |t}}</h1></div><div id="extra-headers"><div class="buttons right"><div class="btngroup"></div></div></div></header>');
+  
+{% endset %}
+{% includeJs exportImportJs %}

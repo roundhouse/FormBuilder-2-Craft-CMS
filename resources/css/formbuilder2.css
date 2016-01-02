@@ -257,11 +257,47 @@ svg.icon {
 /* ============================================ *
 * Header
 * ============================================ */
-.formbuilder #page-header {
-  background: #8f98a3; }
-.formbuilder .page-header {
+.formbuilder #page-header:not(.page-header) {
+  background: #8f98a3;
+  height: 42px; }
+.formbuilder .padded {
+  width: 100%; }
+.formbuilder:not(.fb-entries-index) .padded > .pane {
+  padding: 0; }
+.formbuilder .section-header {
   background: #f2f2f2 !important;
-  border-bottom: 1px solid #e0e0e0; }
+  border-bottom: 1px solid #e0e0e0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: justify;
+  -moz-box-align: justify;
+  box-align: justify;
+  -webkit-align-items: justify;
+  -moz-align-items: justify;
+  -ms-align-items: justify;
+  -o-align-items: justify;
+  align-items: justify;
+  -ms-flex-align: justify;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  box-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  -o-justify-content: space-between;
+  justify-content: space-between;
+  -ms-flex-pack: justify;
+  position: relative;
+  z-index: 1;
+  padding: 20px 24px; }
+  .formbuilder .section-header h1 {
+    margin-bottom: 0;
+    line-height: 30px; }
 .formbuilder:not(.fb-entries-index) .single-pane > .pane {
   padding: 0; }
 .formbuilder .logo-number {
@@ -647,7 +683,8 @@ svg.icon {
   -ms-justify-content: flex-start;
   -o-justify-content: flex-start;
   justify-content: flex-start;
-  -ms-flex-pack: start; }
+  -ms-flex-pack: start;
+  padding-bottom: 20px; }
 .fb-new-form .notification-tabs {
   width: 55px;
   margin-right: 20px;
