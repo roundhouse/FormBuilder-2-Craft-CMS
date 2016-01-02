@@ -6,20 +6,6 @@ FormBuilder 2 is a Craft CMS plugin that lets you create & manage forms for your
 
 ***
 
-#### Dashboard [Screenshot](http://vadim-dev.s3.amazonaws.com/formbuilder2/screenshots/Dashboard.jpg)
-
-Here you can have an overview of how many forms you have as well as total entries count.
-
-#### Forms [Screenshot](http://vadim-dev.s3.amazonaws.com/formbuilder2/screenshots/Forms.jpg)
-
-This section will show you a list of all the forms you created. You can preview things like form name, handle name, how many entries form has, and perfect actions such as copying form handle name and deleting the form.
-
-#### Entries [Screenshot](http://vadim-dev.s3.amazonaws.com/formbuilder2/screenshots/Entries.jpg)
-
-Preview all submission. You can filter submission by forms. For each submission you have an overview which form submission belongs to, date of submission, link to preview submission and if submission has any file uploads it'll display number of uploads.
-
-***
-
 # Front-End Template Usage
 
 Take a look at `sampleForm.twig` for required code. You will need to copy everything in that file and paste it to where you want to display your form.
@@ -99,6 +85,16 @@ Here's a list of currently supported fields. Unlike FormBuilder there are no mor
 * Date
 * Number
 * Assets (Only local file uploads supported for now, no s3, no rackspace)
+
+***
+
+# Custom Fields HTML Markup
+
+If you want to have custom markup for your rendered fields follow these steps to achieve it.
+
+* Create a directory `custom/inputs` inside plugins `templates` folder. 
+* Go to `templates/inputs` and copy over any available fieldtypes over to your custom folder and update markup.
+
 
 ***
 
