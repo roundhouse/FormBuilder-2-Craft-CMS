@@ -214,8 +214,8 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           
           // Make sure folder excist
           $source = $folder->getSource()['settings'];
-          IOHelper::ensureFolderExists($source['path']);
-          
+          IOHelper::ensureFolderExists($source['path'], $suppressErrors = true);
+
           // Save/Store Files
           $fileName = IOHelper::getFileName($value->filename, true);
           $response = craft()->assets->insertFileByLocalPath($value->originalName, $fileName, $value->folderId, AssetConflictResolution::KeepBoth);
