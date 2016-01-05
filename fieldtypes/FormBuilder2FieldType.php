@@ -24,8 +24,8 @@ class FormBuilder2FieldType extends BaseFieldType implements IPreviewableFieldTy
 	 *
 	 * @return string|null
 	 */
-	public function getSettingsHtml()
-	{
+	// public function getSettingsHtml()
+	// {
 		// $formHandles = [];
 		// $forms = craft()->formBuilder2_form->getAllForms();
 
@@ -37,8 +37,8 @@ class FormBuilder2FieldType extends BaseFieldType implements IPreviewableFieldTy
 		// 	'forms' 		=> $formHandles,
 		// 	'settings'  => $this->getSettings()
 		// ));
-		return false;
-	}
+		// return false;
+	// }
 
 	public function prepSettings($settings)
   {
@@ -76,10 +76,9 @@ class FormBuilder2FieldType extends BaseFieldType implements IPreviewableFieldTy
 	{
 		$field = craft()->fields->getFieldByHandle($name);
 
-
 		return craft()->templates->render('formbuilder2/fieldtypes/forms/html', array(
 			'name'    => $name,
-			'value'    => $value,
+			'value'   => $value,
 			'options' => $field->settings['options']
 		));
 	}

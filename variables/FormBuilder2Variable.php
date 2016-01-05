@@ -77,6 +77,18 @@ class FormBuilder2Variable
 	}
 
 	/**
+	 * Get All Forms
+	 * 
+	 */
+	public function getAllForms()
+	{
+		$forms = craft()->formBuilder2_form->getAllForms();
+		return $forms;
+	}
+
+	
+
+	/**
 	 * Get Total Number of Submissions
 	 * 
 	 */
