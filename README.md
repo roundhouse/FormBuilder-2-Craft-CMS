@@ -98,17 +98,29 @@ If you want to have custom markup for your rendered fields follow these steps to
 
 ***
 
+## Todo
+
+* Add more custom mark up options (like allow users to add any field by usind field handle)
+* Exporting entries
+* Update documentations
+* Visual data reporting
+
+***
+
+
+## Changelog
+
+* 1.8.16 - Updated plugin version number
+* 1.7.16 - Fix templates path, so that it reverts to original templates path after the plugin is run. (pull request [#13](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/pull/13))
+
+
+
+
 ## Issue Tracking and Bug Reporting
 
 If you have found a bug or would like to request a feature please use [Github's Issues](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/issues) to report and track issues.
 
-## Contributing
 
-For contributing use the "fork-and-pull" Git workflow. In general use the following steps **(Be sure to merge the latest from "master" before making a pull request)**:
-
-* Fork the repo on GitHub
-* Commit changes to a branch in your fork
-* Pull request "development" with your changes
 
 
 ## License
