@@ -46,6 +46,15 @@ class FormBuilder2Variable
 	 */
 	public function getFormById($formId)
 	{
+		return craft()->formBuilder2_form->getFormById($formId);
+	}
+
+  /**
+	 * Get Form By Id
+	 * 
+	 */
+	public function getFormHtmlById($formId)
+	{
 		$form = craft()->formBuilder2_form->getFormById($formId);
 
 		$variables['formId'] = $form;
@@ -123,7 +132,6 @@ class FormBuilder2Variable
 	  $attributes 			= $theField->attributes;
 	  $pluginSettings 	= craft()->plugins->getPlugin('FormBuilder2')->getSettings(); // DEPRICATE
 
-    $originalTemplatesPath = craft()->path->getTemplatesPath();
 	  craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
 
 	  $templatePath = craft()->path->getPluginsPath() . 'plugins/formbuilder2/templates/inputs/';
@@ -259,7 +267,7 @@ class FormBuilder2Variable
 	    break;
 	  }
 
-    craft()->path->setTemplatesPath($originalTemplatesPath);
+	  craft()->path->setTemplatesPath(craft()->path->getTemplatesPath());
 	  return $html;
 	}
 

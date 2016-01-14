@@ -110,6 +110,7 @@ If you want to have custom markup for your rendered fields follow these steps to
 
 ## Changelog
 
+* 1.13.16 - added getFormById($id) functionality, if you need to render form on frontend based on form id use getFormHtmlById($id) instead
 * 1.8.16 - Updated plugin version number
 * 1.7.16 - Fix templates path, so that it reverts to original templates path after the plugin is run. (pull request [#13](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/pull/13))
 
