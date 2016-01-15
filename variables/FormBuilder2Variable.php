@@ -269,7 +269,6 @@ class FormBuilder2Variable
 	  }
 
 	  craft()->path->setTemplatesPath($oldPath);
-	  var_dump(craft()->path->getTemplatesPath());
 	  return $html;
 	}
 

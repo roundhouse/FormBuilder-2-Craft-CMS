@@ -78,7 +78,7 @@ class FormBuilder2FieldType extends BaseFieldType implements IPreviewableFieldTy
 		$options = '';
 
 		if ($field) {
-			$options = $field->settings['options'];
+			$options = isset($field->settings['options']) ? $field->settings['options'] : '';
 		}
 
 		return craft()->templates->render('formbuilder2/fieldtypes/forms/html', array(
