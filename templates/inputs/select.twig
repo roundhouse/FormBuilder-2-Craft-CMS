@@ -19,7 +19,7 @@
 		<select
       class="select"
 			{%- if id is defined %} id="{{ id }}"{% endif %}
-			{%- if name is defined %} name="{{ handle }}"{% endif %}
+			{%- if handle is defined %} name="{{ handle }}"{% endif %}
 			{%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}>
 			{% for key, option in options %}
 				{% if option.optgroup is defined %}

@@ -75,11 +75,16 @@ class FormBuilder2FieldType extends BaseFieldType implements IPreviewableFieldTy
 	public function getInputHtml($name, $value)
 	{
 		$field = craft()->fields->getFieldByHandle($name);
+		$options = '';
+
+		if ($field) {
+			$options = $field->settings['options'];
+		}
 
 		return craft()->templates->render('formbuilder2/fieldtypes/forms/html', array(
 			'name'    => $name,
 			'value'   => $value,
-			'options' => $field->settings['options']
+			'options' => $options
 		));
 	}
 
