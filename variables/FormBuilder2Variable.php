@@ -132,6 +132,7 @@ class FormBuilder2Variable
 	  $attributes 			= $theField->attributes;
 	  $pluginSettings 	= craft()->plugins->getPlugin('FormBuilder2')->getSettings(); // DEPRICATE
 
+	  $oldPath = craft()->path->getTemplatesPath();
 	  craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
 
 	  $templatePath = craft()->path->getPluginsPath() . 'plugins/formbuilder2/templates/inputs/';
@@ -267,7 +268,8 @@ class FormBuilder2Variable
 	    break;
 	  }
 
-	  craft()->path->setTemplatesPath(craft()->path->getTemplatesPath());
+	  craft()->path->setTemplatesPath($oldPath);
+	  var_dump(craft()->path->getTemplatesPath());
 	  return $html;
 	}
 
