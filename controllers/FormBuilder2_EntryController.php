@@ -63,6 +63,7 @@ class FormBuilder2_EntryController extends BaseController
     // VARIABLES
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     $files                    = '';
+    $attachmentFile           = '';
     $ajax                     = false;
     $passedValidation         = true;
     $validationErrors         = [];
@@ -132,6 +133,7 @@ class FormBuilder2_EntryController extends BaseController
                 $files[$key]     = $fileModel;
               }
             }
+          $attachmentFile = array(\CUploadedFile::getInstanceByName($field->handle));
           break;
         }
       }
@@ -202,11 +204,12 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // NEW FORM MODEL
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $submissionEntry                = new FormBuilder2_EntryModel();
-    $submissionEntry->formId        = $form->id;
-    $submissionEntry->title         = $form->name;
-    $submissionEntry->files         = $files;
-    $submissionEntry->submission    = $submissionData;
+    $submissionEntry                  = new FormBuilder2_EntryModel();
+    $submissionEntry->formId          = $form->id;
+    $submissionEntry->title           = $form->name;
+    $submissionEntry->files           = $files;
+    $submissionEntry->attachmentFile  = $attachmentFile;
+    $submissionEntry->submission      = $submissionData;
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -244,6 +247,7 @@ class FormBuilder2_EntryController extends BaseController
     }
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // PROCESS SUBMISSION ENTRY
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -254,7 +258,7 @@ class FormBuilder2_EntryController extends BaseController
       if ($submissionResponseId) {
         // Notify Admin of Submission
         if ($notificationSettings['notifySubmission'] == '1') {
-          $this->notifyAdminOfSubmission($submissionResponseId, $form);
+          $this->notifyAdminOfSubmission($submissionResponseId, $submissionEntry, $form);
         }
         
         // Successful Submission Messages
@@ -311,14 +315,13 @@ class FormBuilder2_EntryController extends BaseController
    * Notify Admin of Submission
    *
    */
-  protected function notifyAdminOfSubmission($submissionResponseId, $form)
+  protected function notifyAdminOfSubmission($submissionResponseId, $submissionEntry, $form)
   {  
-    $submission   = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
-    // $data         = new \stdClass($data);
-    $files        = [];
-    $postUploads  = $submission->files;
-    $postData     = $submission->submission;
-    $postData     = $this->filterSubmissionKeys($postData);
+    $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
+    $files            = [];
+    $postUploads      = $submission->files;
+    $postData         = $submission->submission;
+    $postData         = $this->filterSubmissionKeys($postData);
 
     craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
     $templatePath = craft()->path->getPluginsPath() . 'plugins/formbuilder2/templates/email/';
@@ -376,7 +379,7 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $message, true, null)) {
+    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $submissionEntry, $message, true, null)) {
       return true;
     } else {
       return false;

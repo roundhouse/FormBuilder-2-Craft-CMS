@@ -271,13 +271,16 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Send Email Notification
    *
    */
-  public function sendEmailNotification($form, $postUploads, $message, $html = true, $email = null)
+  public function sendEmailNotification($form, $postUploads, $submissionEntry, $message, $html = true, $email = null)
   { 
     $errors = false;
     $attributes = $form->getAttributes();
     $notificationSettings = $attributes['notificationSettings'];
     $toEmails = ArrayHelper::stringToArray($notificationSettings['emailSettings']['notifyEmail']);
     
+    $entryModel = new FormBuilder2_EntryModel();
+    $entryModel->attachmentFile = $submissionEntry->attachmentFile;
+
     foreach ($toEmails as $toEmail) {
       $email = new EmailModel();
       $emailSettings    = craft()->email->getSettings();
@@ -291,12 +294,14 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       $email->body      = $message;
 
       // TODO: Add attachments to emails
-      // if ($postUploads) {
-      //   foreach ($postUploads as $key => $value) {
-      //     $file = \CUploadedFile::getInstanceByName($key);
-      //     $email->addAttachment($file->getTempName(), $file->getName(), 'base64', $file->getType());
-      //   }
-      // }
+      if ($entryModel->attachmentFile) {
+        foreach ($entryModel->attachmentFile as $attachment) {
+          if ($attachment) {
+            $email->addAttachment($attachment->getTempName(), $attachment->getName(), 'base64', $attachment->getType());
+          }
+        }
+        
+      }
       
       if (!craft()->email->sendEmail($email)) {
         $errors = true;

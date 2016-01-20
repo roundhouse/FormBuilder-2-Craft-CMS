@@ -18,11 +18,12 @@ class FormBuilder2_EntryModel extends BaseElementModel
   protected function defineAttributes()
   {
     return array_merge(parent::defineAttributes(), array(
-      'id'          => AttributeType::Number,
-      'formId'      => AttributeType::Number,
-      'title'       => AttributeType::String,
-      'files'       => AttributeType::String,
-      'submission'  => AttributeType::String
+      'id'              => AttributeType::Number,
+      'formId'          => AttributeType::Number,
+      'title'           => AttributeType::String,
+      'files'           => AttributeType::String,
+      'attachmentFile'  => AttributeType::Mixed,
+      'submission'      => AttributeType::String
     ));
   }
 

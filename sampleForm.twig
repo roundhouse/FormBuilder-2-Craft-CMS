@@ -13,7 +13,8 @@
   <input type="hidden" name="formHandle" value="{{ form.handle }}">
   {% if spamProtectionSettings.spamTimeMethod == '1' %}<input type="hidden" name="spamTimeMethod" value="{{ 'now'|date('U') }}">{% endif %}
   {% if spamProtectionSettings.spamHoneypotMethod == '1' %}<div style="display:none;"><label for="email-addresss-new">{{ spamProtectionSettings.spamHoneypotMethodMessage }}</label><input name="email-address-new" value="" id="email-addresss-new"></div>{% endif %}
-
+  {{ getCsrfInput() }}
+  
   {# Fields #}
   {% for tab in tabs %}
     {% set fields = tab.getFields() %}
