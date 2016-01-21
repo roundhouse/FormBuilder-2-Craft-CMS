@@ -110,6 +110,7 @@ If you want to have custom markup for your rendered fields follow these steps to
 
 ## Changelog
 
+* 1.21.16 - If you have files and email notifications turned on, you will now get file attachments to your email.
 * 1.14.16 - Fixed Dropdown FieldType from not submiting data. Fixed undefied error when adding Forms fild to matrix.
 * 1.13.16 - added getFormById($id) functionality, if you need to render form on frontend based on form id use getFormHtmlById($id) instead
 * 1.8.16 - Updated plugin version number
