@@ -63,7 +63,6 @@ class FormBuilder2_EntryController extends BaseController
     // VARIABLES
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     $files                    = '';
-    $attachmentFile           = '';
     $ajax                     = false;
     $passedValidation         = true;
     $validationErrors         = [];
@@ -133,7 +132,6 @@ class FormBuilder2_EntryController extends BaseController
                 $files[$key]     = $fileModel;
               }
             }
-          $attachmentFile = array(\CUploadedFile::getInstanceByName($field->handle));
           break;
         }
       }
@@ -208,7 +206,6 @@ class FormBuilder2_EntryController extends BaseController
     $submissionEntry->formId          = $form->id;
     $submissionEntry->title           = $form->name;
     $submissionEntry->files           = $files;
-    $submissionEntry->attachmentFile  = $attachmentFile;
     $submissionEntry->submission      = $submissionData;
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -258,7 +255,7 @@ class FormBuilder2_EntryController extends BaseController
       if ($submissionResponseId) {
         // Notify Admin of Submission
         if ($notificationSettings['notifySubmission'] == '1') {
-          $this->notifyAdminOfSubmission($submissionResponseId, $submissionEntry, $form);
+          $this->notifyAdminOfSubmission($submissionResponseId, $form);
         }
         
         // Successful Submission Messages
@@ -315,7 +312,7 @@ class FormBuilder2_EntryController extends BaseController
    * Notify Admin of Submission
    *
    */
-  protected function notifyAdminOfSubmission($submissionResponseId, $submissionEntry, $form)
+  protected function notifyAdminOfSubmission($submissionResponseId, $form)
   {  
     $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
     $files            = [];
@@ -379,7 +376,7 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $submissionEntry, $message, true, null)) {
+    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $message, true, null)) {
       return true;
     } else {
       return false;

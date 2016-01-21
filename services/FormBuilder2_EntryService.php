@@ -271,15 +271,20 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Send Email Notification
    *
    */
-  public function sendEmailNotification($form, $postUploads, $submissionEntry, $message, $html = true, $email = null)
+  public function sendEmailNotification($form, $postUploads, $message, $html = true, $email = null)
   { 
     $errors = false;
     $attributes = $form->getAttributes();
     $notificationSettings = $attributes['notificationSettings'];
     $toEmails = ArrayHelper::stringToArray($notificationSettings['emailSettings']['notifyEmail']);
     
-    $entryModel = new FormBuilder2_EntryModel();
-    $entryModel->attachmentFile = $submissionEntry->attachmentFile;
+    // If submission has files
+    if ($postUploads) {
+      $fileAttachments = [];
+      foreach ($postUploads as $file) {
+        $fileAttachments[] = craft()->assets->getFileById($file);
+      }
+    }
 
     foreach ($toEmails as $toEmail) {
       $email = new EmailModel();
@@ -293,16 +298,15 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       $email->subject   = $notificationSettings['emailSettings']['emailSubject'];
       $email->body      = $message;
 
-      // TODO: Add attachments to emails
-      if ($entryModel->attachmentFile) {
-        foreach ($entryModel->attachmentFile as $attachment) {
+      // Attach files to email
+      if (!empty($fileAttachments)) {
+        foreach ($fileAttachments as $attachment) {
           if ($attachment) {
-            $email->addAttachment($attachment->getTempName(), $attachment->getName(), 'base64', $attachment->getType());
+            $email->addAttachment($attachment->getUrl(), $attachment->title, 'base64', $attachment->getMimeType());
           }
         }
-        
       }
-      
+
       if (!craft()->email->sendEmail($email)) {
         $errors = true;
       }
