@@ -29,7 +29,7 @@ With honeypot there is a hidden field that should be left blank. When spam bots 
 
 # File Uploads
 
-Create an Asset field and add it to your form. You need to select **Has File Uploads** box when creating your form to make sure files get submitted. 
+Create an Asset field and add it to your form. You need to select **Has File Uploads** box when creating your form to make sure files get submitted. If you have Email Notifications turned on, file uploads will be attached to the email.
 
 ***
 
