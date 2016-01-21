@@ -70,10 +70,10 @@
               <div class="file">
                 {% if file.kind == 'image' %}
                   <div class="icon">
-                    <a href="{{ file.getUrl() }}" target="_blank"><img src="{{ file.getUrl() }}" /></a>
+                    <a href="/{{ file.getUrl() }}" target="_blank"><img src="/{{ file.getUrl() }}" /></a>
                   </div>
                   <div class="details">
-                    <p class="item">Name: <a href="{{ file.getUrl() }}" target="_blank">{{ file.title }}</a></p>
+                    <p class="item">Name: <a href="/{{ file.getUrl() }}" target="_blank">{{ file.title }}</a></p>
                     <p class="item">Dimensions: <span>{{ file.width }}x{{ file.height }}</span></p>
                     <p class="item">File Size: <span>{{ file.size|filesize }}</span></p>
                   </div>
