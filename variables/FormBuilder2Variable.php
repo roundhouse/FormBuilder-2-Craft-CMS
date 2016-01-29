@@ -56,12 +56,13 @@ class FormBuilder2Variable
 	public function getFormHtmlById($formId)
 	{
 		$form = craft()->formBuilder2_form->getFormById($formId);
+		$oldPath = craft()->path->getTemplatesPath();
 
 		$variables['formId'] = $form;
 
 		craft()->path->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder2/templates');
 		$html = craft()->templates->render('/forms/frontend', $variables);
-		craft()->path->setTemplatesPath(craft()->path->getTemplatesPath());
+		craft()->path->setTemplatesPath($oldPath);
 
     return $html;
 	}
