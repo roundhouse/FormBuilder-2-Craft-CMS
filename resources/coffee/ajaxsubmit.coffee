@@ -8,7 +8,6 @@ $(document).ready ->
     $(@).find('label > span').remove();
     e.preventDefault()
     url = '/actions/' + $(@).children('[name=action]').attr('value')
-    redirect = $(@).children('[name=formRedirect]').attr('data-custom-redirect')
     redirectUrl = $(@).children('[name=formRedirect]').attr('value')
     data = $(this).serialize()
 
@@ -16,7 +15,7 @@ $(document).ready ->
     notificationContainer.html '<p>Sending...</p>'
     $.post url, data, (response) ->
       if response.success
-        if redirect == '1' 
+        if redirectUrl
           window.location.href = redirectUrl
         else
           notificationContainer.html '<p class="success-message">' + response.customSuccessMessage + '</p>'

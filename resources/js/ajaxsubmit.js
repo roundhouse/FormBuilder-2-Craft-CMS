@@ -8,14 +8,13 @@ $(document).ready(function() {
     $(this).find('label > span').remove();
     e.preventDefault();
     url = '/actions/' + $(this).children('[name=action]').attr('value');
-    redirect = $(this).children('[name=formRedirect]').attr('data-custom-redirect');
     redirectUrl = $(this).children('[name=formRedirect]').attr('value');
     data = $(this).serialize();
     notificationContainer.html('<p>Sending...</p>');
     return $.post(url, data, function(response) {
       var errorsContainer;
       if (response.success) {
-        if (redirect === '1') {
+        if (redirectUrl) {
           return window.location.href = redirectUrl;
         } else {
           notificationContainer.html('<p class="success-message">' + response.customSuccessMessage + '</p>');

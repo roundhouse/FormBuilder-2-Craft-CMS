@@ -12,14 +12,14 @@
   <table style="width:100%;">
   {% for key, value in data %}
     {% set field = craft.fields.getFieldByHandle(key) %}
-    {% if value %}
+    {% if field and value %}
     <tr>
       <td style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eaecee;">
         <h3 style="margin-bottom: 2px; margin-top: 5px;">{{ field.name }}</h3>
         {% if value | checkArray == '1' %}
           {% for key, item in value %}
             {% if item != '' %}
-              {{ item }},  
+              {{ item }}{{ not loop.last ? ', ' }}
             {% endif %}
           {% endfor %}
         {% else %}
