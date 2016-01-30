@@ -126,7 +126,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           if ($field->required) {
             $text = craft()->request->getPost($field->handle);
             if ($text == '') {
-              $errorMessage[] = $field->name . ' cannot be blank.';
+              $errorMessage[$field->handle] = $field->name . ' cannot be blank.';
             }
           }
         break;
@@ -134,7 +134,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           if ($field->required) {
             $richField = craft()->request->getPost($field->handle);
             if ($richField == '') {
-              $errorMessage[] = $field->name . ' cannot be blank.';
+              $errorMessage[$field->handle] = $field->name . ' cannot be blank.';
             }
           }
         break;
@@ -142,11 +142,11 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $number = craft()->request->getPost($field->handle);
           if ($field->required) {
             if (!ctype_digit($number)) {
-              $errorMessage[] = $field->name . ' cannot be blank and needs to contain only numbers.';
+              $errorMessage[$field->handle] = $field->name . ' cannot be blank and needs to contain only numbers.';
             }
           } else {
             if (!ctype_digit($number) && (!empty($number))) {
-              $errorMessage[] = $field->name . ' needs to contain only numbers.';
+              $errorMessage[$field->handle] = $field->name . ' needs to contain only numbers.';
             }
           }
         break;
@@ -154,7 +154,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $multiselect = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($multiselect == '') {
-              $errorMessage[] = $field->name . ' please select at least one.';
+              $errorMessage[$field->handle] = $field->name . ' needs at least one item selected.';
             }
           }
         break;
@@ -162,7 +162,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $radiobuttons = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($radiobuttons == '') {
-              $errorMessage[] = $field->name . ' please select one.';
+              $errorMessage[$field->handle] = $field->name . ' needs at least one option selected.';
             }
           }
         break;
@@ -170,7 +170,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $dropdown = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($dropdown == '') {
-              $errorMessage[] = $field->name . ' please select one.';
+              $errorMessage[$field->handle] = $field->name . ' needs an item selected.';
             }
           }
         break;
@@ -178,7 +178,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $checkbox = craft()->request->getPost($field->handle);
           if ($field->required) {
             if (count($checkbox) == 1) {
-              $errorMessage[] = $field->name . ' please select at least one.';
+              $errorMessage[$field->handle] = $field->name . ' needs at least one item selected.';
             }
           }
         break;

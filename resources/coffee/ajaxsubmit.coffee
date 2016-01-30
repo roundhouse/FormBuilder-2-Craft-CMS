@@ -5,6 +5,7 @@ $(document).ready ->
   # AJAX Form Submit
   theForm.submit (e) ->
     notificationContainer.html ''
+    $(@).find('label > span').remove();
     e.preventDefault()
     url = '/actions/' + $(@).children('[name=action]').attr('value')
     redirect = $(@).children('[name=formRedirect]').attr('data-custom-redirect')
@@ -24,7 +25,10 @@ $(document).ready ->
         notificationContainer.html '<p class="error-message">' + response.customErrorMessage + '</p>'
         errorsContainer = $('.notifications').append('<ul class="errors"></ul>').find('ul.errors')
         $.each response.validationErrors, (index, value) ->
-          errorsContainer.append '<li>'+value+'</li>'
+          label = $('label[for="' + $('[name="' + index + '"]').attr('id') + '"]');
 
-
-
+          if label.length
+            label.find('span').remove()
+            return label.append('<span>' + value + '</span>')
+          else
+            return errorsContainer.append('<li>' + value + '</li>');

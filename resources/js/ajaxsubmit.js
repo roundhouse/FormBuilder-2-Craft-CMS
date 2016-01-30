@@ -5,6 +5,7 @@ $(document).ready(function() {
   return theForm.submit(function(e) {
     var data, redirect, redirectUrl, url;
     notificationContainer.html('');
+    $(this).find('label > span').remove();
     e.preventDefault();
     url = '/actions/' + $(this).children('[name=action]').attr('value');
     redirect = $(this).children('[name=formRedirect]').attr('data-custom-redirect');
@@ -24,7 +25,14 @@ $(document).ready(function() {
         notificationContainer.html('<p class="error-message">' + response.customErrorMessage + '</p>');
         errorsContainer = $('.notifications').append('<ul class="errors"></ul>').find('ul.errors');
         return $.each(response.validationErrors, function(index, value) {
-          return errorsContainer.append('<li>' + value + '</li>');
+          var label;
+          label = $('label[for="' + $('[name="' + index + '"]').attr('id') + '"]');
+          if (label.length) {
+            label.find('span').remove();
+            return label.append('<span>' + value + '</span>');
+          } else {
+            return errorsContainer.append('<li>' + value + '</li>');
+          }
         });
       }
     });
