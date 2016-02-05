@@ -5,23 +5,26 @@
 {# TODO: finish email notification template #}
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="{{ templateSettings.emailBackgroundColor }}">
 
-  <tr>
-    <td>
-      <table width="{{ templateSettings.emailContainerWidth }}" height="122" border="0" cellspacing="0" cellpadding="0" align="center">
-        <tr>
-          <td width="500">
-            <a href="{{ siteUrl }}"><img src="{% for logo in customLogo %}{% set logo = logo.url %}{{ logo }}{% endfor %}" style="display: block; max-width: 500px;" /></a>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+  {% if customLogo is defined %}
+    <tr>
+      <td>
+        <table width="{{ templateSettings.emailContainerWidth }}" height="122" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <td width="500">
+              <a href="{{ siteUrl }}"><img src="{% for logo in customLogo %}{% set logo = logo.url %}{{ logo }}{% endfor %}" style="display: block; max-width: 500px;" /></a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  {% endif %}
 
   <tr>
     <td>
       <table width="{{ templateSettings.emailContainerWidth }}" border="0" cellspacing="0" cellpadding="0" align="center" style="border: 1px solid #edf1f4; border-radius: 3px; background: white;">
         <tr>
           <td style="padding: 20px;">
+            <h2>New {{ form.name }} Submission</h2>
             {{ bodyCopy|raw }}
           </td>
         </tr>
@@ -32,14 +35,14 @@
               <table style="width:100%;">
               {% for key, value in data %}
                 {% set field = craft.fields.getFieldByHandle(key) %}
-                {% if value %}
+                {% if field and value %}
                 <tr>
                   <td style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eaecee;">
                     <h3 style="margin-bottom: 2px; margin-top: 5px;">{{ field.name }}</h3>
                     {% if value | checkArray == '1' %}
                       {% for key, item in value %}
                         {% if item != '' %}
-                          {{ item }},  
+                          {{ item }}{{ not loop.last ? ', ' }}
                         {% endif %}
                       {% endfor %}
                     {% else %}
