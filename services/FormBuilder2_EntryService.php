@@ -177,8 +177,8 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
         case "Checkboxes":
           $checkbox = craft()->request->getPost($field->handle);
           if ($field->required) {
-            if (count($checkbox) == 1) {
-              $errorMessage[] = $field->name . ' please select at least one.';
+            if ($checkbox == '') {
+              $errorMessage[] = $field->name . ' must be checked.';
             }
           }
         break;
