@@ -38,13 +38,13 @@
         <table class="submission fullwidth collapsible">
           {% for name, value in submission %}
             {% set field = craft.fields.getFieldByHandle(name) %}
-            {% if value %}
+            {% if field and value %}
             <tr>
-              <td style="padding-top:10px;"><strong>{{ field.name }}</strong></td>
+              <td style="padding-top:10px;vertical-align:top;"><strong>{{ field.name }}</strong></td>
               {% if value | checkArray == '1' %}
                 <td style="padding-top:10px;">
                 {% for key, item in value %}
-                  <span class="item">{{ item }}</span>
+                  {{ item }}<br />
                 {% endfor %}
                 </td>
               {% else %}
