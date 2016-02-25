@@ -584,6 +584,8 @@ svg.icon {
   .fb-new-form .method-time .checkbox-extra, .fb-new-form .method-honeypot .checkbox-extra, .fb-new-form .method-notify .checkbox-extra, .fb-new-form .method-ajax .checkbox-extra, .fb-new-form .method-redirect .checkbox-extra, .fb-new-form .method-files .checkbox-extra, .fb-new-form .method-database .checkbox-extra {
     display: none;
     padding: 20px; }
+  .fb-new-form .method-time #submitterEmail-field, .fb-new-form .method-honeypot #submitterEmail-field, .fb-new-form .method-notify #submitterEmail-field, .fb-new-form .method-ajax #submitterEmail-field, .fb-new-form .method-redirect #submitterEmail-field, .fb-new-form .method-files #submitterEmail-field, .fb-new-form .method-database #submitterEmail-field {
+    padding: 20px; }
 .fb-new-form .checkbox-toggle {
   position: relative;
   cursor: pointer;

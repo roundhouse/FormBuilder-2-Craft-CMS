@@ -433,6 +433,56 @@
                 </div>
               </div>
             </div>
+            
+            {% if form.getFieldLayout().getFields() %}
+            <div class="method-notify pane">
+            
+              <div class="checkbox-toggle" data-checkbox="notifySubmission">
+                <div class="togglebox">
+                  <svg><use xlink:href="#icon-warning" class="icon-warning"/></svg>
+                   {{ forms.checkboxField({
+                    id: 'notifySubmission',
+                    class: 'notifySubmission',
+                    name: 'notificationSettings[notifySubmission]',
+                    value: 1,
+                    checked: form.notificationSettings.notifySubmission is defined ? form.notificationSettings.notifySubmission : null,
+                    errors: form.getErrors('notifySubmission'),
+                    required: false
+                  }) }}
+                </div>
+                <div class="togglecontent">
+                  <h3>{{ "Notify Submitter"|t }}</h3>
+                  <p>{{ "Notify submitter of form submission."|t }}</p>
+                </div>
+              </div>
+
+              <div class="checkbox-extra">
+                <div class="field" id="submitterEmail-field">
+                  <div class="heading">
+                     <label for="submitterEmail">{{ "Select Email Field"|t }}</label>
+                    <div class="instructions"><p>{{ "Field will be used to send notification to submitter"|t }}</p></div>
+                  </div>
+                  <div class="input">
+                    {% set fields = form.getFieldLayout().getFields() %}
+                    {% set groupOptions = [{label: 'Select Email Field', value: ''}] %}
+                    {% for field in fields %}
+                      {% set item = field.getField(field) %}
+                      {% set groupOptions = groupOptions|merge([{ label: item.name, value: item.handle }]) %}
+                    {% endfor %}
+
+                    {{ forms.select({
+                      id: 'submitterEmail',
+                      name: 'submitterEmail',
+                      options: groupOptions ? groupOptions : '',
+                      value: form.submitterEmail ? form.submitterEmail : '',
+                    }) }}
+                  </div>
+                </div>
+
+              </div>
+
+            </div> 
+            {% endif %}
 
           </div>
 

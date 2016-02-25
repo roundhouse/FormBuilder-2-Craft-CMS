@@ -149,6 +149,7 @@
     &.pane { padding: 0 !important; margin-bottom: 20px !important; }
     &:hover .checkbox-toggle { background: darken(white, 3); }
     .checkbox-extra { display: none; padding: 20px; }
+    #submitterEmail-field { padding: 20px; }
   }
   .checkbox-toggle {
     position: relative;
