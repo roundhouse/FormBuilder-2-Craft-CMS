@@ -97,6 +97,10 @@ class App
         $('.method-notify .checkbox-toggle').addClass 'selected'
         $('.method-notify .checkbox-extra').show()
 
+      if $('#notifySubmitter').is(':checked')
+        $('.method-notify-submitter .checkbox-toggle').addClass 'selected'
+        $('.method-notify-submitter .checkbox-extra').show()
+
       $('.checkbox-toggle').on 'click', ->
         toggle = $(@).data 'checkbox'
         $(@).toggleClass 'selected'

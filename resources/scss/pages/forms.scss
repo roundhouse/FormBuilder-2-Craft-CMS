@@ -144,12 +144,11 @@
   }
 
   // Form Methods
-  .method-time, .method-honeypot, .method-notify, .method-ajax, .method-redirect, .method-files, .method-database {
+  .method-time, .method-honeypot, .method-notify, .method-notify-submitter, .method-ajax, .method-redirect, .method-files, .method-database {
     @include transition(background .3s ease);
     &.pane { padding: 0 !important; margin-bottom: 20px !important; }
     &:hover .checkbox-toggle { background: darken(white, 3); }
     .checkbox-extra { display: none; padding: 20px; }
-    #submitterEmail-field { padding: 20px; }
   }
   .checkbox-toggle {
     position: relative;

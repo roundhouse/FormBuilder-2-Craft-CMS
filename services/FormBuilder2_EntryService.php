@@ -268,6 +268,37 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
   }
 
   /**
+   * Send Email Notification To Submitter
+   *
+   */
+  public function sendEmailNotificationToSubmitter($form, $message, $html = true, $email = null)
+  { 
+    $errors = false;
+    $attributes = $form->getAttributes();
+    $notificationSettings = $attributes['notificationSettings'];
+    $toEmail = $email;
+
+    $adminEmail = craft()->systemSettings->getSetting('email', 'emailAddress');
+
+    $email = new EmailModel();
+    $emailSettings    = craft()->email->getSettings();
+
+    $email->fromEmail = $adminEmail;
+    $email->replyTo   = $adminEmail;
+    $email->sender    = $adminEmail;
+    $email->fromName  = $form->name;
+    $email->toEmail   = $toEmail;
+    $email->subject   = $notificationSettings['submitterEmailSubject'] ? $notificationSettings['submitterEmailSubject'] : 'Thanks For Submission';
+    $email->body      = $message;
+
+    if (!craft()->email->sendEmail($email)) {
+      $errors = true;
+    }
+
+    return $errors ? false : true;
+  }
+
+  /**
    * Send Email Notification
    *
    */

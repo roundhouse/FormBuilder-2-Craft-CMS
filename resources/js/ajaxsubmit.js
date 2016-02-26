@@ -3,7 +3,7 @@ $(document).ready(function() {
   notificationContainer = $('.formbuilder2 .notifications');
   theForm = $('form.formbuilder2');
   return theForm.submit(function(e) {
-    var data, redirect, redirectUrl, url;
+    var data, redirectUrl, url;
     notificationContainer.html('');
     $(this).find('label > span').remove();
     e.preventDefault();

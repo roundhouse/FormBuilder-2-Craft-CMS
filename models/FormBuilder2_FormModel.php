@@ -40,6 +40,8 @@ class FormBuilder2_FormModel extends BaseModel
       'notifySubmission'                    => AttributeType::Bool,
       'notifyEmail'                         => AttributeType::String,
       'submitterEmail'                      => AttributeType::String,
+      'submitterEmailSubject'               => AttributeType::String,
+      'notifySubmitter'                     => AttributeType::Bool,
       'emailSubject'                        => AttributeType::Name,
       'sendSubmissionData'                  => AttributeType::Bool,
       'emailTemplateStyle'                  => AttributeType::String,

@@ -435,18 +435,18 @@
             </div>
             
             {% if form.getFieldLayout().getFields() %}
-            <div class="method-notify pane">
+            <div class="method-notify-submitter pane">
             
-              <div class="checkbox-toggle" data-checkbox="notifySubmission">
+              <div class="checkbox-toggle" data-checkbox="notifySubmitter">
                 <div class="togglebox">
                   <svg><use xlink:href="#icon-warning" class="icon-warning"/></svg>
                    {{ forms.checkboxField({
-                    id: 'notifySubmission',
-                    class: 'notifySubmission',
-                    name: 'notificationSettings[notifySubmission]',
+                    id: 'notifySubmitter',
+                    class: 'notifySubmitter',
+                    name: 'notificationSettings[notifySubmitter]',
                     value: 1,
-                    checked: form.notificationSettings.notifySubmission is defined ? form.notificationSettings.notifySubmission : null,
-                    errors: form.getErrors('notifySubmission'),
+                    checked: form.notificationSettings.notifySubmitter is defined ? form.notificationSettings.notifySubmitter : null,
+                    errors: form.getErrors('notifySubmitter'),
                     required: false
                   }) }}
                 </div>
@@ -459,7 +459,7 @@
               <div class="checkbox-extra">
                 <div class="field" id="submitterEmail-field">
                   <div class="heading">
-                     <label for="submitterEmail">{{ "Select Email Field"|t }}</label>
+                     <label for="submitterEmail" class="required">{{ "Select Email Field"|t }}</label>
                     <div class="instructions"><p>{{ "Field will be used to send notification to submitter"|t }}</p></div>
                   </div>
                   <div class="input">
@@ -469,12 +469,26 @@
                       {% set item = field.getField(field) %}
                       {% set groupOptions = groupOptions|merge([{ label: item.name, value: item.handle }]) %}
                     {% endfor %}
-
-                    {{ forms.select({
+                  {{ form.submitterEmail}}
+                    {{ forms.selectField({
                       id: 'submitterEmail',
-                      name: 'submitterEmail',
+                      name: 'notificationSettings[submitterEmail]',
                       options: groupOptions ? groupOptions : '',
-                      value: form.submitterEmail ? form.submitterEmail : '',
+                      value: (form.notificationSettings.submitterEmail is defined ? form.notificationSettings.submitterEmail : null),
+                      errors: form.getErrors('submitterEmail'),
+                      required: true
+                    }) }}
+
+                    {{ forms.textField({
+                      label: "Email Subject"|t,
+                      instructions: "Subject line for email notifications."|t,
+                      id: 'submitterEmailSubject',
+                      class: 'submitterEmailSubject',
+                      name: 'notificationSettings[submitterEmailSubject]',
+                      value: (form.notificationSettings.submitterEmailSubject is defined ? form.notificationSettings.submitterEmailSubject : null),
+                      size: 50,
+                      errors: form.getErrors('submitterEmailSubject'),
+                      required: false
                     }) }}
                   </div>
                 </div>
