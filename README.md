@@ -110,6 +110,7 @@ If you want to have custom markup for your rendered fields follow these steps to
 
 ## Changelog
 
+* 2.26.16 - Added option to notify submitter
 * 2.5.16 - Merged pull request, fixed required checkox not passing if only one checkbox [#30](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/pull/30)
 * 1.21.16 - If you have files and email notifications turned on, you will now get file attachments to your email.
 * 1.14.16 - Fixed Dropdown FieldType from not submitting data. Fixed undefined error when adding Forms field to matrix.
