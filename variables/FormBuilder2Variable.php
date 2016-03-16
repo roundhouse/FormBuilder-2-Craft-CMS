@@ -153,8 +153,17 @@ class FormBuilder2Variable
     if (isset($attributes['settings']['limit'])) { $varLimit = $attributes['settings']['limit']; } else { $varLimit = null; }
     if (isset($attributes['settings']['selectionLabel'])) { $varSelectionLabel = $attributes['settings']['selectionLabel']; } else { $varSelectionLabel = null; }
     
-    // Remove the 'section:' string from all source ID's and convert all the strings to intigers so we are left with an array of section ids
-    if (isset($attributes['settings']['sources'])) { $varSources = array_map(function($var) { return is_numeric($var) ? (int)$var : $var; }, str_replace("section:", "", $attributes['settings']['sources'])); } else { $varSources = null; }
+    // Unless "All" sections has been chosen loop through the array and 
+    // remove the 'section:' string from all source ID's and. Then convert all
+    // the strings to intigers so we are left with an array of section ids
+    if (isset($attributes['settings']['sources'])) { 
+    	$varSources = $attributes['settings']['sources'];
+    	if ($varSources != '*') {
+    		$varSources = array_map( function($var) { return is_numeric($var) ? (int)$var : $var; }, str_replace("section:", "", $varSources) );
+    	}
+  	} else { 
+  		$varSources = null; 
+  	}
 
     // Check if there was a value
     $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;
