@@ -152,16 +152,9 @@ class FormBuilder2Variable
     if (isset($attributes['settings']['max'])) { $varMax = $attributes['settings']['max']; } else { $varMax = null; }
     if (isset($attributes['settings']['limit'])) { $varLimit = $attributes['settings']['limit']; } else { $varLimit = null; }
     if (isset($attributes['settings']['selectionLabel'])) { $varSelectionLabel = $attributes['settings']['selectionLabel']; } else { $varSelectionLabel = null; }
-    if (isset($attributes['settings']['sources'])) { 
-      // Remove the 'section:' string from all source ID's
-      $varSources = str_replace("section:", "", $attributes['settings']['sources']);
-      // Convert all the strings to intigers so we are left with an array of ids
-      $varSources = array_map(function($var) {
-        return is_numeric($var) ? (int)$var : $var;
-      }, $varSources);
-    } else { 
-      $varSources = null; 
-    }
+    
+    // Remove the 'section:' string from all source ID's and convert all the strings to intigers so we are left with an array of section ids
+    if (isset($attributes['settings']['sources'])) { $varSources = array_map(function($var) { return is_numeric($var) ? (int)$var : $var; }, str_replace("section:", "", $attributes['settings']['sources'])); } else { $varSources = null; }
 
     // Check if there was a value
     $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;

@@ -1,6 +1,5 @@
 {%- set id = (id is defined ? id : 'select-' ~ random()) %}
 {%- set sources = (sources is defined ? sources : null) %}
-{%- set hasOptgroups = false -%}
 
 {% set entries = craft.entries({sectionId: sources }) %}
 
