@@ -154,8 +154,8 @@ class FormBuilder2_FormService extends BaseApplicationComponent
       $form->addError('emailSubject', Craft::t('Please enter notification email subject.'));
     }
 
-    if ($notificationSettings['notifySubmitter'] == '1' && $notificationSettings['submitterEmail'] == '') {
-      $form->addError('submitterEmail', Craft::t('Please select email field.'));
+    if (isset($notificationSettings['notifySubmitter']) && ($notificationSettings['notifySubmitter'] == '1' && $notificationSettings['submitterEmail'] == '') {
+        $form->addError('submitterEmail', Craft::t('Please select email field.'));
     }
     
     $formRecord->validate();
