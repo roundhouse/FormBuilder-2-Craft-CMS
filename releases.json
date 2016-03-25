@@ -1,0 +1,10 @@
+[
+  {
+    "version": "0.1.0",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-03-25T19:55:13.000000",
+    "notes": [
+      "[Added] Ability to add custom subject line from submited form"
+    ]
+  }
+]

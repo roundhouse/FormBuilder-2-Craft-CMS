@@ -6,7 +6,7 @@ Plugin Url: https://github.com/roundhouse/FormBuilder-2
 Author: Vadim Goncharov (https://github.com/owldesign)
 Author URI: http://roundhouseagency.com
 Description: FormBuilder 2 is a Craft CMS plugin that lets you create forms for your front-end.
-Version: 0.0.1
+Version: 0.1.0
 */
 
 namespace Craft;
@@ -21,6 +21,11 @@ class FormBuilder2Plugin extends BasePlugin
     }
   }
 
+  public function getReleaseFeedUrl()
+  {
+    return 'https://github.com/roundhouse/FormBuilder-2-Craft-CMS/blob/master/releases.json';
+  }
+
 	public function getName()
 	{
 		return 'FormBuilder 2';
@@ -28,7 +33,7 @@ class FormBuilder2Plugin extends BasePlugin
 
 	public function getVersion()
 	{
-		return '0.0.9';
+		return '0.1.0';
 	}
 
 	public function getDeveloper()
