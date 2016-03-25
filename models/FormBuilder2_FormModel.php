@@ -44,6 +44,8 @@ class FormBuilder2_FormModel extends BaseModel
       'notifySubmitter'                     => AttributeType::Bool,
       'emailSubject'                        => AttributeType::Name,
       'sendSubmissionData'                  => AttributeType::Bool,
+      'customSubject'                       => AttributeType::Bool,
+      'customSubjectLine'                   => AttributeType::String,
       'emailTemplateStyle'                  => AttributeType::String,
       'emailBodyCopy'                       => AttributeType::String,
       'emailAdditionalFooterCopy'           => AttributeType::String,

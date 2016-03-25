@@ -397,8 +397,15 @@ class FormBuilder2_EntryController extends BaseController
     if ($notificationSettings['templateSettings']['emailCustomLogo'] != '') {
       $variables['customLogo']          = $customLogo;
     }
+
     if ($notificationSettings['emailSettings']['sendSubmissionData'] == '1') {
       $variables['data']                = $postData;
+    }
+
+    $customSubject = '';
+    if ($notificationSettings['customSubject'] == '1') {
+      $customSubjectField = $notificationSettings['customSubjectLine'];
+      $customSubject = $postData[$customSubjectField];
     }
 
     if ($templateSettings['emailTemplateStyle'] == 'html') {
@@ -415,7 +422,7 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $message, true, null)) {
+    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $customSubject, $message, true, null)) {
       return true;
     } else {
       return false;

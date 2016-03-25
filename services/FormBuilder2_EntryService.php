@@ -302,12 +302,19 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Send Email Notification
    *
    */
-  public function sendEmailNotification($form, $postUploads, $message, $html = true, $email = null)
+  public function sendEmailNotification($form, $postUploads, $customSubject, $message, $html = true, $email = null)
   { 
     $errors = false;
     $attributes = $form->getAttributes();
     $notificationSettings = $attributes['notificationSettings'];
     $toEmails = ArrayHelper::stringToArray($notificationSettings['emailSettings']['notifyEmail']);
+
+    // Process Subject Line
+    if ($customSubject) {
+      $subject = $customSubject;
+    } else {
+      $subject = $notificationSettings['emailSettings']['emailSubject'];
+    }
     
     // If submission has files
     if ($postUploads) {
@@ -326,7 +333,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       $email->sender    = $emailSettings['emailAddress'];
       $email->fromName  = $form->name;
       $email->toEmail   = $toEmail;
-      $email->subject   = $notificationSettings['emailSettings']['emailSubject'];
+      $email->subject   = $subject;
       $email->body      = $message;
 
       // Attach files to email
