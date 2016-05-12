@@ -23,7 +23,7 @@ class FormBuilder2Plugin extends BasePlugin
 
   public function getReleaseFeedUrl()
   {
-    return 'https://github.com/roundhouse/FormBuilder-2-Craft-CMS/blob/master/releases.json';
+    return 'https://raw.githubusercontent.com/roundhouse/FormBuilder-2-Craft-CMS/master/releases.json';
   }
 
 	public function getName()
