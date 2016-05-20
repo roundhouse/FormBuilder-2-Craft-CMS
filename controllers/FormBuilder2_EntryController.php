@@ -422,7 +422,7 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $customSubject, $message, true, null)) {
+    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $postData, $customSubject, $message, true, null)) {
       return true;
     } else {
       return false;

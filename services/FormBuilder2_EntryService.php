@@ -302,7 +302,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Send Email Notification
    *
    */
-  public function sendEmailNotification($form, $postUploads, $customSubject, $message, $html = true, $email = null)
+  public function sendEmailNotification($form, $postUploads, $postData, $customSubject, $message, $html = true, $email = null)
   { 
     $errors = false;
     $attributes = $form->getAttributes();
