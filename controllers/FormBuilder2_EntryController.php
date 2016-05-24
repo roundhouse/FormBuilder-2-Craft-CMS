@@ -403,9 +403,11 @@ class FormBuilder2_EntryController extends BaseController
     }
 
     $customSubject = '';
-    if ($notificationSettings['customSubject'] == '1') {
-      $customSubjectField = $notificationSettings['customSubjectLine'];
-      $customSubject = $postData[$customSubjectField];
+    if (isset($notificationSettings['customSubject'])) {
+      if ($notificationSettings['customSubject'] == '1') {
+        $customSubjectField = $notificationSettings['customSubjectLine'];
+        $customSubject = $postData[$customSubjectField];
+      }
     }
 
     if ($templateSettings['emailTemplateStyle'] == 'html') {
