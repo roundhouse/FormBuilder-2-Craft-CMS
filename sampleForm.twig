@@ -29,7 +29,7 @@
 
   {# Errors/Success Messages #}
   <div class="notifications">
-    <p class="notification error-message">{{ craft.session.getFlash('error') | raw }}<p>
+    <p class="notification error-message">{{ craft.session.getFlash('error') | raw }}</p>
     <p class="notification success-message">{{ craft.session.getFlash('success') | raw }}</p>
     {% set errors = (errors is defined ? errors : null) %}
     {% if errors %}
