@@ -259,8 +259,10 @@ class FormBuilder2_EntryController extends BaseController
         }
 
         // Notify Submitter of Submission
-        if ($notificationSettings['notifySubmitter'] == '1') {
-          $this->notifySubmitterOfSubmission($submissionResponseId, $form);
+        if (isset($notificationSettings['notifySubmitter'])) {
+          if ($notificationSettings['notifySubmitter'] == '1') {
+            $this->notifySubmitterOfSubmission($submissionResponseId, $form);
+          }
         }
         
         // Successful Submission Messages
