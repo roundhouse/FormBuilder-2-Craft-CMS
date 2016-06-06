@@ -476,7 +476,7 @@
                       errors: form.getErrors('submitterEmail'),
                       required: true
                     }) }}
-
+                    
                     {{ forms.textField({
                       label: "Email Subject"|t,
                       instructions: "Subject line for email notifications."|t,
@@ -486,6 +486,18 @@
                       value: (form.notificationSettings.submitterEmailSubject is defined ? form.notificationSettings.submitterEmailSubject : null),
                       size: 50,
                       errors: form.getErrors('submitterEmailSubject'),
+                      required: false
+                    }) }}
+
+                    {{ forms.textField({
+                      label: "Public Form Name"|t,
+                      instructions: "This will show up as the From Name in the email headers."|t,
+                      id: 'publicFormName',
+                      class: 'publicFormName',
+                      name: 'notificationSettings[publicFormName]',
+                      value: (form.notificationSettings.publicFormName is defined ? form.notificationSettings.publicFormName : null),
+                      size: 50,
+                      errors: form.getErrors('publicFormName'),
                       required: false
                     }) }}
                   </div>

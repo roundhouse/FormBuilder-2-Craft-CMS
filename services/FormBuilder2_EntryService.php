@@ -286,7 +286,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $email->fromEmail = $adminEmail;
     $email->replyTo   = $adminEmail;
     $email->sender    = $adminEmail;
-    $email->fromName  = $form->name;
+    $email->fromName  = $notificationSettings['publicFormName'] ? $notificationSettings['publicFormName'] : $form->name;
     $email->toEmail   = $toEmail;
     $email->subject   = $notificationSettings['submitterEmailSubject'] ? $notificationSettings['submitterEmailSubject'] : 'Thanks For Submission';
     $email->body      = $message;

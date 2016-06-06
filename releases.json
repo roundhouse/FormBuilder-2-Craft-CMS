@@ -6,5 +6,13 @@
     "notes": [
       "[Added] Ability to add custom subject line from submited form"
     ]
+  },
+  {
+    "version": "0.1.1",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-03-25T19:55:13.000000",
+    "notes": [
+      "[Added] You can now add custom From Name to your notifications (for form submitter)"
+    ]
   }
 ]
