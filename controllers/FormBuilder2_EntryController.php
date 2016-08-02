@@ -30,7 +30,9 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionViewEntry(array $variables = array())
   {
+
     $entry = craft()->formBuilder2_entry->getSubmissionById($variables['entryId']);
+
     if (empty($entry)) { throw new HttpException(404); }
 
     $files = '';
@@ -40,6 +42,7 @@ class FormBuilder2_EntryController extends BaseController
         $files[] = craft()->assets->getFileById($value);
       }
     }
+
 
     $variables['entry']       = $entry;
     $variables['title']       = 'FormBuilder2';

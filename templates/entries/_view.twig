@@ -1,6 +1,9 @@
 {% extends "_layouts/cp" %}
+{% from "_includes/forms" import text -%}
+
 {% hook 'formBuilder2.prepCpTemplate' %}
 
+{% set elementType = 'FormBuilder2' %}
 {% set selectedSubnavItem = "entries" %}
 {% set bodyClass = 'formbuilder fb-entries' %}
 {% set page = 'Entry' %}
@@ -64,7 +67,39 @@
           <header>
             <h1>{{ "Uploads"|t }}</h1>
           </header>
-          <div class="files">
+          
+
+
+          <div class="elements">
+            <table class="data fullwidth">
+              
+              {% for file in files %}
+                <tr data-id="{{ file.id }}" tabindex="0">
+                  <td data-title="Title">
+                    <div class="element small hasthumb" data-id="{{ file.id }}" data-locale="{{ file.locale }}" data-status="{{ file.getStatus() }}" data-label="{{ file.title }}" data-url="{{ file.url }}" data-editable="{{ file.isEditable() }}">
+                      <div class="elementthumb">
+                        <img sizes="30px" srcset="{{ file.getThumbUrl(30) }} 30w, {{ file.getThumbUrl(60) }} 60w, {{ file.getThumbUrl(100) }} 100w, {{ file.getThumbUrl(200) }} 200w" alt="{{ file.title }}">
+                      </div>
+                      <div class="label">
+                        <span class="title">{{ file.title }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-title="Filename" data-attr="filename">
+                    <span style="word-break: break-word;">{{ file.filename }}</span>
+                  </td>
+                  <td data-title="File Size" data-attr="size">{{ file.size|filesize }}</td>
+                  <td data-title="File Modified Date" data-attr="dateModified">
+                    <span title="{{ file.dateModified |date("m/d/Y") }}">{{ file.dateModified |date("m/d/Y") }}</span>
+                  </td>
+                </tr>
+              {% endfor %}
+
+            </table>
+          </div>
+
+
+          {# <div class="files">
             {% for file in files %}
               <div class="file">
                 {% if file.kind == 'image' %}
@@ -107,7 +142,7 @@
                 {% endif %}
               </div>
             {% endfor %}
-          </div>
+          </div> #}
         </div>
       {% endif %}
 
@@ -123,6 +158,16 @@
     </div>
 
   </section>
+
+{% includeJsResource "formbuilder2/js/entrydetails.js" %}
+
+{% includejs %}
+  new Craft.FileUploadsIndex('Asset', $('.upload-details'), {
+    context:        'index',
+    storageKey:     'elementindex.Asset',
+    criteria:       { localeEnabled: null }
+  });
+{% endincludejs %}
 
 {% endblock %}
 
