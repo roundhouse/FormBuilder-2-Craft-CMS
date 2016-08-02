@@ -22,5 +22,13 @@
     "notes": [
       "[Fixed] Fixed file uploads and email attachments"
     ]
+  },
+  {
+    "version": "2.0.3",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-08-02T21:00:23+00:00",
+    "notes": [
+      "[Improved] Added ability to rename uploaded files on the entry page"
+    ]
   }
 ]

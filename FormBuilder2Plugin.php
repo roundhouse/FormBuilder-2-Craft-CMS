@@ -6,7 +6,7 @@ Plugin Url: https://github.com/roundhouse/FormBuilder-2
 Author: Vadim Goncharov (https://github.com/owldesign)
 Author URI: http://roundhouseagency.com
 Description: FormBuilder 2 is a Craft CMS plugin that lets you create forms for your front-end.
-Version: 2.0.2
+Version: 2.0.3
 */
 
 namespace Craft;
@@ -16,6 +16,7 @@ class FormBuilder2Plugin extends BasePlugin
 
   public function init()
   {
+    Craft::dd(DateTimeHelper::toIso8601(DateTimeHelper::currentTimeStamp()));
     if (craft()->request->isCpRequest()) {
       craft()->templates->hook('formBuilder2.prepCpTemplate', array($this, 'prepCpTemplate'));
     }
@@ -33,7 +34,7 @@ class FormBuilder2Plugin extends BasePlugin
 
 	public function getVersion()
 	{
-		return '2.0.2';
+		return '2.0.3';
 	}
 
 	public function getDeveloper()
