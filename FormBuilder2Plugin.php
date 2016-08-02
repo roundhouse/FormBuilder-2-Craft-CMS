@@ -16,7 +16,6 @@ class FormBuilder2Plugin extends BasePlugin
 
   public function init()
   {
-    Craft::dd(DateTimeHelper::toIso8601(DateTimeHelper::currentTimeStamp()));
     if (craft()->request->isCpRequest()) {
       craft()->templates->hook('formBuilder2.prepCpTemplate', array($this, 'prepCpTemplate'));
     }
