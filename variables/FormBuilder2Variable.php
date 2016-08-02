@@ -56,7 +56,7 @@ class FormBuilder2Variable
 	public function getFormHtmlById($formId)
 	{
 		$form = craft()->formBuilder2_form->getFormById($formId);
-		$oldPath = craft()->path->getTemplatesPath();
+		$oldPath = craft()->templates->getTemplatesPath();
 
 		$variables['formId'] = $form;
 
@@ -138,7 +138,7 @@ class FormBuilder2Variable
 	  	$fieldSettings	= $fieldType->getSettings();
 	  }
 
-	  $oldPath = craft()->path->getTemplatesPath();
+	  $oldPath = craft()->templates->getTemplatesPath();
 	  craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
 
 	  $templatePath = craft()->path->getPluginsPath() . 'plugins/formbuilder2/templates/inputs/';
