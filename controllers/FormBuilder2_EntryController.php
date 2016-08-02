@@ -241,7 +241,6 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     if (!$submissionErrorMessage && $passedValidation && $spamTimedMethod && $spamHoneypotMethod) {
 
-      Craft::dd(DateTimeHelper::toIso8601(DateTimeHelper::currentTimeStamp()));
       // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // FILE UPLOADS
       // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
