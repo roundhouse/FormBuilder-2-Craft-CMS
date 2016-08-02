@@ -1,0 +1,44 @@
+{%- set id = (id is defined ? id : 'select-' ~ random()) %}
+{%- set sources = (sources is defined ? sources : '*') %}
+
+{% set entries = craft.entries({sectionId: sources }) %}
+
+<div class="field">
+  {% if label or selectionLabel or instructions %}
+    <div class="heading">
+      {% if label or selectionLabel %}
+        <label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
+          {{- selectionLabel ? selectionLabel|raw : label|raw -}}
+        </label>
+      {% endif %}
+      {% if instructions %}
+        <div class="instructions">{{ instructions|md }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+  <div class="input">
+		<select
+      {%- if limit > 1 %} multiple{% endif %}
+      class="select"
+			{%- if id is defined %} id="{{ id }}"{% endif %}
+			{%- if handle is defined %} name="{{ handle }}"{% endif %}
+			{%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}>
+
+      {% if entries | length %}
+        {% for entry in entries %}
+          <option value="{{ entry.title }}">{{ entry.title }}</option>
+        {% endfor %}
+      {% endif %}
+		</select>
+  </div>
+</div>
+
+{% set myJs %}
+  $("#{{id}}").on("click", "option", function () {
+    if ( {{ limit }} <= $(this).siblings(":selected").length ) {
+      $(this).removeAttr("selected");
+    }
+  })
+{% endset %}
+{% if limit > 1 %}{% includeJs myJs %}{% endif %}
+
