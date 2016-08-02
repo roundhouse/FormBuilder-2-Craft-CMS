@@ -17,8 +17,9 @@
     <input 
       type="file"
     	{%- if id is defined %} id="{{ id }}"{% endif %}
-    	{%- if handle is defined %} name="{{ handle }}"{% endif %}
-    	{%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}>
+    	{%- if handle is defined %} name="{{ handle }}[]"{% endif %}
+    	{%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}
+      multiple>
   </div>
 </div>
 

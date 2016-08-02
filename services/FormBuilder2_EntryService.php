@@ -207,29 +207,19 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
 
     // File Uploads
     if ($submission->files) {
+
       $fileIds = [];
-      foreach ($submission->files as $key => $value) {
-        if ($value->size) {
-          $folder = $value->getFolder();
-          
-          // Make sure folder excist
-          $source = $folder->getSource()['settings'];
-          IOHelper::ensureFolderExists($source['path'], $suppressErrors = true);
 
-          // Save/Store Files
-          $fileName = IOHelper::getFileName($value->filename, true);
-          $response = craft()->assets->insertFileByLocalPath($value->originalName, $fileName, $value->folderId, AssetConflictResolution::KeepBoth);
-          $fileIds[] = $response->getDataItem('fileId');
-
-          // Delete Temp Files
-          IOHelper::deleteFile($value->originalName, true);
-
-          if ($response->isError()) {
-            $response->setError(Craft::t('There was an error with file uploads.'));
-          }
-        }
-        $submissionRecord->files = $fileIds;
+      foreach ($submission->files as $file) {
+        $tempPath = AssetsHelper::getTempFilePath($file['filename']);
+        move_uploaded_file($file['location'], $tempPath);
+        // $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $file['folderId'], AssetConflictResolution::Replace);
+        $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $file['folderId'], AssetConflictResolution::KeepBoth);
+        $fileIds[] = $response->getDataItem('fileId');
+        IOHelper::deleteFile($tempPath, true);
       }
+
+      $submissionRecord->files = $fileIds;
     }
     
     // Build Entry Record
@@ -302,7 +292,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Send Email Notification
    *
    */
-  public function sendEmailNotification($form, $postUploads, $postData, $customSubject, $message, $html = true, $email = null)
+  public function sendEmailNotification($form, $files, $postData, $customSubject, $message, $html = true, $email = null)
   { 
     $errors = false;
     $attributes = $form->getAttributes();
@@ -314,14 +304,6 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       $subject = $customSubject;
     } else {
       $subject = $notificationSettings['emailSettings']['emailSubject'];
-    }
-    
-    // If submission has files
-    if ($postUploads) {
-      $fileAttachments = [];
-      foreach ($postUploads as $file) {
-        $fileAttachments[] = craft()->assets->getFileById($file);
-      }
     }
 
     foreach ($toEmails as $toEmail) {
@@ -337,11 +319,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       $email->body      = $message;
 
       // Attach files to email
-      if (!empty($fileAttachments)) {
-        foreach ($fileAttachments as $attachment) {
-          if ($attachment) {
-            $email->addAttachment($attachment->getUrl(), $attachment->title, 'base64', $attachment->getMimeType());
-          }
+      if (!empty($files)) {
+        foreach ($files as $attachment) {
+          $email->addAttachment($attachment->getUrl(), $attachment->title, 'base64', $attachment->getMimeType());
         }
       }
 

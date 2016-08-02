@@ -110,28 +110,20 @@ class FormBuilder2_EntryController extends BaseController
         $field = $value->getField();
         switch ($field->type) {
           case 'Assets':
-            foreach ($_FILES as $key => $value) {
-              if (!$value['tmp_name'] == '') {
-                $fileModel = new AssetFileModel();
-                $folderId = $field->settings['singleUploadLocationSource'][0];
-                $sourceId = $field->settings['singleUploadLocationSource'][0];
-                $fileModel->originalName  = $value['tmp_name'];
-                $fileModel->sourceId      = $sourceId;
-                $fileModel->folderId      = $folderId;
-                $fileModel->filename      = IOHelper::getFileName($value['name']);
-                $fileModel->kind          = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
-                $fileModel->size          = filesize($value['tmp_name']);
-                if ($value['tmp_name']) {
-                  $fileModel->dateModified  = IOHelper::getLastTimeModified($value['tmp_name']);
-                }
-                if ($fileModel->kind == 'image') {
-                  list ($width, $height) = ImageHelper::getImageSize($value['tmp_name']);
-                  $fileModel->width = $width;
-                  $fileModel->height = $height;
-                }
-                $files[$key]     = $fileModel;
-              }
+
+            $uploadedFiles = UploadedFile::getInstancesByName($field->handle);
+
+            foreach ($uploadedFiles as $file) {
+              $files[] = array(
+                'folderId' => $field->settings['singleUploadLocationSource'][0],
+                'sourceId' => $field->settings['singleUploadLocationSource'][0],
+                'filename' => $file->getName(),
+                'location' => $file->getTempName(),
+                'type'     => $file->getType()
+              );
+
             }
+
           break;
         }
       }
@@ -255,7 +247,7 @@ class FormBuilder2_EntryController extends BaseController
       if ($submissionResponseId) {
         // Notify Admin of Submission
         if ($notificationSettings['notifySubmission'] == '1') {
-          $this->notifyAdminOfSubmission($submissionResponseId, $form);
+          $this->notifyAdminOfSubmission($submissionResponseId, $files, $form);
         }
 
         // Notify Submitter of Submission
@@ -353,10 +345,10 @@ class FormBuilder2_EntryController extends BaseController
    * Notify Admin of Submission
    *
    */
-  protected function notifyAdminOfSubmission($submissionResponseId, $form)
+  protected function notifyAdminOfSubmission($submissionResponseId, $fileAttachments, $form)
   {  
     $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
-    $files            = [];
+    $files            = '';
     $postUploads      = $submission->files;
     $postData         = $submission->submission;
     $postData         = $this->filterSubmissionKeys($postData);
@@ -372,7 +364,7 @@ class FormBuilder2_EntryController extends BaseController
         $criteria         = craft()->elements->getCriteria(ElementType::Asset);
         $criteria->id     = $id;
         $criteria->limit  = 1;
-        $files[]          = $criteria->find();
+        $files          = $criteria->find();
       }
     }
 
@@ -426,7 +418,7 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $postData, $customSubject, $message, true, null)) {
+    if (craft()->formBuilder2_entry->sendEmailNotification($form, $files, $postData, $customSubject, $message, true, null)) {
       return true;
     } else {
       return false;
