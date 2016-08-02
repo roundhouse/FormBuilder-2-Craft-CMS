@@ -197,7 +197,6 @@ class FormBuilder2_EntryController extends BaseController
     $submissionEntry                  = new FormBuilder2_EntryModel();
     $submissionEntry->formId          = $form->id;
     $submissionEntry->title           = $form->name;
-    $submissionEntry->files           = $files;
     $submissionEntry->submission      = $submissionData;
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -242,12 +241,34 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     if (!$submissionErrorMessage && $passedValidation && $spamTimedMethod && $spamHoneypotMethod) {
 
+     
+      // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      // FILE UPLOADS
+      // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      $fileIds = [];
+      $fileCollection = [];
+      $tempPath = [];
+      if ($files) {
+        foreach ($files as $key => $file) {
+          $tempPath = AssetsHelper::getTempFilePath($file['filename']);
+          move_uploaded_file($file['location'], $tempPath);
+          $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $file['folderId'], AssetConflictResolution::KeepBoth);
+          $fileIds[] = $response->getDataItem('fileId');
+          $fileCollection[] = [
+            'tempPath' => $tempPath,
+            'filename' => $file['filename'],
+            'type'     => $file['type']
+          ];
+        }
+        $submissionEntry->files = $fileIds;
+      }
+
       $submissionResponseId = craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry);
 
       if ($submissionResponseId) {
         // Notify Admin of Submission
         if ($notificationSettings['notifySubmission'] == '1') {
-          $this->notifyAdminOfSubmission($submissionResponseId, $files, $form);
+          $this->notifyAdminOfSubmission($submissionResponseId, $fileCollection, $form);
         }
 
         // Notify Submitter of Submission
@@ -256,7 +277,11 @@ class FormBuilder2_EntryController extends BaseController
             $this->notifySubmitterOfSubmission($submissionResponseId, $form);
           }
         }
-        
+
+        foreach ($fileCollection as $file) {
+          IOHelper::deleteFile($file['tempPath'], true);
+        }
+
         // Successful Submission Messages
         if ($ajax) {
           $this->returnJson([
@@ -345,7 +370,7 @@ class FormBuilder2_EntryController extends BaseController
    * Notify Admin of Submission
    *
    */
-  protected function notifyAdminOfSubmission($submissionResponseId, $fileAttachments, $form)
+  protected function notifyAdminOfSubmission($submissionResponseId, $fileCollection, $form)
   {  
     $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
     $files            = '';
@@ -418,7 +443,7 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    if (craft()->formBuilder2_entry->sendEmailNotification($form, $files, $postData, $customSubject, $message, true, null)) {
+    if (craft()->formBuilder2_entry->sendEmailNotification($form, $fileCollection, $postData, $customSubject, $message, true, null)) {
       return true;
     } else {
       return false;

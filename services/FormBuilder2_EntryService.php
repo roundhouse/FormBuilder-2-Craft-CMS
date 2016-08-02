@@ -205,26 +205,10 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
 
     $submissionRecord = new FormBuilder2_EntryRecord();
 
-    // File Uploads
-    if ($submission->files) {
-
-      $fileIds = [];
-
-      foreach ($submission->files as $file) {
-        $tempPath = AssetsHelper::getTempFilePath($file['filename']);
-        move_uploaded_file($file['location'], $tempPath);
-        // $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $file['folderId'], AssetConflictResolution::Replace);
-        $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $file['folderId'], AssetConflictResolution::KeepBoth);
-        $fileIds[] = $response->getDataItem('fileId');
-        IOHelper::deleteFile($tempPath, true);
-      }
-
-      $submissionRecord->files = $fileIds;
-    }
-    
     // Build Entry Record
     $submissionRecord->formId       = $submission->formId;
     $submissionRecord->title        = $submission->title;
+    $submissionRecord->files        = $submission->files;
     $submissionRecord->submission   = $submission->submission;
 
     $submissionRecord->validate();
@@ -321,7 +305,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       // Attach files to email
       if (!empty($files)) {
         foreach ($files as $attachment) {
-          $email->addAttachment($attachment->getUrl(), $attachment->title, 'base64', $attachment->getMimeType());
+          $email->addAttachment($attachment['tempPath'], $attachment['filename'], 'base64', $attachment['type']);
         }
       }
 
