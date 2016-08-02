@@ -130,8 +130,13 @@ class FormBuilder2Variable
 	  $requiredField = $field->required; 
 	  $theField->required = $requiredField; 
 
-	  $attributes 			= $theField->attributes;
+	  $attributes 		= $theField->attributes;
 	  $pluginSettings 	= craft()->plugins->getPlugin('FormBuilder2')->getSettings(); // DEPRICATE
+	  
+	  $fieldSettings = '';
+	  if ($fieldType) {
+	  	$fieldSettings	= $fieldType->getSettings();
+	  }
 
 	  $oldPath = craft()->path->getTemplatesPath();
 	  craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
@@ -155,28 +160,59 @@ class FormBuilder2Variable
 	  $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;
 
 	  $variables = [
-	  	'type'  					=> $attributes['type'],
-	  	'label'  					=> $attributes['name'],
-	  	'handle'  				=> $attributes['handle'],
+	  	'field'  			=> $attributes,
+	  	'type'  			=> $attributes['type'],
+	  	'name'  			=> $attributes['handle'],
+	  	'label'  			=> $attributes['name'],
+	  	'handle'  			=> $attributes['handle'],
 	  	'instructions'  	=> $attributes['instructions'],
 	  	'placeholder'  		=> $varPlaceholder,
-	  	'options'  				=> $varOptions,
-	  	'value'  				  => $value,
-	  	'values'  				=> $varValues,
-	  	'on'		  				=> $varOn,
-	  	'checked'		  		=> $varChecked,
-	  	'minuteIncrement' => $varMinuteIncrement,
-	  	'showTime'			 	=> $varShowTime,
-	  	'showDate'			 	=> $varShowDate,
-	  	'min'  						=> $varMin,
-	  	'max'  						=> $varMax,
-	  	'requiredJs'			=> null,
-	  	'required'	  		=> $theField->required
+	  	'options'  			=> $varOptions,
+	  	'value'  			=> $value,
+	  	'values'  			=> $varValues,
+	  	'on'		  		=> $varOn,
+	  	'checked'		  	=> $varChecked,
+	  	'minuteIncrement'   => $varMinuteIncrement,
+	  	'showTime'			=> $varShowTime,
+	  	'showDate'			=> $varShowDate,
+	  	'min'  				=> $varMin,
+	  	'max'  				=> $varMax,
+	  	'requiredJs'		=> null,
+	  	'required'	  		=> $theField->required,
+	  	'settings'	  		=> $fieldSettings
 	  ];
 
 	  $html = '';
 
+	  // Check for Sprout Fields Plugin
+	  $sproutFieldsPlugin = craft()->plugins->getPlugin('sproutfields', false);
+	  $sproutFields = false;
+	  if ($sproutFieldsPlugin->isInstalled && $sproutFieldsPlugin->isEnabled) {
+	  	$sproutFields = true;
+	  }
+
 	  switch ($theField->type) {
+	  	// Sprout Fields
+	  	case "SproutFields_Email":
+	  		if ($sproutFields) {
+	  			$html = craft()->templates->render('formbuilder2/templates/inputs/email', $variables);
+	  		}
+	  	break;
+	  	case "SproutFields_Phone":
+	  		if ($sproutFields) {
+	  			$html = craft()->templates->render('formbuilder2/templates/inputs/phone', $variables);
+	  		}
+	  	break;
+	  	case "SproutFields_Link":
+	  		if ($sproutFields) {
+	  			$html = craft()->templates->render('formbuilder2/templates/inputs/link', $variables);
+	  		}
+	  	break;
+	  	case "SproutFields_Hidden":
+	  		if ($sproutFields) {
+	  			$html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/hidden/input', $variables);
+	  		}
+	  	break;
 	    case "PlainText":
 	    	if ($attributes['settings']['multiline']) {
 	  	    if (IOHelper::fileExists($customTemplatePath . 'textarea' . $extension)) {

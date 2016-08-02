@@ -1,0 +1,22 @@
+{%- set type = (type is defined ? type : 'text') %}
+{%- set id = (id is defined ? id : 'text-' ~ random()) %}
+{%- set min = (min is defined ? min : null) %}
+{%- set max = (max is defined ? max : null) %}
+
+<div class="field">
+  {% if label or instructions %}
+    <div class="heading">
+      {% if label %}
+        <label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
+          {{- label|raw -}}
+        </label>
+      {% endif %}
+      {% if instructions %}
+        <div class="instructions">{{ instructions|md }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+  <div class="input">
+    {% include 'sproutfields/templates/_integrations/sproutforms/fields/link/input' %}
+  </div>
+</div>

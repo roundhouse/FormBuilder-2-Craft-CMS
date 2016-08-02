@@ -112,6 +112,7 @@ If you want to have custom markup for your rendered fields follow these steps to
 
 * 8.2.16 - Fixed file uploads and email attachments
 * 8.2.16 - Added ability to rename uploaded files on the entry page
+* 8.2.16 - Added ability to use Sprout Fields within your forms
 * 6.6.16 - You can now add custom From Name to your notifications (for form submitter)
 * 3.25.16 - Added ability to get custom subject line from form submission
 * 2.26.16 - Added option to notify submitter
