@@ -7,6 +7,12 @@ $(document).ready(function() {
     notificationContainer.html('');
     $(this).find('label > span').remove();
     e.preventDefault();
+    // Look for custom validator function
+    if( typeof formBuilderCustomValidator !== 'undefined' ) {
+      if( !formBuilderCustomValidator() ){
+        return;
+      }
+    }
     url = '/actions/' + $(this).children('[name=action]').attr('value');
     redirectUrl = $(this).children('[name=formRedirect]').attr('value');
     data = $(this).serialize();
