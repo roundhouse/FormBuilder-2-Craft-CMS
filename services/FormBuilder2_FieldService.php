@@ -36,6 +36,24 @@ class FormBuilder2_FieldService extends BaseApplicationComponent
 		return FormBuilder2_FieldModel::populateModels($result);
 	}
 
+	public function getJsonLabels()
+	{
+	  $labels = $this->getAllLabels();
+	  $output = array();
+
+	  foreach($labels as $label)
+	  {
+	    $output[$label->id] = array(
+	      'id' => (int) $label->id,
+	      'fieldId' => (int) $label->fieldId,
+	      'fieldLayoutId' => (int) $label->fieldLayoutId,
+	      'template' => Craft::t($label->template)
+	    );
+	  }
+
+	  return $output;
+	}
+
 	public function saveLabel(FormBuilder2_FieldModel $label)
 	{
 		$isExisting = false;
@@ -104,7 +122,6 @@ class FormBuilder2_FieldService extends BaseApplicationComponent
 
 			if($event->performAction)
 			{
-				// Create transaction only if this isn't apart of an already occurring transaction
 				$transaction = craft()->db->getCurrentTransaction() ? false : craft()->db->beginTransaction();
 
 				try
@@ -137,27 +154,31 @@ class FormBuilder2_FieldService extends BaseApplicationComponent
 		return $success;
 	}
 
-	/**
-	 * An event dispatcher for the moment before saving a label.
-	 *
-	 * @param Event $event
-	 * @throws \CException
-	 */
 	public function onBeforeSaveLabel(Event $event)
 	{
 		$this->raiseEvent('onBeforeSaveLabel', $event);
 	}
 
-	/**
-	 * An event dispatcher for the moment after saving a label.
-	 *
-	 * @param Event $event
-	 * @throws \CException
-	 */
 	public function onSaveLabel(Event $event)
 	{
 		$this->raiseEvent('onSaveLabel', $event);
 	}
 
+	public function getFields()
+	{
+	  $fields = craft()->fields->getAllFields();
+	  $output = array();
 
+	  foreach($fields as $field)
+	  {
+	    $output[(int) $field->id] = array(
+	      'id' => (int) $field->id,
+	      'handle' => $field->handle,
+	      'name' => $field->name,
+	      'instructions' => $field->instructions
+	    );
+	  }
+
+	  return $output;
+	}
 }

@@ -6,7 +6,7 @@ Plugin Url: https://github.com/roundhouse/FormBuilder-2
 Author: Vadim Goncharov (https://github.com/owldesign)
 Author URI: http://roundhouseagency.com
 Description: FormBuilder 2 is a Craft CMS plugin that lets you create forms for your front-end.
-Version: 2.0.4
+Version: 2.0.5
 */
 
 namespace Craft;
@@ -20,134 +20,38 @@ class FormBuilder2Plugin extends BasePlugin
       craft()->templates->hook('formBuilder2.prepCpTemplate', array($this, 'prepCpTemplate'));
     }
 
-    // Add this to the fieldlayout template
-    if(craft()->request->isCpRequest() && !craft()->request->isAjaxRequest()) {
-      craft()->templates->includeJs('CustomField.labels=' . json_encode($this->_getLabels()));
-      craft()->templates->includeJs('CustomField.fields=' . json_encode($this->_getFields()));
-    }
-
-    craft()->on('fields.saveFieldLayout', function(Event $e)
-    {
+    craft()->on('fields.saveFieldLayout', function(Event $e) {
       $layout = $e->params['layout'];
       $customfield = craft()->request->getPost('customfield');
 
-      if($customfield)
-      {
+      if($customfield) {
         $transaction = craft()->db->getCurrentTransaction() ? false : craft()->db->beginTransaction();
-        try
-        {
-          foreach($customfield as $fieldId => $labelInfo)
-          {
+        try {
+          foreach($customfield as $fieldId => $labelInfo) {
             $label = new FormBuilder2_FieldModel();
             $label->fieldId = $fieldId;
             $label->fieldLayoutId = $layout->id;
 
-            if(array_key_exists('template', $labelInfo))
-            {
+            if(array_key_exists('template', $labelInfo)) {
               $label->template = $labelInfo['template'];
             }
 
             craft()->formBuilder2_field->saveLabel($label);
           }
 
-          if($transaction)
-          {
+          if($transaction) {
             $transaction->commit();
           }
-        }
-        catch(\Exception $e)
-        {
-          if($transaction)
-          {
+        } catch(\Exception $e) {
+          if($transaction) {
             $transaction->rollback();
           }
 
           throw $e;
         }
-
-        // Make sure these labels don't get saved more than once
         unset($_POST['customfield']);
       }
     });
-  }
-
-  private function _getFields()
-  {
-    $fields = craft()->fields->getAllFields();
-    $output = array();
-
-    foreach($fields as $field)
-    {
-      $output[(int) $field->id] = array(
-        'id' => (int) $field->id,
-        'handle' => $field->handle,
-        'name' => $field->name,
-        'instructions' => $field->instructions
-      );
-    }
-
-    return $output;
-  }
-
-  private function _getLabels()
-  {
-    $labels = craft()->formBuilder2_field->getAllLabels();
-    $output = array();
-
-    foreach($labels as $label)
-    {
-      $output[$label->id] = array(
-        'id' => (int) $label->id,
-        'fieldId' => (int) $label->fieldId,
-        'fieldLayoutId' => (int) $label->fieldLayoutId,
-        'template' => Craft::t($label->template)
-      );
-    }
-
-    return $output;
-  }
-
-  private function _getLayouts()
-  {
-    $formBuilder = craft()->formBuilder2_form->getAllForms();
-    // $assetSources = craft()->assetSources->getAllSources();
-    // $categoryGroups = craft()->categories->getAllGroups();
-    // $globalSets = craft()->globals->getAllSets();
-    // $entryTypes = EntryTypeModel::populateModels(EntryTypeRecord::model()->ordered()->findAll());
-    // $tagGroups = craft()->tags->getAllTagGroups();
-    //$userFields = FieldLayoutModel::populateModel(FieldLayoutRecord::model()->findByAttributes('type', ElementType::User));
-
-    $sections = craft()->sections->getAllSections();
-    $singleSections = array();
-
-    foreach($sections as $section)
-    {
-      $entryType = $section->getEntryTypes()[0];
-      $singleSections[$section->id] = (int) $entryType->fieldLayoutId;
-    }
-
-    return array(
-      'formBuilder' => $this->_mapLayouts($formBuilder),
-      // 'assetSource' => $this->_mapLayouts($assetSources),
-      // 'categoryGroup' => $this->_mapLayouts($categoryGroups),
-      // 'globalSet' => $this->_mapLayouts($globalSets),
-      // 'entryType' => $this->_mapLayouts($entryTypes),
-      // 'tagGroup' => $this->_mapLayouts($tagGroups),
-      //'userFields' => $userFields->id,
-      // 'singleSection' => $singleSections,
-    );
-  }
-
-  private function _mapLayouts($list)
-  {
-    $output = array();
-
-    foreach($list as $item)
-    {
-      $output[(int) $item->id] = (int) $item->fieldLayoutId;
-    }
-
-    return $output;
   }
 
   public function getReleaseFeedUrl()
@@ -162,7 +66,7 @@ class FormBuilder2Plugin extends BasePlugin
 
 	public function getVersion()
 	{
-		return '2.0.4';
+		return '2.0.5';
 	}
 
 	public function getDeveloper()

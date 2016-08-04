@@ -123,23 +123,19 @@ class FormBuilder2Variable
    */
   public function getInputHtml($field, $value = []) 
   {
-    $theField = $field->getField();
-    $fieldType = $theField->getFieldType();
-    $template = craft()->formBuilder2_field->getFieldTemplate($field->fieldId);
+    $theField       = $field->getField();
+    $fieldType      = $theField->getFieldType();
+    $template       = craft()->formBuilder2_field->getFieldTemplate($field->fieldId);
+    $originaPath    = craft()->templates->getTemplatesPath();
 
-    $requiredField = $field->required; 
-    $theField->required = $requiredField; 
+    $theField->required = $field->required; 
 
-	  $attributes 		= $theField->attributes;
-	  $pluginSettings 	= craft()->plugins->getPlugin('FormBuilder2')->getSettings(); // DEPRICATE
+	$attributes 		= $theField->attributes;
 	  
-	  $fieldSettings = '';
-	  if ($fieldType) {
+	$fieldSettings = '';
+	if ($fieldType) {
 	  	$fieldSettings	= $fieldType->getSettings();
-	  }
-
-	  $oldPath = craft()->templates->getTemplatesPath();
-    craft()->templates->setTemplatesPath(craft()->path->getPluginsPath());
+    }
 
     if (isset($attributes['settings']['placeholder'])) { $varPlaceholder = $attributes['settings']['placeholder']; } else { $varPlaceholder = null; }
     if (isset($attributes['settings']['options'])) { $varOptions = $attributes['settings']['options']; } else { $varOptions = null; }
@@ -198,7 +194,7 @@ class FormBuilder2Variable
     // Check for Sprout Fields Plugin
     $sproutFieldsPlugin = craft()->plugins->getPlugin('sproutfields', false);
     $sproutFields = false;
-    if ($sproutFieldsPlugin->isInstalled && $sproutFieldsPlugin->isEnabled) {
+    if ($sproutFieldsPlugin && $sproutFieldsPlugin->isInstalled && $sproutFieldsPlugin->isEnabled) {
         $sproutFields = true;
     }
 
@@ -206,127 +202,183 @@ class FormBuilder2Variable
 	  	// Sprout Fields
 	  	case "SproutFields_Email":
 	  		if ($sproutFields) {
-	  			$html = craft()->templates->render('formbuilder2/templates/inputs/email', $variables);
-	  		}
-	  	break;
-	  	case "SproutFields_Phone":
-	  		if ($sproutFields) {
-	  			$html = craft()->templates->render('formbuilder2/templates/inputs/phone', $variables);
-	  		}
-	  	break;
-	  	case "SproutFields_Link":
-	  		if ($sproutFields) {
-	  			$html = craft()->templates->render('formbuilder2/templates/inputs/link', $variables);
-	  		}
+                $this->_setTemplate(null, 'plugin');
+                $html = craft()->templates->render('formbuilder2/templates/inputs/email', $variables);
+                $this->_setTemplate($originaPath, 'site');
+            }
+        break;
+        case "SproutFields_Phone":
+            if ($sproutFields) {
+                $this->_setTemplate(null, 'plugin');
+                $html = craft()->templates->render('formbuilder2/templates/inputs/phone', $variables);
+                $this->_setTemplate($originaPath, 'site');
+            }
+        break;
+        case "SproutFields_Link":
+            if ($sproutFields) {
+                $this->_setTemplate(null, 'plugin');
+                $html = craft()->templates->render('formbuilder2/templates/inputs/link', $variables);
+                $this->_setTemplate($originaPath, 'site');
+            }
       break;
       case "SproutFields_Hidden":
         if ($sproutFields) {
-          $html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/hidden/input', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/hidden/input', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
-	  	break;
+        break;
       case "PlainText":
-        // Textarea
         if ($attributes['settings']['multiline']) {
           if ($template) {
-            $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+            $html = craft()->templates->render($template->template, $variables);
           } else {
+            $this->_setTemplate(null, 'plugin');
             $html = craft()->templates->render('formbuilder2/templates/inputs/textarea', $variables);
+            $this->_setTemplate($originaPath, 'site');
           }
-        // Text Field
         } else {
           if ($template) {
-            $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+            $html = craft()->templates->render($template->template, $variables);
           } else {
+            $this->_setTemplate(null, 'plugin');
             $html = craft()->templates->render('formbuilder2/templates/inputs/text', $variables);
+            $this->_setTemplate($originaPath, 'site');
           }
         }
       break;
       case "Checkboxes":
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/checkbox', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/checkbox', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "RadioButtons":
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/radio', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/radio', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "Entries":
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/entries', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/entries', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "Dropdown":
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/select', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/select', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "MultiSelect":
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/multiselect', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/multiselect', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "RichText":
         $variables['requiredJs'] = 'redactor';
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/richtext', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/richtext', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "Lightswitch":
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/lightswitch', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/lightswitch', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "Color":
         $variables['value'] = '#000000';
         $variables['requiredJs'] = 'colorpicker';
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/color', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/color', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "Date":
         $variables['requiredJs'] = 'dateandtime';
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/datetime', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/datetime', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "Number":
         $variables['value'] = craft()->numberFormatter->formatDecimal($attributes['settings']['decimals'], false);
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/number', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/number', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
       case "Assets":
         if ($template) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
+          $html = craft()->templates->render($template->template, $variables);
         } else {
-          $html = craft()->templates->render('formbuilder2/templates/inputs/file', $variables);
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/file', $variables);
+            $this->_setTemplate($originaPath, 'site');
         }
       break;
     }
 
-    craft()->templates->setTemplatesPath($oldPath);
     return $html;
+  }
+
+  // Template Setters
+  private function _setTemplate($path, $type = 'site')
+  {
+    if ($type == 'site') {
+        craft()->templates->setTemplatesPath($path);
+    }
+
+    if ($type == 'plugin') {
+        craft()->templates->setTemplatesPath(craft()->path->getPluginsPath());
+    }
+  }
+
+  // Custom Field Templates
+  public function getJsonLabels()
+  {
+    $labels = craft()->formBuilder2_field->getJsonLabels();
+    return json_encode($labels);
+  }
+
+  public function getFields()
+  {
+    $fields = craft()->formBuilder2_field->getFields();
+    return json_encode($fields);
   }
 
 }

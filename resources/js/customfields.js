@@ -10,10 +10,12 @@
 
 			FORM_BUILDER:   'formBuilder',
 
+			fields:  null,
 			labels:  null,
 
 			init: function()
 			{
+				this.fields  = {};
 				this.labels  = {};
 			},
 

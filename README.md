@@ -92,8 +92,10 @@ Here's a list of currently supported fields. Unlike FormBuilder there are no mor
 
 If you want to have custom markup for your rendered fields follow these steps to achieve it.
 
-* Create a directory `custom/inputs` inside plugins `templates` folder. 
-* Go to `templates/inputs` and copy over any available fieldtypes over to your custom folder and update markup.
+* While editing your form go to the `Fields` tab. 
+* Click the settings icon next your field and hit `Custom Template` option.
+* Enter your template path located in `craft/templates`.
+* Example: enter `forms/text`, place `text.html` or `text.twig` into `craft/templates/forms/`
 
 
 ***
@@ -110,6 +112,7 @@ If you want to have custom markup for your rendered fields follow these steps to
 
 ## Changelog
 
+* 8.4.16 - Improved custom field templates
 * 8.2.16 - Fixed file uploads and email attachments
 * 8.2.16 - Added ability to rename uploaded files on the entry page
 * 8.2.16 - Added ability to use Sprout Fields within your forms

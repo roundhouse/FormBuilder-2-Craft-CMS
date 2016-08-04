@@ -31,5 +31,13 @@
       "[Improved] Added ability to rename uploaded files on the entry page",
       "[Improved] Added ability to use Sprout Fields within your forms"
     ]
+  },
+  {
+    "version": "2.0.5",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-08-04T21:12:03+00:00",
+    "notes": [
+      "[Improved] Improved custom field templates"
+    ]
   }
 ]
