@@ -202,7 +202,7 @@ class FormBuilder2Variable
     // Check for Sprout Fields Plugin
     $sproutFieldsPlugin = craft()->plugins->getPlugin('sproutfields', false);
     $sproutFields = false;
-    if ($sproutFieldsPlugin->isInstalled && $sproutFieldsPlugin->isEnabled) {
+    if ($sproutFieldsPlugin && $sproutFieldsPlugin->isInstalled && $sproutFieldsPlugin->isEnabled) {
         $sproutFields = true;
     }
 
