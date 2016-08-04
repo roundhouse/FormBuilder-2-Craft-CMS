@@ -967,6 +967,24 @@ svg.icon {
 #fieldlayoutform {
   background: none;
   padding: 0; }
+  #fieldlayoutform .customfield {
+    position: relative; }
+    #fieldlayoutform .customfield:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 50%;
+      width: 5px;
+      background: rgba(71, 197, 202, 0.4);
+      margin-top: -6%; }
+    #fieldlayoutform .customfield .custom-field-label {
+      display: block;
+      font-size: 10px;
+      color: #b1b1b1 !important; }
   #fieldlayoutform header h2 {
     margin: 0 0 2px 0 !important;
     font-family: "Open Sans", "Helvetica", sans-serif;

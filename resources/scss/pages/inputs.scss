@@ -20,6 +20,24 @@
   background: none;
   padding: 0;
 
+  // Custom Field Templates
+  .customfield {
+    position: relative;
+    &:after {
+      content: "";
+      display: block;
+      @include position(absolute, 50% 0 0 0);
+      @include size(5px 50%);
+      background: rgba($c-teal, .4);
+      margin-top: -6%;
+    }
+    .custom-field-label {
+      display: block;
+      font-size: 10px;
+      color: #b1b1b1 !important;
+    }
+  }
+
   header {
     h2 {
       margin: 0 0 2px 0 !important;

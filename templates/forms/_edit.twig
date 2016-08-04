@@ -30,7 +30,10 @@
         <input type="hidden" name="redirect" value="formbuilder2/forms">
         {{ getCsrfInput() }}
 
-        {% if form.id %}<input type="hidden" name="formId" value="{{ form.id }}">{% endif %}
+        {% if form.id %}
+          <input type="hidden" name="formId" value="{{ form.id }}">
+          <input type="hidden" name="fieldLayoutId" value="{{ form.fieldLayoutId }}">
+        {% endif %}
         
         <div class="menu-tabs">
           <h2 class="current tab-toggle-form-settings"><a href="#form-settings">{{ "Form Settings"|t }}</a></h2>

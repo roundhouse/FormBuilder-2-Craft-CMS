@@ -123,27 +123,23 @@ class FormBuilder2Variable
    */
   public function getInputHtml($field, $value = []) 
   {
-
-    $theField = craft()->fields->getFieldById($field->fieldId);
+    $theField = $field->getField();
     $fieldType = $theField->getFieldType();
+    $template = craft()->formBuilder2_field->getFieldTemplate($field->fieldId);
 
     $requiredField = $field->required; 
     $theField->required = $requiredField; 
 
-	$attributes 		= $theField->attributes;
-	$pluginSettings 	= craft()->plugins->getPlugin('FormBuilder2')->getSettings(); // DEPRICATE
+	  $attributes 		= $theField->attributes;
+	  $pluginSettings 	= craft()->plugins->getPlugin('FormBuilder2')->getSettings(); // DEPRICATE
 	  
-	$fieldSettings = '';
-	if ($fieldType) {
+	  $fieldSettings = '';
+	  if ($fieldType) {
 	  	$fieldSettings	= $fieldType->getSettings();
-	}
+	  }
 
-	$oldPath = craft()->templates->getTemplatesPath();
-	craft()->templates->setTemplatesPath(craft()->path->getPluginsPath());
-
-    $templatePath = craft()->path->getPluginsPath() . 'plugins/formbuilder2/templates/inputs/';
-    $customTemplatePath = craft()->path->getPluginsPath() . 'formbuilder2/templates/custom/inputs/';
-    $extension = '.twig';
+	  $oldPath = craft()->templates->getTemplatesPath();
+    craft()->templates->setTemplatesPath(craft()->path->getPluginsPath());
 
     if (isset($attributes['settings']['placeholder'])) { $varPlaceholder = $attributes['settings']['placeholder']; } else { $varPlaceholder = null; }
     if (isset($attributes['settings']['options'])) { $varOptions = $attributes['settings']['options']; } else { $varOptions = null; }
@@ -229,66 +225,68 @@ class FormBuilder2Variable
         }
 	  	break;
       case "PlainText":
+        // Textarea
         if ($attributes['settings']['multiline']) {
-          if (IOHelper::fileExists($customTemplatePath . 'textarea' . $extension)) {
-            $html = craft()->templates->render('formbuilder2/templates/custom/inputs/textarea', $variables);
+          if ($template) {
+            $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
           } else {
             $html = craft()->templates->render('formbuilder2/templates/inputs/textarea', $variables);
           }
+        // Text Field
         } else {
-          if (IOHelper::fileExists($customTemplatePath . 'text' . $extension)) {
-            $html = craft()->templates->render('formbuilder2/templates/custom/inputs/text', $variables);
+          if ($template) {
+            $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
           } else {
             $html = craft()->templates->render('formbuilder2/templates/inputs/text', $variables);
           }
         }
       break;
       case "Checkboxes":
-        if (IOHelper::fileExists($customTemplatePath . 'checkbox' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/checkbox', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/checkbox', $variables);
         }
       break;
       case "RadioButtons":
-        if (IOHelper::fileExists($customTemplatePath . 'radio' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/radio', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/radio', $variables);
         }
       break;
       case "Entries":
-        if (IOHelper::fileExists($customTemplatePath . 'entries' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/entries', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/entries', $variables);
         }
       break;
       case "Dropdown":
-        if (IOHelper::fileExists($customTemplatePath . 'select' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/select', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/select', $variables);
         }
       break;
       case "MultiSelect":
-        if (IOHelper::fileExists($customTemplatePath . 'select' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/multiselect', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/multiselect', $variables);
         }
       break;
       case "RichText":
         $variables['requiredJs'] = 'redactor';
-        if (IOHelper::fileExists($customTemplatePath . 'richtext' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/richtext', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/richtext', $variables);
         }
       break;
       case "Lightswitch":
-        if (IOHelper::fileExists($customTemplatePath . 'lightswitch' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/lightswitch', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/lightswitch', $variables);
         }
@@ -296,31 +294,31 @@ class FormBuilder2Variable
       case "Color":
         $variables['value'] = '#000000';
         $variables['requiredJs'] = 'colorpicker';
-        if (IOHelper::fileExists($customTemplatePath . 'color' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/color', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/color', $variables);
         }
       break;
       case "Date":
         $variables['requiredJs'] = 'dateandtime';
-        if (IOHelper::fileExists($customTemplatePath . 'datetime' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/datetime', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/datetime', $variables);
         }
       break;
       case "Number":
         $variables['value'] = craft()->numberFormatter->formatDecimal($attributes['settings']['decimals'], false);
-        if (IOHelper::fileExists($customTemplatePath . 'number' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/number', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/number', $variables);
         }
       break;
       case "Assets":
-      if (IOHelper::fileExists($customTemplatePath . 'file' . $extension)) {
-          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/file', $variables);
+        if ($template) {
+          $html = craft()->templates->render('formbuilder2/templates/custom/inputs/'.$template->template, $variables);
         } else {
           $html = craft()->templates->render('formbuilder2/templates/inputs/file', $variables);
         }

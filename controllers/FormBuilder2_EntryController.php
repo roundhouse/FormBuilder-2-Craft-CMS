@@ -30,7 +30,6 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionViewEntry(array $variables = array())
   {
-
     $entry = craft()->formBuilder2_entry->getSubmissionById($variables['entryId']);
 
     if (empty($entry)) { throw new HttpException(404); }
