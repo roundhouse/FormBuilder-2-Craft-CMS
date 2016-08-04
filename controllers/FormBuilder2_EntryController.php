@@ -291,11 +291,9 @@ class FormBuilder2_EntryController extends BaseController
           ]);
         } else {
           craft()->userSession->setFlash('success', $customSuccessMessage);
-          // if ($formSettings['formRedirect']['customRedirect'] != '') {
-          //   $this->redirect($redirectUrl);
-          // } else {
-            $this->redirectToPostedUrl($submissionEntry);
-          // }
+          $cookie = new HttpCookie('formBuilder2SubmissionId', $submissionEntry->attributes['id']);
+          craft()->request->getCookies()->add($cookie->name, $cookie);
+          $this->redirectToPostedUrl();
         }
       } else {
         // Submission Error Messages

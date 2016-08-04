@@ -47,6 +47,15 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     return $entries;
   }
 
+  public function getEntryById($entryId)
+  {
+    $entryRecord = FormBuilder2_EntryRecord::model()->findByAttributes(array(
+      'id' => $entryId,
+    ));
+    $entry = FormBuilder2_EntryModel::populateModel($entryRecord);
+    return $entry;
+  }
+
   /**
    * Get Total Entries Count
    *
@@ -74,10 +83,10 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Get Form Entry By Id
    *
    */
-  // public function getFormEntryById($id)
-  // {
-  //   return craft()->elements->getElementById($id, 'FormBuilder2');
-  // }
+  public function getFormEntryById($id)
+  {
+    return craft()->elements->getElementById($id, 'FormBuilder2');
+  }
 
   /**
    * Get Submission By ID

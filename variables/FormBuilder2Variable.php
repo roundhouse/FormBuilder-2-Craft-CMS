@@ -116,7 +116,31 @@ class FormBuilder2Variable
   {
     return craft()->formBuilder2_entry->getAllEntriesFromFormID($formId);
   }
-  
+
+  /**
+   * Get Entry By Id
+   * 
+   */
+  public function getFormEntryById($entryId)
+  {
+    $entryModel = craft()->formBuilder2_entry->getFormEntryById($entryId);
+    $entry['form'] = [
+      'id'    =>  $entryModel->attributes['id'],
+      'title' =>  $entryModel->attributes['title']
+    ];
+
+    $submission = [];
+    foreach (json_decode($entryModel->attributes['submission']) as $key => $object) {
+      $submission[$key] = $object;
+    }
+    
+    $entry['data'] = $submission;
+    $entry['files'] = json_decode($entryModel->attributes['files']);
+
+    return $entry;
+  }
+
+
   /**
    * Get Input HTML for FieldTypes
    * 
