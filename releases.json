@@ -38,6 +38,8 @@
     "date": "2016-08-04T21:12:03+00:00",
     "notes": [
       "[Improved] Improved custom field templates"
+      "[Improved] Custom Routes",
+      "[Added] Submission data can now be passed to custom routes"
     ]
   }
 ]

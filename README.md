@@ -100,9 +100,35 @@ If you want to have custom markup for your rendered fields follow these steps to
 
 ***
 
+# Custom Redirects
+
+You can pass submission data to a custom redirect page, here is a snipped code for getting started.
+
+```
+
+{% set submissionId = craft.request.getCookie('formBuilder2SubmissionId') %}
+{% set submission = null %}
+{% if submissionId %}
+  {% set submission = craft.formBuilder2.getFormEntryById(submissionId.value) %}
+{% endif %}
+
+{% if submission %}
+  {{ submission.form |inspect }}
+  {{ submission.data |inspect }}
+{% endif %}
+
+```
+* First we are getting a submission ID by checking cookies for it.
+* If we get an ID we call a function to get the submission
+* When and if you get a submission back you can use `submission.form` to get form information and `submission.data` to get submission information
+  * `submission.form.id` - Form ID
+  * `submission.form.title` - Form Name
+  * `submission.data` - Holds submission data...so if your form had a field with handle name `yourEmail` you can call `submission.data.yourEmail` to get your string.
+
+***
+
 ## Todo
 
-* Add more custom mark up options (like allow users to add any field by usind field handle)
 * Exporting entries
 * Update documentations
 * Visual data reporting
@@ -112,6 +138,8 @@ If you want to have custom markup for your rendered fields follow these steps to
 
 ## Changelog
 
+* 8.4.16 - Improved custom routes
+* 8.4.16 - Submission data can now be passed to custom routes
 * 8.4.16 - Improved custom field templates
 * 8.2.16 - Fixed file uploads and email attachments
 * 8.2.16 - Added ability to rename uploaded files on the entry page

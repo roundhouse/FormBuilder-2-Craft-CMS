@@ -457,6 +457,7 @@ class FormBuilder2_EntryController extends BaseController
   {
     $filterKeys = array(
       'action',
+      'redirect',
       'formRedirect',
       'formHandle',
       'spamTimeMethod',
