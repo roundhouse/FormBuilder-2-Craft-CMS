@@ -291,11 +291,11 @@ class FormBuilder2_EntryController extends BaseController
           ]);
         } else {
           craft()->userSession->setFlash('success', $customSuccessMessage);
-          if ($formSettings['formRedirect']['customRedirect'] != '') {
-            $this->redirect($redirectUrl);
-          } else {
-            $this->redirectToPostedUrl();
-          }
+          // if ($formSettings['formRedirect']['customRedirect'] != '') {
+          //   $this->redirect($redirectUrl);
+          // } else {
+            $this->redirectToPostedUrl($submissionEntry);
+          // }
         }
       } else {
         // Submission Error Messages

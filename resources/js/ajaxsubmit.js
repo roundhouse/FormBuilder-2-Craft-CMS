@@ -8,7 +8,7 @@ $(document).ready(function() {
     $(this).find('label > span').remove();
     e.preventDefault();
     url = '/actions/' + $(this).children('[name=action]').attr('value');
-    redirectUrl = $(this).children('[name=formRedirect]').attr('value');
+    redirectUrl = $(this).children('[name=redirect]').attr('value');
     data = $(this).serialize();
     notificationContainer.html('<p>Sending...</p>');
     return $.post(url, data, function(response) {

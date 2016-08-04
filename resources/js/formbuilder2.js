@@ -115,6 +115,11 @@ App = (function() {
         var toggle;
         toggle = $(this).data('checkbox');
         $(this).toggleClass('selected');
+        if (toggle === 'customRedirect') {
+          if (!$(this).hasClass('selected')) {
+            $('#customRedirectUrl').val('');
+          }
+        }
         if ($(this).hasClass('selected')) {
           $('#' + toggle).prop('checked', true);
           return $(this).next('.checkbox-extra').stop().slideDown();

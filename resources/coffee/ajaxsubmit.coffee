@@ -8,7 +8,7 @@ $(document).ready ->
     $(@).find('label > span').remove();
     e.preventDefault()
     url = '/actions/' + $(@).children('[name=action]').attr('value')
-    redirectUrl = $(@).children('[name=formRedirect]').attr('value')
+    redirectUrl = $(@).children('[name=redirect]').attr('value')
     data = $(this).serialize()
 
     # Start Loading
