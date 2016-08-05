@@ -39,7 +39,8 @@
     "notes": [
       "[Improved] Improved custom field templates"
       "[Improved] Custom Routes",
-      "[Added] Submission data can now be passed to custom routes"
+      "[Added] Submission data can now be passed to custom routes",
+      "[Fixed] richfield input can now display validation message if set to required"
     ]
   }
 ]

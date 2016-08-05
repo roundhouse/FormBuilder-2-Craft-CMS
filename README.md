@@ -138,6 +138,7 @@ You can pass submission data to a custom redirect page, here is a snipped code f
 
 ## Changelog
 
+* 8.5.16 - Fixed richfields to display `required` validation message
 * 8.4.16 - Improved custom routes
 * 8.4.16 - Submission data can now be passed to custom routes
 * 8.4.16 - Improved custom field templates
