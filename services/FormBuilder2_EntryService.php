@@ -298,7 +298,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     } else {
       $subject = $notificationSettings['emailSettings']['emailSubject'];
     }
-    ArrayHelper::prependOrAppend($toEmails, $customEmail, true);
+    if ($customEmail != '') {
+      ArrayHelper::prependOrAppend($toEmails, $customEmail, true);
+    }
 
     foreach ($toEmails as $toEmail) {
       $email = new EmailModel();
