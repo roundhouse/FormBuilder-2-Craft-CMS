@@ -116,16 +116,25 @@ class FormBuilder2_EntryController extends BaseController
           case 'Assets':
 
             $uploadedFiles = UploadedFile::getInstancesByName($field->handle);
+            $allowedKinds = [];
+            if ($field->settings['restrictFiles']) {
+              $allowedKinds = $field->settings['allowedKinds'];
+            }
 
             foreach ($uploadedFiles as $file) {
-              $files[] = array(
-                'folderId' => $field->settings['singleUploadLocationSource'][0],
-                'sourceId' => $field->settings['singleUploadLocationSource'][0],
-                'filename' => $file->getName(),
-                'location' => $file->getTempName(),
-                'type'     => $file->getType()
-              );
-
+              $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
+              if (in_array($fileKind, $allowedKinds)) {
+                $files[] = array(
+                  'folderId' => $field->settings['singleUploadLocationSource'][0],
+                  'sourceId' => $field->settings['singleUploadLocationSource'][0],
+                  'filename' => $file->getName(),
+                  'location' => $file->getTempName(),
+                  'type'     => $file->getType(),
+                  'kind'     => $fileKind
+                );
+              } else {
+                $submissionErrorMessage[] = Craft::t('File type is not allowed!');
+              }
             }
 
           break;
@@ -218,7 +227,7 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // VALIDATE SUBMISSION DATA
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $validation = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
+    $validation = craft()->formBuilder2_entry->validateEntry($form, $submissionData, $files);
 
     // if ($validation != '') {
     if (!empty($validation)) {
