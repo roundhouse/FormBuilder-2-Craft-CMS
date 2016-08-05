@@ -43,6 +43,7 @@
       "[Fixed] richfield input can now display validation message if set to required",
       "[Added] Added ability to rename plugin name in sidebar",
       "[Added] Added ability to allow/disallow non-admin users to add/edit/delete forms and entries"
+      "[Added] File asset restrictions get validated"
     ]
   }
 ]

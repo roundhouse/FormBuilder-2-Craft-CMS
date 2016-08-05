@@ -138,6 +138,7 @@ You can pass submission data to a custom redirect page, here is a snipped code f
 
 ## Changelog
 
+* 8.5.16 - File asset restrictions get validated
 * 8.5.16 - Added ability to rename plugin name in sidebar
 * 8.5.16 - Added ability to allow/disallow non-admin users to add/edit/delete forms and entries
 * 8.5.16 - Fixed richfields to display `required` validation message
