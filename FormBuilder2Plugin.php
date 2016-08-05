@@ -61,6 +61,10 @@ class FormBuilder2Plugin extends BasePlugin
 
 	public function getName()
 	{
+    $settings = $this->getSettings();
+    if ($settings->pluginName) {
+      return $settings->pluginName;
+    }
 		return 'FormBuilder 2';
 	}
 
@@ -99,13 +103,31 @@ class FormBuilder2Plugin extends BasePlugin
     return 'formbuilder2/tools/configuration';
   }
 
+  /**
+   * Plugin settings.
+   *
+   * @return array
+   */
+  protected function defineSettings()
+  {
+    return array(
+      'pluginName'   => array(AttributeType::String),
+      'canDoActions' => array(AttributeType::Bool, 'default' => false)
+    );
+  }
+
   public function prepCpTemplate(&$context)
   {
+    $pluginSettings = $this->getSettings();
     $context['subnav'] = array();
     $context['subnav']['dashboard'] = array('label' => Craft::t('Dashboard'), 'url' => 'formbuilder2/dashboard');
-    $context['subnav']['forms'] = array('label' => Craft::t('Forms'), 'url' => 'formbuilder2/forms');
+    if (craft()->userSession->isAdmin() || $pluginSettings->canDoActions) {
+        $context['subnav']['forms'] = array('label' => Craft::t('Forms'), 'url' => 'formbuilder2/forms');
+    }
     $context['subnav']['entries'] = array('label' => Craft::t('Entries'), 'url' => 'formbuilder2/entries');
-    $context['subnav']['configuration'] = array('icon' => 'settings', 'label' => Craft::t('Configuration'), 'url' => 'formbuilder2/tools/configuration');
+    if (craft()->userSession->isAdmin() || $pluginSettings->canDoActions) {
+        $context['subnav']['configuration'] = array('icon' => 'settings', 'label' => Craft::t('Configuration'), 'url' => 'formbuilder2/tools/configuration');
+    }
   }
 
   public function addTwigExtension()  
