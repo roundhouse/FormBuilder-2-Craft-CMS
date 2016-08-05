@@ -444,7 +444,13 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    if (craft()->formBuilder2_entry->sendEmailNotification($form, $fileCollection, $postData, $customSubject, $message, true, null)) {
+    // Custom Emails
+    $customEmail = '';
+    if ($notificationSettings['customEmailField']) {
+      $customEmail = $postData[$notificationSettings['customEmailField']];
+    }
+
+    if (craft()->formBuilder2_entry->sendEmailNotification($form, $fileCollection, $postData, $customEmail, $customSubject, $message, true, null)) {
       return true;
     } else {
       return false;
