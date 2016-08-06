@@ -41,7 +41,7 @@
     {% endif %}
   </div>
 
-  <button type="submit">Submit Message</button>
+  <button type="submit">{% if formSettings.submitButtonText %}{{ formSettings.submitButtonText }}{% else %}Submit Message{% endif %}</button>
 </form>
 
 {% endblock %}
