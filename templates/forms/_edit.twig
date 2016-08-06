@@ -74,6 +74,18 @@
               required: true
             }) }}
 
+            {{ forms.textField({
+              label: "Submit Button Text"|t,
+              instructions: "Custom submit button text."|t,
+              id: 'submitButtonText',
+              class: 'code',
+              name: 'formSettings[submitButtonText]',
+              value: form.formSettings.submitButtonText is defined ? form.formSettings.submitButtonText : '',
+              size: 50,
+              errors: form.getErrors('submitButtonText'),
+              required: false
+            }) }}
+
             <div class="method-redirect pane">
               <div class="checkbox-toggle" data-checkbox="customRedirect">
                 <div class="togglebox">

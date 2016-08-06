@@ -135,7 +135,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           if ($field->required) {
             $text = craft()->request->getPost($field->handle);
             if ($text == '') {
-              $errorMessage[$field->handle] = $field->name . ' cannot be blank.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} cannot be blank.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -143,7 +145,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           if ($field->required) {
             $richField = craft()->request->getPost($field->handle);
             if ($richField == '') {
-              $errorMessage[$field->handle] = $field->name . ' cannot be blank.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} cannot be blank.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -151,11 +155,15 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $number = craft()->request->getPost($field->handle);
           if ($field->required) {
             if (!ctype_digit($number)) {
-              $errorMessage[$field->handle] = $field->name . ' cannot be blank and needs to contain only numbers.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} cannot be blank and needs to contain only numbers.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           } else {
             if (!ctype_digit($number) && (!empty($number))) {
-              $errorMessage[$field->handle] = $field->name . ' needs to contain only numbers.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} needs to contain only numbers.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -163,7 +171,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $multiselect = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($multiselect == '') {
-              $errorMessage[$field->handle] = $field->name . ' needs at least one item selected.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} needs at least one item selected.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -171,7 +181,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $radiobuttons = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($radiobuttons == '') {
-              $errorMessage[$field->handle] = $field->name . ' needs at least one option selected.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} needs at least one option selected.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -179,7 +191,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $dropdown = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($dropdown == '') {
-              $errorMessage[$field->handle] = $field->name . ' needs an item selected.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} needs an item selected.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -187,7 +201,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $checkbox = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($checkbox == '') {
-              $errorMessage[] = $field->name . ' must be checked.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} must be checked.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -271,7 +287,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $email->sender    = $adminEmail;
     $email->fromName  = $notificationSettings['publicFormName'] ? $notificationSettings['publicFormName'] : $form->name;
     $email->toEmail   = $toEmail;
-    $email->subject   = $notificationSettings['submitterEmailSubject'] ? $notificationSettings['submitterEmailSubject'] : 'Thanks For Submission';
+    $email->subject   = $notificationSettings['submitterEmailSubject'] ? $notificationSettings['submitterEmailSubject'] : Craft::t('Thanks For Submission');
     $email->body      = $message;
 
     if (!craft()->email->sendEmail($email)) {
