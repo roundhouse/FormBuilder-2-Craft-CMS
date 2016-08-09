@@ -21,7 +21,7 @@
       type="text"
       class="text" 
       {%- if id is defined %} id="{{ id }}"{% endif %}
-      {%- if max is defined %} size="{{ max }}"{% endif %}
+      {%- if max is defined and max|length > 0 %} size="{{ max }}"{% endif %}
       {%- if handle is defined %} name="{{ handle }}"{% endif %}
       {%- if value is defined %} value="{{ value }}"{% endif %}
       {%- if maxlength is defined and maxlength %} maxlength="{{ maxlength }}"{% endif %}

@@ -14,5 +14,36 @@
     "notes": [
       "[Added] You can now add custom From Name to your notifications (for form submitter)"
     ]
+  },
+  {
+    "version": "2.0.2",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-08-02T17:47:13.000000",
+    "notes": [
+      "[Fixed] Fixed file uploads and email attachments"
+    ]
+  },
+  {
+    "version": "2.0.3",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-08-02T21:00:23+00:00",
+    "notes": [
+      "[Improved] Added ability to rename uploaded files on the entry page",
+      "[Improved] Added ability to use Sprout Fields within your forms"
+    ]
+  },
+  {
+    "version": "2.0.5",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-08-04T21:12:03+00:00",
+    "notes": [
+      "[Improved] Improved custom field templates"
+      "[Improved] Custom Routes",
+      "[Added] Submission data can now be passed to custom routes",
+      "[Fixed] richfield input can now display validation message if set to required",
+      "[Added] Added ability to rename plugin name in sidebar",
+      "[Added] Added ability to allow/disallow non-admin users to add/edit/delete forms and entries"
+      "[Added] File asset restrictions get validated"
+    ]
   }
 ]

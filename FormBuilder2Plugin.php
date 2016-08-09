@@ -6,7 +6,7 @@ Plugin Url: https://github.com/roundhouse/FormBuilder-2
 Author: Vadim Goncharov (https://github.com/owldesign)
 Author URI: http://roundhouseagency.com
 Description: FormBuilder 2 is a Craft CMS plugin that lets you create forms for your front-end.
-Version: 0.1.1
+Version: 2.0.5
 */
 
 namespace Craft;
@@ -19,6 +19,39 @@ class FormBuilder2Plugin extends BasePlugin
     if (craft()->request->isCpRequest()) {
       craft()->templates->hook('formBuilder2.prepCpTemplate', array($this, 'prepCpTemplate'));
     }
+
+    craft()->on('fields.saveFieldLayout', function(Event $e) {
+      $layout = $e->params['layout'];
+      $customfield = craft()->request->getPost('customfield');
+
+      if($customfield) {
+        $transaction = craft()->db->getCurrentTransaction() ? false : craft()->db->beginTransaction();
+        try {
+          foreach($customfield as $fieldId => $labelInfo) {
+            $label = new FormBuilder2_FieldModel();
+            $label->fieldId = $fieldId;
+            $label->fieldLayoutId = $layout->id;
+
+            if(array_key_exists('template', $labelInfo)) {
+              $label->template = $labelInfo['template'];
+            }
+
+            craft()->formBuilder2_field->saveLabel($label);
+          }
+
+          if($transaction) {
+            $transaction->commit();
+          }
+        } catch(\Exception $e) {
+          if($transaction) {
+            $transaction->rollback();
+          }
+
+          throw $e;
+        }
+        unset($_POST['customfield']);
+      }
+    });
   }
 
   public function getReleaseFeedUrl()
@@ -28,12 +61,16 @@ class FormBuilder2Plugin extends BasePlugin
 
 	public function getName()
 	{
+    $settings = $this->getSettings();
+    if ($settings->pluginName) {
+      return $settings->pluginName;
+    }
 		return 'FormBuilder 2';
 	}
 
 	public function getVersion()
 	{
-		return '0.1.1';
+		return '2.0.5';
 	}
 
 	public function getDeveloper()
@@ -66,13 +103,31 @@ class FormBuilder2Plugin extends BasePlugin
     return 'formbuilder2/tools/configuration';
   }
 
+  /**
+   * Plugin settings.
+   *
+   * @return array
+   */
+  protected function defineSettings()
+  {
+    return array(
+      'pluginName'   => array(AttributeType::String),
+      'canDoActions' => array(AttributeType::Bool, 'default' => false)
+    );
+  }
+
   public function prepCpTemplate(&$context)
   {
+    $pluginSettings = $this->getSettings();
     $context['subnav'] = array();
     $context['subnav']['dashboard'] = array('label' => Craft::t('Dashboard'), 'url' => 'formbuilder2/dashboard');
-    $context['subnav']['forms'] = array('label' => Craft::t('Forms'), 'url' => 'formbuilder2/forms');
+    if (craft()->userSession->isAdmin() || $pluginSettings->canDoActions) {
+        $context['subnav']['forms'] = array('label' => Craft::t('Forms'), 'url' => 'formbuilder2/forms');
+    }
     $context['subnav']['entries'] = array('label' => Craft::t('Entries'), 'url' => 'formbuilder2/entries');
-    $context['subnav']['configuration'] = array('icon' => 'settings', 'label' => Craft::t('Configuration'), 'url' => 'formbuilder2/tools/configuration');
+    if (craft()->userSession->isAdmin() || $pluginSettings->canDoActions) {
+        $context['subnav']['configuration'] = array('icon' => 'settings', 'label' => Craft::t('Configuration'), 'url' => 'formbuilder2/tools/configuration');
+    }
   }
 
   public function addTwigExtension()  
@@ -84,8 +139,8 @@ class FormBuilder2Plugin extends BasePlugin
   public function registerCpRoutes()
   {
     return array(
-      'formbuilder2'                                  => array('action' => 'formBuilder2/dashboard'),
-      'formbuilder2/dashboard'                        => array('action' => 'formBuilder2/dashboard'),
+      'formbuilder2'                                  => array('action' => 'formBuilder2_Dashboard/dashboard'),
+      'formbuilder2/dashboard'                        => array('action' => 'formBuilder2_Dashboard/dashboard'),
       'formbuilder2/tools/configuration'              => array('action' => 'formBuilder2/configurationIndex'),
       'formbuilder2/tools/backup-restore'             => array('action' => 'formBuilder2/backupRestoreIndex'),
       'formbuilder2/tools/export'                     => array('action' => 'formBuilder2/exportIndex'),

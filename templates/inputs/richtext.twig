@@ -25,6 +25,18 @@
 </div>
 
 {% set redactorJs %}
-  $('#{{ id }}').redactor();
+	$('#{{ id }}').redactor();
 {% endset %}
 {% includeJs redactorJs %}
+
+{% set redactorCss %}
+textarea {
+	display: block !important;
+	position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+{% endset %}
+{% includeCss redactorCss %}

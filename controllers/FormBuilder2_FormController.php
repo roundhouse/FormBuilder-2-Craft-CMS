@@ -40,11 +40,6 @@ class FormBuilder2_FormController extends BaseController
     if (!empty($variables['formId'])) {
       if (empty($variables['form'])) {
         $variables['form'] = craft()->formBuilder2_form->getFormById($variables['formId']);
-        // $variables['crumbs'] = array(
-        //   array('label' => Craft::t('FormBuilder 2'), 'url' => UrlHelper::getUrl('formbuilder2')),
-        //   array('label' => Craft::t('Forms'),   'url' => UrlHelper::getUrl('formbuilder2/forms')),
-        //   array('label' => $variables['formId'],  'url' => UrlHelper::getUrl('formbuilder2/forms/' . $variables['formId'] . '/edit')),
-        // );
 
         if (!$variables['form']) { 
           throw new HttpException(404);
@@ -66,11 +61,6 @@ class FormBuilder2_FormController extends BaseController
       if (empty($variables['form'])) {
         $variables['form'] = new FormBuilder2_FormModel();
         $variables['brandNewForm'] = true;
-        // $variables['crumbs'] = array(
-        //   array('label' => Craft::t('FormBuilder 2'), 'url' => UrlHelper::getUrl('formbuilder2')),
-        //   array('label' => Craft::t('Forms'),   'url' => UrlHelper::getUrl('formbuilder2/forms')),
-        //   array('label' => Craft::t('New Form'),  'url' => UrlHelper::getUrl('formbuilder2/forms/new')),
-        // );
       }
       $variables['title'] = Craft::t('Create a new form');
     }

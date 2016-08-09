@@ -47,6 +47,15 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     return $entries;
   }
 
+  public function getEntryById($entryId)
+  {
+    $entryRecord = FormBuilder2_EntryRecord::model()->findByAttributes(array(
+      'id' => $entryId,
+    ));
+    $entry = FormBuilder2_EntryModel::populateModel($entryRecord);
+    return $entry;
+  }
+
   /**
    * Get Total Entries Count
    *
@@ -74,10 +83,10 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Get Form Entry By Id
    *
    */
-  // public function getFormEntryById($id)
-  // {
-  //   return craft()->elements->getElementById($id, 'FormBuilder2');
-  // }
+  public function getFormEntryById($id)
+  {
+    return craft()->elements->getElementById($id, 'FormBuilder2');
+  }
 
   /**
    * Get Submission By ID
@@ -126,7 +135,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           if ($field->required) {
             $text = craft()->request->getPost($field->handle);
             if ($text == '') {
-              $errorMessage[$field->handle] = $field->name . ' cannot be blank.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} cannot be blank.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -134,7 +145,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           if ($field->required) {
             $richField = craft()->request->getPost($field->handle);
             if ($richField == '') {
-              $errorMessage[$field->handle] = $field->name . ' cannot be blank.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} cannot be blank.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -142,11 +155,15 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $number = craft()->request->getPost($field->handle);
           if ($field->required) {
             if (!ctype_digit($number)) {
-              $errorMessage[$field->handle] = $field->name . ' cannot be blank and needs to contain only numbers.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} cannot be blank and needs to contain only numbers.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           } else {
             if (!ctype_digit($number) && (!empty($number))) {
-              $errorMessage[$field->handle] = $field->name . ' needs to contain only numbers.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} needs to contain only numbers.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -154,7 +171,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $multiselect = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($multiselect == '') {
-              $errorMessage[$field->handle] = $field->name . ' needs at least one item selected.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} needs at least one item selected.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -162,7 +181,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $radiobuttons = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($radiobuttons == '') {
-              $errorMessage[$field->handle] = $field->name . ' needs at least one option selected.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} needs at least one option selected.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -170,7 +191,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $dropdown = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($dropdown == '') {
-              $errorMessage[$field->handle] = $field->name . ' needs an item selected.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} needs an item selected.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -178,7 +201,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
           $checkbox = craft()->request->getPost($field->handle);
           if ($field->required) {
             if ($checkbox == '') {
-              $errorMessage[] = $field->name . ' must be checked.';
+              $errorMessage[$field->handle] = Craft::t('{fieldname} must be checked.', array(
+                                                'fieldname' => $field->name
+                                              ));
             }
           }
         break;
@@ -205,36 +230,10 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
 
     $submissionRecord = new FormBuilder2_EntryRecord();
 
-    // File Uploads
-    if ($submission->files) {
-      $fileIds = [];
-      foreach ($submission->files as $key => $value) {
-        if ($value->size) {
-          $folder = $value->getFolder();
-          
-          // Make sure folder excist
-          $source = $folder->getSource()['settings'];
-          IOHelper::ensureFolderExists($source['path'], $suppressErrors = true);
-
-          // Save/Store Files
-          $fileName = IOHelper::getFileName($value->filename, true);
-          $response = craft()->assets->insertFileByLocalPath($value->originalName, $fileName, $value->folderId, AssetConflictResolution::KeepBoth);
-          $fileIds[] = $response->getDataItem('fileId');
-
-          // Delete Temp Files
-          IOHelper::deleteFile($value->originalName, true);
-
-          if ($response->isError()) {
-            $response->setError(Craft::t('There was an error with file uploads.'));
-          }
-        }
-        $submissionRecord->files = $fileIds;
-      }
-    }
-    
     // Build Entry Record
     $submissionRecord->formId       = $submission->formId;
     $submissionRecord->title        = $submission->title;
+    $submissionRecord->files        = $submission->files;
     $submissionRecord->submission   = $submission->submission;
 
     $submissionRecord->validate();
@@ -288,7 +287,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $email->sender    = $adminEmail;
     $email->fromName  = $notificationSettings['publicFormName'] ? $notificationSettings['publicFormName'] : $form->name;
     $email->toEmail   = $toEmail;
-    $email->subject   = $notificationSettings['submitterEmailSubject'] ? $notificationSettings['submitterEmailSubject'] : 'Thanks For Submission';
+    $email->subject   = $notificationSettings['submitterEmailSubject'] ? $notificationSettings['submitterEmailSubject'] : Craft::t('Thanks For Submission');
     $email->body      = $message;
 
     if (!craft()->email->sendEmail($email)) {
@@ -302,7 +301,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Send Email Notification
    *
    */
-  public function sendEmailNotification($form, $postUploads, $postData, $customSubject, $message, $html = true, $email = null)
+  public function sendEmailNotification($form, $files, $postData, $customEmail, $customSubject, $message, $html = true, $email = null)
   { 
     $errors = false;
     $attributes = $form->getAttributes();
@@ -315,13 +314,8 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     } else {
       $subject = $notificationSettings['emailSettings']['emailSubject'];
     }
-    
-    // If submission has files
-    if ($postUploads) {
-      $fileAttachments = [];
-      foreach ($postUploads as $file) {
-        $fileAttachments[] = craft()->assets->getFileById($file);
-      }
+    if ($customEmail != '') {
+      ArrayHelper::prependOrAppend($toEmails, $customEmail, true);
     }
 
     foreach ($toEmails as $toEmail) {
@@ -337,11 +331,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       $email->body      = $message;
 
       // Attach files to email
-      if (!empty($fileAttachments)) {
-        foreach ($fileAttachments as $attachment) {
-          if ($attachment) {
-            $email->addAttachment($attachment->getUrl(), $attachment->title, 'base64', $attachment->getMimeType());
-          }
+      if (!empty($files)) {
+        foreach ($files as $attachment) {
+          $email->addAttachment($attachment['tempPath'], $attachment['filename'], 'base64', $attachment['type']);
         }
       }
 

@@ -1,4 +1,7 @@
-{%- set id = (id is defined ? id : 'file-' ~ random()) %}
+{%- set type = (type is defined ? type : 'text') %}
+{%- set id = (id is defined ? id : 'text-' ~ random()) %}
+{%- set min = (min is defined ? min : null) %}
+{%- set max = (max is defined ? max : null) %}
 
 <div class="field">
   {% if label or instructions %}
@@ -14,13 +17,6 @@
     </div>
   {% endif %}
   <div class="input">
-    <input 
-      type="file"
-    	{%- if id is defined %} id="{{ id }}"{% endif %}
-    	{%- if handle is defined %} name="{{ handle }}[]"{% endif %}
-    	{%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}
-      multiple>
+    {% include 'sproutfields/templates/_integrations/sproutforms/fields/email/input' %}
   </div>
 </div>
-
-{# TODO: ADD MULTIPLE FILES CAPABILITY #}

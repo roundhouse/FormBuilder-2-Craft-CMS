@@ -47,7 +47,9 @@ module.exports = (grunt) ->
       compile:
         files:
           '<%= ResourcesDirectory %>/js/formbuilder2.js': ['<%= CoffeeDirectory %>/formbuilder2.coffee']
+          '<%= ResourcesDirectory %>/js/entrydetails.js': ['<%= CoffeeDirectory %>/entrydetails.coffee']
           '<%= ResourcesDirectory %>/js/ajaxsubmit.js': ['<%= CoffeeDirectory %>/ajaxsubmit.coffee']
+          '<%= ResourcesDirectory %>/js/emailpreview.js': ['<%= CoffeeDirectory %>/emailpreview.coffee']
 
     # =============================================
     # UGLIFY JAVASCRIPT

@@ -31,6 +31,7 @@ class FormBuilder2_EntryController extends BaseController
   public function actionViewEntry(array $variables = array())
   {
     $entry = craft()->formBuilder2_entry->getSubmissionById($variables['entryId']);
+
     if (empty($entry)) { throw new HttpException(404); }
 
     $files = '';
@@ -41,6 +42,9 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
+    $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
+
+    $variables['settings']    = $settings;
     $variables['entry']       = $entry;
     $variables['title']       = 'FormBuilder2';
     $variables['form']        = craft()->formBuilder2_form->getFormById($entry->formId);
@@ -110,28 +114,29 @@ class FormBuilder2_EntryController extends BaseController
         $field = $value->getField();
         switch ($field->type) {
           case 'Assets':
-            foreach ($_FILES as $key => $value) {
-              if (!$value['tmp_name'] == '') {
-                $fileModel = new AssetFileModel();
-                $folderId = $field->settings['singleUploadLocationSource'][0];
-                $sourceId = $field->settings['singleUploadLocationSource'][0];
-                $fileModel->originalName  = $value['tmp_name'];
-                $fileModel->sourceId      = $sourceId;
-                $fileModel->folderId      = $folderId;
-                $fileModel->filename      = IOHelper::getFileName($value['name']);
-                $fileModel->kind          = IOHelper::getFileKind(IOHelper::getExtension($value['name']));
-                $fileModel->size          = filesize($value['tmp_name']);
-                if ($value['tmp_name']) {
-                  $fileModel->dateModified  = IOHelper::getLastTimeModified($value['tmp_name']);
-                }
-                if ($fileModel->kind == 'image') {
-                  list ($width, $height) = ImageHelper::getImageSize($value['tmp_name']);
-                  $fileModel->width = $width;
-                  $fileModel->height = $height;
-                }
-                $files[$key]     = $fileModel;
+
+            $uploadedFiles = UploadedFile::getInstancesByName($field->handle);
+            $allowedKinds = [];
+            if ($field->settings['restrictFiles']) {
+              $allowedKinds = $field->settings['allowedKinds'];
+            }
+
+            foreach ($uploadedFiles as $file) {
+              $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
+              if (in_array($fileKind, $allowedKinds)) {
+                $files[] = array(
+                  'folderId' => $field->settings['singleUploadLocationSource'][0],
+                  'sourceId' => $field->settings['singleUploadLocationSource'][0],
+                  'filename' => $file->getName(),
+                  'location' => $file->getTempName(),
+                  'type'     => $file->getType(),
+                  'kind'     => $fileKind
+                );
+              } else {
+                $submissionErrorMessage[] = Craft::t('File type is not allowed!');
               }
             }
+
           break;
         }
       }
@@ -205,7 +210,6 @@ class FormBuilder2_EntryController extends BaseController
     $submissionEntry                  = new FormBuilder2_EntryModel();
     $submissionEntry->formId          = $form->id;
     $submissionEntry->title           = $form->name;
-    $submissionEntry->files           = $files;
     $submissionEntry->submission      = $submissionData;
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -223,7 +227,7 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // VALIDATE SUBMISSION DATA
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $validation = craft()->formBuilder2_entry->validateEntry($form, $submissionData);
+    $validation = craft()->formBuilder2_entry->validateEntry($form, $submissionData, $files);
 
     // if ($validation != '') {
     if (!empty($validation)) {
@@ -250,12 +254,33 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     if (!$submissionErrorMessage && $passedValidation && $spamTimedMethod && $spamHoneypotMethod) {
 
+      // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      // FILE UPLOADS
+      // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      $fileIds = [];
+      $fileCollection = [];
+      $tempPath = [];
+      if ($files) {
+        foreach ($files as $key => $file) {
+          $tempPath = AssetsHelper::getTempFilePath($file['filename']);
+          move_uploaded_file($file['location'], $tempPath);
+          $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $file['folderId'], AssetConflictResolution::KeepBoth);
+          $fileIds[] = $response->getDataItem('fileId');
+          $fileCollection[] = [
+            'tempPath' => $tempPath,
+            'filename' => $file['filename'],
+            'type'     => $file['type']
+          ];
+        }
+        $submissionEntry->files = $fileIds;
+      }
+
       $submissionResponseId = craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry);
 
       if ($submissionResponseId) {
         // Notify Admin of Submission
         if ($notificationSettings['notifySubmission'] == '1') {
-          $this->notifyAdminOfSubmission($submissionResponseId, $form);
+          $this->notifyAdminOfSubmission($submissionResponseId, $fileCollection, $form);
         }
 
         // Notify Submitter of Submission
@@ -264,7 +289,11 @@ class FormBuilder2_EntryController extends BaseController
             $this->notifySubmitterOfSubmission($submissionResponseId, $form);
           }
         }
-        
+
+        foreach ($fileCollection as $file) {
+          IOHelper::deleteFile($file['tempPath'], true);
+        }
+
         // Successful Submission Messages
         if ($ajax) {
           $this->returnJson([
@@ -273,11 +302,9 @@ class FormBuilder2_EntryController extends BaseController
           ]);
         } else {
           craft()->userSession->setFlash('success', $customSuccessMessage);
-          if ($formSettings['formRedirect']['customRedirect'] != '') {
-            $this->redirect($redirectUrl);
-          } else {
-            $this->redirectToPostedUrl();
-          }
+          $cookie = new HttpCookie('formBuilder2SubmissionId', $submissionEntry->attributes['id']);
+          craft()->request->getCookies()->add($cookie->name, $cookie);
+          $this->redirectToPostedUrl();
         }
       } else {
         // Submission Error Messages
@@ -366,10 +393,10 @@ class FormBuilder2_EntryController extends BaseController
    * Notify Admin of Submission
    *
    */
-  protected function notifyAdminOfSubmission($submissionResponseId, $form)
+  protected function notifyAdminOfSubmission($submissionResponseId, $fileCollection, $form)
   {  
     $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
-    $files            = [];
+    $files            = '';
     $postUploads      = $submission->files;
     $postData         = $submission->submission;
     $postData         = $this->filterSubmissionKeys($postData);
@@ -385,7 +412,7 @@ class FormBuilder2_EntryController extends BaseController
         $criteria         = craft()->elements->getCriteria(ElementType::Asset);
         $criteria->id     = $id;
         $criteria->limit  = 1;
-        $files[]          = $criteria->find();
+        $files          = $criteria->find();
       }
     }
 
@@ -439,7 +466,13 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    if (craft()->formBuilder2_entry->sendEmailNotification($form, $postUploads, $postData, $customSubject, $message, true, null)) {
+    // Custom Emails
+    $customEmail = '';
+    if ($notificationSettings['customEmailField']) {
+      $customEmail = $postData[$notificationSettings['customEmailField']];
+    }
+
+    if (craft()->formBuilder2_entry->sendEmailNotification($form, $fileCollection, $postData, $customEmail, $customSubject, $message, true, null)) {
       return true;
     } else {
       return false;
@@ -454,6 +487,7 @@ class FormBuilder2_EntryController extends BaseController
   {
     $filterKeys = array(
       'action',
+      'redirect',
       'formRedirect',
       'formHandle',
       'spamTimeMethod',

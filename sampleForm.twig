@@ -9,7 +9,7 @@
 {% block content %}
 <form method="post" accept-charset="utf-8" name="{{ form.handle }}" class="formbuilder2" id="{{ form.handle }}"{% if formSettings.hasFileUploads == '1' %} enctype="multipart/form-data"{% endif %}>
   <input type="hidden" name="action" value="formBuilder2/entry/submitEntry">
-  <input type="hidden" name="formRedirect" data-custom-redirect="{{ formSettings.formRedirect.customRedirect }}" value="{{ formSettings.formRedirect.customRedirectUrl }}">
+  <input type="hidden" name="redirect" data-custom-redirect="{{ formSettings.formRedirect.customRedirect }}" value="{{ formSettings.formRedirect.customRedirectUrl }}">
   <input type="hidden" name="formHandle" value="{{ form.handle }}">
   {% if spamProtectionSettings.spamTimeMethod == '1' %}<input type="hidden" name="spamTimeMethod" value="{{ 'now'|date('U') }}">{% endif %}
   {% if spamProtectionSettings.spamHoneypotMethod == '1' %}<div style="display:none;"><label for="email-addresss-new">{{ spamProtectionSettings.spamHoneypotMethodMessage }}</label><input name="email-address-new" value="" id="email-addresss-new"></div>{% endif %}
@@ -29,7 +29,7 @@
 
   {# Errors/Success Messages #}
   <div class="notifications">
-    <p class="notification error-message">{{ craft.session.getFlash('error') | raw }}<p>
+    <p class="notification error-message">{{ craft.session.getFlash('error') | raw }}</p>
     <p class="notification success-message">{{ craft.session.getFlash('success') | raw }}</p>
     {% set errors = (errors is defined ? errors : null) %}
     {% if errors %}
@@ -41,7 +41,7 @@
     {% endif %}
   </div>
 
-  <button type="submit">Submit Message</button>
+  <button type="submit">{% if formSettings.submitButtonText %}{{ formSettings.submitButtonText }}{% else %}Submit Message{% endif %}</button>
 </form>
 
 {% endblock %}

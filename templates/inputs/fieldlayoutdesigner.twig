@@ -92,7 +92,18 @@
 	</div>
 </div>
 
+{% includeJsResource "formbuilder2/js/customfields.js" %}
+{% includeJsResource "formbuilder2/js/customfieldseditor.js" %}
+{% includeJsResource "formbuilder2/js/customfieldseditormodal.js" %}
+
+
 {% set js %}
+
+	CustomField.labels = {{ craft.formBuilder2.getJsonLabels() |raw }};
+	CustomField.fields = {{ craft.formBuilder2.getFields() |raw }};
+
+	CustomField.setup();
+
 	var initFLD = function() {
 		new Craft.FieldLayoutDesigner('#{{ "fieldlayoutform"|namespaceInputId }}', {
 			customizableTabs: {{ customizableTabs ? 'true' : 'false' }},

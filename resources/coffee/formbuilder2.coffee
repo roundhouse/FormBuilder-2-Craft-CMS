@@ -107,13 +107,16 @@ class App
       $('.checkbox-toggle').on 'click', ->
         toggle = $(@).data 'checkbox'
         $(@).toggleClass 'selected'
+        if toggle == 'customRedirect'
+          if !$(@).hasClass('selected')
+            $('#customRedirectUrl').val ''
+
         if $(@).hasClass('selected')
           $('#'+toggle).prop 'checked', true
           $(@).next('.checkbox-extra').stop().slideDown()
         else
           $('#'+toggle).prop 'checked', false
           $(@).next('.checkbox-extra').stop().slideUp()
-
 
 
 $(document).ready ->
