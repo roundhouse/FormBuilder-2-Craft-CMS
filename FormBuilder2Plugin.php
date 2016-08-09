@@ -139,8 +139,8 @@ class FormBuilder2Plugin extends BasePlugin
   public function registerCpRoutes()
   {
     return array(
-      'formbuilder2'                                  => array('action' => 'formBuilder2/dashboard'),
-      'formbuilder2/dashboard'                        => array('action' => 'formBuilder2/dashboard'),
+      'formbuilder2'                                  => array('action' => 'formBuilder2_Dashboard/dashboard'),
+      'formbuilder2/dashboard'                        => array('action' => 'formBuilder2_Dashboard/dashboard'),
       'formbuilder2/tools/configuration'              => array('action' => 'formBuilder2/configurationIndex'),
       'formbuilder2/tools/backup-restore'             => array('action' => 'formBuilder2/backupRestoreIndex'),
       'formbuilder2/tools/export'                     => array('action' => 'formBuilder2/exportIndex'),

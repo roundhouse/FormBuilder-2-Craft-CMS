@@ -4,6 +4,16 @@
 
 .fb-configuration {
 
+  .pane {
+    margin: 0;
+    padding: 20px;
+    border-radius: 0;
+  }
+
+  #main > .padded {
+    padding: 0;
+  }
+
   #fb-content {
     min-height: 600px;
     & > .pane {

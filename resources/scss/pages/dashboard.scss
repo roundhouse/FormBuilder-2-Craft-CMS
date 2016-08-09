@@ -4,20 +4,25 @@
 
 .fb-dashboard {
 
-  // Overview 
-  .overview {
-    padding: 0 20px 20px 0;
-    box-sizing: border-box;
-    @include align-items(stretch);
+  #main > .padded {
+    padding: 0;
+  }
+
+  .pane {
+    margin: 0;
+    padding: 20px;
+    border-radius: 0;
+  }
+
+  // Forms & Entries
+  .d-forms, .d-entries {
+    @include align-items(center);
     @include display(flex);
     @include flex-direction(row);
     @include justify-content(flex-start);
     & > div {
-      margin: 0 40px 0 0;
-      border-radius: 0;
-      &:last-child { margin-right: 0; }
+      @include flex(1);
     }
-
     h2, p {
       margin: 0;
       padding: 0;
@@ -31,12 +36,15 @@
     p {
       font-size: 12px;
       font-weight: 600;
-      border-top: 1px solid rgba(black, .1);
       padding-top: 5px;
       margin-top: 5px;
       color: rgba($c-blue, .8);
     }
-
+    .action {
+      max-width: 33px;
+      a {
+        display: block;
+      }
+    }
   }
-
 }
