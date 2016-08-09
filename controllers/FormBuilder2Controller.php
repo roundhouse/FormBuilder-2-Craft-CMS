@@ -6,21 +6,6 @@ class FormBuilder2Controller extends BaseController
  
  	protected $allowAnonymous = true;
 
-  public function actionGetEmailTemplate()
-  {
-    $id = craft()->request->getPost('templateId');
-    // $emailTemplate = craft()->formBuilder2
-    $variables['id'] = $id;
-    $variables['foo'] = 'bar';
-
-    craft()->templates->setTemplatesPath(craft()->path->getPluginsPath());
-    $html = craft()->templates->render('formbuilder2/templates/email/template-'.$id, $variables);
-    craft()->templates->setTemplatesPath(craft()->templates->getTemplatesPath());
-
-    $this->returnJson($html);
-  }
-
-
   public function actionGetFormFields()
   {
     $formId = craft()->request->getPost('formId');

@@ -1,0 +1,181 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+{% hook 'formBuilder2.prepCpTemplate' %}
+
+{% set selectedSubnavItem = "templates" %}
+{% set bodyClass = 'formbuilder fb-templates-edit' %}
+{% set pageSlug = craft.request.lastSegment %}
+
+{% if pageSlug == 'edit' %}
+	{% set page = 'Edit Template' %}
+{% else %}
+	{% set page = 'New Template' %}
+{% endif %}
+
+{% block pageHeader %}
+  {% include 'formbuilder2/partials/header' %}
+{% endblock %}
+
+{% block main %}
+  
+  <section id="fb-content">
+    <header class="section-header">
+      <div id="page-title"><h1>{{ page|t }}</h1></div>
+      <div id="extra-headers"><div class="buttons right"><div class="btngroup"><a href="{{ url('formbuilder2/templates') }}" class="btn icon"><span>{{ "Back to Templates"|t }}</span></a></div></div></div>
+    </header>
+
+    <div class="template-form">
+
+      <form method="post" accept-charset="UTF-8" data-saveshortcut="1">
+        <input type="hidden" name="action" value="formBuilder2/template/saveTemplate">
+        <input type="hidden" name="redirect" value="formbuilder2/templates">
+        {{ getCsrfInput() }}
+
+        {% if template.id %}
+          <input type="hidden" name="templateId" value="{{ template.id }}">
+        {% endif %}
+
+        {{ forms.textField({
+          first: true,
+          label: "Template Name"|t,
+          instructions: "Give your template a name."|t,
+          id: 'name',
+          name: 'name',
+          value: template.name,
+          errors: template.getErrors('name'),
+          autofocus: true,
+          required: true,
+          size: 50,
+          translatable: true
+        }) }}
+
+        {{ forms.textField({
+          label: "Handle"|t,
+          instructions: "How you’ll refer to this template in the templates."|t,
+          id: 'handle',
+          class: 'code',
+          name: 'handle',
+          value: template.handle,
+          size: 50,
+          errors: template.getErrors('handle'),
+          required: true
+        }) }}
+
+        {# Selecting Template File #}
+
+        {% set tempFiles = templateFiles %}
+        {% set templateOptions = [{label: 'Select Template File', value: '0'}] %}
+        {% for temp in tempFiles %}
+          {% set templateOptions = templateOptions|merge([{ label: temp.fileName, value: temp.fileOriginalName }]) %}
+        {% endfor %}
+
+        {{ forms.selectField({
+          id: 'templateFile',
+          name: 'templateFile[fileOriginalName]',
+          options: templateOptions ? templateOptions : '',
+          value: (template.templateFile.fileOriginalName is defined ? template.templateFile.fileOriginalName : null),
+          errors: template.getErrors('fileOriginalName'),
+          required: true
+        }) }}
+
+        <input type="hidden" name="templateFile[fileNameCleaned]" value="">
+        <input type="hidden" name="templateFile[fileExtension]" value="">
+        <input type="hidden" name="templateFile[filePath]" value="">
+        <input type="hidden" name="templateFile[fileContents]" value="">
+
+        {# END Selecting Template File #}
+
+
+        {{ forms.textField({
+          label: "Body Width"|t,
+          instructions: "Enter template body width (pixels)."|t,
+          id: 'templateBodyWidth',
+          class: 'templateBodyWidth',
+          name: 'templateSettings[templateBodyWidth]',
+          value: (templateSettings.templateBodyWidth is defined ? templateSettings.templateBodyWidth : '500'),
+          size: 50,
+          errors: template.getErrors('templateBodyWidth'),
+        }) }}
+
+        <div class="field">
+            <div class="heading">
+                <label for="templateBodyBackgroundColor">{{ "Body Background Color"|t }}</label>
+                <div class="instructions"><p>{{ "Body background color for the tempalte."|t }}</p></div>
+            </div>
+            <div class="input">
+                {{ forms.color({
+                  id: 'templateBodyBackgroundColor',
+                  class: 'templateBodyBackgroundColor',
+                  name: 'templateSettings[templateBodyBackgroundColor]',
+                  value: (templateSettings.templateBodyBackgroundColor is defined ? templateSettings.templateBodyBackgroundColor : '#cccccc'),
+                  size: 50,
+                  errors: template.getErrors('templateBodyBackgroundColor'),
+                }) }}
+            </div>
+        </div>
+
+
+        <div class="field">
+            <div class="heading">
+                <label for="templateBackgroundColor">{{ "Template Background Color"|t }}</label>
+                <div class="instructions"><p>{{ "Template background color for the tempalte."|t }}</p></div>
+            </div>
+            <div class="input">
+                {{ forms.color({
+                  id: 'templateBackgroundColor',
+                  class: 'templateBackgroundColor',
+                  name: 'templateSettings[templateBackgroundColor]',
+                  value: (templateSettings.templateBackgroundColor is defined ? templateSettings.templateBackgroundColor : '#ffffff'),
+                  size: 50,
+                  errors: template.getErrors('templateBodyBackgroundColor'),
+                }) }}
+            </div>
+        </div>
+
+
+        <div class="field">
+            <div class="heading">
+                <label for="templateTextColor">{{ "Text Color"|t }}</label>
+                <div class="instructions"><p>{{ "Paragraph text color."|t }}</p></div>
+            </div>
+            <div class="input">
+                {{ forms.color({
+                  id: 'templateTextColor',
+                  class: 'templateTextColor',
+                  name: 'templateSettings[templateTextColor]',
+                  value: (templateSettings.templateTextColor is defined ? templateSettings.templateTextColor : '#000000'),
+                  size: 50,
+                  errors: template.getErrors('templateTextColor'),
+                }) }}
+            </div>
+        </div>
+
+
+        
+
+        
+
+
+
+
+        <div class="buttons">
+          <input type="submit" class="btn submit" value="{{ 'Save Template'|t }}">
+        </div>
+
+      </form>
+
+    </div>
+
+  </section>
+
+{% endblock %}
+
+{% includeJsResource "formbuilder2/js/templates.js" %}
+
+{% set js %}
+  var templatePicker = new TemplatePicker();
+  var livePreview = new Craft.LivePreview();
+  {% if not template.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}
+{% endset %}
+{% includeJs js %}
+

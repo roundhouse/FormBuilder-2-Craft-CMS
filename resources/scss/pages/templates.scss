@@ -1,0 +1,33 @@
+/* ============================================ *
+ * Templates
+ * ============================================ */
+
+// Index
+.fb-templates {
+   .pane {
+     margin: 0;
+     padding: 20px;
+     border-radius: 0;
+   }
+
+   #main > .padded {
+     padding: 0;
+   }
+}
+
+// Edit/New
+.fb-templates-edit {
+	.pane {
+	  margin: 0;
+	  padding: 20px;
+	  border-radius: 0;
+	}
+
+	#main > .padded {
+	  padding: 0;
+	}
+
+	.template-form {
+		padding: 30px;
+	}
+}

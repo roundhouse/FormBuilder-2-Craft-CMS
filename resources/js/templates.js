@@ -1,3 +1,26 @@
+var TemplatePicker;
+
+TemplatePicker = Garnish.Base.extend({
+  $element: $('#templateFile'),
+  init: function() {
+    var that;
+    that = this;
+    return this.addListener(this.$element, 'change', function(ev) {
+      var params;
+      params = {
+        templateName: ev.target.value
+      };
+      return Craft.postActionRequest('formBuilder2/template/getTemplateByName', params, $.proxy((function(response, textStatus) {
+        console.log(response);
+        $('input[name="templateFile[fileNameCleaned]"]').val(response.fileNameCleaned);
+        $('input[name="templateFile[fileExtension]"]').val(response.fileExtension);
+        $('input[name="templateFile[filePath]"]').val(response.filePath);
+        return $('input[name="templateFile[fileContents]"]').val(response.fileContents);
+      }), that));
+    });
+  }
+});
+
 Craft.EmailTemplates = Garnish.Base.extend({
   $this: null,
   $parentInput: null,
@@ -23,7 +46,7 @@ Craft.EmailTemplates = Garnish.Base.extend({
       params = {
         templateId: target
       };
-      return Craft.postActionRequest('formBuilder2/getEmailTemplate', params, $.proxy((function(response, textStatus) {
+      return Craft.postActionRequest('formBuilder2/template/getEmailTemplate', params, $.proxy((function(response, textStatus) {
         console.log(response);
         console.log(that.modals[target].$container.find('.main').html(response));
         return that.modals[target].show();

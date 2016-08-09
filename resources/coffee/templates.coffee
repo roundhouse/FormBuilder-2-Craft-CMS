@@ -1,3 +1,23 @@
+TemplatePicker = Garnish.Base.extend(
+    $element: $('#templateFile')
+
+    init: () ->
+        that = this
+
+        @addListener @$element, 'change', (ev) ->
+            params = 
+              templateName: ev.target.value
+
+            Craft.postActionRequest 'formBuilder2/template/getTemplateByName', params, $.proxy(((response, textStatus) ->
+                console.log response
+                $('input[name="templateFile[fileNameCleaned]"]').val response.fileNameCleaned
+                $('input[name="templateFile[fileExtension]"]').val response.fileExtension
+                $('input[name="templateFile[filePath]"]').val response.filePath
+                $('input[name="templateFile[fileContents]"]').val response.fileContents
+            ), that)
+
+)
+
 Craft.EmailTemplates = Garnish.Base.extend(
 
     $this: null
@@ -23,7 +43,7 @@ Craft.EmailTemplates = Garnish.Base.extend(
             params = 
               templateId: target
             
-            Craft.postActionRequest 'formBuilder2/getEmailTemplate', params, $.proxy(((response, textStatus) ->
+            Craft.postActionRequest 'formBuilder2/template/getEmailTemplate', params, $.proxy(((response, textStatus) ->
                 console.log response
                 console.log that.modals[target].$container.find('.main').html response
                 that.modals[target].show()

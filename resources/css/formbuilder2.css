@@ -864,6 +864,25 @@ svg.icon {
       transition: all 0.3s ease; }
 
 /* ============================================ *
+ * Templates
+ * ============================================ */
+.fb-templates .pane {
+  margin: 0;
+  padding: 20px;
+  border-radius: 0; }
+.fb-templates #main > .padded {
+  padding: 0; }
+
+.fb-templates-edit .pane {
+  margin: 0;
+  padding: 20px;
+  border-radius: 0; }
+.fb-templates-edit #main > .padded {
+  padding: 0; }
+.fb-templates-edit .template-form {
+  padding: 30px; }
+
+/* ============================================ *
  * Configuration
  * ============================================ */
 .fb-configuration .pane {
