@@ -74,7 +74,7 @@
             <table class="data fullwidth">
               
               {% for file in files %}
-                {{ file |inspect }}
+                
                 <tr data-id="{{ file.id }}" tabindex="0">
                   <td data-title="Title">
                     <div class="element small hasthumb" data-id="{{ file.id }}" data-locale="{{ file.locale }}" data-status="{{ file.getStatus() }}" data-label="{{ file.title }}" data-url="{{ file.url }}" data-editable="{{ file.isEditable() }}">
