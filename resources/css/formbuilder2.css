@@ -880,7 +880,112 @@ svg.icon {
 .fb-templates-edit #main > .padded {
   padding: 0; }
 .fb-templates-edit .template-form {
-  padding: 30px; }
+  padding: 30px;
+  background-color: white; }
+.fb-templates-edit #template-container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  box-direction: normal;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-direction: row;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+  -webkit-align-items: stretch;
+  -moz-align-items: stretch;
+  -ms-align-items: stretch;
+  -o-align-items: stretch;
+  align-items: stretch;
+  -ms-flex-align: stretch;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  box-pack: start;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  -ms-justify-content: flex-start;
+  -o-justify-content: flex-start;
+  justify-content: flex-start;
+  -ms-flex-pack: start; }
+.fb-templates-edit #template-tabs {
+  margin-right: 25px;
+  padding-right: 15px;
+  border-right: 1px solid rgba(71, 71, 71, 0.1); }
+.fb-templates-edit .template-tabs {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  box-direction: normal;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-direction: column;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  box-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -ms-flex-align: center;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  box-pack: start;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  -ms-justify-content: flex-start;
+  -o-justify-content: flex-start;
+  justify-content: flex-start;
+  -ms-flex-pack: start;
+  width: 60px; }
+  .fb-templates-edit .template-tabs li:hover svg * {
+    stroke: rgba(71, 71, 71, 0.7); }
+  .fb-templates-edit .template-tabs .active svg * {
+    stroke: #47c5ca; }
+  .fb-templates-edit .template-tabs .active:hover svg * {
+    stroke: #47c5ca; }
+  .fb-templates-edit .template-tabs .active a .txt {
+    color: #47c5ca; }
+  .fb-templates-edit .template-tabs a {
+    display: block;
+    text-align: center;
+    padding: 15px 0;
+    outline: none;
+    text-decoration: none; }
+    .fb-templates-edit .template-tabs a span {
+      display: block; }
+    .fb-templates-edit .template-tabs a .txt {
+      color: rgba(71, 71, 71, 0.7);
+      font-size: 12px; }
+    .fb-templates-edit .template-tabs a svg {
+      height: 32px;
+      width: 32px; }
+      .fb-templates-edit .template-tabs a svg * {
+        stroke: #a5a6a8;
+        -webkit-transition: stroke 0.3s ease;
+        -moz-transition: stroke 0.3s ease;
+        transition: stroke 0.3s ease; }
 
 /* ============================================ *
  * Configuration

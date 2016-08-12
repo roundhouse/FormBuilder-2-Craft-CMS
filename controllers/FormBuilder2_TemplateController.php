@@ -21,7 +21,7 @@ class FormBuilder2_TemplateController extends BaseController
   {
     $variables['brandNewTemplate'] = false;
 
-    $variables['templateFiles'] = craft()->formBuilder2_template->getTemplateFiles();
+    $variables['templateLayouts'] = craft()->formBuilder2_template->getTemplateFiles();
 
     if (!empty($variables['templateId'])) {
       if (empty($variables['template'])) {
@@ -71,7 +71,7 @@ class FormBuilder2_TemplateController extends BaseController
     $variables['foo'] = 'bar';
 
     craft()->templates->setTemplatesPath(craft()->path->getPluginsPath());
-    $html = craft()->templates->render('formbuilder2/templates/email/templates/template-'.$id, $variables);
+    $html = craft()->templates->render('formbuilder2/templates/email/layouts/template-'.$id, $variables);
     craft()->templates->setTemplatesPath(craft()->templates->getTemplatesPath());
 
     $this->returnJson($html);
@@ -86,7 +86,7 @@ class FormBuilder2_TemplateController extends BaseController
         $template->id                 = craft()->request->getPost('templateId');
         $template->name               = craft()->request->getPost('name');
         $template->handle             = craft()->request->getPost('handle');
-        $template->templateFile       = craft()->request->getPost('templateFile');
+        $template->templateLayout     = craft()->request->getPost('templateLayout');
         $template->templateContent    = craft()->request->getPost('templateContent');
         $template->templateStyles     = craft()->request->getPost('templateStyles');
         $template->templateSettings   = craft()->request->getPost('templateSettings');

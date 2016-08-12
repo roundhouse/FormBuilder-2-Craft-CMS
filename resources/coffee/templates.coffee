@@ -1,5 +1,17 @@
+$ ->
+    $('.template-tabs a').click (event) ->
+        event.preventDefault()
+        $(@).parent().addClass 'active'
+        $(@).parent().siblings().removeClass 'active'
+        tab = $(@).attr('href')
+        Cookies.set 'template-active-tab', tab, expires: 7
+        $('.tab-content').not(tab).css 'display', 'none'
+        $(tab).fadeIn()
+
+
+
 TemplatePicker = Garnish.Base.extend(
-    $element: $('#templateFile')
+    $element: $('#templateLayout')
 
     init: () ->
         that = this
@@ -10,10 +22,10 @@ TemplatePicker = Garnish.Base.extend(
 
             Craft.postActionRequest 'formBuilder2/template/getTemplateByName', params, $.proxy(((response, textStatus) ->
                 console.log response
-                $('input[name="templateFile[fileNameCleaned]"]').val response.fileNameCleaned
-                $('input[name="templateFile[fileExtension]"]').val response.fileExtension
-                $('input[name="templateFile[filePath]"]').val response.filePath
-                $('input[name="templateFile[fileContents]"]').val response.fileContents
+                $('input[name="templateLayout[fileNameCleaned]"]').val response.fileNameCleaned
+                $('input[name="templateLayout[fileExtension]"]').val response.fileExtension
+                $('input[name="templateLayout[filePath]"]').val response.filePath
+                $('input[name="templateLayout[fileContents]"]').val response.fileContents
             ), that)
 
 )

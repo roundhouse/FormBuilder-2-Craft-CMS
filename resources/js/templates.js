@@ -1,7 +1,22 @@
 var TemplatePicker;
 
+$(function() {
+  return $('.template-tabs a').click(function(event) {
+    var tab;
+    event.preventDefault();
+    $(this).parent().addClass('active');
+    $(this).parent().siblings().removeClass('active');
+    tab = $(this).attr('href');
+    Cookies.set('template-active-tab', tab, {
+      expires: 7
+    });
+    $('.tab-content').not(tab).css('display', 'none');
+    return $(tab).fadeIn();
+  });
+});
+
 TemplatePicker = Garnish.Base.extend({
-  $element: $('#templateFile'),
+  $element: $('#templateLayout'),
   init: function() {
     var that;
     that = this;
@@ -12,10 +27,10 @@ TemplatePicker = Garnish.Base.extend({
       };
       return Craft.postActionRequest('formBuilder2/template/getTemplateByName', params, $.proxy((function(response, textStatus) {
         console.log(response);
-        $('input[name="templateFile[fileNameCleaned]"]').val(response.fileNameCleaned);
-        $('input[name="templateFile[fileExtension]"]').val(response.fileExtension);
-        $('input[name="templateFile[filePath]"]').val(response.filePath);
-        return $('input[name="templateFile[fileContents]"]').val(response.fileContents);
+        $('input[name="templateLayout[fileNameCleaned]"]').val(response.fileNameCleaned);
+        $('input[name="templateLayout[fileExtension]"]').val(response.fileExtension);
+        $('input[name="templateLayout[filePath]"]').val(response.filePath);
+        return $('input[name="templateLayout[fileContents]"]').val(response.fileContents);
       }), that));
     });
   }

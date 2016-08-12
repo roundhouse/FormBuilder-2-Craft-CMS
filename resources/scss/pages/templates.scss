@@ -29,5 +29,64 @@
 
 	.template-form {
 		padding: 30px;
+		background-color: white;
+	}
+
+	#template-container {
+		@include display(flex);
+		@include flex-direction(row);
+		@include align-items(stretch);
+		@include justify-content(flex-start);	
+	}
+
+	#template-tabs {
+		margin-right: 25px;
+		padding-right: 15px;
+		border-right: 1px solid rgba($c-gray, .1);
+	}
+
+	.template-tabs {
+		@include display(flex);
+		@include flex-direction(column);
+		@include align-items(center);
+		@include justify-content(flex-start);
+		width: 60px;
+		li {
+			&:hover {
+				svg * {
+					stroke: rgba($c-gray, .7);
+				}
+			}
+		}
+		.active {
+			svg * {
+				stroke: $c-teal;
+			}
+			&:hover {
+				svg * {
+					stroke: $c-teal;
+				}
+			}
+			a .txt { color: $c-teal; }
+		}
+		a {
+			display: block;
+			text-align: center;
+			padding: 15px 0;
+			outline: none;
+			text-decoration: none;
+			span { display: block; }
+			.txt {
+				color: rgba($c-gray, .7);
+				font-size: 12px;
+			}
+			svg {
+				@include size(32px);
+				* {
+					stroke: $c-lightGray;
+					@include transition(stroke .3s ease);
+				}
+			}
+		}
 	}
 }

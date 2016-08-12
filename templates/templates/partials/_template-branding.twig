@@ -1,0 +1,110 @@
+{# Logo #}
+<div class="field">
+  <div class="heading">
+    <label for="templateLogo">{{ "Template Logo"|t }}</label>
+    <div class="instructions"><p>{{ "Brand your email template with custom logo"|t }}</p></div>
+  </div>
+  <div class="input">
+    {% set elements = (elements is defined ? elements : []) -%}
+    {{ forms.elementSelectField({
+      id: 'templateLogo',
+      name: 'templateContent[templateLogo]',
+      selectionLabel: "Select Logo"|t,
+      elementType: craft.elements.getElementType("Asset"),
+      elements: elements,
+      criteria: {"kind":[],"localeEnabled":null,"locale":"en_us"},
+      jsClass: 'Craft.AssetSelectInput',
+      limit: 1,
+      errors: template.getErrors('templateLogo'),
+    }) }}
+  </div>
+</div>
+
+{# Header Image #}
+<div class="field">
+  <div class="heading">
+    <label for="templateHeaderImage">{{ "Header Image"|t }}</label>
+    <div class="instructions"><p>{{ "Full width image will display in the header of the email body"|t }}</p></div>
+  </div>
+  <div class="input">
+    {% set elements = (elements is defined ? elements : []) -%}
+    {{ forms.elementSelectField({
+      id: 'templateHeaderImage',
+      name: 'templateContent[templateHeaderImage]',
+      selectionLabel: "Select Logo"|t,
+      elementType: craft.elements.getElementType("Asset"),
+      elements: elements,
+      criteria: {"kind":[],"localeEnabled":null,"locale":"en_us"},
+      jsClass: 'Craft.AssetSelectInput',
+      limit: 1,
+      errors: template.getErrors('templateHeaderImage'),
+    }) }}
+  </div>
+</div>
+
+{# Footer Image #}
+<div class="field">
+  <div class="heading">
+    <label for="templateFooterImage">{{ "Footer Image"|t }}</label>
+    <div class="instructions"><p>{{ "Full width image will display in the footer of the email body"|t }}</p></div>
+  </div>
+  <div class="input">
+    {% set elements = (elements is defined ? elements : []) -%}
+    {{ forms.elementSelectField({
+      id: 'templateFooterImage',
+      name: 'templateContent[templateFooterImage]',
+      selectionLabel: "Select Logo"|t,
+      elementType: craft.elements.getElementType("Asset"),
+      elements: elements,
+      criteria: {"kind":[],"localeEnabled":null,"locale":"en_us"},
+      jsClass: 'Craft.AssetSelectInput',
+      limit: 1,
+      errors: template.getErrors('templateFooterImage'),
+    }) }}
+  </div>
+</div>
+
+{{ forms.textField({
+  label: "Content Width"|t,
+  instructions: "Enter template body width (pixels)."|t,
+  id: 'templateBodyContainerWidth',
+  class: 'templateBodyContainerWidth',
+  name: 'templateSettings[templateBodyContainerWidth]',
+  value: (templateSettings.templateBodyContainerWidth is defined ? templateSettings.templateBodyContainerWidth : '500'),
+  size: 50,
+  errors: template.getErrors('templateBodyContainerWidth'),
+}) }}
+
+<div class="field">
+    <div class="heading">
+        <label for="templateBodyBackgroundColor">{{ "Content Background Color"|t }}</label>
+        <div class="instructions"><p>{{ "Body background color for the tempalte."|t }}</p></div>
+    </div>
+    <div class="input">
+        {{ forms.color({
+          id: 'templateBodyBackgroundColor',
+          class: 'templateBodyBackgroundColor',
+          name: 'templateSettings[templateBodyBackgroundColor]',
+          value: (templateSettings.templateBodyBackgroundColor is defined ? templateSettings.templateBodyBackgroundColor : '#cccccc'),
+          size: 50,
+          errors: template.getErrors('templateBodyBackgroundColor'),
+        }) }}
+    </div>
+</div>
+
+<div class="field">
+    <div class="heading">
+        <label for="templateTextColor">{{ "Content Text Color"|t }}</label>
+        <div class="instructions"><p>{{ "Paragraph text color."|t }}</p></div>
+    </div>
+    <div class="input">
+        {{ forms.color({
+          id: 'templateTextColor',
+          class: 'templateTextColor',
+          name: 'templateSettings[templateTextColor]',
+          value: (templateSettings.templateTextColor is defined ? templateSettings.templateTextColor : '#000000'),
+          size: 50,
+          errors: template.getErrors('templateTextColor'),
+        }) }}
+    </div>
+</div>

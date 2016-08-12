@@ -16,13 +16,13 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
 	public function getTemplateFiles()
 	{
 		$folderEmpty = true;
-		if (IOHelper::isFolderEmpty(craft()->path->getPluginsPath().'formbuilder2/templates/email/templates')) {
-			throw new HttpException(404, Craft::t('Looks like you don\'t have any templates in your email/templates folder.'));
+		if (IOHelper::isFolderEmpty(craft()->path->getPluginsPath().'formbuilder2/templates/email/layouts')) {
+			throw new HttpException(404, Craft::t('Looks like you don\'t have any templates in your email/layouts folder.'));
 		} else {
 			$folderEmpty = false;
 		}
 
-		$fileList = IOHelper::getFolderContents(craft()->path->getPluginsPath().'formbuilder2/templates/email/templates');
+		$fileList = IOHelper::getFolderContents(craft()->path->getPluginsPath().'formbuilder2/templates/email/layouts');
 		$files = [];
 		$filesModel = [];
 
