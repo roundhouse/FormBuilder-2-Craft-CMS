@@ -431,4 +431,10 @@ class FormBuilder2Variable
     return $messages;
   }
 
+  public function getLayout($key)
+  {
+    $layout = craft()->formBuilder2_layout->getLayoutById($key);
+    return $layout;
+  }
+
 }

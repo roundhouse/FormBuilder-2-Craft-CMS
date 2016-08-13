@@ -152,9 +152,13 @@ class FormBuilder2Plugin extends BasePlugin
       'formbuilder2/entries'                              => array('action' => 'formBuilder2_Entry/entriesIndex'),
       'formbuilder2/entries/(?P<entryId>\d+)/edit'        => array('action' => 'formBuilder2_Entry/viewEntry'),
       'formbuilder2/templates'                            => array('action' => 'formBuilder2_Template/index'),
-      'formbuilder2/templates/new'    => array('action' => 'formBuilder2_Template/editTemplate'),
+      'formbuilder2/templates/new'                        => array('action' => 'formBuilder2_Template/editTemplate'),
       'formbuilder2/templates/(?P<templateId>\d+)'        => array('action' => 'formBuilder2_Template/editTemplate'),
-      'formbuilder2/templates/(?P<templateId>\d+)/edit'   => array('action' => 'formBuilder2_Template/editTemplate')
+      'formbuilder2/templates/(?P<templateId>\d+)/edit'   => array('action' => 'formBuilder2_Template/editTemplate'),
+      'formbuilder2/templates/layouts'                            => array('action' => 'formBuilder2_Layout/index'),
+      'formbuilder2/templates/layouts/new'                        => array('action' => 'formBuilder2_Layout/editLayout'),
+      'formbuilder2/templates/layouts/(?P<layoutId>\d+)'          => array('action' => 'formBuilder2_Layout/editLayout'),
+      'formbuilder2/templates/layouts/(?P<layoutId>\d+)/edit'     => array('action' => 'formBuilder2_Layout/editLayout'),
     );
   }
 

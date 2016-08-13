@@ -9,17 +9,13 @@ class FormBuilder2_TemplateModel extends BaseElementModel
     	'id'                  => AttributeType::Number,
     	'name'                => AttributeType::Name,
     	'handle'              => array(AttributeType::Handle, 'required' => true),
-      'templateLayout'      => AttributeType::Mixed,
-      'templateBodyCopy'    => AttributeType::String,
-      'templateFooterCopy'  => AttributeType::String,
+      'layoutId'            => AttributeType::Number,
+      'bodyText'            => AttributeType::String,
+      'footerText'          => AttributeType::String,
+      'altText'             => AttributeType::String,
       'templateContent'     => AttributeType::Mixed,
       'templateStyles'      => AttributeType::Mixed,
       'templateSettings'    => AttributeType::Mixed,
-      'templateAltCopy'     => AttributeType::String,
-      'templateAltCopy2'    => AttributeType::String,
-      'templateAltCopy3'    => AttributeType::String,
-      'templateAltCopy4'    => AttributeType::String,
-      'templateAltCopy5'    => AttributeType::String,
     ));
   }
 }

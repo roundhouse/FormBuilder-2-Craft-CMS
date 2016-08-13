@@ -9,10 +9,12 @@ class FormBuilder2_TemplateController extends BaseController
 
   public function actionIndex()
   {
-    $templates = craft()->formBuilder2_template->getAllTemplates();
+    $templates  = craft()->formBuilder2_template->getAllTemplates();
+    $layouts    = craft()->formBuilder2_layout->getAllLayouts();
 
     $variables['title']       = 'FormBuilder2';
     $variables['templates']   = $templates;
+    $variables['layouts']     = $layouts;
 
     return $this->renderTemplate('formbuilder2/templates/index', $variables);
   }
@@ -35,7 +37,7 @@ class FormBuilder2_TemplateController extends BaseController
       if (empty($variables['template'])) {
 
         $variables['template'] = new FormBuilder2_TemplateModel();
-        $variables['brandNewForm'] = true;
+        $variables['brandNewTemplate'] = true;
       }
       $variables['title'] = Craft::t('Create a new template');
     }

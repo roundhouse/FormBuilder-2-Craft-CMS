@@ -50,6 +50,7 @@ module.exports = (grunt) ->
           '<%= ResourcesDirectory %>/js/entrydetails.js': ['<%= CoffeeDirectory %>/entrydetails.coffee']
           '<%= ResourcesDirectory %>/js/ajaxsubmit.js': ['<%= CoffeeDirectory %>/ajaxsubmit.coffee']
           '<%= ResourcesDirectory %>/js/templatemessage.js': ['<%= CoffeeDirectory %>/templatemessage.coffee']
+          '<%= ResourcesDirectory %>/js/layouts.js': ['<%= CoffeeDirectory %>/layouts.coffee']
           '<%= ResourcesDirectory %>/js/templates.js': ['<%= CoffeeDirectory %>/templates.coffee']
 
     # =============================================

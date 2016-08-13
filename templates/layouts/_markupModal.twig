@@ -1,0 +1,12 @@
+{% import "_includes/forms" as forms %}
+{% set key = craft.request.getPost('key') %}
+{% set layout = craft.formBuilder2.getLayout(key) %}
+
+{{ forms.textField({
+	label: "Template Path"|t,
+	instructions: "Where is your template located? Including extension."|t,
+	id: 'templatePath',
+	class: 'templatePath',
+	value: (layout.templatePath is defined ? layout.templatePath : ''),
+	size: 60
+}) }}
