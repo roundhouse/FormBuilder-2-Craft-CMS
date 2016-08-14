@@ -141,6 +141,52 @@ class FormBuilder2Variable
   }
 
 
+  public function getInputMatrixHtml($field, $value = []) 
+  {
+    $theField       = $field;
+    $name           = $theField->handle;
+    $fieldType      = $theField->getFieldType();
+
+    $fieldSettings = '';
+    if ($fieldType) {
+        $fieldSettings  = $fieldType->getSettings();
+    }
+
+    if ($value instanceof ElementCriteriaModel)
+    {
+        $value->limit = null;
+        $value->status = null;
+        $value->localeEnabled = null;
+    }
+
+    $id = StringHelper::randomString();
+    $originaPath    = craft()->templates->getTemplatesPath();
+
+    Craft::dd($value);
+
+    $this->_setTemplate(null, 'plugin');
+    $html = craft()->templates->render('formbuilder2/templates/inputs/matrix', array(
+        'id' => $id,
+        'name' => $id,
+        'blockTypes' => $fieldSettings->getBlockTypes(),
+        'blocks' => $value,
+        'static' => true
+    ));
+    $this->_setTemplate($originaPath, 'site');
+    
+
+    // $blockTypeInfo = $this->_getBlockTypeInfoForInput($fieldSettings, $name);
+    // craft()->templates->includeJsResource('js/MatrixInput.js');
+    // craft()->templates->includeJs('new Craft.MatrixInput(' .
+    //   '"'.craft()->templates->namespaceInputId($id).'", ' .
+    //   JsonHelper::encode($blockTypeInfo).', ' .
+    //   '"'.craft()->templates->namespaceInputName($name).'", ' .
+    //   ($settings->maxBlocks ? $settings->maxBlocks : 'null') .
+    // ');');
+
+
+    return $html;
+  }
   /**
    * Get Input HTML for FieldTypes
    * 
@@ -148,6 +194,8 @@ class FormBuilder2Variable
   public function getInputHtml($field, $value = []) 
   {
     $theField       = $field->getField();
+    $id             = craft()->templates->formatInputId($theField->handle);
+    $name           = $theField->handle;
     $fieldType      = $theField->getFieldType();
     $template       = craft()->formBuilder2_field->getFieldTemplate($field->fieldId);
     $originaPath    = craft()->templates->getTemplatesPath();
@@ -190,6 +238,7 @@ class FormBuilder2Variable
     $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;
 
 	  $variables = [
+        'id'                => $attributes['handle'],
 	  	'field'             => $attributes,
 	  	'type'  			=> $attributes['type'],
 	  	'name'  			=> $attributes['handle'],
@@ -224,8 +273,8 @@ class FormBuilder2Variable
 
     switch ($theField->type) {
 	  	// Sprout Fields
-	  	case "SproutFields_Email":
-	  		if ($sproutFields) {
+      case "SproutFields_Email":
+        if ($sproutFields) {
                 $this->_setTemplate(null, 'plugin');
                 $html = craft()->templates->render('formbuilder2/templates/inputs/email', $variables);
                 $this->_setTemplate($originaPath, 'site');
@@ -251,7 +300,10 @@ class FormBuilder2Variable
             $html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/hidden/input', $variables);
             $this->_setTemplate($originaPath, 'site');
         }
-        break;
+      break;
+      case "Matrix":
+        $html = $this->getInputMatrixHtml($field, $value);
+      break;
       case "PlainText":
         if ($attributes['settings']['multiline']) {
           if ($template) {
@@ -403,6 +455,77 @@ class FormBuilder2Variable
   {
     $fields = craft()->formBuilder2_field->getFields();
     return json_encode($fields);
+  }
+
+  private function _getBlockTypeInfoForInput($fieldSettings, $name)
+  {
+    $blockTypes = array();
+
+
+    // Set a temporary namespace for these
+    $originalNamespace = craft()->templates->getNamespace();
+    $namespace = craft()->templates->namespaceInputName($name.'[__BLOCK__][fields]', $originalNamespace);
+    craft()->templates->setNamespace($namespace);
+
+    foreach ($fieldSettings->getBlockTypes() as $blockType)
+    {
+        // Create a fake MatrixBlockModel so the field types have a way to get at the owner element, if there is one
+        $block = new MatrixBlockModel();
+        // $block->fieldId = $this->model->id;
+        $block->typeId = $blockType->id;
+
+        // if ($this->element)
+        // {
+        //     $block->setOwner($this->element);
+        //     $block->locale = $this->element->locale;
+        // }
+
+        $fieldLayoutFields = $blockType->getFieldLayout()->getFields();
+        foreach ($fieldLayoutFields as $fieldLayoutField)
+        {
+            $fieldType = $fieldLayoutField->getField()->getFieldType();
+
+            if ($fieldType)
+            {
+                $fieldType->element = $block;
+                $fieldType->setIsFresh(true);
+            }
+        }
+
+        craft()->templates->startJsBuffer();
+
+        $this->_setTemplate(null, 'plugin');
+        $bodyHtml = craft()->templates->render('formbuilder2/templates/inputs/fields', array(
+            'namespace' => null,
+            'fields'    => $fieldLayoutFields
+        ));
+        $this->_setTemplate($originaPath, 'site');
+
+            Craft::dd($fieldType);
+        // Reset $_isFresh's
+        foreach ($fieldLayoutFields as $fieldLayoutField)
+        {
+            $fieldType = $fieldLayoutField->getField()->getFieldType();
+
+            if ($fieldType)
+            {
+                $fieldType->setIsFresh(null);
+            }
+        }
+
+        $footHtml = craft()->templates->clearJsBuffer();
+
+        $blockTypes[] = array(
+            'handle'   => $blockType->handle,
+            'name'     => Craft::t($blockType->name),
+            'bodyHtml' => $bodyHtml,
+            'footHtml' => $footHtml,
+        );
+    }
+
+    craft()->templates->setNamespace($originalNamespace);
+
+    return $blockTypes;
   }
 
 }
