@@ -103,8 +103,7 @@
       {% endif %}
 
     </div>
-
-    {% if currentUser == 'admin' or settings.canDoActions %}
+    {% if currentUser.admin or settings.canDoActions %}
       <div class="pane">
         <form method="post" accept-charset="utf-8">
           <input type="hidden" name="action" value="formBuilder2/entry/deleteSubmission">
