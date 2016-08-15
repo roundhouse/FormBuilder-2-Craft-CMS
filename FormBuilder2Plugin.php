@@ -6,7 +6,7 @@ Plugin Url: https://github.com/roundhouse/FormBuilder-2
 Author: Vadim Goncharov (https://github.com/owldesign)
 Author URI: http://roundhouseagency.com
 Description: FormBuilder 2 is a Craft CMS plugin that lets you create forms for your front-end.
-Version: 2.0.5
+Version: 2.0.6
 */
 
 namespace Craft;
@@ -70,7 +70,7 @@ class FormBuilder2Plugin extends BasePlugin
 
 	public function getVersion()
 	{
-		return '2.0.5';
+		return '2.0.6';
 	}
 
 	public function getDeveloper()
@@ -126,6 +126,7 @@ class FormBuilder2Plugin extends BasePlugin
     }
     $context['subnav']['entries'] = array('label' => Craft::t('Entries'), 'url' => 'formbuilder2/entries');
     if (craft()->userSession->isAdmin() || $pluginSettings->canDoActions) {
+        $context['subnav']['templates'] = array('icon' => 'settings', 'label' => Craft::t('Templates'), 'url' => 'formbuilder2/templates');
         $context['subnav']['configuration'] = array('icon' => 'settings', 'label' => Craft::t('Configuration'), 'url' => 'formbuilder2/tools/configuration');
     }
   }
@@ -139,17 +140,25 @@ class FormBuilder2Plugin extends BasePlugin
   public function registerCpRoutes()
   {
     return array(
-      'formbuilder2'                                  => array('action' => 'formBuilder2/dashboard'),
-      'formbuilder2/dashboard'                        => array('action' => 'formBuilder2/dashboard'),
-      'formbuilder2/tools/configuration'              => array('action' => 'formBuilder2/configurationIndex'),
-      'formbuilder2/tools/backup-restore'             => array('action' => 'formBuilder2/backupRestoreIndex'),
-      'formbuilder2/tools/export'                     => array('action' => 'formBuilder2/exportIndex'),
-      'formbuilder2/forms'                            => array('action' => 'formBuilder2_Form/formsIndex'),
-      'formbuilder2/forms/new'                        => array('action' => 'formBuilder2_Form/editForm'),
-      'formbuilder2/forms/(?P<formId>\d+)'            => array('action' => 'formBuilder2_Form/editForm'),
-      'formbuilder2/forms/(?P<formId>\d+)/edit'       => array('action' => 'formBuilder2_Form/editForm'),
-      'formbuilder2/entries'                          => array('action' => 'formBuilder2_Entry/entriesIndex'),
-      'formbuilder2/entries/(?P<entryId>\d+)/edit'    => array('action' => 'formBuilder2_Entry/viewEntry')
+      'formbuilder2'                                      => array('action' => 'formBuilder2_Dashboard/dashboard'),
+      'formbuilder2/dashboard'                            => array('action' => 'formBuilder2_Dashboard/dashboard'),
+      'formbuilder2/tools/configuration'                  => array('action' => 'formBuilder2/configurationIndex'),
+      'formbuilder2/tools/backup-restore'                 => array('action' => 'formBuilder2/backupRestoreIndex'),
+      'formbuilder2/tools/export'                         => array('action' => 'formBuilder2/exportIndex'),
+      'formbuilder2/forms'                                => array('action' => 'formBuilder2_Form/formsIndex'),
+      'formbuilder2/forms/new'                            => array('action' => 'formBuilder2_Form/editForm'),
+      'formbuilder2/forms/(?P<formId>\d+)'                => array('action' => 'formBuilder2_Form/editForm'),
+      'formbuilder2/forms/(?P<formId>\d+)/edit'           => array('action' => 'formBuilder2_Form/editForm'),
+      'formbuilder2/entries'                              => array('action' => 'formBuilder2_Entry/entriesIndex'),
+      'formbuilder2/entries/(?P<entryId>\d+)/edit'        => array('action' => 'formBuilder2_Entry/viewEntry'),
+      'formbuilder2/templates'                            => array('action' => 'formBuilder2_Template/index'),
+      'formbuilder2/templates/new'                        => array('action' => 'formBuilder2_Template/editTemplate'),
+      'formbuilder2/templates/(?P<templateId>\d+)'        => array('action' => 'formBuilder2_Template/editTemplate'),
+      'formbuilder2/templates/(?P<templateId>\d+)/edit'   => array('action' => 'formBuilder2_Template/editTemplate'),
+      'formbuilder2/templates/layouts'                            => array('action' => 'formBuilder2_Layout/index'),
+      'formbuilder2/templates/layouts/new'                        => array('action' => 'formBuilder2_Layout/editLayout'),
+      'formbuilder2/templates/layouts/(?P<layoutId>\d+)'          => array('action' => 'formBuilder2_Layout/editLayout'),
+      'formbuilder2/templates/layouts/(?P<layoutId>\d+)/edit'     => array('action' => 'formBuilder2_Layout/editLayout'),
     );
   }
 

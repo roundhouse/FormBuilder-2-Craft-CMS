@@ -4,13 +4,26 @@
 
 .fb-new-form {
   
+  .pane {
+    margin: 0;
+    padding: 20px;
+    border-radius: 0;
+  }
+
+  #main > .padded {
+    padding: 0;
+  }
+
   #crumbs li:last-child {
     &:after { content: ""; }
   }
 }
 
 .fb-forms {
-
+  
+  #main > .padded {
+    padding: 0;
+  }
   
   // No Forms 
   .no-forms {
@@ -56,6 +69,7 @@
   
   // Forms
   .forms {
+    background: white;
     min-height: 600px;
     &.pane { padding: 0 !important; }
     thead tr:hover { background: white; }
@@ -291,8 +305,8 @@
       span { display: block; }
       input { display: none; }
       svg {
-        margin-bottom: 4px;
-        @include size(40px);
+        margin-bottom: 8px;
+        @include size(30px);
         * { fill: white; }
       }
       label {

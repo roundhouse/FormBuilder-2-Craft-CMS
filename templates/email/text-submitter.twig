@@ -1,12 +1,40 @@
 <h2>{{ "Thank you for your submission."|t }}</h2>
 <p>We will get back to you shortly.</p>
 
-{# 
-  Form's data is stored in the {{ data }} variabled, you can loop through it if you want
-  to display some submission data in this template. Check text.twig for example for loop for data.
-  
-  Example
+{% set bodyCopy = templateSettings.emailBodyCopy %}
+{% set footerCopy = templateSettings.emailAdditionalFooterCopy %}
+{% set sendSubmission = emailSettings.sendSubmissionData %}
+
+{% if form is defined %}
+  <h2>New {{ form.name }} Submission</h2>
+  {{ bodyCopy |raw }}
+{% endif %}
+
+{% if sendSubmission %}
+  <h2>{{ "Submission Data"|t }}</h2>
+  <table style="width:100%;">
   {% for key, value in data %}
-    {{ key }}: {{ value }}
+    {% set field = craft.fields.getFieldByHandle(key) %}
+    {% if field and value %}
+    <tr>
+      <td style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eaecee;">
+        <h3 style="margin-bottom: 2px; margin-top: 5px;">{{ field.name }}</h3>
+        {% if value | checkArray == '1' %}
+          {% for key, item in value %}
+            {% if item != '' %}
+              {{ item }}{{ not loop.last ? ', ' }}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <p style="margin: 5px 0;">{{ value|raw|nl2br }}</p>
+        {% endif %}
+      </td>
+    </tr>
+    {% endif %}
   {% endfor %}
- #}
+  </table>
+{% endif %}
+
+{% if form is defined %}
+  {{ footerCopy |raw }}
+{% endif %}

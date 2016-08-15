@@ -6,7 +6,6 @@ class FormBuilder2Controller extends BaseController
  
  	protected $allowAnonymous = true;
 
-
   public function actionGetFormFields()
   {
     $formId = craft()->request->getPost('formId');

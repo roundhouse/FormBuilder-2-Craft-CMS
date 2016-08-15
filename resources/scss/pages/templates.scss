@@ -1,0 +1,131 @@
+/* ============================================ *
+ * Templates
+ * ============================================ */
+
+// Index
+.fb-templates {
+   .pane {
+     margin: 0;
+     padding: 20px;
+     border-radius: 0;
+   }
+
+   #main > .padded {
+     padding: 0;
+   }
+}
+
+// Edit/New
+.fb-templates-edit {
+	.pane {
+	  margin: 0;
+	  padding: 20px;
+	  border-radius: 0;
+	}
+
+	#main > .padded {
+	  padding: 0;
+	}
+
+	.template-form {
+		padding: 30px;
+		background-color: white;
+	}
+
+	#template-container {
+		@include display(flex);
+		@include flex-direction(row);
+		@include align-items(stretch);
+		@include justify-content(flex-start);	
+	}
+
+	#template-tabs {
+		margin-right: 25px;
+		padding-right: 15px;
+		border-right: 1px solid rgba($c-gray, .1);
+	}
+
+	.template-tabs {
+		@include display(flex);
+		@include flex-direction(column);
+		@include align-items(center);
+		@include justify-content(flex-start);
+		width: 60px;
+		li {
+			&:hover {
+				svg * {
+					stroke: rgba($c-gray, .7);
+				}
+			}
+		}
+		.active {
+			svg * {
+				stroke: $c-teal;
+			}
+			&:hover {
+				svg * {
+					stroke: $c-teal;
+				}
+			}
+			a .txt { color: $c-teal; }
+		}
+		a {
+			display: block;
+			text-align: center;
+			padding: 15px 0;
+			outline: none;
+			text-decoration: none;
+			span { display: block; }
+			.txt {
+				color: rgba($c-gray, .7);
+				font-size: 12px;
+			}
+			svg {
+				@include size(32px);
+				* {
+					stroke: $c-lightGray;
+					@include transition(stroke .3s ease);
+				}
+			}
+		}
+	}
+
+	// +++++++++++++++++++++++++++++
+	// Layouts
+	// +++++++++++++++++++++++++++++
+	#templateLayouts {
+	  input[type="radio"]:checked + label {
+	    color: rgba(gray, .8);
+	    border: 4px solid $c-teal;
+	  }
+	  .input { @include clearfix; }
+	  .radio {
+	    display: inline-block;
+	    float: left;
+	    margin-right: 10px;
+	    text-align: center;
+	    span { display: block; }
+	    input { display: none; }
+	    svg {
+	      margin-bottom: 8px;
+	      @include size(30px);
+	      * { fill: white; }
+	    }
+	    label {
+	      display: block;
+	      padding: 10px;
+	      background: rgba(gray, .1);
+	      border: 4px solid rgba(gray, .1);
+	      font-size: 11px;
+	      line-height: 1.2;
+	      color: rgba(gray, .7);
+	      cursor: pointer;
+	      @include transition(all .3s ease);
+	      @include size(60px 70px);
+	      &:hover {
+	        border: 4px solid rgba(gray, .3);
+	      }
+	    }
+	  }
+	}
+}

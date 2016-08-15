@@ -1,0 +1,25 @@
+{{ forms.textField({
+  first: true,
+  label: "Template Name"|t,
+  instructions: "Give your template a name."|t,
+  id: 'name',
+  name: 'name',
+  value: template.name,
+  errors: template.getErrors('name'),
+  autofocus: true,
+  required: true,
+  size: 50,
+  translatable: true
+}) }}
+
+{{ forms.textField({
+  label: "Handle"|t,
+  instructions: "How you’ll refer to this template in the templates."|t,
+  id: 'handle',
+  class: 'code',
+  name: 'handle',
+  value: template.handle,
+  size: 50,
+  errors: template.getErrors('handle'),
+  required: true
+}) }}

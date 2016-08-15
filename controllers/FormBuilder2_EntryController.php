@@ -360,11 +360,24 @@ class FormBuilder2_EntryController extends BaseController
 
     // Template Variables
     $variables['form']      = $form;
-    $variables['data']      = $postData;
+
+    $variables['form']                  = $form;
+    $variables['files']                 = $postUploads;
+    $variables['formSettings']          = $formSettings;
+    $variables['emailSettings']         = $notificationSettings['emailSettings'];
+    $variables['templateSettings']      = $notificationSettings['templateSettings'];
+    $variables['data']                = $postData;
+
+    if ($notificationSettings['emailSettings']['sendSubmissionData'] == '1') {
+      $variables['data']                = $postData;
+    }
 
     // Template
     craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
     $message  = craft()->templates->render('formbuilder2/templates/email/text-submitter', $variables);
+
+    var_dump($message);
+    die();
 
     // Email
     $toEmail = $postData[$emailField];

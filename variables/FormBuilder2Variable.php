@@ -405,4 +405,36 @@ class FormBuilder2Variable
     return json_encode($fields);
   }
 
+
+  public function getAllMessages()
+  {
+    $messages = [];
+
+    $messages[0] = [
+      'key' => 'templateBodyCopy',
+      'heading' => 'Body Copy',
+      'body' => "Hey {{user.friendlyName}},\n\n" .
+    "Thanks for creating an account with {{siteName}}! To activate your account, click the following link:\n\n" .
+    "{{submission}}\n\n" .
+    "If you were not expecting this email, just ignore it.",
+    ];
+
+    $messages[2] = [
+      'key' => 'templateFooterCopy',
+      'heading' => 'Footer Copy',
+      'body' => "Hey {{user.friendlyName}},\n\n" .
+    "Thanks for creating an account with {{siteName}}! To activate your account, click the following link:\n\n" .
+    "{{submission}}\n\n" .
+    "If you were not expecting this email, just ignore it.",
+    ];
+
+    return $messages;
+  }
+
+  public function getLayout($key)
+  {
+    $layout = craft()->formBuilder2_layout->getLayoutById($key);
+    return $layout;
+  }
+
 }

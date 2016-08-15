@@ -328,7 +328,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       $email->fromName  = $form->name;
       $email->toEmail   = $toEmail;
       $email->subject   = $subject;
-      $email->body      = $message;
+      $email->htmlBody  = $message;
+      // $email->body      = $message;
+      // Craft::dd($email);
 
       // Attach files to email
       if (!empty($files)) {

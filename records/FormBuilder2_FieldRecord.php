@@ -8,6 +8,13 @@ class FormBuilder2_FieldRecord extends BaseRecord
         return 'formbuilder2_fields';
     }
 
+    protected function defineAttributes()
+    {
+        return array(
+            'template' => AttributeType::String
+        );
+    }
+    
     public function defineRelations()
     {
         return array(
@@ -16,10 +23,4 @@ class FormBuilder2_FieldRecord extends BaseRecord
         );
     }
 
-    protected function defineAttributes()
-    {
-        return array(
-            'template' => AttributeType::String
-        );
-    }
 }
