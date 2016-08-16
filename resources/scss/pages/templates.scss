@@ -68,17 +68,21 @@
 		line-height: 16px;
 		font-family: Courier, monospace;
 		color: #8f98a3;
+		margin: 0;
+		@include user-select(none);
 	}
 
 	.field { margin: 0 !important; }
 
 	// Inputs
-	#templateBodyContainerWidth {
+	input[type="range"] {
+		&#templateBodyContainerWidth {
+			margin: 20px 0;
+		}
 		@include appearance(none);
 		background: rgba(black, .1);
 		border-radius: 5px;
 		height: 5px;
-		margin: 20px 0;
 		outline: none;
 		&::-webkit-slider-thumb {
 			@include appearance(none);
@@ -113,8 +117,33 @@
 		.text-content {
 			position: relative;
 			cursor: pointer;
+			p {
+				line-height: 1;
+			}
 			&:hover {
 				border: 1px dashed $c-teal;
+				.text-actions {
+					opacity: 1;
+					@include transform(translateY(0));
+				}
+			}
+		}
+
+		.text-actions {
+			@include position(absolute, -25px auto auto -5px);
+			@include display(flex);
+			@include flex-direction(row);
+			@include align-items(stretch);
+			@include justify-content(flex-start);
+			opacity: 0;
+			@include transform(translateY(10px));
+			@include transition(all .3s ease);	
+			.icon {
+				display: block;
+				padding: 0 5px;
+				@include size(15px);
+				svg { @include size(100%); }
+				svg * { stroke: rgba(black, .4); }
 			}
 		}
 	}
@@ -139,13 +168,13 @@
 				}
 				.alignment-controls {
 					opacity: 1;
-					@include transform(translateX(0));
+					@include transform(translateY(0));
 				}
 			}
 		}
 		.alignment-controls {
 			opacity: 0;
-			@include transform(translateX(-5px));
+			@include transform(translateY(10px));
 			@include transition(all .3s ease);
 		}
 		[data-align="left"] { text-align: left; }
@@ -189,11 +218,17 @@
 				@include transform(translateY(0));
 			}
 		}
+
+		p {
+			margin: 0;
+			padding: 0;
+		}
+
 		// Container Background Color
 		.containerColorTrigger {
-			@include position(absolute, -32px 0 auto auto);
+			@include position(absolute, -23px 5px auto auto);
 			@include transform(translateY(10px));
-			@include size(25px);
+			@include size(15px);
 			@include transition(all .3s ease);
 			opacity: 0;
 			&:hover {

@@ -1,13 +1,46 @@
-var ContentCopy, ContentCopyModal, templateContent;
+var ContentCopy, ContentCopyModal, changeFont, templateContent;
+
+changeFont = function(target, size) {
+  return target.css('font-size', size + 'px');
+};
 
 $(function() {
+  var bodyFontRange, footerFontRange;
   $('#templateBodyContainerWidth').on('change keyup', function(e) {
     $('#cc-wrapper').css('width', $(this).val() + 'px');
     return $('.size-info').html($(this).val() + 'px');
   });
-  return $('#templateBodyBackgroundColor').on('change', function(e) {
+  $('#templateBodyBackgroundColor').on('change', function(e) {
     return $('#cc-body').css('backgroundColor', $(this).val());
   });
+  bodyFontRange = document.getElementById('templateBodyTextSize');
+  footerFontRange = document.getElementById('templateFooterTextSize');
+  Array.prototype.slice.call(document.querySelectorAll('.text-size'), 0).forEach(function(bt) {
+    return bt.addEventListener('click', function(e) {
+      var action, target, text;
+      text = $(this.closest('.text-content')).find('.body');
+      target = $(this).data('target');
+      action = $(this).data('action');
+      switch (action) {
+        case 'increase':
+          document.getElementById(target).stepUp(1);
+          break;
+        case 'decrease':
+          document.getElementById(target).stepDown(1);
+      }
+      return changeFont(text, document.getElementById(target).value);
+    });
+  });
+  bodyFontRange.addEventListener('change', (function() {
+    var text;
+    text = $(this.closest('.text-content')).find('.body');
+    return changeFont(text, $(this).val());
+  }), false);
+  return footerFontRange.addEventListener('change', (function() {
+    var text;
+    text = $(this.closest('.text-content')).find('.body');
+    return changeFont(text, $(this).val());
+  }), false);
 });
 
 templateContent = Garnish.Base.extend({
@@ -35,13 +68,13 @@ ContentCopy = Garnish.Base.extend({
   copyText: null,
   $body: null,
   modal: null,
-  init: function(container) {
-    this.$container = $(container);
+  init: function(textContainer) {
+    this.$container = $(textContainer);
     this.templateId = this.$container.attr('data-template-id');
     this.copyType = this.$container.attr('data-type');
     this.copyText = this.$container.attr('data-copy');
     this.$body = this.$container.find('.body:first');
-    return this.addListener(this.$container, 'click', 'edit');
+    return this.addListener(this.$body, 'click', 'edit');
   },
   edit: function() {
     if (!this.modal) {
@@ -51,6 +84,7 @@ ContentCopy = Garnish.Base.extend({
     }
   },
   updateHtmlFromModal: function(data) {
+    this.$body.parent().addClass('has-text');
     return this.$body.html(data.copy);
   }
 });

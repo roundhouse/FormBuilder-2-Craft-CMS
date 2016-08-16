@@ -1,10 +1,43 @@
+changeFont = (target, size) ->
+    target.css 'font-size', size + 'px'
+
 $ ->
+    # Change Body container size
     $('#templateBodyContainerWidth').on 'change keyup', (e) ->
         $('#cc-wrapper').css 'width', $(this).val() + 'px'
         $('.size-info').html $(this).val() + 'px'
     
+    # Change Body background color
     $('#templateBodyBackgroundColor').on 'change', (e) ->
         $('#cc-body').css 'backgroundColor', $(this).val()
+    
+    # Change Body font size
+    bodyFontRange = document.getElementById('templateBodyTextSize')
+    footerFontRange = document.getElementById('templateFooterTextSize')
+
+    Array::slice.call(document.querySelectorAll('.text-size'), 0).forEach (bt) ->
+        bt.addEventListener 'click', (e) ->
+            text = $(@.closest('.text-content')).find('.body')
+            target = $(@).data 'target'
+            action = $(@).data 'action'
+            switch action
+                when 'increase'
+                    document.getElementById(target).stepUp(1)
+                when 'decrease'
+                    document.getElementById(target).stepDown(1)
+            changeFont(text, document.getElementById(target).value)
+
+    bodyFontRange.addEventListener 'change', (->
+        text = $(@.closest('.text-content')).find('.body')
+        changeFont(text, $(this).val())
+    ), false
+
+    footerFontRange.addEventListener 'change', (->
+        text = $(@.closest('.text-content')).find('.body')
+        changeFont(text, $(this).val())
+    ), false
+    
+
 
 templateContent = Garnish.Base.extend(
     copy: null
@@ -27,13 +60,14 @@ ContentCopy = Garnish.Base.extend(
     $body: null
     modal: null
 
-    init: (container) ->
-        @$container = $(container)
+    init: (textContainer) ->
+        @$container = $(textContainer)
         @templateId = @$container.attr('data-template-id')
         @copyType = @$container.attr('data-type')
         @copyText = @$container.attr('data-copy')
         @$body = @$container.find('.body:first')
-        @addListener @$container, 'click', 'edit'
+
+        @addListener @$body, 'click', 'edit'
 
     edit: ->
         if !@modal
@@ -42,6 +76,7 @@ ContentCopy = Garnish.Base.extend(
             @modal.show()
 
     updateHtmlFromModal: (data) ->
+        @$body.parent().addClass 'has-text'
         @$body.html data.copy
 )
 
