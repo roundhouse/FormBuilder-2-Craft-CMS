@@ -33,9 +33,9 @@ Message = Garnish.Base.extend(
     return
   updateHtmlFromModal: (layout) ->
     console.log layout
-    body = @modal.$bodyInput.val().replace(/\n/g, '<br>')
+    # body = @modal.$bodyInput.val().replace(/\n/g, '<br>')
+    body =  'Template Name: ' + layout.fileOriginalName + '<br />Template Path: ' + layout.filePath 
     @$body.html body
-    @$body.append '<p>'+layout.fileContents+'</p>'
     @$body.parent().find('#template-name-input').val(@modal.$bodyInput.val())
     @$body.parent().find('#template-original-name-input').val(layout.fileOriginalName)
     @$body.parent().find('#template-path-input').val(layout.filePath)

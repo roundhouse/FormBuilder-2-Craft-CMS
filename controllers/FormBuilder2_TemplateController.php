@@ -88,7 +88,6 @@ class FormBuilder2_TemplateController extends BaseController
         $template->id                 = craft()->request->getPost('templateId');
         $template->name               = craft()->request->getPost('name');
         $template->handle             = craft()->request->getPost('handle');
-        $template->templateLayout     = craft()->request->getPost('templateLayout');
         $template->templateContent    = craft()->request->getPost('templateContent');
         $template->templateStyles     = craft()->request->getPost('templateStyles');
         $template->templateSettings   = craft()->request->getPost('templateSettings');

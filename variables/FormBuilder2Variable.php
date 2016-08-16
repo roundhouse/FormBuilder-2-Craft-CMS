@@ -437,4 +437,10 @@ class FormBuilder2Variable
     return $layout;
   }
 
+  public function getBlockTypes()
+  {
+    $blockTypes = craft()->formBuilder2_template->getBlockTypes();
+    return $blockTypes;
+  }
+
 }

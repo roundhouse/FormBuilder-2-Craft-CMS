@@ -29,7 +29,7 @@
 
 	.template-form {
 		padding: 30px;
-		background-color: white;
+		// background-color: white;
 	}
 
 	#template-container {
@@ -39,93 +39,202 @@
 		@include justify-content(flex-start);	
 	}
 
-	#template-tabs {
-		margin-right: 25px;
-		padding-right: 15px;
-		border-right: 1px solid rgba($c-gray, .1);
-	}
-
-	.template-tabs {
+	#template-designer {
 		@include display(flex);
-		@include flex-direction(column);
-		@include align-items(center);
+		@include flex-direction(row);
+		@include align-items(stretch);
 		@include justify-content(flex-start);
-		width: 60px;
-		li {
-			&:hover {
-				svg * {
-					stroke: rgba($c-gray, .7);
-				}
-			}
-		}
-		.active {
-			svg * {
-				stroke: $c-teal;
-			}
-			&:hover {
-				svg * {
-					stroke: $c-teal;
-				}
-			}
-			a .txt { color: $c-teal; }
-		}
-		a {
-			display: block;
-			text-align: center;
-			padding: 15px 0;
-			outline: none;
-			text-decoration: none;
-			span { display: block; }
-			.txt {
-				color: rgba($c-gray, .7);
-				font-size: 12px;
-			}
-			svg {
-				@include size(32px);
-				* {
-					stroke: $c-lightGray;
-					@include transition(stroke .3s ease);
-				}
-			}
-		}
-	}
 
-	// +++++++++++++++++++++++++++++
-	// Layouts
-	// +++++++++++++++++++++++++++++
-	#templateLayouts {
-	  input[type="radio"]:checked + label {
-	    color: rgba(gray, .8);
-	    border: 4px solid $c-teal;
-	  }
-	  .input { @include clearfix; }
-	  .radio {
-	    display: inline-block;
-	    float: left;
-	    margin-right: 10px;
-	    text-align: center;
-	    span { display: block; }
-	    input { display: none; }
-	    svg {
-	      margin-bottom: 8px;
-	      @include size(30px);
-	      * { fill: white; }
-	    }
-	    label {
-	      display: block;
-	      padding: 10px;
-	      background: rgba(gray, .1);
-	      border: 4px solid rgba(gray, .1);
-	      font-size: 11px;
-	      line-height: 1.2;
-	      color: rgba(gray, .7);
-	      cursor: pointer;
-	      @include transition(all .3s ease);
-	      @include size(60px 70px);
-	      &:hover {
-	        border: 4px solid rgba(gray, .3);
-	      }
-	    }
-	  }
+	}
+	
+	#template-settings {
+		padding: 25px;
+		margin-right: 25px;
+		background-color: white;
+		.fields-wrapper {
+			padding: 20px;
+			background: white;
+		}
 	}
 }
+
+
+/* ============================================ *
+ * Content Creator
+ * ============================================ */
+#content-creator {
+	.txt {
+		font-size: 12px;
+		line-height: 16px;
+		font-family: Courier, monospace;
+		color: #8f98a3;
+	}
+
+	.field { margin: 0 !important; }
+
+	// Inputs
+	#templateBodyContainerWidth {
+		@include appearance(none);
+		background: rgba(black, .1);
+		border-radius: 5px;
+		height: 5px;
+		margin: 20px 0;
+		outline: none;
+		&::-webkit-slider-thumb {
+			@include appearance(none);
+			cursor: pointer;
+			@include size(15px);
+			border-radius: 15px;
+			@include transition(all .3s ease);
+			background: #a9dde0;
+			&:hover {
+				background: $c-teal;
+			}
+		}
+	}
+
+	// Content Blocks
+	#cc-wrapper {
+		position: relative;
+		width: 500px;
+		padding: 25px;
+		box-sizing: border-box;
+		border: 1px dashed $c-teal;
+		@include transition(all .3s ease);
+
+		.size-info {
+			@include position(absolute, auto auto -9px 50%);
+			padding: 0 10px;
+			margin-left: -20px;
+			background: #ebedef;
+			color: #b9bfc6;
+		}
+
+		.text-content {
+			position: relative;
+			cursor: pointer;
+			&:hover {
+				border: 1px dashed $c-teal;
+			}
+		}
+	}
+
+	#cc-header {
+		#templateLogo {
+			margin-bottom: 20px;
+		}
+		.templatelogoelement { 
+			padding: 0;
+			margin: 0;
+			float: none;
+			&.sel { background: transparent; }
+			.label { display: none; }
+			.delete { 
+				right: -20px !important;
+				opacity: 0;
+			}
+			&:hover {
+				.delete {
+					opacity: 1;
+				}
+				.alignment-controls {
+					opacity: 1;
+					@include transform(translateX(0));
+				}
+			}
+		}
+		.alignment-controls {
+			opacity: 0;
+			@include transform(translateX(-5px));
+			@include transition(all .3s ease);
+		}
+		[data-align="left"] { text-align: left; }
+		[data-align="center"] { float: none; text-align: center; }
+		[data-align="right"] { text-align: right; }
+		.align-trigger {
+			position: absolute;
+			top: -21px;
+			display: block;
+			@include size(20px);
+			cursor: pointer;
+			opacity: .4;
+			@include transition(opacity .3s ease);
+			&.active {
+				opacity: .8;
+				svg * { stroke: $c-teal; }
+			}
+			&.left-align { left: 0; }
+			&.center-align { left: 24px; }
+			&.right-align { left: 48px; }
+			&:hover {
+				opacity: .8;
+			}
+		}
+		.logo-asset {
+			max-width: 200px;
+			img {
+				max-width: 100%;
+			}
+		}
+	}
+
+	#cc-body {
+		position: relative;
+		background-color: white;
+		min-height: 100px;
+		@include transition(all .3s ease);
+		&:hover {
+			.containerColorTrigger {
+				opacity: 1;
+				@include transform(translateY(0));
+			}
+		}
+		// Container Background Color
+		.containerColorTrigger {
+			@include position(absolute, -32px 0 auto auto);
+			@include transform(translateY(10px));
+			@include size(25px);
+			@include transition(all .3s ease);
+			opacity: 0;
+			&:hover {
+				svg {
+					opacity: .7;
+				}
+			}
+			svg { 
+				cursor: pointer;
+				pointer-events: none;
+				@include size(100%);
+				opacity: .2;
+				@include transition(opacity .3s ease);
+			}
+			input {
+				position: absolute;
+				top: 0;
+				opacity: 0;
+			}
+		}
+
+		.body-copy {
+			padding: 15px;
+			margin-top: 10px;
+			border: 1px dashed $c-lightGray;
+		}
+
+		.submission-data {
+			padding: 15px;
+		}
+	}
+
+	#cc-footer {
+		.footer-copy {
+			padding: 15px;
+			margin-top: 10px;
+			border: 1px dashed $c-lightGray;
+		}
+	}
+}
+
+
+
+

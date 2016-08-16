@@ -104,7 +104,10 @@
 				{% set templateOriginalName = layout.templateOriginalName is defined ? layout.templateOriginalName : '' %}
 				{% set templatePath = layout.templatePath is defined ? layout.templatePath : '' %}
 			    <div class="pane message" data-layout-id="{{ layout.id }}" data-template-name="{{ layout.templateName }}" data-template-original-name="{{ layout.templateOriginalName }}">
-			      <div class="body">{{ layout.templatePath|nl2br }}</div>
+			      <div class="body">
+			      	Template Name: {{ layout.templateOriginalName|nl2br }}<br />
+			      	Template Path: {{ layout.templatePath|nl2br }}
+			      </div>
 			      <input type="hidden" id="template-name-input" name="templateName" value="{{ templateName }}">
 			      <input type="hidden" id="template-original-name-input" name="templateOriginalName" value="{{ templateOriginalName }}">
 			      <input type="hidden" id="template-path-input" name="templatePath" value="{{ templatePath }}">

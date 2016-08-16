@@ -1,0 +1,104 @@
+{% includeCssResource "formbuilder2/css/formbuilder2_messages.css" %}
+
+{# <div id="messages">
+  {% for message in craft.formBuilder2.getAllMessages() %}
+    <h2>{{ message.heading }}</h2>
+    <div class="pane message" data-key="{{ message.key }}">
+      <div class="body">{{ message.body|nl2br }}</div>
+    </div>
+  {% endfor %}
+</div> #}
+
+
+<div class="temp-layout">
+  <section id="content-creator">
+    <div class="pane-container">
+
+      <input type="range" min="500" max="1000" id="templateBodyContainerWidth" step="10" name="templateStyles[templateBodyContainerWidth]" value="{{ template.templateStyles.templateBodyContainerWidth is defined ? template.templateStyles.templateBodyContainerWidth : '500' }}">
+
+      <div id="cc-wrapper" style="width: {{ template.templateStyles.templateBodyContainerWidth is defined ? template.templateStyles.templateBodyContainerWidth ~ 'px' : '500px' }}">
+        <div class="size-info">{{ template.templateStyles.templateBodyContainerWidth is defined ? template.templateStyles.templateBodyContainerWidth ~ 'px' : '500px' }}</div>
+
+        <div id="cc-header">
+          {# Logo #}
+          {% set elements = (template.templateContent.templateLogo is defined ? craft.assets.id(template.templateContent.templateLogo) : []) -%}
+          {{ forms.elementSelectField({
+            id: 'templateLogo',
+            name: 'templateContent[templateLogo]',
+            selectionLabel: "Place Logo Here"|t,
+            elementType: craft.elements.getElementType("Asset"),
+            elements: elements,
+            criteria: {"kind":[],"localeEnabled":null,"locale":"en_us"},
+            limit: 1,
+            errors: template.getErrors('templateLogo'),
+          }) }}
+          <input type="hidden" id="templateLogoAlignment" name="templateContent[templateLogoAlignment]" value="{{ template.templateContent.templateLogoAlignment is defined ? template.templateContent.templateLogoAlignment : '' }}">
+        </div>
+        
+        <div id="cc-body">
+          <div class="containerColorTrigger">
+            {{ forms.color({
+              id: 'templateBodyBackgroundColor',
+              class: 'templateBodyBackgroundColor',
+              name: 'templateStyles[templateBodyBackgroundColor]',
+              value: (templateStyles.templateBodyBackgroundColor is defined ? templateStyles.templateBodyBackgroundColor : '#cccccc'),
+              size: 50,
+              errors: template.getErrors('templateBodyBackgroundColor'),
+            }) }}
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve"><path fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M36.4430122,39.6579514c-2.6234055,2.0847588-5.4396534,4.0341339-8.5168629,4.3422928C24.6000004,44.3333321,22.2435093,42.0704613,23,39c0.708334-2.875,4.0847969-4.8283348,2-7c-3-3.125-9.2929916,3.9159393-15,3C-0.125,33.375,0.2,17.4666672,11.5569887,8.3420477c9.4718637-7.6100407,22.7946739-6.6770086,29.6667595,1.9706402S45.9554253,32.0986595,36.4430122,39.6579514z"/><circle fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="13.2666702" cy="24" r="4.3333335"/><circle fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="19.2666702" cy="14" r="3"/><circle fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="29.2666702" cy="12" r="1.9166666"/><circle fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="37.2666626" cy="16" r="1.1041666"/></svg>
+          </div>
+
+          {# |nl2br #}
+
+          <div class="body-copy text-content" data-type="bodyText" data-template-id="{{ template.id is defined ? template.id : '' }}" data-copy="{{ template.bodyText is defined ? template.bodyText : '' }}">
+            <p class="txt body">Optional body copy.</p>
+          </div>
+
+          <input type="hidden" id="field-bodyText" name="bodyText" value="{{ template.bodyText is defined ? template.bodyText : '' }}">
+
+          <div class="submission-data">
+            <p class="txt">Submission data will be displayed here.</p>
+          </div>
+
+        </div>
+
+        <div id="cc-footer">
+          <div class="footer-copy text-content" data-type="footerText" data-template-id="{{ template.id is defined ? template.id : '' }}" data-copy="{{ template.footerText is defined ? template.footerText : '' }}">
+            <p class="txt body">Optional footer copy/notice.</p>
+          </div>
+
+          <input type="hidden" id="field-footerText" name="footerText" id="footerText" value="{{ template.footerText is defined ? template.footerText : '' }}">
+        </div>
+    
+      </div>
+    </div>
+  </section>
+</div>
+
+{% includeJsResource 'formbuilder2/js/emaillogoasset.js' %}
+{% includejs %}
+  new Craft.CustomEmailLogo('templateLogo');
+{% endincludejs %}
+
+{# {{ forms.textareaField({
+  label: "Body Copy"|t,
+  instructions: "Enter copy that will appear in the email notification."|t,
+  id: 'templateBodyCopy',
+  class: 'templateBodyCopy',
+  name: 'templateContent[templateBodyCopy]',
+  value: (templateContent.templateBodyCopy is defined ? templateContent.templateBodyCopy : null),
+  errors: template.getErrors('templateBodyCopy'),
+  required: false
+}) }}
+
+{{ forms.textareaField({
+  label: "Footer Copy"|t,
+  instructions: "Enter copy that will appear in the email notification."|t,
+  id: 'templateFooterCopy',
+  class: 'templateFooterCopy',
+  name: 'templateContent[templateFooterCopy]',
+  value: (templateContent.templateFooterCopy is defined ? templateContent.templateFooterCopy : null),
+  errors: template.getErrors('templateFooterCopy'),
+  required: false
+}) }}
+ #}

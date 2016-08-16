@@ -109,7 +109,6 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
 
  		$templateRecord->name 				= $template->name;
  		$templateRecord->handle 			= $template->handle;
- 		$templateRecord->templateFile 		= JsonHelper::encode($template->templateFile);
  		$templateRecord->templateContent 	= JsonHelper::encode($template->templateContent);
  		$templateRecord->templateStyles 	= JsonHelper::encode($template->templateStyles);
  		$templateRecord->templateSettings 	= JsonHelper::encode($template->templateSettings);
@@ -141,5 +140,21 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
  		} else { 
  			return false; 
  		}
+ 	}
+
+ 	public function getBlockTypes()
+ 	{
+ 		$blockTypes = ['social', 'link'];
+		$blockTypeCollection = [];
+
+ 		foreach ($blockTypes as $key => $block) {
+ 			$blockTypeModel = new MatrixBlockTypeModel();
+ 			$blockTypeModel->name = $block;
+ 			$blockTypeModel->handle = $block;
+
+ 			$blockTypeCollection[] = $blockTypeModel;
+ 		}	
+
+ 		return $blockTypeCollection;
  	}
 }

@@ -40,9 +40,8 @@ Message = Garnish.Base.extend({
   updateHtmlFromModal: function(layout) {
     var body;
     console.log(layout);
-    body = this.modal.$bodyInput.val().replace(/\n/g, '<br>');
+    body = 'Template Name: ' + layout.fileOriginalName + '<br />Template Path: ' + layout.filePath;
     this.$body.html(body);
-    this.$body.append('<p>' + layout.fileContents + '</p>');
     this.$body.parent().find('#template-name-input').val(this.modal.$bodyInput.val());
     this.$body.parent().find('#template-original-name-input').val(layout.fileOriginalName);
     this.$body.parent().find('#template-path-input').val(layout.filePath);

@@ -1,83 +1,129 @@
-var TemplatePicker;
+var ContentCopy, ContentCopyModal, templateContent;
 
 $(function() {
-  return $('.template-tabs a').click(function(event) {
-    var tab;
-    event.preventDefault();
-    $(this).parent().addClass('active');
-    $(this).parent().siblings().removeClass('active');
-    tab = $(this).attr('href');
-    Cookies.set('template-active-tab', tab, {
-      expires: 7
-    });
-    $('.tab-content').not(tab).css('display', 'none');
-    return $(tab).fadeIn();
+  $('#templateBodyContainerWidth').on('change keyup', function(e) {
+    $('#cc-wrapper').css('width', $(this).val() + 'px');
+    return $('.size-info').html($(this).val() + 'px');
+  });
+  return $('#templateBodyBackgroundColor').on('change', function(e) {
+    return $('#cc-body').css('backgroundColor', $(this).val());
   });
 });
 
-TemplatePicker = Garnish.Base.extend({
-  $element: $('#templateLayout'),
+templateContent = Garnish.Base.extend({
+  copy: null,
   init: function() {
-    var that;
-    that = this;
-    return this.addListener(this.$element, 'change', function(ev) {
-      var params;
-      params = {
-        templateName: ev.target.value
-      };
-      return Craft.postActionRequest('formBuilder2/template/getTemplateByName', params, $.proxy((function(response, textStatus) {
-        console.log(response);
-        $('input[name="templateLayout[fileNameCleaned]"]').val(response.fileNameCleaned);
-        $('input[name="templateLayout[fileExtension]"]').val(response.fileExtension);
-        $('input[name="templateLayout[filePath]"]').val(response.filePath);
-        return $('input[name="templateLayout[fileContents]"]').val(response.fileContents);
-      }), that));
-    });
+    var $container, $copy, i, message, results;
+    this.copy = [];
+    $container = $('#cc-wrapper');
+    $copy = $container.find('.text-content');
+    i = 0;
+    results = [];
+    while (i < $copy.length) {
+      message = new ContentCopy($copy[i]);
+      this.copy.push(message);
+      results.push(i++);
+    }
+    return results;
   }
 });
 
-Craft.EmailTemplates = Garnish.Base.extend({
-  $this: null,
-  $parentInput: null,
-  $container: $('#emailTemplates'),
-  $data: null,
-  templates: null,
+ContentCopy = Garnish.Base.extend({
+  $container: null,
   templateId: null,
-  modals: null,
-  init: function() {
-    var that;
-    that = this;
-    this.$templates = this.$container.find('.preview-template');
-    this.modals = [];
-    this.$templates.each(function(i, e) {
-      var target;
-      target = $(e).data('template');
-      return that.initializeModal(target);
-    });
-    return this.addListener(this.$container.find('.preview-template'), 'click', function(ev) {
-      var params, target;
-      ev.preventDefault();
-      target = $(ev.target).data('template');
-      params = {
-        templateId: target
-      };
-      return Craft.postActionRequest('formBuilder2/template/getEmailTemplate', params, $.proxy((function(response, textStatus) {
-        console.log(response);
-        console.log(that.modals[target].$container.find('.main').html(response));
-        return that.modals[target].show();
-      }), that));
-    });
+  copyType: null,
+  copyText: null,
+  $body: null,
+  modal: null,
+  init: function(container) {
+    this.$container = $(container);
+    this.templateId = this.$container.attr('data-template-id');
+    this.copyType = this.$container.attr('data-type');
+    this.copyText = this.$container.attr('data-copy');
+    this.$body = this.$container.find('.body:first');
+    return this.addListener(this.$container, 'click', 'edit');
   },
-  initializeModal: function(id) {
-    var $modal, myModal;
-    $modal = $('<div class="modal elementselectormodal" data-id="' + id + '">' + '    <div class="body">' + '        <div class="content">' + '            <div class="main">HIIIII</div>' + '        </div>' + '    </div>' + '    <div class="footer">' + '        <div class="buttons left secondary-buttons">' + '            <div class="btn load-svg dashed">Reload SVG Code</div>' + '        </div>' + '        <div class="buttons right">' + '            <div class="btn submit">Ok</div>' + '        </div>' + '    </div>' + '</div>');
-    myModal = new Garnish.Modal($modal, {
-      autoShow: false,
-      resizable: false
-    });
-    $modal.find('.submit').click(function() {
-      return myModal.hide();
-    });
-    return this.modals[id] = myModal;
+  edit: function() {
+    if (!this.modal) {
+      return this.modal = new ContentCopyModal(this);
+    } else {
+      return this.modal.show();
+    }
+  },
+  updateHtmlFromModal: function(data) {
+    return this.$body.html(data.copy);
   }
 });
+
+ContentCopyModal = Garnish.Modal.extend({
+  copy: null,
+  $copyInput: null,
+  $saveBtn: null,
+  $cancelBtn: null,
+  $spinner: null,
+  loading: false,
+  init: function(copy) {
+    this.copy = copy;
+    this.base(null, {
+      resizable: true
+    });
+    return this.loadContainer();
+  },
+  loadContainer: function() {
+    var data;
+    data = {
+      templateId: this.copy.templateId,
+      copyType: this.copy.copyType,
+      copy: this.copy.copyText
+    };
+    if (typeof Craft.csrfTokenName !== 'undefined' && typeof Craft.csrfTokenValue !== 'undefined') {
+      data[Craft.csrfTokenName] = Craft.csrfTokenValue;
+    }
+    return $.post(Craft.getUrl('formbuilder2/templates/partials/_modal'), data, $.proxy((function(response, textStatus, jqXHR) {
+      var $container;
+      if (textStatus === 'success') {
+        if (!this.$container) {
+          $container = $('<div class="modal fitted">' + '<form accept-charset="UTF-8">' + '    <div class="body">' + '        <div class="content">' + '            <div class="main">' + response + '</div>' + '        </div>' + '    </div>' + '    <div class="footer">' + '        <div class="buttons right">' + '            <input type="button" class="btn cancel" value="Cancel">' + '            <input type="submit" class="btn submit" value="Set Copy">' + '        </div>' + '    </div>' + '</form>', '</div>').appendTo(Garnish.$bod);
+          this.setContainer($container);
+          this.show();
+        } else {
+          this.$container.html(response);
+        }
+        this.$copyInput = this.$container.find('.' + data.copyType + ':first');
+        this.$saveBtn = this.$container.find('.submit:first');
+        this.$cancelBtn = this.$container.find('.cancel:first');
+        this.$spinner = this.$container.find('.spinner:first');
+        this.addListener(this.$container, 'submit', 'setTemplate');
+        return this.addListener(this.$cancelBtn, 'click', 'cancel');
+      }
+    }), this));
+  },
+  setTemplate: function(event) {
+    var data;
+    event.preventDefault();
+    if (this.loading) {
+      return;
+    }
+    data = {
+      copy: this.$copyInput.val().replace(/\n/g, '<br>')
+    };
+    this.$copyInput.removeClass('error');
+    if (!data.copy) {
+      this.$copyInput.addClass('error');
+      Garnish.shake(this.$container);
+      return;
+    }
+    $('#field-' + this.copy.copyType).val(data.copy);
+    this.copy.updateHtmlFromModal(data);
+    this.hide();
+    return Craft.cp.displayNotice(Craft.t('Copy set'));
+  },
+  cancel: function() {
+    this.hide();
+    if (this.copy) {
+      return this.copy.modal = null;
+    }
+  }
+});
+
+new templateContent;

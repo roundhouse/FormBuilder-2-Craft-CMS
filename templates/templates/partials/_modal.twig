@@ -1,0 +1,14 @@
+{% import "_includes/forms" as forms %}
+{% set copyType = craft.request.getPost('copyType') %}
+{% set copy = craft.request.getPost('copy') %}
+
+{{ forms.textareaField({
+	label: "Enter Copy"|t,
+	instructions: "Add additional copy to your template."|t,
+	name: (copyType is defined ? copyType : ''),
+	id: (copyType is defined ? copyType : 'copyType'),
+	class: (copyType is defined ? copyType : 'copyType'),
+	value: (copy is defined ? copy : ''),
+	size: 60,
+	rows: 8
+}) }}

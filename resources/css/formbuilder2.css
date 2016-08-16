@@ -880,8 +880,7 @@ svg.icon {
 .fb-templates-edit #main > .padded {
   padding: 0; }
 .fb-templates-edit .template-form {
-  padding: 30px;
-  background-color: white; }
+  padding: 30px; }
 .fb-templates-edit #template-container {
   display: -webkit-box;
   display: -moz-box;
@@ -918,11 +917,7 @@ svg.icon {
   -o-justify-content: flex-start;
   justify-content: flex-start;
   -ms-flex-pack: start; }
-.fb-templates-edit #template-tabs {
-  margin-right: 25px;
-  padding-right: 15px;
-  border-right: 1px solid rgba(71, 71, 71, 0.1); }
-.fb-templates-edit .template-tabs {
+.fb-templates-edit #template-designer {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -930,25 +925,25 @@ svg.icon {
   display: -moz-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
   -webkit-box-direction: normal;
   -moz-box-direction: normal;
   box-direction: normal;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
-  -ms-flex-direction: column;
-  -webkit-box-align: center;
-  -moz-box-align: center;
-  box-align: center;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  -o-align-items: center;
-  align-items: center;
-  -ms-flex-align: center;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-direction: row;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+  -webkit-align-items: stretch;
+  -moz-align-items: stretch;
+  -ms-align-items: stretch;
+  -o-align-items: stretch;
+  align-items: stretch;
+  -ms-flex-align: stretch;
   -webkit-box-pack: start;
   -moz-box-pack: start;
   box-pack: start;
@@ -957,73 +952,198 @@ svg.icon {
   -ms-justify-content: flex-start;
   -o-justify-content: flex-start;
   justify-content: flex-start;
-  -ms-flex-pack: start;
-  width: 60px; }
-  .fb-templates-edit .template-tabs li:hover svg * {
-    stroke: rgba(71, 71, 71, 0.7); }
-  .fb-templates-edit .template-tabs .active svg * {
-    stroke: #47c5ca; }
-  .fb-templates-edit .template-tabs .active:hover svg * {
-    stroke: #47c5ca; }
-  .fb-templates-edit .template-tabs .active a .txt {
-    color: #47c5ca; }
-  .fb-templates-edit .template-tabs a {
-    display: block;
-    text-align: center;
-    padding: 15px 0;
-    outline: none;
-    text-decoration: none; }
-    .fb-templates-edit .template-tabs a span {
-      display: block; }
-    .fb-templates-edit .template-tabs a .txt {
-      color: rgba(71, 71, 71, 0.7);
-      font-size: 12px; }
-    .fb-templates-edit .template-tabs a svg {
-      height: 32px;
-      width: 32px; }
-      .fb-templates-edit .template-tabs a svg * {
-        stroke: #a5a6a8;
-        -webkit-transition: stroke 0.3s ease;
-        -moz-transition: stroke 0.3s ease;
-        transition: stroke 0.3s ease; }
-.fb-templates-edit #templateLayouts input[type="radio"]:checked + label {
-  color: rgba(128, 128, 128, 0.8);
-  border: 4px solid #47c5ca; }
-.fb-templates-edit #templateLayouts .input::after {
-  clear: both;
-  content: "";
-  display: table; }
-.fb-templates-edit #templateLayouts .radio {
-  display: inline-block;
-  float: left;
-  margin-right: 10px;
-  text-align: center; }
-  .fb-templates-edit #templateLayouts .radio span {
-    display: block; }
-  .fb-templates-edit #templateLayouts .radio input {
-    display: none; }
-  .fb-templates-edit #templateLayouts .radio svg {
-    margin-bottom: 8px;
-    height: 30px;
-    width: 30px; }
-    .fb-templates-edit #templateLayouts .radio svg * {
-      fill: white; }
-  .fb-templates-edit #templateLayouts .radio label {
-    display: block;
-    padding: 10px;
-    background: rgba(128, 128, 128, 0.1);
-    border: 4px solid rgba(128, 128, 128, 0.1);
-    font-size: 11px;
-    line-height: 1.2;
-    color: rgba(128, 128, 128, 0.7);
+  -ms-flex-pack: start; }
+.fb-templates-edit #template-settings {
+  padding: 25px;
+  margin-right: 25px;
+  background-color: white; }
+  .fb-templates-edit #template-settings .fields-wrapper {
+    padding: 20px;
+    background: white; }
+
+/* ============================================ *
+ * Content Creator
+ * ============================================ */
+#content-creator .txt {
+  font-size: 12px;
+  line-height: 16px;
+  font-family: Courier, monospace;
+  color: #8f98a3; }
+#content-creator .field {
+  margin: 0 !important; }
+#content-creator #templateBodyContainerWidth {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  height: 5px;
+  margin: 20px 0;
+  outline: none; }
+  #content-creator #templateBodyContainerWidth::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
     cursor: pointer;
+    height: 15px;
+    width: 15px;
+    border-radius: 15px;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     transition: all 0.3s ease;
-    height: 70px;
-    width: 60px; }
-    .fb-templates-edit #templateLayouts .radio label:hover {
-      border: 4px solid rgba(128, 128, 128, 0.3); }
+    background: #a9dde0; }
+    #content-creator #templateBodyContainerWidth::-webkit-slider-thumb:hover {
+      background: #47c5ca; }
+#content-creator #cc-wrapper {
+  position: relative;
+  width: 500px;
+  padding: 25px;
+  box-sizing: border-box;
+  border: 1px dashed #47c5ca;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease; }
+  #content-creator #cc-wrapper .size-info {
+    position: absolute;
+    top: auto;
+    right: auto;
+    bottom: -9px;
+    left: 50%;
+    padding: 0 10px;
+    margin-left: -20px;
+    background: #ebedef;
+    color: #b9bfc6; }
+  #content-creator #cc-wrapper .text-content {
+    position: relative;
+    cursor: pointer; }
+    #content-creator #cc-wrapper .text-content:hover {
+      border: 1px dashed #47c5ca; }
+#content-creator #cc-header #templateLogo {
+  margin-bottom: 20px; }
+#content-creator #cc-header .templatelogoelement {
+  padding: 0;
+  margin: 0;
+  float: none; }
+  #content-creator #cc-header .templatelogoelement.sel {
+    background: transparent; }
+  #content-creator #cc-header .templatelogoelement .label {
+    display: none; }
+  #content-creator #cc-header .templatelogoelement .delete {
+    right: -20px !important;
+    opacity: 0; }
+  #content-creator #cc-header .templatelogoelement:hover .delete {
+    opacity: 1; }
+  #content-creator #cc-header .templatelogoelement:hover .alignment-controls {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0); }
+#content-creator #cc-header .alignment-controls {
+  opacity: 0;
+  -webkit-transform: translateX(-5px);
+  -moz-transform: translateX(-5px);
+  -ms-transform: translateX(-5px);
+  -o-transform: translateX(-5px);
+  transform: translateX(-5px);
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease; }
+#content-creator #cc-header [data-align="left"] {
+  text-align: left; }
+#content-creator #cc-header [data-align="center"] {
+  float: none;
+  text-align: center; }
+#content-creator #cc-header [data-align="right"] {
+  text-align: right; }
+#content-creator #cc-header .align-trigger {
+  position: absolute;
+  top: -21px;
+  display: block;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  opacity: .4;
+  -webkit-transition: opacity 0.3s ease;
+  -moz-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease; }
+  #content-creator #cc-header .align-trigger.active {
+    opacity: .8; }
+    #content-creator #cc-header .align-trigger.active svg * {
+      stroke: #47c5ca; }
+  #content-creator #cc-header .align-trigger.left-align {
+    left: 0; }
+  #content-creator #cc-header .align-trigger.center-align {
+    left: 24px; }
+  #content-creator #cc-header .align-trigger.right-align {
+    left: 48px; }
+  #content-creator #cc-header .align-trigger:hover {
+    opacity: .8; }
+#content-creator #cc-header .logo-asset {
+  max-width: 200px; }
+  #content-creator #cc-header .logo-asset img {
+    max-width: 100%; }
+#content-creator #cc-body {
+  position: relative;
+  background-color: white;
+  min-height: 100px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease; }
+  #content-creator #cc-body:hover .containerColorTrigger {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+    transform: translateY(0); }
+  #content-creator #cc-body .containerColorTrigger {
+    position: absolute;
+    top: -32px;
+    right: 0;
+    bottom: auto;
+    left: auto;
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    -ms-transform: translateY(10px);
+    -o-transform: translateY(10px);
+    transform: translateY(10px);
+    height: 25px;
+    width: 25px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    opacity: 0; }
+    #content-creator #cc-body .containerColorTrigger:hover svg {
+      opacity: .7; }
+    #content-creator #cc-body .containerColorTrigger svg {
+      cursor: pointer;
+      pointer-events: none;
+      height: 100%;
+      width: 100%;
+      opacity: .2;
+      -webkit-transition: opacity 0.3s ease;
+      -moz-transition: opacity 0.3s ease;
+      transition: opacity 0.3s ease; }
+    #content-creator #cc-body .containerColorTrigger input {
+      position: absolute;
+      top: 0;
+      opacity: 0; }
+  #content-creator #cc-body .body-copy {
+    padding: 15px;
+    margin-top: 10px;
+    border: 1px dashed #a5a6a8; }
+  #content-creator #cc-body .submission-data {
+    padding: 15px; }
+#content-creator #cc-footer .footer-copy {
+  padding: 15px;
+  margin-top: 10px;
+  border: 1px dashed #a5a6a8; }
 
 /* ============================================ *
  * Templates

@@ -52,6 +52,7 @@ module.exports = (grunt) ->
           '<%= ResourcesDirectory %>/js/templatemessage.js': ['<%= CoffeeDirectory %>/templatemessage.coffee']
           '<%= ResourcesDirectory %>/js/layouts.js': ['<%= CoffeeDirectory %>/layouts.coffee']
           '<%= ResourcesDirectory %>/js/templates.js': ['<%= CoffeeDirectory %>/templates.coffee']
+          '<%= ResourcesDirectory %>/js/emaillogoasset.js': ['<%= CoffeeDirectory %>/emaillogoasset.coffee']
 
     # =============================================
     # UGLIFY JAVASCRIPT

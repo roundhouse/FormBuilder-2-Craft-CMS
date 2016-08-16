@@ -36,35 +36,15 @@
         {% endif %}
 
         <section id="template-container">
-          {# Tabs #}
-          <div id="template-tabs">
-            {% include 'formbuilder2/templates/partials/_tabs' %}
+          <div id="template-settings">
+            {# Template Settings #}
+            {% include 'formbuilder2/templates/partials/_template-settings' %}
           </div>
 
-          <div id="template-content">
-
-            <div id="template-settings" class="tab-content">
-              {# Template Settings #}
-              {% include 'formbuilder2/templates/partials/_template-settings' %}
-            </div>
-
-            <div id="template-layouts" class="tab-content">
-              {# Template Layouts #}
-              {% include 'formbuilder2/templates/partials/_template-layouts' %}
-            </div>
-
-            <div id="template-messages" class="tab-content">
-              {# Template Message #}
-              {% include 'formbuilder2/templates/partials/_template-messages' %}
-            </div>
-            
-            <div id="template-branding" class="tab-content">
-              {# Template Content #}
-              {% include 'formbuilder2/templates/partials/_template-branding' %}
-            </div>
-
+          <div id="template-designer">
+            {# Template Designer #}
+            {% include 'formbuilder2/templates/partials/_template-designer' %}
           </div>
-
         </section>
 
         <div class="buttons">
@@ -82,8 +62,8 @@
 {% includeJsResource "formbuilder2/js/templates.js" %}
 
 {% set js %}
-  var templatePicker = new TemplatePicker();
-  var livePreview = new Craft.LivePreview();
+  {# var templatePicker = new TemplatePicker(); #}
+  {# var livePreview = new Craft.LivePreview(); #}
   {% if not template.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}
  {#  $('#templateBodyCopy, #templateFooterCopy').redactor({
     buttons: ['bold', 'italic', 'link', 'horizontalrule'],
