@@ -108,6 +108,7 @@ ContentCopy = Garnish.Base.extend({
   },
   updateHtmlFromModal: function(data) {
     this.$body.parent().addClass('text-set');
+    this.$body.parent().find('.text-actions').removeClass('hidden');
     this.$body.parent().find('.delete').removeClass('hidden');
     this.$body.removeClass('txt');
     return this.$body.html(data.copy);
