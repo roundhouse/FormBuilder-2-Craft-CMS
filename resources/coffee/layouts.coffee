@@ -32,7 +32,6 @@ Message = Garnish.Base.extend(
       @modal.show()
     return
   updateHtmlFromModal: (layout) ->
-    console.log layout
     # body = @modal.$bodyInput.val().replace(/\n/g, '<br>')
     body =  'Template Name: ' + layout.fileOriginalName + '<br />Template Path: ' + layout.filePath 
     @$body.html body
@@ -56,7 +55,6 @@ MessageSettingsModal = Garnish.Modal.extend(
   loadContainer: () ->
     data = 
       layoutId: @message.layoutId
-    console.log data
     # If CSRF protection isn't enabled, these won't be defined.
     if typeof Craft.csrfTokenName != 'undefined' and typeof Craft.csrfTokenValue != 'undefined'
       # Add the CSRF token
@@ -101,7 +99,6 @@ MessageSettingsModal = Garnish.Modal.extend(
       return
     data = 
       templatePath: @$bodyInput.val()
-    console.log data
     @$bodyInput.removeClass 'error'
     if !data.templatePath
       if !data.templatePath

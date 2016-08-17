@@ -39,7 +39,6 @@ Message = Garnish.Base.extend({
   },
   updateHtmlFromModal: function(layout) {
     var body;
-    console.log(layout);
     body = 'Template Name: ' + layout.fileOriginalName + '<br />Template Path: ' + layout.filePath;
     this.$body.html(body);
     this.$body.parent().find('#template-name-input').val(this.modal.$bodyInput.val());
@@ -67,7 +66,6 @@ MessageSettingsModal = Garnish.Modal.extend({
     data = {
       layoutId: this.message.layoutId
     };
-    console.log(data);
     if (typeof Craft.csrfTokenName !== 'undefined' && typeof Craft.csrfTokenValue !== 'undefined') {
       data[Craft.csrfTokenName] = Craft.csrfTokenValue;
     }
@@ -99,7 +97,6 @@ MessageSettingsModal = Garnish.Modal.extend({
     data = {
       templatePath: this.$bodyInput.val()
     };
-    console.log(data);
     this.$bodyInput.removeClass('error');
     if (!data.templatePath) {
       if (!data.templatePath) {

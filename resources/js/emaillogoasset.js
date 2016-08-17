@@ -33,9 +33,7 @@ Craft.CustomEmailLogo = Garnish.Base.extend({
       $(element).parent().attr('data-align', align);
       $('#templateLogoAlignment').val(align);
       $('.align-trigger').removeClass('active');
-      $(this).addClass('active');
-      console.log('Align: ', align);
-      return console.log('Element: ', element);
+      return $(this).addClass('active');
     };
     this.$elements.find('.element').each(function(i, e) {
       var $newEl, alignment, image, thumbContainer;
@@ -85,48 +83,5 @@ Craft.CustomEmailLogo = Garnish.Base.extend({
         }
       });
     });
-  },
-  initializeModal: function(id) {
-    var $modal, image, myModal, observer, observerConfig, oldDisplay, oldWidth, svgCode, timeout;
-    image = this.$elements.find('.element[data-id=\'' + id + '\']').data('url');
-    svgCode = '';
-    $modal = $('<div class="modal elementselectormodal" data-id="' + id + '">' + '    <div class="body">' + '        <div class="content">' + '            <div class="main">' + '                <div class="field"><div class="input"><textarea class="text nicetext fullwidth put-svg-here" rows="4" cols="50" style="min-height:250px;"></textarea></div></div>' + '                <div class="svg-code"><img src="' + image + '" class="svg-convert"></div>' + '            </div>' + '        </div>' + '    </div>' + '    <div class="footer">' + '        <div class="buttons left secondary-buttons">' + '            <div class="btn load-svg dashed">Reload SVG Code</div>' + '        </div>' + '        <div class="buttons right">' + '            <div class="btn submit">Ok</div>' + '        </div>' + '    </div>' + '</div>');
-    myModal = new Garnish.Modal($modal, {
-      autoShow: false,
-      resizable: false
-    });
-    oldWidth = $modal.width();
-    oldDisplay = 'none';
-    timeout = null;
-    observer = new MutationObserver(function(mutations) {
-      return mutations.forEach(function(mutation) {
-        return console.log(mutation);
-      });
-    });
-    observerConfig = {
-      attributes: true,
-      childList: false,
-      characterData: false,
-      subtree: false,
-      attributeOldValue: false,
-      characterDataOldValue: false,
-      attributeFilter: ['style']
-    };
-    observer.observe($modal[0], observerConfig);
-    $modal.find('.submit').click(function() {
-      return myModal.hide();
-    });
-    $modal.find('.load-svg').click(function() {
-      return $('.svg-convert').shapeSvgConvert({
-        cleanUp: ['width', 'height', 'id', 'class', 'xmlns:xlink', 'xml:space', 'version'],
-        onComplete: function() {
-          return $('.put-svg-here').val($('.svg-code').html());
-        }
-      });
-    });
-    return this.modals[id] = myModal;
-  },
-  destroyModal: function(id) {
-    return this.modals[id].destroy();
   }
 });

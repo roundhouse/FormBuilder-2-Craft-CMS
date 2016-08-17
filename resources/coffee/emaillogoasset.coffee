@@ -36,9 +36,6 @@ Craft.CustomEmailLogo = Garnish.Base.extend(
             $('.align-trigger').removeClass 'active'
             $(this).addClass 'active'
 
-            console.log 'Align: ', align
-            console.log 'Element: ', element
-
         # Adding Links to element
         @$elements.find('.element').each (i, e) ->
             $newEl = $(e).addClass('templatelogoelement')
@@ -82,106 +79,6 @@ Craft.CustomEmailLogo = Garnish.Base.extend(
                 if e.target.$elements.filter('[data-id="' + $(this).data('id') + '"]').length < 1
                     id = $(this).data('id')
                     $(this).remove()
-            # that.updateInputs()
-            # that.destroyModal id
-
-
-    # updateInputs: () ->
-    #     @$data.find('>div').each (i) ->
-    #         $(this).find('input[type="hidden"]').each ->
-    #             $(this).attr 'name', $(this).attr('name').replace(/\[focus\-attr]\[[0-9]]/i, '[focus-attr][' + i + ']')
-
-    # selectElements: (elements) ->
-        # console.log elements
-        # i = 0
-        # while i < elements.length
-        #     elementInfo = elements[i]
-        #     $element = @createNewElement(elementInfo)
-        #     @appendElement $element
-        #     @addElements $element
-        #     @animateElementIntoPlace elementInfo.$element, $element
-        #     i++
-
-        # @onSelectElements elements
-
-    initializeModal: (id) ->
-        image = @$elements.find('.element[data-id=\'' + id + '\']').data('url')
-        svgCode = ''
-
-        # $.get image, (data) ->
-        #     svg = $(data).find('svg')
-        #     svg = svg.removeAttr('xmlns:a')
-        
-        # $modal = $('<div class="modal elementselectormodal" data-id="' + id + '"><img src="'+image+'" class="svg-convert"></div>')
-        $modal = $(
-            '<div class="modal elementselectormodal" data-id="' + id + '">' +
-            '    <div class="body">' +
-            '        <div class="content">' +
-            '            <div class="main">' +
-            '                <div class="field"><div class="input"><textarea class="text nicetext fullwidth put-svg-here" rows="4" cols="50" style="min-height:250px;"></textarea></div></div>' +
-            '                <div class="svg-code"><img src="'+image+'" class="svg-convert"></div>' +
-            '            </div>' +
-            '        </div>' +
-            '    </div>' +
-            '    <div class="footer">' +
-            '        <div class="buttons left secondary-buttons">' +
-            '            <div class="btn load-svg dashed">Reload SVG Code</div>' +
-            '        </div>' +
-            '        <div class="buttons right">' +
-            '            <div class="btn submit">Ok</div>' +
-            '        </div>' +
-            '    </div>' +
-            '</div>'
-        )
-
-        myModal = new (Garnish.Modal)($modal,
-            autoShow: false
-            resizable: false)
-
-        oldWidth = $modal.width()
-        oldDisplay = 'none'
-        timeout = null
-
-        observer = new MutationObserver((mutations) ->
-            mutations.forEach (mutation) ->
-                console.log mutation
-                # if mutation.target == $modal[0] and mutation.attributeName == 'style'
-                #     if oldDisplay != $modal[0].style.display
-                #         oldDisplay = $modal[0].style.display
-                #     if oldWidth != $modal[0].style.width
-                #         if timeout == null
-                #             oldWidth = $modal[0].style.width
-        )
-
-
-        observerConfig = 
-            attributes: true
-            childList: false
-            characterData: false
-            subtree: false
-            attributeOldValue: false
-            characterDataOldValue: false
-            attributeFilter: [ 'style' ]
-        observer.observe $modal[0], observerConfig
-
-
-        $modal.find('.submit').click ->
-            myModal.hide()
-
-        $modal.find('.load-svg').click ->
-            $('.svg-convert').shapeSvgConvert(
-                cleanUp: ['width','height','id','class','xmlns:xlink','xml:space','version']
-                onComplete: ->
-                    $('.put-svg-here').val($('.svg-code').html())
-            )
-
-        @modals[id] = myModal
-
-    
-
-    destroyModal: (id) ->
-        @modals[id].destroy()
-
 )
 
 

@@ -138,6 +138,7 @@ You can pass submission data to a custom redirect page, here is a snipped code f
 
 ## Changelog
 
+* 8.16.16 - Added new functionality for adding notification templates for admins and submitter
 * 8.5.16 - File asset restrictions get validated
 * 8.5.16 - Added ability to rename plugin name in sidebar
 * 8.5.16 - Added ability to allow/disallow non-admin users to add/edit/delete forms and entries

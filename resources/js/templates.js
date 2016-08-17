@@ -13,6 +13,9 @@ $(function() {
   $('#templateBodyBackgroundColor').on('change', function(e) {
     return $('#cc-body').css('backgroundColor', $(this).val());
   });
+  $('#templateBackgroundColor').on('change', function(e) {
+    return $('#cc-wrapper').css('backgroundColor', $(this).val());
+  });
   bodyFontRange = document.getElementById('templateBodyTextSize');
   footerFontRange = document.getElementById('templateFooterTextSize');
   Array.prototype.slice.call(document.querySelectorAll('.text-size'), 0).forEach(function(bt) {
@@ -107,8 +110,7 @@ ContentCopy = Garnish.Base.extend({
     this.$body.parent().addClass('text-set');
     this.$body.parent().find('.delete').removeClass('hidden');
     this.$body.removeClass('txt');
-    this.$body.html(data.copy);
-    return console.log(this.$body.parent().find('.text-actions').removeClass('hidden'));
+    return this.$body.html(data.copy);
   }
 });
 

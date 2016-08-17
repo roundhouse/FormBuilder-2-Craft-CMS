@@ -949,7 +949,7 @@ svg.icon {
  * ============================================ */
 #content-creator .size-info {
   position: absolute;
-  top: 13px;
+  top: 2px;
   right: auto;
   bottom: auto;
   left: 135px;
@@ -1046,6 +1046,45 @@ svg.icon {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease; }
+  #content-creator #cc-wrapper:hover .backgroundColorTrigger {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+    transform: translateY(0); }
+  #content-creator #cc-wrapper .backgroundColorTrigger {
+    position: absolute;
+    top: -23px;
+    right: 5px;
+    bottom: auto;
+    left: auto;
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    -ms-transform: translateY(10px);
+    -o-transform: translateY(10px);
+    transform: translateY(10px);
+    height: 15px;
+    width: 15px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    opacity: 0; }
+    #content-creator #cc-wrapper .backgroundColorTrigger:hover svg {
+      opacity: .7; }
+    #content-creator #cc-wrapper .backgroundColorTrigger svg {
+      cursor: pointer;
+      pointer-events: none;
+      height: 100%;
+      width: 100%;
+      opacity: .2;
+      -webkit-transition: opacity 0.3s ease;
+      -moz-transition: opacity 0.3s ease;
+      transition: opacity 0.3s ease; }
+    #content-creator #cc-wrapper .backgroundColorTrigger input {
+      position: absolute;
+      top: 0;
+      opacity: 0; }
   #content-creator #cc-wrapper .text-content {
     position: relative;
     cursor: pointer; }
@@ -1252,7 +1291,6 @@ svg.icon {
     max-width: 100%; }
 #content-creator #cc-body {
   position: relative;
-  background-color: white;
   min-height: 100px;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;

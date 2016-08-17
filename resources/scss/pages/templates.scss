@@ -117,7 +117,7 @@
  * ============================================ */
 #content-creator {
 	.size-info {
-		@include position(absolute, 13px auto auto 135px);
+		@include position(absolute, 2px auto auto 135px);
 		padding: 0 10px;
 		background: #ebedef;
 		color: #b9bfc6;
@@ -194,6 +194,39 @@
 		box-sizing: border-box;
 		border: 1px dashed rgba($c-teal, .2);
 		@include transition(all .3s ease);
+
+		&:hover {
+			.backgroundColorTrigger {
+				opacity: 1;
+				@include transform(translateY(0));
+			}
+		}
+
+		// Container Background Color
+		.backgroundColorTrigger {
+			@include position(absolute, -23px 5px auto auto);
+			@include transform(translateY(10px));
+			@include size(15px);
+			@include transition(all .3s ease);
+			opacity: 0;
+			&:hover {
+				svg {
+					opacity: .7;
+				}
+			}
+			svg { 
+				cursor: pointer;
+				pointer-events: none;
+				@include size(100%);
+				opacity: .2;
+				@include transition(opacity .3s ease);
+			}
+			input {
+				position: absolute;
+				top: 0;
+				opacity: 0;
+			}
+		}
 
 		.text-content {
 			position: relative;
@@ -299,9 +332,6 @@
 				opacity: .8;
 				svg * { stroke: $c-teal; }
 			}
-			// &.left-align { left: 0; }
-			// &.center-align { left: 24px; }
-			// &.right-align { left: 48px; }
 			&:hover {
 				opacity: .8;
 			}
@@ -316,7 +346,6 @@
 
 	#cc-body {
 		position: relative;
-		background-color: white;
 		min-height: 100px;
 		@include transition(all .3s ease);
 		&:hover {

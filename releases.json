@@ -20,7 +20,7 @@
     "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
     "date": "2016-08-02T17:47:13.000000",
     "notes": [
-      "[Fixed] Fixed file uploads and email attachments"
+      "[Fixed] File uploads and email attachments"
     ]
   },
   {
@@ -28,8 +28,8 @@
     "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
     "date": "2016-08-02T21:00:23+00:00",
     "notes": [
-      "[Improved] Added ability to rename uploaded files on the entry page",
-      "[Improved] Added ability to use Sprout Fields within your forms"
+      "[Added] Ability to rename uploaded files on the entry page",
+      "[Added] Ability to use Sprout Fields within your forms"
     ]
   },
   {
@@ -37,13 +37,23 @@
     "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
     "date": "2016-08-04T21:12:03+00:00",
     "notes": [
-      "[Improved] Improved custom field templates"
+      "[Improved] Custom field templates",
       "[Improved] Custom Routes",
       "[Added] Submission data can now be passed to custom routes",
       "[Fixed] richfield input can now display validation message if set to required",
-      "[Added] Added ability to rename plugin name in sidebar",
-      "[Added] Added ability to allow/disallow non-admin users to add/edit/delete forms and entries"
+      "[Added] Ability to rename plugin name in sidebar",
+      "[Added] Ability to allow/disallow non-admin users to add/edit/delete forms and entries",
       "[Added] File asset restrictions get validated"
+    ]
+  }
+  {
+    "version": "2.0.6",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-08-17T05:24:35+00:00",
+    "notes": [
+      "[Added] New functionality for adding notification templates for admins and submitter",
+      "[Improved] Notification settings for forms",
+      "[Improved] Email templates"
     ]
   }
 ]
