@@ -14,44 +14,50 @@
   <section id="fb-content">
     <header class="section-header">
       <div id="page-title"><h1>{{ page|t }}</h1></div>
+      <div id="extra-headers"><div class="buttons right"><div class="btngroup"><a href="{{ url('formbuilder2/templates/new') }}" class="btn submit add icon"><span>{{ "Create a Template"|t }}</span></a></div></div></div>
     </header>
 
-    <div class="template-list">
-        <h2>Template List</h2>
-        {% if templates %}
+    {% if templates %}
+    <div class="templates">
+    <table class="data fullwidth collapsible" id="templates">
+        <thead>
+          <tr>
+            <th scope="col">{{ "ID"|t }}</th>
+            <th scope="col">{{ "Name"|t }}</th>
+            <th scope="col">{{ "Handle"|t }}</th>
+            <th scope="col">{{ "Action"|t }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
             {% for template in templates %}
-            <div class="item">
-                <h2>{{ template.name }}</h2>
-                <p>{{ template.handle }}</p>
-                <a href="{{ url('formbuilder2/templates/' ~ template.id ~ '/edit') }}">Edit</a>
-            </div>
+            <tr data-id="{{ template.id }}" data-name="{{ template.name }}">
+                <td data-title="{{ "ID"|t }}" class="id">{{ template.id }}</td>
+                <td data-title="{{ "Name"|t }}" class="name"><a href="{{ url('formbuilder2/templates/' ~ template.id ~ '/edit') }}">{{ template.name }}</a></td>
+                <td data-title="{{ "Handle"|t }}" class="handle">{{ template.handle }}</td>
+                <td data-title="{{ "Action"|t }}" class="action"><a href="#" class="delete-from delete" title="Delete {{ template.name }}" role="button" data-tooltip="Delete"><svg class="icon"><use xlink:href="#icon-trash" class="icon-trash"/></svg></a></td>
+            </tr>
             {% endfor %}
-        {% else %}
-            <p>No templates yet, create one.</p>
-        {% endif %}
+        </tbody>
+    </table>
     </div>
-    
-    <div class="layout-list">
-        <h2>Layout List</h2>
-        {% for layout in layouts %}
 
-        <div class="item">
-            <h2>{{ layout.name }}</h2>
-            <p>{{ layout.handle }}</p>
-            <a href="{{ url('formbuilder2/templates/layouts/' ~ layout.id ~ '/edit') }}">Edit</a>
+    {% else %}
+        <div class="no-templates" id="notemplates">
+            <p>{{ "There are no templates created."|t }}</p>
         </div>
-
-        {% endfor %}
-    </div>
+    {% endif %}
 
   </section>
 
 {% endblock %}
-
-{% includeJsResource "formbuilder2/js/templates.js" %}
-
 {% set js %}
-	new Craft.EmailTemplates();
+    var adminTable = new Craft.AdminTable({
+      tableSelector: '#templates',
+      noObjectsSelector: '#notemplates',
+      deleteAction: 'formBuilder2/template/deleteTemplate',
+      confirmDeleteMessage: '{{ "Are you sure you want to delete “{name}” template?"|t }}'
+    });
 {% endset %}
 {% includeJs js %}
 

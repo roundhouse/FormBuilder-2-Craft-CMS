@@ -44,17 +44,6 @@ class FormBuilder2_FormController extends BaseController
         if (!$variables['form']) { 
           throw new HttpException(404);
         }
-        // Get Logo Asset
-        $customEmailLogo = $variables['form']->notificationSettings['templateSettings']['emailCustomLogo'];
-        if ($customEmailLogo) {
-          $criteria           = craft()->elements->getCriteria(ElementType::Asset);
-          $criteria->id       = $customEmailLogo[0];
-          $criteria->limit    = 1;
-          $elements           = $criteria->find();
-        } else {
-          $elements = [];
-        }
-        $variables['elements']  = $elements;
       }
       $variables['title'] = $variables['form']->name;
     } else {
@@ -64,8 +53,6 @@ class FormBuilder2_FormController extends BaseController
       }
       $variables['title'] = Craft::t('Create a new form');
     }
-
-    
 
     $this->renderTemplate('formbuilder2/forms/_edit', $variables);
   }

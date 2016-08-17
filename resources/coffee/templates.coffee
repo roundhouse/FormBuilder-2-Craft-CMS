@@ -11,7 +11,7 @@ $ ->
     $('#templateBodyBackgroundColor').on 'change', (e) ->
         $('#cc-body').css 'backgroundColor', $(this).val()
     
-    # Change Body font size
+    # Change Optional Font Size
     bodyFontRange = document.getElementById('templateBodyTextSize')
     footerFontRange = document.getElementById('templateFooterTextSize')
 
@@ -36,7 +36,25 @@ $ ->
         text = $(@.closest('.text-content')).find('.body')
         changeFont(text, $(this).val())
     ), false
+
+    # Change Optional Font Color
+    $('#templateBodyTextColor').on 'change', (e) ->
+        text = $(@.closest('.text-content')).find('.body')
+        text.css 'color', $(this).val()
+
+    $('#templateFooterTextColor').on 'change', (e) ->
+        text = $(@.closest('.text-content')).find('.body')
+        text.css 'color', $(this).val()
     
+    # Delete Text
+    $('.delete-text').on 'click', (e) ->
+        e.preventDefault()
+        target = $(this).data 'target'
+        placeholder = $(this).parent().find('.body').data 'placeholder'
+        $('.'+target).val ''
+        $(this).parent().find('.body').addClass('txt').html placeholder
+        $(this).addClass 'hidden'
+        $(this).parent().find('.text-actions').addClass 'hidden'
 
 
 templateContent = Garnish.Base.extend(
@@ -76,8 +94,11 @@ ContentCopy = Garnish.Base.extend(
             @modal.show()
 
     updateHtmlFromModal: (data) ->
-        @$body.parent().addClass 'has-text'
+        @$body.parent().addClass 'text-set'
+        @$body.parent().find('.delete').removeClass 'hidden'
+        @$body.removeClass 'txt'
         @$body.html data.copy
+        console.log @$body.parent().find('.text-actions').removeClass 'hidden'
 )
 
 ContentCopyModal = Garnish.Modal.extend(

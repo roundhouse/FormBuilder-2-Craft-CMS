@@ -56,6 +56,19 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
 	  }
 	}
 
+	public function getTemplateByHandle($handle)
+	{
+	  $templateRecord = FormBuilder2_TemplateRecord::model()->findByAttributes(array(
+	      'handle' => $handle,
+	    ));
+
+	  if ($templateRecord) {
+	    return FormBuilder2_TemplateModel::populateModel($templateRecord);
+	  } else {
+	  	throw new Exception(404, Craft::t('No template exists with the handle “{handle}”', array('id' => $handle)));
+	  }
+	}
+
 	/**
 	 * Get template file by its name
 	 * 		
@@ -109,6 +122,8 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
 
  		$templateRecord->name 				= $template->name;
  		$templateRecord->handle 			= $template->handle;
+ 		$templateRecord->bodyText 			= $template->bodyText;
+ 		$templateRecord->footerText			= $template->footerText;
  		$templateRecord->templateContent 	= JsonHelper::encode($template->templateContent);
  		$templateRecord->templateStyles 	= JsonHelper::encode($template->templateStyles);
  		$templateRecord->templateSettings 	= JsonHelper::encode($template->templateSettings);
@@ -140,6 +155,33 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
  		} else { 
  			return false; 
  		}
+ 	}
+
+ 	public function deleteTemplateById($templateId)
+ 	{ 
+ 	  if (!$templateId) { 
+ 	  	return false;
+ 	  }
+
+ 	  $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+ 	  
+ 	  try {
+ 	    $record = FormBuilder2_TemplateRecord::model()->findById(array(
+ 	    	'id' => $templateId
+ 	    ));
+ 	    
+ 	    $affectedRows = craft()->db->createCommand()->delete('formbuilder2_templates', array('id' => $templateId));
+
+ 	    if ($transaction !== null) { 
+ 	    	$transaction->commit();
+ 	    }
+ 	    return (bool) $affectedRows;
+ 	  } catch (\Exception $e) {
+ 	    if ($transaction !== null) { 
+ 	    	$transaction->rollback();
+ 	    }
+ 	    throw $e;
+ 	  }
  	}
 
  	public function getBlockTypes()

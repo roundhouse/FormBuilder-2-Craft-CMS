@@ -235,41 +235,12 @@
   }
 
   .notification-tabs-wrapper {
-    @include align-items(stretch);
-    @include display(flex);
-    @include flex-direction(row);
-    @include justify-content(flex-start);
     padding-bottom: 20px;
   }
 
-  .notification-tabs {
-    width: 55px;
-    margin-right: 20px;
-    border-right: 2px solid rgba(gray, .1);
-    h2 { margin: 0; }
-    a {
-      position: relative;
-      display: block;
-      padding: 15px;
-      margin-right: -2px;
-      border-right: 2px solid rgba(gray, .1);
-      &:hover {
-        svg * { fill: rgba($c-blue, .9); }
-      }
-    }
-    .current a {
-      border-right: 2px solid $c-teal;
-      svg * { fill: $c-teal; }
-    }
-    svg { 
-      @include size(25px);
-      vertical-align: middle;;
-      * { fill: rgba($c-blue, .7); @include transition(all .3s ease); }
-    }
-  }
   .notification-tabs-container {
     width: 100%;
-    padding-right: 20px;
+    padding: 20px;
     h1 {
       color: $c-blue;
       font-size: 20px;

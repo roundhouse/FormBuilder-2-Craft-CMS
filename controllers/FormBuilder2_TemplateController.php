@@ -46,6 +46,17 @@ class FormBuilder2_TemplateController extends BaseController
     $this->renderTemplate('formbuilder2/templates/_edit', $variables);
   }
 
+  public function actionDeleteTemplate()
+  {
+    $this->requirePostRequest();
+    $this->requireAjaxRequest();
+
+    $templateId = craft()->request->getRequiredPost('id');
+
+    craft()->formBuilder2_template->deleteTemplateById($templateId);
+    $this->returnJson(array('success' => true));
+  }
+
   /**
    * Get Template Information By Name
    * 
@@ -88,6 +99,8 @@ class FormBuilder2_TemplateController extends BaseController
         $template->id                 = craft()->request->getPost('templateId');
         $template->name               = craft()->request->getPost('name');
         $template->handle             = craft()->request->getPost('handle');
+        $template->bodyText           = craft()->request->getPost('bodyText');
+        $template->footerText         = craft()->request->getPost('footerText');
         $template->templateContent    = craft()->request->getPost('templateContent');
         $template->templateStyles     = craft()->request->getPost('templateStyles');
         $template->templateSettings   = craft()->request->getPost('templateSettings');

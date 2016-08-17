@@ -27,15 +27,6 @@ App = (function() {
     var newFormActiveTab;
     if ($('.fb-new-form').length > 0) {
       newFormActiveTab = Cookies.get('newform-active-tab');
-      $('.notification-tabs a').click(function(event) {
-        var tab;
-        event.preventDefault();
-        $(this).parent().addClass('current');
-        $(this).parent().siblings().removeClass('current');
-        tab = $(this).attr('href');
-        $('.email-tab-content').not(tab).css('display', 'none');
-        return $(tab).fadeIn();
-      });
       $('.menu-tabs a').click(function(event) {
         var tab;
         event.preventDefault();
@@ -64,18 +55,6 @@ App = (function() {
         $('.menu-tabs h2').removeClass('current');
         $('.has-errors').first().addClass('current').find('a').trigger('click');
       }
-      if ($('#emailTemplateStyle2').is(':checked')) {
-        $('#html-template-extra').slideDown();
-      }
-      $('#emailTemplateStyle-field input').on('change', function(e) {
-        var val;
-        val = $(this).val();
-        if (val === 'html') {
-          return $('#html-template-extra').slideDown();
-        } else {
-          return $('#html-template-extra').slideUp();
-        }
-      });
       if ($('#saveSubmissionsToDatabase').is(':checked')) {
         $('.method-database .checkbox-toggle').addClass('selected');
         $('.method-database .checkbox-extra').show();

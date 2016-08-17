@@ -21,15 +21,6 @@ class App
       # New Form Tabs
       newFormActiveTab = Cookies.get 'newform-active-tab'
       
-      # Email Notifications & Templates
-      $('.notification-tabs a').click (event) ->
-        event.preventDefault()
-        $(@).parent().addClass 'current'
-        $(@).parent().siblings().removeClass 'current'
-        tab = $(@).attr('href')
-        $('.email-tab-content').not(tab).css 'display', 'none'
-        $(tab).fadeIn()
-
       $('.menu-tabs a').click (event) ->
         event.preventDefault()
         $(@).parent().addClass 'current'
@@ -52,17 +43,6 @@ class App
       if $('.has-errors').length > 0
         $('.menu-tabs h2').removeClass 'current'
         $('.has-errors').first().addClass('current').find('a').trigger('click')
-
-      # Email Template Style
-      if $('#emailTemplateStyle2').is(':checked')
-        $('#html-template-extra').slideDown()
-        
-      $('#emailTemplateStyle-field input').on 'change', (e) ->
-        val = $(@).val()
-        if val == 'html'
-          $('#html-template-extra').slideDown()
-        else 
-          $('#html-template-extra').slideUp()
 
       # Save Submissions To Database
       if $('#saveSubmissionsToDatabase').is(':checked')

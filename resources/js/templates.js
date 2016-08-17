@@ -36,11 +36,31 @@ $(function() {
     text = $(this.closest('.text-content')).find('.body');
     return changeFont(text, $(this).val());
   }), false);
-  return footerFontRange.addEventListener('change', (function() {
+  footerFontRange.addEventListener('change', (function() {
     var text;
     text = $(this.closest('.text-content')).find('.body');
     return changeFont(text, $(this).val());
   }), false);
+  $('#templateBodyTextColor').on('change', function(e) {
+    var text;
+    text = $(this.closest('.text-content')).find('.body');
+    return text.css('color', $(this).val());
+  });
+  $('#templateFooterTextColor').on('change', function(e) {
+    var text;
+    text = $(this.closest('.text-content')).find('.body');
+    return text.css('color', $(this).val());
+  });
+  return $('.delete-text').on('click', function(e) {
+    var placeholder, target;
+    e.preventDefault();
+    target = $(this).data('target');
+    placeholder = $(this).parent().find('.body').data('placeholder');
+    $('.' + target).val('');
+    $(this).parent().find('.body').addClass('txt').html(placeholder);
+    $(this).addClass('hidden');
+    return $(this).parent().find('.text-actions').addClass('hidden');
+  });
 });
 
 templateContent = Garnish.Base.extend({
@@ -84,8 +104,11 @@ ContentCopy = Garnish.Base.extend({
     }
   },
   updateHtmlFromModal: function(data) {
-    this.$body.parent().addClass('has-text');
-    return this.$body.html(data.copy);
+    this.$body.parent().addClass('text-set');
+    this.$body.parent().find('.delete').removeClass('hidden');
+    this.$body.removeClass('txt');
+    this.$body.html(data.copy);
+    return console.log(this.$body.parent().find('.text-actions').removeClass('hidden'));
   }
 });
 

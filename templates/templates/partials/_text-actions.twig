@@ -1,0 +1,21 @@
+<div class="text-actions {% if body == '' %} hidden{% endif %}">
+  <div class="icon text-size small" data-action="decrease" data-target="{{ type }}"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve"><line fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="24" y1="9" x2="24" y2="41"/><polyline fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="40,12 39,9 9,9 8,12"/><polyline fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="20,42 24,41 28,42"/></svg></div>
+
+  <div class="range"><input type="range" min="10" max="60" step="1" id="{{ type }}" name="templateStyles[{{ type }}]" value="{% if range != '' %}{{ range }}{% else %}12{% endif %}"></div>
+  
+  <div class="icon text-size big" data-action="increase" data-target="{{ type }}"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve"><line fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="24" y1="9" x2="24" y2="41"/><polyline fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="40,12 39,9 9,9 8,12"/><polyline fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="20,42 24,41 28,42"/></svg></div>
+  
+  <div class="icon text-color" data-action="textColor" data-target="{{ color }}">
+  	{{ forms.color({
+  	  id: color,
+  	  class: color,
+  	  name: 'templateStyles['~color~']',
+      value:  (colorValue != '' ? colorValue : '#cccccc'),
+  	  size: 50,
+  	  errors: template.getErrors(color),
+  	}) }}
+
+  	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve"><path fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M12.2114182,29.4601555c-1.1715736-1.1715736-1.1715736-3.0710678,0-4.2426414l11.3137074-11.3137083"/><path fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M30.5961933,20.9748745L19.282486,32.2885818c-1.1715736,1.1715736-3.0710678,1.1715736-4.2426414,0"/><path fill="none" stroke="#000000" stroke-width="2" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M14.3327379,32.9956894l-1.4142151,1.4142151c-0.7810478,0.7810478-2.1509304,0.677494-2.9319782-0.1035538l0.051775,0.0517731c-0.7810478-0.7810478-0.7292709-1.9955978,0.0517769-2.7766476l1.4142141-1.4142151"/><path fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M31.3033009,20.267767l-7.0710678-7.0710678c-1.5620975-1.5620975-1.5620975-4.0947571,0-5.6568542l4.2426414-4.2426405l12.7279224,12.7279215l-4.2426414,4.2426414C35.3980598,21.8298645,32.8653984,21.8298645,31.3033009,20.267767z"/><path fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M38.454586,13.0586767c-0.2395554-0.7186689,0.0510406-1.4074507,0.5867081-1.9431152l2.6615028-2.6615047c1.5620956-1.5620952,1.6656494-4.4054146,0.1035538-5.9675102l0.0517731,0.0517712c-1.5620956-1.5620956-4.2500839-1.3032105-5.8121796,0.2588851l-2.6615067,2.6615045c-0.5356636,0.5356646-1.4315529,0.6191559-2.1502228,0.3795996"/><path fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round" stroke-miterlimit="10" d="M13,43c0,2.2091408-1.7908611,4-4,4s-4-1.7908592-4-4s4-6,4-6S13,40.7908592,13,43z"/></svg>
+  </div>
+
+</div>

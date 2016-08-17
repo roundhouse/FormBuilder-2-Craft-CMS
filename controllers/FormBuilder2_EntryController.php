@@ -376,9 +376,6 @@ class FormBuilder2_EntryController extends BaseController
     craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
     $message  = craft()->templates->render('formbuilder2/templates/email/text-submitter', $variables);
 
-    var_dump($message);
-    die();
-
     // Email
     $toEmail = $postData[$emailField];
 
@@ -419,29 +416,21 @@ class FormBuilder2_EntryController extends BaseController
     $attributes             = $form->getAttributes();
     $formSettings           = $attributes['formSettings'];
     $notificationSettings   = $attributes['notificationSettings'];
-    $templateSettings       = $notificationSettings['templateSettings'];
 
-    // Get Logo
-    if ($notificationSettings['templateSettings']['emailCustomLogo'] != '') {
-      $criteria         = craft()->elements->getCriteria(ElementType::Asset);
-      $criteria->id     = $notificationSettings['templateSettings']['emailCustomLogo'];
-      $criteria->limit  = 1;
-      $customLogo       = $criteria->find();
-    } else {
-      $customLogo = '';
-    }
 
     $variables['form']                  = $form;
     $variables['files']                 = $files;
     $variables['formSettings']          = $formSettings;
     $variables['emailSettings']         = $notificationSettings['emailSettings'];
-    $variables['templateSettings']      = $notificationSettings['templateSettings'];
-    if ($notificationSettings['templateSettings']['emailCustomLogo'] != '') {
-      $variables['customLogo']          = $customLogo;
+    $variables['templateSettings']      = $notificationSettings['emailTemplate'];
+    
+    if ($notificationSettings['emailTemplate'] && $notificationSettings['emailTemplate'] != '') {
+      $template = craft()->formBuilder2_template->getTemplateByHandle($notificationSettings['emailTemplate']);
+      $variables['template'] = $template;
     }
 
     if ($notificationSettings['emailSettings']['sendSubmissionData'] == '1') {
-      $variables['data']                = $postData;
+      $variables['data'] = $postData;
     }
 
     $customSubject = '';
@@ -452,19 +441,10 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
 
-    if ($templateSettings['emailTemplateStyle'] == 'html') {
-      if (IOHelper::fileExists($customTemplatePath . 'html' . $extension)) {
-        $message  = craft()->templates->render('formbuilder2/templates/custom/email/html', $variables);
-      } else {
-        $message  = craft()->templates->render('formbuilder2/templates/email/html', $variables);
-      }
-    } else {
-      if (IOHelper::fileExists($customTemplatePath . 'text' . $extension)) {
-        $message  = craft()->templates->render('formbuilder2/templates/custom/email/text', $variables);
-      } else {
-        $message  = craft()->templates->render('formbuilder2/templates/email/text', $variables);
-      }
-    }
+
+    $message  = craft()->templates->render('formbuilder2/templates/email/layouts/html', $variables);
+
+    Craft::dd($message);
 
     // Custom Emails
     $customEmail = '';
