@@ -366,11 +366,9 @@ class FormBuilder2_EntryController extends BaseController
     $variables['emailSettings']         = $notificationSettings['emailSettings'];
     $variables['notificationSettings']  = $notificationSettings;
     $variables['templateSettings']      = $notificationSettings['emailTemplate'];
+    $variables['sendSubmission']        = $notificationSettings['emailSettings']['sendSubmitterSubmissionData'];
     $emailField                         = $notificationSettings['submitterEmail'];
-
-    if ($notificationSettings['emailSettings']['sendSubmissionData'] == '1') {
-      $variables['data']                = $postData;
-    }
+    $variables['data']                  = $postData;
 
     if ($notificationSettings['emailTemplate'] && $notificationSettings['emailTemplate'] != '') {
       $template = craft()->formBuilder2_template->getTemplateByHandle($notificationSettings['emailTemplate']);
@@ -424,14 +422,12 @@ class FormBuilder2_EntryController extends BaseController
     $variables['emailSettings']         = $notificationSettings['emailSettings'];
     $variables['notificationSettings']  = $notificationSettings;
     $variables['templateSettings']      = $notificationSettings['emailTemplate'];
+    $variables['sendSubmission']        = $notificationSettings['emailSettings']['sendSubmissionData'];
+    $variables['data'] = $postData;
     
     if ($notificationSettings['emailTemplate'] && $notificationSettings['emailTemplate'] != '') {
       $template = craft()->formBuilder2_template->getTemplateByHandle($notificationSettings['emailTemplate']);
       $variables['template'] = $template;
-    }
-
-    if ($notificationSettings['emailSettings']['sendSubmissionData'] == '1') {
-      $variables['data'] = $postData;
     }
 
     $customSubject = '';

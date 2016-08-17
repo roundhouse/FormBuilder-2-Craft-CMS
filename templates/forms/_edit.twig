@@ -449,6 +449,22 @@
 
                     <div class="field">
                       <div class="heading">
+                         <label for="emailSubject">{{ "Include Submission Data"|t }}</label>
+                        <div class="instructions"><p>{{ "Send submission data with the email?"|t }}</p></div>
+                      </div>
+                      <div class="input">
+                        {{ forms.lightswitch({
+                          id: 'sendSubmitterSubmissionData',
+                          class: 'sendSubmitterSubmissionData',
+                          name: 'notificationSettings[emailSettings][sendSubmitterSubmissionData]',
+                          on: (form.notificationSettings.emailSettings.sendSubmitterSubmissionData is defined ? form.notificationSettings.emailSettings.sendSubmitterSubmissionData : null),
+                          errors: form.getErrors('sendSubmitterSubmissionData'),
+                        }) }}
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="heading">
                         <label>{{ "Select Email Template"|t }}</label>
                         <div class="instructions">{{ "Please select a template to use for email notifications."|t }}</div>
                       </div>
