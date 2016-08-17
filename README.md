@@ -35,7 +35,7 @@ Create an Asset field and add it to your form. You need to select **Has File Upl
 
 # Email Notifications
 
-Set up your forms to send email notifications to any emails you like. Email notifications can be customized a little. You can choose between plain text or an HTML email template. For each option you can add an optional body and footer text. If you going with HTML template you can upload a custom logo, pick background color and add container width.
+Templates have been added. Now you can visually set up email notification templates for amdins or submitter. Currently with limited customization options but with feedback I'm sure we will add more. Check out this [video](https://www.youtube.com/watch?v=J3XxgnDYJDY&feature=youtu.be) for quick overlook. 
 
 ***
 
