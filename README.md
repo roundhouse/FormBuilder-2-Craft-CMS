@@ -35,7 +35,7 @@ Create an Asset field and add it to your form. You need to select **Has File Upl
 
 # Email Notifications
 
-Templates have been added. Now you can visually set up email notification templates for amdins or submitter. Currently with limited customization options but with feedback I'm sure we will add more. Check out this [video](https://www.youtube.com/watch?v=sRFgX_gQL5Y) for quick overlook. 
+Templates have been added. Now you can visually set up email notification templates for admins or submitter. Currently with limited customization options but with feedback I'm sure we will add more. Check out this [video](https://www.youtube.com/watch?v=sRFgX_gQL5Y) for quick overlook. 
 
 ***
 
