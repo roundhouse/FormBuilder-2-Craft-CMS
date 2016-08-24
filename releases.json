@@ -45,7 +45,7 @@
       "[Added] Ability to allow/disallow non-admin users to add/edit/delete forms and entries",
       "[Added] File asset restrictions get validated"
     ]
-  }
+  },
   {
     "version": "2.0.6",
     "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
@@ -54,6 +54,14 @@
       "[Added] New functionality for adding notification templates for admins and submitter",
       "[Improved] Notification settings for forms",
       "[Improved] Email templates"
+    ]
+  },
+  {
+    "version": "2.0.7",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-08-24T17:08:53+00:00",
+    "notes": [
+      "[Fixed] datepicker field can no be used by non-admins"
     ]
   }
 ]

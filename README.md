@@ -138,26 +138,7 @@ You can pass submission data to a custom redirect page, here is a snipped code f
 
 ## Changelog
 
-* 8.16.16 - Added new functionality for adding notification templates for admins and submitter
-* 8.5.16 - File asset restrictions get validated
-* 8.5.16 - Added ability to rename plugin name in sidebar
-* 8.5.16 - Added ability to allow/disallow non-admin users to add/edit/delete forms and entries
-* 8.5.16 - Fixed richfields to display `required` validation message
-* 8.4.16 - Improved custom routes
-* 8.4.16 - Submission data can now be passed to custom routes
-* 8.4.16 - Improved custom field templates
-* 8.2.16 - Fixed file uploads and email attachments
-* 8.2.16 - Added ability to rename uploaded files on the entry page
-* 8.2.16 - Added ability to use Sprout Fields within your forms
-* 6.6.16 - You can now add custom From Name to your notifications (for form submitter)
-* 3.25.16 - Added ability to get custom subject line from form submission
-* 2.26.16 - Added option to notify submitter
-* 2.5.16 - Merged pull request, fixed required checkox not passing if only one checkbox [#30](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/pull/30)
-* 1.21.16 - If you have files and email notifications turned on, you will now get file attachments to your email.
-* 1.14.16 - Fixed Dropdown FieldType from not submitting data. Fixed undefined error when adding Forms field to matrix.
-* 1.13.16 - added getFormById($id) functionality, if you need to render form on frontend based on form id use getFormHtmlById($id) instead
-* 1.8.16 - Updated plugin version number
-* 1.7.16 - Fix templates path, so that it reverts to original templates path after the plugin is run. (pull request [#13](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/pull/13))
+Refer to [releases.json](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/blob/master/releases.json) for updates.
 
 
 
