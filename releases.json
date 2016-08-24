@@ -61,7 +61,8 @@
     "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
     "date": "2016-08-24T17:08:53+00:00",
     "notes": [
-      "[Fixed] datepicker field can no be used by non-admins"
+      "[Fixed] datepicker field can no be used by non-admins",
+      "[Added] camelCase(string) twig filter"
     ]
   }
 ]
