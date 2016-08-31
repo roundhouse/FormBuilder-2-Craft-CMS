@@ -64,5 +64,13 @@
       "[Fixed] datepicker field can no be used by non-admins",
       "[Added] camelCase(string) twig filter"
     ]
+  },
+  {
+    "version": "2.0.8",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-08-31T17:02:58+00:00",
+    "notes": [
+      "[Fixed] email template notifications now use the correct templates"
+    ]
   }
 ]

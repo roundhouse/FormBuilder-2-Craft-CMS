@@ -370,8 +370,8 @@ class FormBuilder2_EntryController extends BaseController
     $emailField                         = $notificationSettings['submitterEmail'];
     $variables['data']                  = $postData;
 
-    if ($notificationSettings['emailTemplate'] && $notificationSettings['emailTemplate'] != '') {
-      $template = craft()->formBuilder2_template->getTemplateByHandle($notificationSettings['emailTemplate']);
+    if ($notificationSettings['emailTemplateSubmitter'] && $notificationSettings['emailTemplateSubmitter'] != '') {
+      $template = craft()->formBuilder2_template->getTemplateByHandle($notificationSettings['emailTemplateSubmitter']);
       $variables['template'] = $template;
     }
 
