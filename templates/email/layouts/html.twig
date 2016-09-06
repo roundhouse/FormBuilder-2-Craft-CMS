@@ -92,7 +92,7 @@
         {% if bodyText %}
         <tr>
             <td style="mso-height-rule: exactly; padding: 15px;">
-                <span style="line-height: 1; font-size: {{ bodyTextSize ~ 'px' }}; color: {{ bodyTextColor }}">{{ bodyText }}</span>
+                <span style="line-height: 1; font-size: {{ bodyTextSize ~ 'px' }}; color: {{ bodyTextColor }}">{{ bodyText |nl2br }}</span>
             </td>
         </tr>
         {% endif %}
@@ -133,7 +133,7 @@
     <table cellspacing="0" cellpadding="0" border="0" align="center" width="{{ bodyContainerWidth }}" style="margin: auto;" class="email-container" role="presentation">
         <tr>
             <td style="mso-height-rule: exactly; padding: 25px 15px 15px 15px;">
-                <span style="line-height: 1; font-size: {{ footerTextSize ~ 'px' }}; color: {{ footerTextColor }}">{{ footerText }}</span>
+                <span style="line-height: 1; font-size: {{ footerTextSize ~ 'px' }}; color: {{ footerTextColor }}">{{ footerText |nl2br }}</span>
             </td>
         </tr>
     </table>

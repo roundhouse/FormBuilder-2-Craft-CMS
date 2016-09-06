@@ -59,7 +59,9 @@
               'templateStyles': template.templateStyles is defined ? template.templateStyles : ''
             }%}
             {% include 'formbuilder2/templates/partials/_text-actions' with bodyVars %}
-            <p class="{% if not template.bodyText %}txt {% endif %}body" data-placeholder="{{ "Optional body copy."|t }}" style="font-size: {{ template.templateStyles.templateBodyTextSize is defined ? template.templateStyles.templateBodyTextSize : '' }}px; color: {{ template.templateStyles.templateBodyTextColor is defined ? template.templateStyles.templateBodyTextColor : '' }};">{% if template.bodyText == '' %}{{ "Optional body copy."|t }}{% else %}{{ template.bodyText |nl2br }}{% endif %}</p>
+            <p class="{% if not template.bodyText %}txt {% endif %}body" data-placeholder="{{ "Optional body copy."|t }}" style="font-size: {{ template.templateStyles.templateBodyTextSize is defined ? template.templateStyles.templateBodyTextSize : '' }}px; color: {{ template.templateStyles.templateBodyTextColor is defined ? template.templateStyles.templateBodyTextColor : '' }};">
+              {% if template.bodyText == '' %}{{ "Optional body copy."|t }}{% else %}{{ template.bodyText |nl2br }}{% endif %}
+            </p>
             <a class="delete icon delete-text{% if template.bodyText == '' %} hidden{% endif %}" title="Remove" data-target="bodyText"></a>
           </div>
           <input type="hidden" id="field-bodyText" class="bodyText" name="bodyText" value="{{ template.bodyText is defined ? template.bodyText : '' }}">
@@ -83,7 +85,9 @@
               'templateStyles': template.templateStyles
             }%}
             {% include 'formbuilder2/templates/partials/_text-actions' with footerVars %}
-            <p class="{% if not template.footerText %}txt {% endif %}body" data-placeholder="{{ "Optional footer copy/notice."|t }}" style="font-size: {{ template.templateStyles.templateFooterTextSize is defined ? template.templateStyles.templateFooterTextSize : '' }}px; color: {{ template.templateStyles.templateFooterTextColor is defined ? template.templateStyles.templateFooterTextColor : '' }};">{% if template.footerText == '' %}{{ "Optional footer copy/notice."|t }}{% else %}{{ template.footerText |nl2br }}{% endif %}</p>
+            <p class="{% if not template.footerText %}txt {% endif %}body" data-placeholder="{{ "Optional footer copy/notice."|t }}" style="font-size: {{ template.templateStyles.templateFooterTextSize is defined ? template.templateStyles.templateFooterTextSize : '' }}px; color: {{ template.templateStyles.templateFooterTextColor is defined ? template.templateStyles.templateFooterTextColor : '' }};">
+                {% if template.footerText == '' %}{{ "Optional footer copy/notice."|t }}{% else %}{{ template.footerText |nl2br }}{% endif %}
+            </p>
             <a class="delete icon delete-text{% if template.footerText == '' %} hidden{% endif %}" title="Remove" data-target="footerText"></a>
           </div>
           <input type="hidden" id="field-footerText" class="footerText" name="footerText" value="{{ template.footerText is defined ? template.footerText : '' }}">

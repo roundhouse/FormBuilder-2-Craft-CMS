@@ -108,6 +108,7 @@ ContentCopy = Garnish.Base.extend({
   },
   updateHtmlFromModal: function(data) {
     this.$body.parent().addClass('text-set');
+    this.$body.parent().find('p').css('white-space', 'pre');
     this.$body.parent().find('.text-actions').removeClass('hidden');
     this.$body.parent().find('.delete').removeClass('hidden');
     this.$body.removeClass('txt');
@@ -165,7 +166,7 @@ ContentCopyModal = Garnish.Modal.extend({
       return;
     }
     data = {
-      copy: this.$copyInput.val().replace(/\n/g, '<br>')
+      copy: this.$copyInput.val()
     };
     this.$copyInput.removeClass('error');
     if (!data.copy) {

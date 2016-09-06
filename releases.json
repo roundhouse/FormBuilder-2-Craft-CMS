@@ -72,5 +72,14 @@
     "notes": [
       "[Fixed] email template notifications now use the correct templates"
     ]
+  },
+  {
+    "version": "2.0.9",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-09-06T16:55:43+00:00",
+    "notes": [
+      "[Fixed] email templates now respect html break lines in cp and email, needs db migration",
+      "[Added] you can now pick Reply To address for admin notifications"
+    ]
   }
 ]

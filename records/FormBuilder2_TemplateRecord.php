@@ -14,9 +14,9 @@ class FormBuilder2_TemplateRecord extends BaseRecord
             'name'                  => array(AttributeType::Name, 'required' => true),
             'handle'                => array(AttributeType::Handle, 'required' => true),
             'layoutId'              => AttributeType::Number,
-            'bodyText'              => AttributeType::Mixed,
-            'footerText'            => AttributeType::Mixed,
-            'altText'               => AttributeType::Mixed,
+            'bodyText'              => array(AttributeType::String, 'column' => ColumnType::Text),
+            'footerText'            => array(AttributeType::String, 'column' => ColumnType::Text),
+            'altText'               => array(AttributeType::String, 'column' => ColumnType::Text),
             'templateContent'       => AttributeType::Mixed,
             'templateStyles'        => AttributeType::Mixed,
             'templateSettings'      => AttributeType::Mixed

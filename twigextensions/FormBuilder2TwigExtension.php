@@ -17,6 +17,7 @@ class FormBuilder2TwigExtension extends \Twig_Extension
      'checkArray' => new Twig_Filter_Method($this, 'checkArray'),
      'camelCase' => new Twig_Filter_Method($this, 'camelCase'),
      'uncamelCase' => new Twig_Filter_Method($this, 'uncamelCase'),
+     'unescape' => new Twig_Filter_Method($this, 'unescape')
     );
   }
 
@@ -50,5 +51,9 @@ class FormBuilder2TwigExtension extends \Twig_Extension
     $str = preg_replace('/([a-z])([A-Z])/', "\\1_\\2", $str);
     $str = strtolower($str);
     return $str;
+  }
+
+  public function unescape($str) {
+    return html_entity_decode($str);
   }
 }

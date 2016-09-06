@@ -307,6 +307,13 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $attributes = $form->getAttributes();
     $notificationSettings = $attributes['notificationSettings'];
     $toEmails = ArrayHelper::stringToArray($notificationSettings['emailSettings']['notifyEmail']);
+    $emailSettings    = craft()->email->getSettings();
+
+    if (isset($notificationSettings['replyTo']) && ($notificationSettings['replyTo'] != '')) {
+      $replyTo = $postData[$notificationSettings['replyTo']];
+    } else {
+      $replyTo = $emailSettings['emailAddress'];
+    }
 
     // Process Subject Line
     if ($customSubject) {
@@ -322,10 +329,9 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
 
     foreach ($toEmails as $toEmail) {
       $email = new EmailModel();
-      $emailSettings    = craft()->email->getSettings();
 
       $email->fromEmail = $emailSettings['emailAddress'];
-      $email->replyTo   = $emailSettings['emailAddress'];
+      $email->replyTo   = $replyTo;
       $email->sender    = $emailSettings['emailAddress'];
       $email->fromName  = $form->name;
       $email->toEmail   = $toEmail;

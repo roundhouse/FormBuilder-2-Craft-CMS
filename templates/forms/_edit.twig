@@ -312,12 +312,23 @@
                       {% endfor %}
                       {{ forms.selectField({
                         label: "Custom Email Field"|t,
-                        instructions: "Select field where to get notification email from."|t,
+                        instructions: "Select field where to get notification email from. Ex: Drop Down field with different email addresses as the value."|t,
                         id: 'customEmailField',
                         name: 'notificationSettings[customEmailField]',
                         options: groupOptions ? groupOptions : '',
                         value: (form.notificationSettings.customEmailField is defined ? form.notificationSettings.customEmailField : null),
                         errors: form.getErrors('customEmailField'),
+                        required: false
+                      }) }}
+
+                      {{ forms.selectField({
+                        label: "Reply To"|t,
+                        instructions: "Pick email field for reply-to."|t,
+                        id: 'replyTo',
+                        name: 'notificationSettings[replyTo]',
+                        options: groupOptions ? groupOptions : '',
+                        value: (form.notificationSettings.replyTo is defined ? form.notificationSettings.replyTo : null),
+                        errors: form.getErrors('replyTo'),
                         required: false
                       }) }}
                      

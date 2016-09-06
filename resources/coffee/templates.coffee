@@ -99,6 +99,7 @@ ContentCopy = Garnish.Base.extend(
 
     updateHtmlFromModal: (data) ->
         @$body.parent().addClass 'text-set'
+        @$body.parent().find('p').css 'white-space', 'pre'
         @$body.parent().find('.text-actions').removeClass 'hidden'
         @$body.parent().find('.delete').removeClass 'hidden'
         @$body.removeClass 'txt'
@@ -166,7 +167,7 @@ ContentCopyModal = Garnish.Modal.extend(
         if @loading
             return
         data =
-            copy: @$copyInput.val().replace(/\n/g, '<br>')
+            copy: @$copyInput.val()
 
         @$copyInput.removeClass 'error'
         if !data.copy
