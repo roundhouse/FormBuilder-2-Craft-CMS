@@ -56,16 +56,17 @@
     </style>
 </head>
 
+
 {% set templateBackgroundColor = template.templateStyles.templateBackgroundColor is defined ? template.templateStyles.templateBackgroundColor : 'transparent' %}
 {% set bodyBackgroundColor = template.templateStyles.templateBodyBackgroundColor is defined ? template.templateStyles.templateBodyBackgroundColor : 'transparent' %}
-{% set bodyContainerWidth = template.templateStyles.templateBodyContainerWidth is defined ? template.templateStyles.templateBodyContainerWidth : '500' %}
+{% set bodyContainerWidth = template.templateStyles.templateBodyContainerWidth is defined ? template.templateStyles.templateBodyContainerWidth : '100%' %}
 {% set bodyText = template.bodyText is defined ? template.bodyText : null %}
 {% set bodyTextSize = template.templateStyles.templateBodyTextSize is defined ? template.templateStyles.templateBodyTextSize : '12' %}
 {% set bodyTextColor = template.templateStyles.templateBodyTextColor is defined ? template.templateStyles.templateBodyTextColor : 'inherit' %}
 {% set footerText = template.footerText is defined ? template.footerText : null %}
 {% set footerTextSize = template.templateStyles.templateFooterTextSize is defined ? template.templateStyles.templateFooterTextSize : '12;' %}
 {% set footerTextColor = template.templateStyles.templateFooterTextColor is defined ? template.templateStyles.templateFooterTextColor : 'inherit' %}
-{% set logo = craft.assets.id(template.templateContent.templateLogo).first() %}
+{% set logo = template.templateContent.templateLogo is defined ? craft.assets.id(template.templateContent.templateLogo).first() : null %}
 {% set logoAlignment = template.templateContent.templateLogoAlignment is defined ? template.templateContent.templateLogoAlignment : 'left' %}
 
 {% set customEmailDropDown = notificationSettings.customEmailField is defined ? notificationSettings.customEmailField : null %}
