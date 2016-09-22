@@ -89,5 +89,13 @@
     "notes": [
       "[Fixed] Email notifications work without Templates"
     ]
+  },
+  {
+    "version": "2.0.11",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-09-22T18:42:24+00:00",
+    "notes": [
+      "[Added] DB schema version to the plugin"
+    ]
   }
 ]
