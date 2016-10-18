@@ -11,7 +11,7 @@ class FormBuilder2_EntryController extends BaseController
    *
    */
   public function actionEntriesIndex()
-  { 
+  {
     $formItems = craft()->formBuilder2_form->getAllForms();
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
     $plugins = craft()->plugins->getPlugin('FormBuilder2');
@@ -62,7 +62,7 @@ class FormBuilder2_EntryController extends BaseController
   public function actionSubmitEntry()
   {
     $this->requirePostRequest();
-    
+
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // VARIABLES
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -76,7 +76,7 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // FORM 
+    // FORM
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     $form = craft()->formBuilder2_entry->getFormByHandle(craft()->request->getPost('formHandle'));
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -325,7 +325,7 @@ class FormBuilder2_EntryController extends BaseController
       }
     }
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      
+
   }
 
   /**
@@ -349,7 +349,7 @@ class FormBuilder2_EntryController extends BaseController
    *
    */
   protected function notifySubmitterOfSubmission($submissionResponseId, $form)
-  { 
+  {
     $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
     $files            = [];
     $postUploads      = $submission->files;
@@ -395,7 +395,7 @@ class FormBuilder2_EntryController extends BaseController
    *
    */
   protected function notifyAdminOfSubmission($submissionResponseId, $fileCollection, $form)
-  {  
+  {
     $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
     $files            = '';
     $postUploads      = $submission->files;
@@ -421,10 +421,10 @@ class FormBuilder2_EntryController extends BaseController
     $variables['formSettings']          = $formSettings;
     $variables['emailSettings']         = $notificationSettings['emailSettings'];
     $variables['notificationSettings']  = $notificationSettings;
-    $variables['templateSettings']      = $notificationSettings['emailTemplate'];
+    $variables['templateSettings']      = isset($notificationSettings['emailTemplate']) ? $notificationSettings['emailTemplate'] : null;
     $variables['sendSubmission']        = $notificationSettings['emailSettings']['sendSubmissionData'];
     $variables['data'] = $postData;
-    
+
     if ($notificationSettings['emailTemplate'] && $notificationSettings['emailTemplate'] != '') {
       $template = craft()->formBuilder2_template->getTemplateByHandle($notificationSettings['emailTemplate']);
       $variables['template'] = $template;
@@ -479,7 +479,7 @@ class FormBuilder2_EntryController extends BaseController
     }
     return $submission;
   }
-  
+
   /**
    * Sidebar Navigation
    *
