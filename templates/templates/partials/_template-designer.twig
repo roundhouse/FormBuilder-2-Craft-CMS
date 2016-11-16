@@ -28,7 +28,7 @@
             selectionLabel: "Place Logo Here"|t,
             elementType: craft.elements.getElementType("Asset"),
             elements: elements,
-            criteria: {"kind":[],"localeEnabled":null,"locale":"en_us"},
+            criteria: {"kind":[],"localeEnabled":null,"locale":craft.i18n.getCurrentLocale().id},
             limit: 1,
             errors: template.getErrors('templateLogo'),
           }) }}

@@ -97,5 +97,13 @@
     "notes": [
       "[Added] DB schema version to the plugin"
     ]
+  },
+  {
+    "version": "2.0.12",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2016-11-16T17:18:44+00:00",
+    "notes": [
+      "[Fixed] Element select fields now have dynamic locale assigned to them"
+    ]
   }
 ]
