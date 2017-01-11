@@ -155,7 +155,7 @@ class FormBuilder2Variable
     $theField->required = $field->required; 
 
 	$attributes 		= $theField->attributes;
-	  
+
 	$fieldSettings = '';
 	if ($fieldType) {
 	  	$fieldSettings	= $fieldType->getSettings();
@@ -187,7 +187,11 @@ class FormBuilder2Variable
   	}
 
     // Check if there was a value
-    $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;
+    if (isset($attributes['settings']['value'])){
+        $value = $attributes['settings']['value'];
+    } else {
+        $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;
+    }
 
 	  $variables = [
 	  	'field'             => $attributes,
