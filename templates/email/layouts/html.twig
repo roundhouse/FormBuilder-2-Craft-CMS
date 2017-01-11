@@ -114,7 +114,7 @@
                                         {% endif %}
                                     {% endfor %}
                                 {% else %}
-                                    {% if customEmailDropDown and field.handle == customEmailDropDown %}
+                                    {% if customEmailDropDown and field.handle == customEmailDropDown and '|' in value %} %}
                                         {{ value|raw|nl2br|split('|')[1] }}
                                     {% else %}
                                         {{ value|raw|nl2br }}
