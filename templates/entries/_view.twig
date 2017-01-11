@@ -109,6 +109,9 @@
           <input type="hidden" name="action" value="formBuilder2/entry/deleteSubmission">
           <input type="hidden" name="redirect" value="formbuilder2/entries">
           <input type="hidden" name="entryId" value="{{ entry.id }}">
+          {% if submission.CRAFT_CSRF_TOKEN is defined %}
+          <input type="hidden" name="CRAFT_CSRF_TOKEN" value="{{ submission.CRAFT_CSRF_TOKEN }}">
+          {% endif %}
           <button class="btn delete submit">{{ "Delete Submission"|t }}</button>
         </form>
       </div>

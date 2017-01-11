@@ -43,7 +43,7 @@ class FormBuilder2_EntryController extends BaseController
     }
 
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
-
+    // Craft::dd($entry->getAttributes());
     $variables['settings']    = $settings;
     $variables['entry']       = $entry;
     $variables['title']       = 'FormBuilder2';
