@@ -109,7 +109,7 @@ You can pass submission data to a custom redirect page, here is a snipped code f
 {% set submissionId = craft.request.getCookie('formBuilder2SubmissionId') %}
 {% set submission = null %}
 {% if submissionId %}
-  {% set submission = craft.formBuilder2.getFormEntryById(submissionId.value) %}
+  {% set submission = craft.formBuilder2.getFormById(submissionId.value) %}
 {% endif %}
 
 {% if submission %}
