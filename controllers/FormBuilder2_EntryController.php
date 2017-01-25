@@ -66,7 +66,7 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // VARIABLES
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $files                    = '';
+    $files                    = [];
     $ajax                     = false;
     $passedValidation         = true;
     $validationErrors         = [];
@@ -121,20 +121,34 @@ class FormBuilder2_EntryController extends BaseController
               $allowedKinds = $field->settings['allowedKinds'];
             }
 
-            foreach ($uploadedFiles as $file) {
-              $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
-              if (in_array($fileKind, $allowedKinds)) {
-                $files[] = array(
-                  'folderId' => $field->settings['singleUploadLocationSource'][0],
-                  'sourceId' => $field->settings['singleUploadLocationSource'][0],
-                  'filename' => $file->getName(),
-                  'location' => $file->getTempName(),
-                  'type'     => $file->getType(),
-                  'kind'     => $fileKind
-                );
-              } else {
-                $submissionErrorMessage[] = Craft::t('File type is not allowed!');
-              }
+            if ($allowedKinds) {
+                foreach ($uploadedFiles as $file) {
+                  $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
+                  if (in_array($fileKind, $allowedKinds)) {
+                    $files[] = array(
+                      'folderId' => $field->settings['singleUploadLocationSource'][0],
+                      'sourceId' => $field->settings['singleUploadLocationSource'][0],
+                      'filename' => $file->getName(),
+                      'location' => $file->getTempName(),
+                      'type'     => $file->getType(),
+                      'kind'     => $fileKind
+                    );
+                  } else {
+                    $submissionErrorMessage[] = Craft::t('File type is not allowed!');
+                  }
+                }
+            } else {
+                foreach ($uploadedFiles as $file) {
+                  $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
+                    $files[] = array(
+                      'folderId' => $field->settings['singleUploadLocationSource'][0],
+                      'sourceId' => $field->settings['singleUploadLocationSource'][0],
+                      'filename' => $file->getName(),
+                      'location' => $file->getTempName(),
+                      'type'     => $file->getType(),
+                      'kind'     => $fileKind
+                    );
+                }
             }
 
           break;
