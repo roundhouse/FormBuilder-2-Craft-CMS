@@ -255,7 +255,14 @@ class FormBuilder2Variable
             $html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/hidden/input', $variables);
             $this->_setTemplate($originaPath, 'site');
         }
-        break;
+      break;
+      case "SproutFields_EmailSelect":
+        if ($sproutFields) {
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/emailselect/input', $variables);
+            $this->_setTemplate($originaPath, 'site');
+        }
+      break;
       case "PlainText":
         if ($attributes['settings']['multiline']) {
           if ($template) {
