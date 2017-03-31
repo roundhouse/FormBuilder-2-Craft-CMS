@@ -36,7 +36,7 @@ class FormBuilder2_EntryController extends BaseController
 
     $files = '';
     if ($entry->files) {
-      $files = [];
+      $files = array();
       foreach ($entry->files as $key => $value) {
         $files[] = craft()->assets->getFileById($value);
       }
@@ -66,11 +66,11 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // VARIABLES
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $files                    = [];
+    $files                    = array();
     $ajax                     = false;
     $passedValidation         = true;
-    $validationErrors         = [];
-    $submissionErrorMessage   = [];
+    $validationErrors         = array();
+    $submissionErrorMessage   = array();
     $customSuccessMessage     = '';
     $customErrorMessage       = '';
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -116,7 +116,7 @@ class FormBuilder2_EntryController extends BaseController
           case 'Assets':
 
             $uploadedFiles = UploadedFile::getInstancesByName($field->handle);
-            $allowedKinds = [];
+            $allowedKinds = array();
             if ($field->settings['restrictFiles']) {
               $allowedKinds = $field->settings['allowedKinds'];
             }
@@ -182,10 +182,10 @@ class FormBuilder2_EntryController extends BaseController
       $allowedTime = (int)$spamProtectionSettings['spamTimeMethodTime'];
       if ($submissionDuration < $allowedTime) {
         if ($ajax) {
-          $this->returnJson([
-            'validationErrors' => [Craft::t('You submitted too fast, you are robot!')],
+          $this->returnJson(array(
+            'validationErrors' => array(Craft::t('You submitted too fast, you are robot!')),
             'customErrorMessage' => $customErrorMessage
-          ]);
+          ));
         } else {
           $spamTimedMethod = false;
           $submissionErrorMessage[] = Craft::t('You submitted too fast, you are robot!');
@@ -202,10 +202,10 @@ class FormBuilder2_EntryController extends BaseController
       $honeypotField = craft()->request->getPost('email-address-new');
       if ($honeypotField != '') {
         if ($ajax) {
-          $this->returnJson([
-            'validationErrors' => [Craft::t('You tried the honey, you are robot bear!')],
+          $this->returnJson(array(
+            'validationErrors' => array(Craft::t('You tried the honey, you are robot bear!')),
             'customErrorMessage' => $customErrorMessage
-          ]);
+          ));
         } else {
           $spamHoneypotMethod = false;
           $submissionErrorMessage[] = Craft::t('You tried the honey, you are robot bear!');
@@ -246,18 +246,18 @@ class FormBuilder2_EntryController extends BaseController
     // if ($validation != '') {
     if (!empty($validation)) {
       if ($ajax) {
-        $this->returnJson([
+        $this->returnJson(array(
           'passedValidation' => false,
           'validationErrors' => $validation,
           'customErrorMessage' => $customErrorMessage
-        ]);
+        ));
       } else {
         craft()->userSession->setFlash('error', $customErrorMessage);
         $passedValidation = false;
-        return craft()->urlManager->setRouteVariables([
+        return craft()->urlManager->setRouteVariables(array(
           'value' => $submissionData, // Pass filled in data back to form
           'errors' => $validation // Pass validation errors back to form
-        ]);
+        ));
       }
     }
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -271,20 +271,20 @@ class FormBuilder2_EntryController extends BaseController
       // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // FILE UPLOADS
       // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      $fileIds = [];
-      $fileCollection = [];
-      $tempPath = [];
+      $fileIds = array();
+      $fileCollection = array();
+      $tempPath = array();
       if ($files) {
         foreach ($files as $key => $file) {
           $tempPath = AssetsHelper::getTempFilePath($file['filename']);
           move_uploaded_file($file['location'], $tempPath);
           $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $file['folderId'], AssetConflictResolution::KeepBoth);
           $fileIds[] = $response->getDataItem('fileId');
-          $fileCollection[] = [
+          $fileCollection[] = array(
             'tempPath' => $tempPath,
             'filename' => $file['filename'],
             'type'     => $file['type']
-          ];
+          );
         }
         $submissionEntry->files = $fileIds;
       }
@@ -312,10 +312,10 @@ class FormBuilder2_EntryController extends BaseController
 
         // Successful Submission Messages
         if ($ajax) {
-          $this->returnJson([
+          $this->returnJson(array(
             'success' => true,
             'customSuccessMessage' => $customSuccessMessage
-          ]);
+          ));
         } else {
           craft()->userSession->setFlash('success', $customSuccessMessage);
           $cookie = new HttpCookie('formBuilder2SubmissionId', $submissionEntry->attributes['id']);
@@ -325,16 +325,16 @@ class FormBuilder2_EntryController extends BaseController
       } else {
         // Submission Error Messages
         if ($ajax) {
-          $this->returnJson([
+          $this->returnJson(array(
             'error' => true,
             'customErrorMessage' => $customErrorMessage
-          ]);
+          ));
         } else {
           craft()->userSession->setFlash('error', $customErrorMessage);
-        return craft()->urlManager->setRouteVariables([
+        return craft()->urlManager->setRouteVariables(array(
           'value' => $submissionData, // Pass filled in data back to form
           'errors' => $validation // Pass validation errors back to form
-        ]);
+        ));
         }
       }
     }
@@ -365,7 +365,7 @@ class FormBuilder2_EntryController extends BaseController
   protected function notifySubmitterOfSubmission($submissionResponseId, $form)
   {
     $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
-    $files            = [];
+    $files            = array();
     $postUploads      = $submission->files;
     $postData         = $submission->submission;
     $postData         = $this->filterSubmissionKeys($postData);
@@ -500,59 +500,59 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function navigation()
   {
-    $navigationSections = [
-      [
+    $navigationSections = array(
+      array(
         'heading' => Craft::t('Menu'),
-        'nav'     => [
-          [
+        'nav'     => array(
+          array(
             'label' => Craft::t('Dashboard'),
             'icon'  => 'tachometer',
             'extra' => '',
             'url'   => UrlHelper::getCpUrl('formbuilder2'),
-          ],
-          [
+          ),
+          array(
             'label' => Craft::t('Forms'),
             'icon'  => 'list-alt',
             'extra' => craft()->formBuilder2_form->getTotalForms(),
             'url'   => UrlHelper::getCpUrl('formbuilder2/forms'),
-          ],
-          [
+          ),
+          array(
             'label' => Craft::t('Entries'),
             'icon'  => 'file-text-o',
             'extra' => craft()->formBuilder2_entry->getTotalEntries(),
             'url'   => UrlHelper::getCpUrl('formbuilder2/entries'),
-          ],
-        ]
-      ],
-      [
+          ),
+        )
+      ),
+      array(
         'heading' => Craft::t('Quick Links'),
-        'nav'     => [
-          [
+        'nav'     => array(
+          array(
             'label' => Craft::t('Create New Form'),
             'icon'  => 'pencil-square-o',
             'extra' => '',
             'url'   => UrlHelper::getCpUrl('formbuilder2/forms/new'),
-          ],
-        ]
-      ],
-      [
+          ),
+        )
+      ),
+      array(
         'heading' => Craft::t('Tools'),
-        'nav'     => [
-          [
+        'nav'     => array(
+          array(
             'label' => Craft::t('Export'),
             'icon'  => 'share-square-o',
             'extra' => '',
             'url'   => UrlHelper::getCpUrl('formbuilder2/tools/export'),
-          ],
-          [
+          ),
+          array(
             'label' => Craft::t('Configuration'),
             'icon'  => 'sliders',
             'extra' => '',
             'url'   => UrlHelper::getCpUrl('formbuilder2/tools/configuration'),
-          ],
-        ]
-      ],
-    ];
+          ),
+        )
+      ),
+    );
     return $navigationSections;
   }
 

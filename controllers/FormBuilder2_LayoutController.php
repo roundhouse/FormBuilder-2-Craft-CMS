@@ -3,7 +3,7 @@ namespace Craft;
 
 class FormBuilder2_LayoutController extends BaseController
 {
- 
+
  	protected $allowAnonymous = true;
 
 
@@ -26,7 +26,7 @@ class FormBuilder2_LayoutController extends BaseController
     if (!empty($variables['layoutId'])) {
       if (empty($variables['layout'])) {
         $variables['layout'] = craft()->formBuilder2_layout->getLayoutById($variables['layoutId']);
-        if (!$variables['layout']) { 
+        if (!$variables['layout']) {
           throw new HttpException(404, Craft::t('No layout exist.'));
         }
       }
@@ -99,19 +99,19 @@ class FormBuilder2_LayoutController extends BaseController
       if ($theFile == '') {
         $this->returnErrorJson('No template with that name.');
       } else {
-        $template= [
+        $template= array(
           'fileName'          => $theFile->getFileName(false),
           'fileOriginalName'  => $theFile->getFileName(),
           'fileNameCleaned'   => IOHelper::cleanFilename(IOHelper::getFileName($theFile->getRealPath(), false)),
           'fileExtension'     => $theFile->getExtension(),
           'filePath'          => $theFile->getRealPath(),
           'fileContents'      => $theFile->getContents()
-        ];
-        $this->returnJson([
+        );
+        $this->returnJson(array(
           'success'   => true,
           'message'   => Craft::t('Template is set.'),
           'layout'    => $template
-        ]);
+        ));
       }
     }
 

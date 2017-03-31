@@ -117,7 +117,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    */
   public function validateEntry($form, $submissionData) {
     $fieldLayoutFields = $form->getFieldLayout()->getFields();
-    $errorMessage = [];
+    $errorMessage = array();
 
     foreach ($fieldLayoutFields as $key => $fieldLayoutField) {
       $requiredField = $fieldLayoutField->attributes['required'];

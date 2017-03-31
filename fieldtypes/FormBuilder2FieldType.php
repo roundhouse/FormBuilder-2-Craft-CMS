@@ -42,7 +42,7 @@ class FormBuilder2FieldType extends BaseFieldType implements IPreviewableFieldTy
 
 	public function prepSettings($settings)
   {
-  	$formHandles['options'] = [];
+  	$formHandles['options'] = array();
   	$forms = craft()->formBuilder2_form->getAllForms();
 
   	foreach ($forms as $key => $value) {

@@ -6,9 +6,9 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
 	
 	public function getFormTemplate($formId)
 	{
-		$template = FormBuilder2_TemplateRecord::model()->findByAttributes([
+		$template = FormBuilder2_TemplateRecord::model()->findByAttributes(array(
 			'formId' => $formId
-		]);
+		));
 
 		return $template;
 	}
@@ -23,19 +23,19 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
 		}
 
 		$fileList = IOHelper::getFolderContents(craft()->path->getPluginsPath().'formbuilder2/templates/email/layouts');
-		$files = [];
-		$filesModel = [];
+		$files = array();
+		$filesModel = array();
 
 		if (!$folderEmpty) {
 			foreach ($fileList as $key => $file) {
-				$files[$key] = [
+				$files[$key] = array(
 					'fileName' 			=> IOHelper::getFileName($file, false),
 					'fileOriginalName' 	=> IOHelper::getFileName($file),
 					'fileNameCleaned' 	=> IOHelper::cleanFilename(IOHelper::getFileName($file, false)),
 					'fileExtension' 	=> IOHelper::getExtension($file),
 					'filePath' 			=> $file,
 					'fileContents'		=> IOHelper::getFileContents($file)
-				];
+				);
 				$filesModel[] = FormBuilder2_FileModel::populateModel($files[$key]);
 			}
 		}
@@ -77,18 +77,18 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
 	 */
 	public function getTemplateByName($templateName)
 	{
-		$template = [];
+		$template = array();
 		$path = craft()->path->getPluginsPath().'formbuilder2/templates/email/templates/'.$templateName;
 		$file = IOHelper::getFile($path);
 
-		$template= [
+		$template= array(
 			'fileName' 			=> $file->getFileName(false),
 			'fileOriginalName' 	=> $file->getFileName(),
 			'fileNameCleaned' 	=> IOHelper::cleanFilename(IOHelper::getFileName($file->getRealPath(), false)),
 			'fileExtension' 	=> $file->getExtension(),
 			'filePath' 			=> $file->getRealPath(),
 			'fileContents'		=> $file->getContents()
-		];
+		);
 		return $template;		
 	}
 
@@ -186,8 +186,8 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
 
  	public function getBlockTypes()
  	{
- 		$blockTypes = ['social', 'link'];
-		$blockTypeCollection = [];
+ 		$blockTypes = array('social', 'link');
+		$blockTypeCollection = array();
 
  		foreach ($blockTypes as $key => $block) {
  			$blockTypeModel = new MatrixBlockTypeModel();
