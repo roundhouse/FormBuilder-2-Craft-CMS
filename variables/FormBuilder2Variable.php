@@ -6,15 +6,15 @@ class FormBuilder2Variable
 
   /**
    * Load Required Scripts
-   * 
+   *
    */
   public function includeScripts($form)
-  { 
+  {
     // Ajax Submit Script
     if ($form->formSettings["ajaxSubmit"] == "1") {
       craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/ajaxsubmit.js'));
     }
-    
+
     $fieldLayout = $form->fieldLayout->getFieldLayout();
     $fields = $fieldLayout->getFields();
     foreach ($fields as $key => $value) {
@@ -42,7 +42,7 @@ class FormBuilder2Variable
 
   /**
    * Get Form By Id
-   * 
+   *
    */
   public function getFormById($formId)
   {
@@ -51,7 +51,7 @@ class FormBuilder2Variable
 
   /**
 	 * Get Form By Id
-	 * 
+	 *
 	 */
 	public function getFormHtmlById($formId)
 	{
@@ -66,10 +66,10 @@ class FormBuilder2Variable
 
     return $html;
   }
-  
+
   /**
    * Get Form By Handle
-   * 
+   *
    */
   public function getFormByHandle($formHandle)
   {
@@ -78,7 +78,7 @@ class FormBuilder2Variable
 
   /**
    * Get Total Number of Forms
-   * 
+   *
    */
   public function totalForms()
   {
@@ -88,7 +88,7 @@ class FormBuilder2Variable
 
   /**
    * Get All Forms
-   * 
+   *
    */
   public function getAllForms()
   {
@@ -96,11 +96,11 @@ class FormBuilder2Variable
     return $forms;
   }
 
-  
+
 
   /**
    * Get Total Number of Submissions
-   * 
+   *
    */
   public function totalEntries()
   {
@@ -110,7 +110,7 @@ class FormBuilder2Variable
 
   /**
    * Get Total Number of Submissions Per Form
-   * 
+   *
    */
   public function getAllEntriesFromFormID($formId)
   {
@@ -119,21 +119,21 @@ class FormBuilder2Variable
 
   /**
    * Get Entry By Id
-   * 
+   *
    */
   public function getFormEntryById($entryId)
   {
     $entryModel = craft()->formBuilder2_entry->getFormEntryById($entryId);
-    $entry['form'] = [
+    $entry['form'] = array(
       'id'    =>  $entryModel->attributes['id'],
       'title' =>  $entryModel->attributes['title']
-    ];
+    );
 
-    $submission = [];
+    $submission = array();
     foreach (json_decode($entryModel->attributes['submission']) as $key => $object) {
       $submission[$key] = $object;
     }
-    
+
     $entry['data'] = $submission;
     $entry['files'] = json_decode($entryModel->attributes['files']);
 
@@ -143,16 +143,16 @@ class FormBuilder2Variable
 
   /**
    * Get Input HTML for FieldTypes
-   * 
+   *
    */
-  public function getInputHtml($field, $value = []) 
+  public function getInputHtml($field, $value = array()) 
   {
     $theField       = $field->getField();
     $fieldType      = $theField->getFieldType();
     $template       = craft()->formBuilder2_field->getFieldTemplate($field->fieldId);
     $originaPath    = craft()->templates->getTemplatesPath();
 
-    $theField->required = $field->required; 
+    $theField->required = $field->required;
 
 	$attributes 		= $theField->attributes;
 
@@ -173,17 +173,17 @@ class FormBuilder2Variable
     if (isset($attributes['settings']['max'])) { $varMax = $attributes['settings']['max']; } else { $varMax = null; }
     if (isset($attributes['settings']['limit'])) { $varLimit = $attributes['settings']['limit']; } else { $varLimit = null; }
     if (isset($attributes['settings']['selectionLabel'])) { $varSelectionLabel = $attributes['settings']['selectionLabel']; } else { $varSelectionLabel = null; }
-    
-    // Unless "All" sections has been chosen loop through the array and 
+
+    // Unless "All" sections has been chosen loop through the array and
     // remove the 'section:' string from all source ID's and. Then convert all
     // the strings to intigers so we are left with an array of section ids
-    if (isset($attributes['settings']['sources'])) { 
+    if (isset($attributes['settings']['sources'])) {
     	$varSources = $attributes['settings']['sources'];
     	if ($varSources != '*') {
     		$varSources = array_map( function($var) { return is_numeric($var) ? (int)$var : $var; }, str_replace("section:", "", $varSources) );
     	}
-  	} else { 
-  		$varSources = null; 
+  	} else {
+  		$varSources = null;
   	}
 
     // Check if there was a value
@@ -193,7 +193,7 @@ class FormBuilder2Variable
         $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;
     }
 
-	  $variables = [
+	  $variables = array(
 	  	'field'             => $attributes,
 	  	'type'  			=> $attributes['type'],
 	  	'name'  			=> $attributes['handle'],
@@ -215,7 +215,7 @@ class FormBuilder2Variable
 	  	'required'	  		=> $theField->required,
 	  	'settings'	  		=> $fieldSettings,
         'sources'           => $varSources
-	  ];
+	  );
 
     $html = '';
 
@@ -255,14 +255,7 @@ class FormBuilder2Variable
             $html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/hidden/input', $variables);
             $this->_setTemplate($originaPath, 'site');
         }
-      break;
-      case "SproutFields_EmailSelect":
-        if ($sproutFields) {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/emailselect/input', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
+        break;
       case "PlainText":
         if ($attributes['settings']['multiline']) {
           if ($template) {
@@ -419,25 +412,25 @@ class FormBuilder2Variable
 
   public function getAllMessages()
   {
-    $messages = [];
+    $messages = array();
 
-    $messages[0] = [
+    $messages[0] = array(
       'key' => 'templateBodyCopy',
       'heading' => 'Body Copy',
       'body' => "Hey {{user.friendlyName}},\n\n" .
     "Thanks for creating an account with {{siteName}}! To activate your account, click the following link:\n\n" .
     "{{submission}}\n\n" .
     "If you were not expecting this email, just ignore it.",
-    ];
+    );
 
-    $messages[2] = [
+    $messages[2] = array(
       'key' => 'templateFooterCopy',
       'heading' => 'Footer Copy',
       'body' => "Hey {{user.friendlyName}},\n\n" .
     "Thanks for creating an account with {{siteName}}! To activate your account, click the following link:\n\n" .
     "{{submission}}\n\n" .
     "If you were not expecting this email, just ignore it.",
-    ];
+    );
 
     return $messages;
   }

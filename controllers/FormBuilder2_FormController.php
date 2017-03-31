@@ -112,59 +112,59 @@ class FormBuilder2_FormController extends BaseController
    */
   public function navigation()
   {
-    $navigationSections = [
-      [
+    $navigationSections = array(
+      array(
         'heading' => Craft::t('Menu'),
-        'nav'     => [
-          [
+        'nav'     => array(
+          array(
             'label' => Craft::t('Dashboard'),
             'icon'  => 'tachometer',
             'extra' => '',
             'url'   => UrlHelper::getCpUrl('formbuilder2'),
-          ],
-          [
+          ),
+          array(
             'label' => Craft::t('Forms'),
             'icon'  => 'list-alt',
             'extra' => craft()->formBuilder2_form->getTotalForms(),
             'url'   => UrlHelper::getCpUrl('formbuilder2/forms'),
-          ],
-          [
+          ),
+          array(
             'label' => Craft::t('Entries'),
             'icon'  => 'file-text-o',
             'extra' => craft()->formBuilder2_entry->getTotalEntries(),
             'url'   => UrlHelper::getCpUrl('formbuilder2/entries'),
-          ],
-        ]
-      ],
-      [
+          ),
+        )
+      ),
+      array(
         'heading' => Craft::t('Quick Links'),
-        'nav'     => [
-          [
+        'nav'     => array(
+          array(
             'label' => Craft::t('Create New Form'),
             'icon'  => 'pencil-square-o',
             'extra' => '',
             'url'   => UrlHelper::getCpUrl('formbuilder2/forms/new'),
-          ],
-        ]
-      ],
-      [
+          ),
+        )
+      ),
+      array(
         'heading' => Craft::t('Tools'),
-        'nav'     => [
-          [
+        'nav'     => array(
+          array(
             'label' => Craft::t('Export'),
             'icon'  => 'share-square-o',
             'extra' => '',
             'url'   => UrlHelper::getCpUrl('formbuilder2/tools/export'),
-          ],
-          [
+          ),
+          array(
             'label' => Craft::t('Configuration'),
             'icon'  => 'sliders',
             'extra' => '',
             'url'   => UrlHelper::getCpUrl('formbuilder2/tools/configuration'),
-          ],
-        ]
-      ],
-    ];
+          ),
+        )
+      ),
+    );
     return $navigationSections;
   }
 }

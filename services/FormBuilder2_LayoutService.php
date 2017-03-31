@@ -6,9 +6,9 @@ class FormBuilder2_LayoutService extends BaseApplicationComponent
 	
 	public function getFormTemplate($formId)
 	{
-		$template = FormBuilder2_TemplateRecord::model()->findByAttributes([
+		$template = FormBuilder2_TemplateRecord::model()->findByAttributes(array(
 			'formId' => $formId
-		]);
+		));
 
 		return $template;
 	}
@@ -23,19 +23,19 @@ class FormBuilder2_LayoutService extends BaseApplicationComponent
 		}
 
 		$fileList = IOHelper::getFolderContents(craft()->path->getPluginsPath().'formbuilder2/templates/email/layouts');
-		$files = [];
-		$filesModel = [];
+		$files = array();
+		$filesModel = array();
 
 		if (!$folderEmpty) {
 			foreach ($fileList as $key => $file) {
-				$files[$key] = [
+				$files[$key] = array(
 					'fileName' 			=> IOHelper::getFileName($file, false),
 					'fileOriginalName' 	=> IOHelper::getFileName($file),
 					'fileNameCleaned' 	=> IOHelper::cleanFilename(IOHelper::getFileName($file, false)),
 					'fileExtension' 	=> IOHelper::getExtension($file),
 					'filePath' 			=> $file,
 					'fileContents'		=> IOHelper::getFileContents($file)
-				];
+				);
 				$filesModel[] = FormBuilder2_FileModel::populateModel($files[$key]);
 			}
 		}

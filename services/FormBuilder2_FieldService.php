@@ -3,12 +3,12 @@ namespace Craft;
 
 class FormBuilder2_FieldService extends BaseApplicationComponent
 {
-	
+
 	public function getFieldTemplate($fieldId)
 	{
-		$template = FormBuilder2_FieldRecord::model()->findByAttributes([
+		$template = FormBuilder2_FieldRecord::model()->findByAttributes(array(
 			'fieldId' => $fieldId
-		]);
+		));
 
 		return $template;
 	}
