@@ -54,11 +54,11 @@ class FormBuilder2_EntryModel extends BaseElementModel
     $files = count($entry->files);
 
     if ($files == 0) {
-      $files = 'No Uploads';
+      $files = Craft::t('No Uploads');
     } elseif ($files == 1) {
-      $files = '<span class="upload-count">'.$files.'</span> File Uploaded';
+      $files = '<span class="upload-count">'.$files.'</span> '.Craft::t('File Uploaded');
     } else {
-      $files = '<span class="upload-count">'.$files.'</span> Files Uploaded';
+      $files = '<span class="upload-count">'.$files.'</span> '.Craft::t('Files Uploaded');
     }
 
     $this->__set('files', $files);
