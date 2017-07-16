@@ -127,6 +127,34 @@ You can pass submission data to a custom redirect page, here is a snipped code f
 
 ***
 
+# Ajax Submission Event
+
+You can use a custom `formbuilder2:submit` event to check for ajax submissions:
+
+```
+document.addEventListener("formbuilder:submit", formBuilderSubmission, false);
+function formBuilderSubmission(e) {
+	var details = e.details;
+	var response = e.detail.response;
+   	var success = e.detail.response.success;
+}
+```
+
+For example, if you want to track successful submissions you can:
+
+```
+document.addEventListener("formbuilder:submit", successfulSubmission, false);
+function successfulSubmission(e) {
+   	var success = e.detail.response.success;
+   	if (success) {
+   		// add your tracking code here
+   	}
+}
+```
+
+***
+
+
 ## Todo
 
 * Exporting entries
