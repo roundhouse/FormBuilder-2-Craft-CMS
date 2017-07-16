@@ -114,5 +114,22 @@
       "[Fixed] File uploads should now work..hopefully",
       "[Fixed] Entries that had thier assets purged can now be deleted"
     ]
+  },
+  {
+    "version": "2.0.14",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2017-07-15T22:54:17-07:00",
+    "notes": [
+      "[Improved] Imporved Ajax submissions",
+      "[Improved] Moved plugin into its own folder",
+      "[Fixed] Ajax form submissions, using multiple forms on same page is fixed now",
+      "[Fixed] CRAFT tokens on single entry deleting is fixed now",
+      "[Fixed] Fixed readme typos",
+      "[Added] Bulk deleting the entries",
+      "[Added] While using ajax submissions, email input type will run through basic validation",
+      "[Added] Submitter notification can have a custom template now",
+      "[Added] Added charts to entries",
+      "[Added] Ajax submissions now have `formbuilder:submit` event"
+    ]
   }
 ]

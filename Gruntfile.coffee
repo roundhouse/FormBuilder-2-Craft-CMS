@@ -4,9 +4,9 @@ module.exports = (grunt) ->
     # =============================================
     # VARIABLES
     # =============================================
-    ScssDirectory: 'resources/scss'
-    CoffeeDirectory: 'resources/coffee'
-    ResourcesDirectory: 'resources'
+    ScssDirectory: 'dev/scss'
+    CoffeeDirectory: 'dev/coffee'
+    ResourcesDirectory: 'formbuilder2/resources'
 
     # =============================================
     # WATCH FOR CHANGE
