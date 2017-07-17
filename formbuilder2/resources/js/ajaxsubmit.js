@@ -42,7 +42,7 @@ FormBuilder2 = (function() {
     var data, errorsContainer, self, url;
     self = this;
     data = this.$form.serialize();
-    url = window.Craft.actionUrl + '/formBuilder2/entry/submitEntry';
+    url = '/actions/formBuilder2/entry/submitEntry';
     errorsContainer = this.$notificationContainer.append('<ul class="errors"></ul>').find('ul.errors');
     return $.post(url, data, function(response) {
       var responseEvent;

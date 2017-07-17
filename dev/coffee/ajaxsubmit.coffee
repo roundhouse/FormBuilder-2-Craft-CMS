@@ -26,7 +26,7 @@ class FormBuilder2
   submitForm: (e) ->
     self = @
     data = @$form.serialize()
-    url = window.Craft.actionUrl + '/formBuilder2/entry/submitEntry'
+    url = '/actions/formBuilder2/entry/submitEntry'
     errorsContainer = @$notificationContainer.append('<ul class="errors"></ul>').find('ul.errors')
     $.post url, data, (response) ->
         if window.CustomEvent
