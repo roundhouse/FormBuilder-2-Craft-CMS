@@ -131,5 +131,15 @@
       "[Added] Added charts to entries",
       "[Added] Ajax submissions now have `formbuilder:submit` event"
     ]
-  }
+  },
+  {
+    "version": "2.0.15",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2017-07-20T13:20:13-07:00",
+    "notes": [
+      "[Improved] You can now disable date/time picker scripts",
+      "[Improved] Custom field templates can now be set on the same field for different forms",
+      "[Added] Forms can be sorted now in the admin"
+    ]
+  },
 ]

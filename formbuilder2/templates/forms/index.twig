@@ -29,6 +29,7 @@
             <th scope="col">{{ "Handle"|t }}</th>
             <th scope="col">{{ "Entries"|t }}</th>
             <th scope="col">{{ "Action"|t }}</th>
+            <th class="think"></th>
           </tr>
         </thead>
 
@@ -49,6 +50,7 @@
                 <svg class="icon"><use xlink:href="#icon-trash" class="icon-trash"/></svg>
               </a>
             </td>
+            <td class="thin"><a class="move icon" title="{{ 'Reorder'|t }}" role="button"></a></td>
           </tr>
           {% endfor %}
         </tbody>
@@ -77,6 +79,10 @@
     noObjectsSelector: '#noforms',
     newObjectBtnSelector: '#newformcontainer',
     deleteAction: 'formBuilder2/form/deleteForm',
+    sortable: true,
+    reorderAction: 'formBuilder2/form/reorder',
+    reorderSuccessMessage: '{{ "Form reordered"|t }}',
+    reorderFailMessage: '{{ "Couldn’t reorder forms"|t }}',
     confirmDeleteMessage: '{{ "Are you sure you want to delete “{name}” and all its entries?"|t }}'
   });
 {% endset %}

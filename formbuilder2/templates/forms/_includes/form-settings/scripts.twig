@@ -1,0 +1,26 @@
+<div class="method-datepickerscripts pane{% if ajaxUploadErrors %} errors toggle-error{% endif %}">
+
+    <div class="checkbox-toggle" data-checkbox="disableDatepickerScripts">
+
+    <div class="togglebox">
+
+        <svg><use xlink:href="#icon-datepicker" class="icon-datepicker"/></svg>
+
+        {{ forms.checkboxField({
+            id: 'disableDatepickerScripts',
+            class: 'disableDatepickerScripts',
+            name: 'formSettings[disableDatepickerScripts]',
+            value: 1,
+            checked: form.formSettings.disableDatepickerScripts is defined ? form.formSettings.disableDatepickerScripts : null,
+            errors: form.getErrors('disableDatepickerScripts'),
+            required: false
+        }) }}
+        </div>
+
+        <div class="togglecontent">
+            <h3>{{ "Disable Date/Time Picker Scripts"|t }}</h3>
+            <p>{{ "When disabled, browser defaults will be used."|t }}</p>
+        </div>
+    </div>
+
+</div>

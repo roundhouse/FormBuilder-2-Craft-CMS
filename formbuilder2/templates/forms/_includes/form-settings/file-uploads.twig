@@ -1,0 +1,20 @@
+<div class="method-files pane{% if ajaxUploadErrors %} errors toggle-error{% endif %}">
+  <div class="checkbox-toggle" data-checkbox="hasFileUploads">
+    <div class="togglebox">
+      <svg><use xlink:href="#icon-upload" class="icon-upload"/></svg>
+       {{ forms.checkboxField({
+        id: 'hasFileUploads',
+        class: 'hasFileUploads',
+        name: 'formSettings[hasFileUploads]',
+        value: 1,
+        checked: form.formSettings.hasFileUploads is defined ? form.formSettings.hasFileUploads : null,
+        errors: form.getErrors('hasFileUploads'),
+        required: false
+      }) }}
+    </div>
+    <div class="togglecontent">
+      <h3>{{ "Has Files Uploads"|t }}</h3>
+      <p>{{ "Will this form upload any files?"|t }}</p>
+    </div>
+  </div>
+</div>

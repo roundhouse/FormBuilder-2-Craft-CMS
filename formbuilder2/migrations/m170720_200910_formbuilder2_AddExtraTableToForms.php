@@ -4,7 +4,7 @@ namespace Craft;
 /**
  * The class name is the UTC timestamp in the format of mYYMMDD_HHMMSS_pluginHandle_migrationName
  */
-class m170714_202735_formbuilder2_AddSortOrderToForms extends BaseMigration
+class m170720_200910_formbuilder2_AddExtraTableToForms extends BaseMigration
 {
 	/**
 	 * Any migration code in here is wrapped inside of a transaction.
@@ -13,11 +13,10 @@ class m170714_202735_formbuilder2_AddSortOrderToForms extends BaseMigration
 	 */
 	public function safeUp()
 	{
-        $this->addColumnAfter('formbuilder2_forms', 'sortOrder', array(
-            ColumnType::SmallInt, 
-            'default' => 0
-        ), 'fieldLayoutId');
+        $this->addColumnAfter('formbuilder2_forms', 'extra', array(
+            ColumnType::Text
+        ), 'notificationSettings');
 
-		return true;
+        return true;
 	}
 }

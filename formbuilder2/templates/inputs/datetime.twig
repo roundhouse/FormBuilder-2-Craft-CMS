@@ -1,6 +1,11 @@
 {%- set showDate = (showDate is defined and showDate ? showDate : null) %}
 {%- set showTime = (showTime is defined and showTime ? showTime : null) %}
+{%- set type = false %}
 {%- set requiredJs = (requiredJs is defined and requiredJs ? requiredJs : null) %}
+
+{% if form %}
+    {% set type = form.formSettings['disableDatepickerScripts'] is defined and form.formSettings['disableDatepickerScripts'] == '1' ? true : false %}
+{% endif %}
 
 <div class="field">
 {% if label or instructions %}
@@ -22,7 +27,7 @@
   {%- set dateId = (id is defined and id ? id : 'date-' ~ random()) %}
   <div class="input">
     <input
-      type="text"
+      {% if type %}type="date"{% else %}type="text"{% endif %}
       size="10"
       {%- if dateId is defined %} id="{{ dateId }}"{% endif %}
       {%- if handle is defined %} name="{{ handle }}[date]"{% endif %}
@@ -37,7 +42,7 @@
 <div class="timewrapper">
   <div class="input">
     <input 
-      type="text"
+      {% if type %}type="time"{% else %}type="text"{% endif %}
       size="10"
       {%- if timeId is defined %} id="{{ timeId }}"{% endif %}
       {%- if handle is defined %} name="{{ handle }}[time]"{% endif %}
@@ -47,28 +52,29 @@
 </div>
 {% endif %}
 </div>
-{%- set js %}
-  {% if requiredJs == 'dateandtime' %}
-  	{% if showDate %}
-  	var $datePicker = $('#{{ dateId }}');
-  	$datePicker.datepicker({
-  		constrainInput: false,
-  		dateFormat: '{{ craft.i18n.datepickerJsFormat }}',
-  		defaultDate: new Date({% if value %}{{ value.year }}, {{ value.month-1 }}, {{ value.day }}{% endif %}),
-  		prevText:   '{{ "Prev"|t|e('js') }}',
-  		nextText:   '{{ "Next"|t|e('js') }}',
-  		firstDay:   1,
-  	});
-  	{% endif %}
 
-  	{% if showTime %}
-  	var $timePicker = $('#{{ timeId }}');
-  	$timePicker.timepicker({
-  		timeFormat: '{{ craft.i18n.timepickerJsFormat }}',
-  		closeOnWindowScroll: false,
-  		{% if minuteIncrement is defined %}step: '{{ minuteIncrement }}',{% endif %}
-  	});
-    {% endif %}
-	{% endif %}
-{%- endset %}
-{%- includeJs js %}
+{% if not type %}
+    {%- set js %}
+      	{% if showDate %}
+      	var $datePicker = $('#{{ dateId }}');
+      	$datePicker.datepicker({
+      		constrainInput: false,
+      		dateFormat: '{{ craft.i18n.datepickerJsFormat }}',
+      		defaultDate: new Date({% if value %}{{ value.year }}, {{ value.month-1 }}, {{ value.day }}{% endif %}),
+      		prevText:   '{{ "Prev"|t|e('js') }}',
+      		nextText:   '{{ "Next"|t|e('js') }}',
+      		firstDay:   1,
+      	});
+      	{% endif %}
+
+      	{% if showTime %}
+      	var $timePicker = $('#{{ timeId }}');
+      	$timePicker.timepicker({
+      		timeFormat: '{{ craft.i18n.timepickerJsFormat }}',
+      		closeOnWindowScroll: false,
+      		{% if minuteIncrement is defined %}step: '{{ minuteIncrement }}',{% endif %}
+      	});
+        {% endif %}
+    {%- endset %}
+    {%- includeJs js %}
+{% endif %}

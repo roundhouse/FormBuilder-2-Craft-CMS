@@ -1,0 +1,45 @@
+<div class="method-customsubject pane">
+  <div class="checkbox-toggle" data-checkbox="customSubject">
+    <div class="togglebox">
+      <svg><use xlink:href="#icon-email" class="icon-email"/></svg>
+       {{ forms.checkboxField({
+        id: 'customSubject',
+        class: 'customSubject',
+        name: 'notificationSettings[customSubject]',
+        value: 1,
+        checked: form.notificationSettings.customSubject is defined ? form.notificationSettings.customSubject : null,
+        errors: form.getErrors('customSubject'),
+        required: false
+      }) }}
+    </div>
+    <div class="togglecontent">
+      <h3>{{ "Custom Subject"|t }}</h3>
+      <p>{{ "Add a custom subject field."|t }}</p>
+    </div>
+  </div>
+
+  <div class="checkbox-extra">
+    <div class="field" id="customSubjectLine-field">
+      <div class="heading">
+         <label for="customSubjectLine" class="required">{{ "Select Field"|t }}</label>
+        <div class="instructions"><p>{{ "Field will be used for the custom subject line"|t }}</p></div>
+      </div>
+      <div class="input">
+        {% set fields = form.getFieldLayout().getFields() %}
+        {% set groupOptions = [{label: 'Select Field', value: ''}] %}
+        {% for field in fields %}
+          {% set item = field.getField(field) %}
+          {% set groupOptions = groupOptions|merge([{ label: item.name, value: item.handle }]) %}
+        {% endfor %}
+        {{ forms.selectField({
+          id: 'customSubjectLine',
+          name: 'notificationSettings[customSubjectLine]',
+          options: groupOptions ? groupOptions : '',
+          value: (form.notificationSettings.customSubjectLine is defined ? form.notificationSettings.customSubjectLine : null),
+          errors: form.getErrors('customSubjectLine'),
+          required: true
+        }) }}
+      </div>
+    </div>
+  </div>
+</div>

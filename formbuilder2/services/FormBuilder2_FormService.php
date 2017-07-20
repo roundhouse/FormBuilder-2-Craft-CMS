@@ -233,4 +233,60 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     }
   }
 
+  /**
+   * Reorders Forms
+   *
+   * @param array $formIds
+   *
+   * @throws \Exception
+   * @return bool
+   */
+  public function reorderForms($formIds)
+  {
+      $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+
+      try {
+          foreach ($formIds as $form => $formId) {
+              $formRecord            = $this->_getFormRecordById($formId);
+              $formRecord->sortOrder = $form + 1;
+              $formRecord->save();
+          }
+
+          if ($transaction !== null) {
+              $transaction->commit();
+          }
+      } catch (\Exception $e) {
+          if ($transaction !== null) {
+              $transaction->rollback();
+          }
+
+          throw $e;
+      }
+
+      return true;
+  }
+
+  /**
+   * Gets an Entry Status's record.
+   *
+   * @param int $sourceId
+   *
+   * @throws Exception
+   * @return AssetSourceRecord
+   */
+  private function _getFormRecordById($formId = null)
+  {
+      if ($formId) {
+          $formRecord = FormBuilder2_FormRecord::model()->findById($formId);
+
+          if (!$formRecord) {
+              throw new Exception(Craft::t('No form exists with the ID “{id}”.', array('id' => $formId)));
+          }
+      } else {
+          $formRecord = new FormBuilder2_FormRecord();
+      }
+
+      return $formRecord;
+  }
+
 }

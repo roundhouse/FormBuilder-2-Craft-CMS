@@ -1,0 +1,33 @@
+<div class="method-redirect pane">
+  <div class="checkbox-toggle" data-checkbox="customRedirect">
+    <div class="togglebox">
+      <svg><use xlink:href="#icon-redirect" class="icon-redirect"/></svg>
+       {{ forms.checkboxField({
+        id: 'customRedirect',
+        class: 'customRedirect',
+        name: 'formSettings[formRedirect][customRedirect]',
+        value: 1,
+        checked: form.formSettings.formRedirect.customRedirect is defined ? form.formSettings.formRedirect.customRedirect : null,
+        errors: form.getErrors('customRedirect'),
+        required: false
+      }) }}
+    </div>
+    <div class="togglecontent">
+      <h3>{{ "Use Custom Redirect"|t }}</h3>
+      <p>{{ "Upon form submission redirect to custom success page. By default it redirects to form page."|t }}</p>
+    </div>
+  </div>
+  <div class="checkbox-extra">
+    {{ forms.textField({
+      label: "Redirect URL"|t,
+      instructions: "Enter relative redirect page url."|t,
+      id: 'customRedirectUrl',
+      class: 'customRedirectUrl',
+      name: 'formSettings[formRedirect][customRedirectUrl]',
+      value: form.formSettings.formRedirect.customRedirectUrl is defined ? form.formSettings.formRedirect.customRedirectUrl : '',
+      size: 50,
+      errors: form.getErrors('customRedirectUrl'),
+      required: true
+    }) }}
+  </div>
+</div>

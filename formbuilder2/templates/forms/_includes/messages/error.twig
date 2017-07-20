@@ -1,0 +1,11 @@
+{{ forms.textField({
+  label: "Error Message"|t,
+  instructions: "Please enter error message."|t,
+  id: 'errorMessage',
+  class: 'errorMessage',
+  name: 'messageSettings[errorMessage]',
+  value: (form.messageSettings.errorMessage is defined ? form.messageSettings.errorMessage : null),
+  size: 100,
+  errors: form.getErrors('errorMessage'),
+  required: false
+}) }}

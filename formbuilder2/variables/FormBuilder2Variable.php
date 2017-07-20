@@ -4,6 +4,8 @@ namespace Craft;
 class FormBuilder2Variable
 {
 
+    private $form;
+
   /**
    * Load Required Scripts
    *
@@ -24,10 +26,11 @@ class FormBuilder2Variable
         craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/colorpicker.css'));
         craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/libs/colorpicker.js'));
       } elseif ($field->type == 'Date') {
-        // Date & Time Picker
-        craft()->templates->includeJsFile(UrlHelper::getResourceUrl('/lib/jquery-ui.min.js'));
-        craft()->templates->includeJsFile(UrlHelper::getResourceUrl('lib/jquery.timepicker/jquery.timepicker.min.js'));
-        craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/datetimepicker.css'));
+        if (!isset($form->formSettings["disableDatepickerScripts"]) || $form->formSettings["disableDatepickerScripts"] != "1") {
+            craft()->templates->includeJsFile(UrlHelper::getResourceUrl('/lib/jquery-ui.min.js'));
+            craft()->templates->includeJsFile(UrlHelper::getResourceUrl('lib/jquery.timepicker/jquery.timepicker.min.js'));
+            craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/datetimepicker.css'));
+        }
       } elseif ($field->type == 'RichText') {
         // WYSIWYG Editor
         craft()->templates->includeCssResource('/lib/redactor/redactor.css');
@@ -40,19 +43,19 @@ class FormBuilder2Variable
     return;
   }
 
-  /**
-   * Get Form By Id
-   *
-   */
-  public function getFormById($formId)
-  {
-    return craft()->formBuilder2_form->getFormById($formId);
-  }
+    /**
+    * Get Form By Id
+    *
+    */
+    public function getFormById($formId)
+    {
+        return craft()->formBuilder2_form->getFormById($formId);
+    }
 
-  /**
-	 * Get Form By Id
-	 *
-	 */
+    /**
+	* Get Form By Id
+	*
+	*/
 	public function getFormHtmlById($formId)
 	{
 		$form = craft()->formBuilder2_form->getFormById($formId);
@@ -73,7 +76,9 @@ class FormBuilder2Variable
    */
   public function getFormByHandle($formHandle)
   {
-    return craft()->formBuilder2_form->getFormByHandle($formHandle);
+    $form = craft()->formBuilder2_form->getFormByHandle($formHandle);
+    $this->form = $form; 
+    return $form;
   }
 
   /**
@@ -149,7 +154,7 @@ class FormBuilder2Variable
   {
     $theField       = $field->getField();
     $fieldType      = $theField->getFieldType();
-    $template       = craft()->formBuilder2_field->getFieldTemplate($field->fieldId);
+    $template       = craft()->formBuilder2_field->getFieldTemplate($field);
     $originaPath    = craft()->templates->getTemplatesPath();
 
     $theField->required = $field->required;
@@ -214,7 +219,8 @@ class FormBuilder2Variable
 	  	'requiredJs'		=> null,
 	  	'required'	  		=> $theField->required,
 	  	'settings'	  		=> $fieldSettings,
-        'sources'           => $varSources
+        'sources'           => $varSources,
+        'form'              => null
 	  );
 
     $html = '';
@@ -225,7 +231,6 @@ class FormBuilder2Variable
     if ($sproutFieldsPlugin && $sproutFieldsPlugin->isInstalled && $sproutFieldsPlugin->isEnabled) {
         $sproutFields = true;
     }
-
     switch ($theField->type) {
 	  	// Sprout Fields
 	  	case "SproutFields_Email":
@@ -351,7 +356,7 @@ class FormBuilder2Variable
         }
       break;
       case "Date":
-        $variables['requiredJs'] = 'dateandtime';
+        $variables['form'] = $this->form;
         if ($template) {
           $html = craft()->templates->render($template->template, $variables);
         } else {
@@ -376,6 +381,15 @@ class FormBuilder2Variable
         } else {
             $this->_setTemplate(null, 'plugin');
             $html = craft()->templates->render('formbuilder2/templates/inputs/file', $variables);
+            $this->_setTemplate($originaPath, 'site');
+        }
+      break;
+      case "Table":
+        if ($template) {
+          $html = craft()->templates->render($template->template, $variables);
+        } else {
+            $this->_setTemplate(null, 'plugin');
+            $html = craft()->templates->render('formbuilder2/templates/inputs/table', $variables);
             $this->_setTemplate($originaPath, 'site');
         }
       break;

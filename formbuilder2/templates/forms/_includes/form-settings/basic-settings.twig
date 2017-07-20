@@ -1,0 +1,37 @@
+{{ forms.textField({
+  first: true,
+  label: "Form Name"|t,
+  instructions: "Give this form a name."|t,
+  id: 'name',
+  name: 'name',
+  value: form.name,
+  errors: form.getErrors('name'),
+  autofocus: true,
+  required: true,
+  size: 50,
+  translatable: true
+}) }}
+
+{{ forms.textField({
+  label: "Handle"|t,
+  instructions: "How you’ll refer to this form in the templates."|t,
+  id: 'handle',
+  class: 'code',
+  name: 'handle',
+  value: form.handle,
+  size: 50,
+  errors: form.getErrors('handle'),
+  required: true
+}) }}
+
+{{ forms.textField({
+  label: "Submit Button Text"|t,
+  instructions: "Custom submit button text."|t,
+  id: 'submitButtonText',
+  class: 'code',
+  name: 'formSettings[submitButtonText]',
+  value: form.formSettings.submitButtonText is defined ? form.formSettings.submitButtonText : '',
+  size: 50,
+  errors: form.getErrors('submitButtonText'),
+  required: false
+}) }}

@@ -1,0 +1,24 @@
+<div class="method-ajax pane{% if ajaxUploadErrors %} errors toggle-error{% endif %}">
+  <div class="checkbox-toggle" data-checkbox="ajaxSubmit">
+    <div class="togglebox">
+      <svg><use xlink:href="#icon-rocket" class="icon-rocket"/></svg>
+       {{ forms.checkboxField({
+        id: 'ajaxSubmit',
+        class: 'ajaxSubmit',
+        name: 'formSettings[ajaxSubmit]',
+        value: 1,
+        checked: form.formSettings.ajaxSubmit is defined ? form.formSettings.ajaxSubmit : null,
+        errors: form.getErrors('ajaxSubmit'),
+        required: false
+      }) }}
+    </div>
+    <div class="togglecontent">
+      <h3>{{ "Use AJAX?"|t }}</h3>
+      <p>{{ "Should we submit the form via ajax? No page refresh will happen."|t }}</p>
+    </div>
+  </div>
+</div>
+
+{% for ajaxError in ajaxUploadErrors %}
+  <h2 class="toggle-error">{{ ajaxError }}</h2>
+{% endfor %}

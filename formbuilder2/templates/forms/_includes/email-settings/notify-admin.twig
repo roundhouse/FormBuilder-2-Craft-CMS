@@ -1,0 +1,115 @@
+<div class="method-notify pane">
+
+  <div class="checkbox-toggle" data-checkbox="notifySubmission">
+    <div class="togglebox">
+      <svg><use xlink:href="#icon-notify" class="icon-notify"/></svg>
+       {{ forms.checkboxField({
+        id: 'notifySubmission',
+        class: 'notifySubmission',
+        name: 'notificationSettings[notifySubmission]',
+        value: 1,
+        checked: form.notificationSettings.notifySubmission is defined ? form.notificationSettings.notifySubmission : null,
+        errors: form.getErrors('notifySubmission'),
+        required: false
+      }) }}
+    </div>
+    <div class="togglecontent">
+      <h3>{{ "Notify Admin"|t }}</h3>
+      <p>{{ "Notify admin of form submission."|t }}</p>
+    </div>
+  </div>
+  <div class="checkbox-extra">
+    <div class="notification-tabs-wrapper">
+      <div class="notification-tabs-container">
+        <div id="email-admin-settings" class="email-tab-content">
+          {{ forms.textField({
+            label: "Notification Email"|t,
+            instructions: "Where should submission notification be sent to?"|t,
+            id: 'notifyEmail',
+            class: 'notifyEmail',
+            name: 'notificationSettings[emailSettings][notifyEmail]',
+            value: (form.notificationSettings.emailSettings.notifyEmail is defined ? form.notificationSettings.emailSettings.notifyEmail : null),
+            size: 50,
+            errors: form.getErrors('notifyEmail'),
+            required: false
+          }) }}
+
+          {% set fields = form.getFieldLayout().getFields() %}
+          {% set groupOptions = [{label: 'Select Email Field', value: ''}] %}
+          {% for field in fields %}
+            {% set item = field.getField(field) %}
+            {% set groupOptions = groupOptions|merge([{ label: item.name, value: item.handle }]) %}
+          {% endfor %}
+          {{ forms.selectField({
+            label: "Custom Email Field"|t,
+            instructions: "Select field where to get notification email from. Ex: Drop Down field with different email addresses as the value."|t,
+            id: 'customEmailField',
+            name: 'notificationSettings[customEmailField]',
+            options: groupOptions ? groupOptions : '',
+            value: (form.notificationSettings.customEmailField is defined ? form.notificationSettings.customEmailField : null),
+            errors: form.getErrors('customEmailField'),
+            required: false
+          }) }}
+
+          {{ forms.selectField({
+            label: "Reply To"|t,
+            instructions: "Pick email field for reply-to."|t,
+            id: 'replyTo',
+            name: 'notificationSettings[replyTo]',
+            options: groupOptions ? groupOptions : '',
+            value: (form.notificationSettings.replyTo is defined ? form.notificationSettings.replyTo : null),
+            errors: form.getErrors('replyTo'),
+            required: false
+          }) }}
+         
+          {{ forms.textField({
+            label: "Email Subject"|t,
+            instructions: "Subject line for email notifications."|t,
+            id: 'emailSubject',
+            class: 'emailSubject',
+            name: 'notificationSettings[emailSettings][emailSubject]',
+            value: (form.notificationSettings.emailSettings.emailSubject is defined ? form.notificationSettings.emailSettings.emailSubject : null),
+            size: 50,
+            errors: form.getErrors('emailSubject'),
+            required: false
+          }) }}
+
+          <div class="field" id="sendSubmissionData-field">
+            <div class="heading">
+               <label for="emailSubject">{{ "Include Submission Data"|t }}</label>
+              <div class="instructions"><p>{{ "Send submission data with the email?"|t }}</p></div>
+            </div>
+            <div class="input">
+              {{ forms.lightswitch({
+                id: 'sendSubmissionData',
+                class: 'sendSubmissionData',
+                name: 'notificationSettings[emailSettings][sendSubmissionData]',
+                on: (form.notificationSettings.emailSettings.sendSubmissionData is defined ? form.notificationSettings.emailSettings.sendSubmissionData : null),
+                errors: form.getErrors('sendSubmissionData'),
+              }) }}
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="heading">
+              <label>{{ "Select Email Template"|t }}</label>
+              <div class="instructions">{{ "Please select a template to use for email notifications."|t }}</div>
+            </div>
+
+            <div class="input">
+              {{ forms.selectField({
+                id: 'emailTemplate',
+                name: 'notificationSettings[emailTemplate]',
+                options: templateGroupOptions ? templateGroupOptions : '',
+                value: (form.notificationSettings.emailTemplate is defined ? form.notificationSettings.emailTemplate : null),
+                errors: form.getErrors('emailTemplate'),
+                required: true
+              }) }}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

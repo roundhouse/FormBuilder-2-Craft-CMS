@@ -167,4 +167,18 @@ class FormBuilder2_FormController extends BaseController
     );
     return $navigationSections;
   }
+
+  public function actionReorder()
+  {
+      $this->requirePostRequest();
+      $this->requireAjaxRequest();
+
+      $ids = JsonHelper::decode(craft()->request->getRequiredPost('ids'));
+
+      if ($success = craft()->formBuilder2_form->reorderForms($ids)) {
+          return $this->returnJson(array('success' => $success));
+      }
+
+      return $this->returnJson(array('error' => Craft::t("Couldn't reorder forms.")));
+  }
 }

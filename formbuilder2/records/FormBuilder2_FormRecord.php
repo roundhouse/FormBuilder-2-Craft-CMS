@@ -23,7 +23,9 @@ class FormBuilder2_FormRecord extends BaseRecord
       'formSettings'                        => AttributeType::Mixed,
       'spamProtectionSettings'              => AttributeType::Mixed,
       'messageSettings'                     => AttributeType::Mixed,
-      'notificationSettings'                => AttributeType::Mixed
+      'notificationSettings'                => AttributeType::Mixed,
+      'extra'                               => AttributeType::Mixed,
+      'sortOrder'                           => AttributeType::SortOrder
     );
   }
 

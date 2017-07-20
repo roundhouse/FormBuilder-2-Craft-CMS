@@ -1,0 +1,35 @@
+<div class="method-honeypot pane">
+  
+  <div class="checkbox-toggle" data-checkbox="spamHoneypotMethod">
+    <div class="togglebox">
+      <svg><use xlink:href="#icon-target" class="icon-target"/></svg>
+       {{ forms.checkboxField({
+        id: 'spamHoneypotMethod',
+        class: 'spamHoneypotMethod',
+        name: 'spamProtectionSettings[spamHoneypotMethod]',
+        value: 1,
+        checked: form.spamProtectionSettings.spamHoneypotMethod is defined ? form.spamProtectionSettings.spamHoneypotMethod : null,
+        errors: form.getErrors('spamHoneypotMethod'),
+        required: false
+      }) }}
+    </div>
+    <div class="togglecontent">
+      <h3>{{ "Honeypot"|t }}</h3>
+      <p>{{ "String matching spam protection."|t }}</p>
+    </div>
+  </div>
+
+  <div class="checkbox-extra">
+    {{ forms.textField({
+      label: "Honeypot Input Message"|t,
+      instructions: "Enter message for screen readers."|t,
+      id: 'spamHoneypotMethodMessage',
+      class: 'spamHoneypotMethodMessage',
+      name: 'spamProtectionSettings[spamHoneypotMethodMessage]',
+      value: (form.spamProtectionSettings.spamHoneypotMethodMessage is defined ? form.spamProtectionSettings.spamHoneypotMethodMessage : null),
+      size: 50,
+      errors: form.getErrors('spamHoneypotMethodMessage'),
+      required: true
+    }) }}
+  </div>
+</div>

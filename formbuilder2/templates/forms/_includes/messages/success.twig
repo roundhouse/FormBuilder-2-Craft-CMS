@@ -1,0 +1,11 @@
+{{ forms.textField({
+  label: "Success Message"|t,
+  instructions: "Please enter success message."|t,
+  id: 'successMessage',
+  class: 'successMessage',
+  name: 'messageSettings[successMessage]',
+  value: (form.messageSettings.successMessage is defined ? form.messageSettings.successMessage : null),
+  size: 100,
+  errors: form.getErrors('successMessage'),
+  required: false
+}) }}

@@ -1,0 +1,103 @@
+<div class="method-notify-submitter pane">
+  <div class="checkbox-toggle" data-checkbox="notifySubmitter">
+    <div class="togglebox">
+      <svg><use xlink:href="#icon-warning" class="icon-warning"/></svg>
+       {{ forms.checkboxField({
+        id: 'notifySubmitter',
+        class: 'notifySubmitter',
+        name: 'notificationSettings[notifySubmitter]',
+        value: 1,
+        checked: form.notificationSettings.notifySubmitter is defined ? form.notificationSettings.notifySubmitter : null,
+        errors: form.getErrors('notifySubmitter'),
+        required: false
+      }) }}
+    </div>
+    <div class="togglecontent">
+      <h3>{{ "Notify Submitter"|t }}</h3>
+      <p>{{ "Notify submitter of form submission."|t }}</p>
+    </div>
+  </div>
+
+  <div class="checkbox-extra">
+    <div class="field" id="submitterEmail-field">
+      <div class="heading">
+         <label for="submitterEmail" class="required">{{ "Select Email Field"|t }}</label>
+        <div class="instructions"><p>{{ "Field will be used to send notification to submitter"|t }}</p></div>
+      </div>
+      <div class="input">
+        {% set fields = form.getFieldLayout().getFields() %}
+        {% set groupOptions = [{label: 'Select Email Field', value: ''}] %}
+        {% for field in fields %}
+          {% set item = field.getField(field) %}
+          {% set groupOptions = groupOptions|merge([{ label: item.name, value: item.handle }]) %}
+        {% endfor %}
+        {{ forms.selectField({
+          id: 'submitterEmail',
+          name: 'notificationSettings[submitterEmail]',
+          options: groupOptions ? groupOptions : '',
+          value: (form.notificationSettings.submitterEmail is defined ? form.notificationSettings.submitterEmail : null),
+          errors: form.getErrors('submitterEmail'),
+          required: true
+        }) }}
+        
+        {{ forms.textField({
+          label: "Email Subject"|t,
+          instructions: "Subject line for email notifications."|t,
+          id: 'submitterEmailSubject',
+          class: 'submitterEmailSubject',
+          name: 'notificationSettings[submitterEmailSubject]',
+          value: (form.notificationSettings.submitterEmailSubject is defined ? form.notificationSettings.submitterEmailSubject : null),
+          size: 50,
+          errors: form.getErrors('submitterEmailSubject'),
+          required: false
+        }) }}
+
+        {{ forms.textField({
+          label: "Public From Name"|t,
+          instructions: "This will show up as the From Name in the email headers."|t,
+          id: 'publicFormName',
+          class: 'publicFormName',
+          name: 'notificationSettings[publicFormName]',
+          value: (form.notificationSettings.publicFormName is defined ? form.notificationSettings.publicFormName : null),
+          size: 50,
+          errors: form.getErrors('publicFormName'),
+          required: false
+        }) }}
+
+        <div class="field">
+          <div class="heading">
+             <label for="emailSubject">{{ "Include Submission Data"|t }}</label>
+            <div class="instructions"><p>{{ "Send submission data with the email?"|t }}</p></div>
+          </div>
+          <div class="input">
+            {{ forms.lightswitch({
+              id: 'sendSubmitterSubmissionData',
+              class: 'sendSubmitterSubmissionData',
+              name: 'notificationSettings[emailSettings][sendSubmitterSubmissionData]',
+              on: (form.notificationSettings.emailSettings.sendSubmitterSubmissionData is defined ? form.notificationSettings.emailSettings.sendSubmitterSubmissionData : null),
+              errors: form.getErrors('sendSubmitterSubmissionData'),
+            }) }}
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="heading">
+            <label>{{ "Select Email Template"|t }}</label>
+            <div class="instructions">{{ "Please select a template to use for email notifications."|t }}</div>
+          </div>
+
+          <div class="input">
+            {{ forms.selectField({
+              id: 'emailTemplateSubmitter',
+              name: 'notificationSettings[emailTemplateSubmitter]',
+              options: templateGroupOptions ? templateGroupOptions : '',
+              value: (form.notificationSettings.emailTemplateSubmitter is defined ? form.notificationSettings.emailTemplateSubmitter : null),
+              errors: form.getErrors('emailTemplateSubmitter'),
+              required: true
+            }) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

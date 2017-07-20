@@ -60,6 +60,10 @@ class App
         $('.method-redirect .checkbox-extra').show()
 
       # Ajax
+      if $('#disableDatepickerScripts').is(':checked')
+        $('.method-datepickerscripts .checkbox-toggle').addClass 'selected'
+
+      # Ajax
       if $('#ajaxSubmit').is(':checked')
         $('.method-ajax .checkbox-toggle').addClass 'selected'
 

@@ -88,21 +88,16 @@
 				</div>
 			</div>
 		{% endfor %}
-		{# <a href="{{ url('settings/fields') }}" class="btn icon create-field">Create New Field</a> #}
 	</div>
 </div>
 
-{% includeJsResource "formbuilder2/js/customfields.js" %}
-{% includeJsResource "formbuilder2/js/customfieldseditor.js" %}
-{% includeJsResource "formbuilder2/js/customfieldseditormodal.js" %}
-
+{% includeJsResource "formbuilder2/js/customtemplates.js" %}
 
 {% set js %}
 
-	CustomField.labels = {{ craft.formBuilder2.getJsonLabels() |raw }};
-	CustomField.fields = {{ craft.formBuilder2.getFields() |raw }};
-
-	CustomField.setup();
+	CustomTemplates.labels = {{ craft.formBuilder2.getJsonLabels() |raw }};
+	CustomTemplates.fields = {{ craft.formBuilder2.getFields() |raw }};
+    CustomTemplates.setup();
 
 	var initFLD = function() {
 		new Craft.FieldLayoutDesigner('#{{ "fieldlayoutform"|namespaceInputId }}', {

@@ -4,10 +4,13 @@ namespace Craft;
 class FormBuilder2_FieldService extends BaseApplicationComponent
 {
 
-	public function getFieldTemplate($fieldId)
+	public function getFieldTemplate($field)
 	{
+        $fieldId = $field->fieldId;
+        $layoutId = $field->layoutId;
 		$template = FormBuilder2_FieldRecord::model()->findByAttributes(array(
-			'fieldId' => $fieldId
+            'fieldId' => $fieldId,
+			'fieldLayoutId' => $layoutId
 		));
 
 		return $template;
@@ -29,7 +32,7 @@ class FormBuilder2_FieldService extends BaseApplicationComponent
 				'id' => null,
 				'fieldId' => null,
 				'fieldLayoutId' => null,
-				'tempalte' => null
+				'template' => null
 			)
 		);
 

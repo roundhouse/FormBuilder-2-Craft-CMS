@@ -1,0 +1,34 @@
+<div class="method-time pane">
+  <div class="checkbox-toggle" data-checkbox="spamTimeMethod">
+    <div class="togglebox">
+      <svg><use xlink:href="#icon-timer" class="icon-timer"/></svg>
+       {{ forms.checkboxField({
+        id: 'spamTimeMethod',
+        class: 'spamTimeMethod',
+        name: 'spamProtectionSettings[spamTimeMethod]',
+        value: 1,
+        checked: form.spamProtectionSettings.spamTimeMethod is defined ? form.spamProtectionSettings.spamTimeMethod : null,
+        errors: form.getErrors('spamTimeMethod'),
+        required: false
+      }) }}
+    </div>
+    <div class="togglecontent">
+      <h3>{{ "Timed Submissions"|t }}</h3>
+      <p>{{ "Allow minimum time to submit a form."|t }}</p>
+    </div>
+  </div>
+  
+  <div class="checkbox-extra">
+    {{ forms.textField({
+      label: "Time"|t,
+      instructions: "Enter how many seconds to wait untill submissions are valid."|t,
+      id: 'spamTimeMethodTime',
+      class: 'spamTimeMethodTime',
+      name: 'spamProtectionSettings[spamTimeMethodTime]',
+      value: form.spamProtectionSettings.spamTimeMethodTime is defined ? form.spamProtectionSettings.spamTimeMethodTime : '',
+      size: 50,
+      errors: form.getErrors('spamTimeMethodTime'),
+      required: true
+    }) }}
+  </div>
+</div>

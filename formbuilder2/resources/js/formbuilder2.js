@@ -67,6 +67,9 @@ App = (function() {
         $('.method-redirect .checkbox-toggle').addClass('selected');
         $('.method-redirect .checkbox-extra').show();
       }
+      if ($('#disableDatepickerScripts').is(':checked')) {
+        $('.method-datepickerscripts .checkbox-toggle').addClass('selected');
+      }
       if ($('#ajaxSubmit').is(':checked')) {
         $('.method-ajax .checkbox-toggle').addClass('selected');
       }

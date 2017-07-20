@@ -37,6 +37,7 @@ class FormBuilder2_FormModel extends BaseModel
       'successMessage'                      => array(AttributeType::String, 'required' => true),
       'errorMessage'                        => array(AttributeType::String, 'required' => true),
       'notificationSettings'                => AttributeType::Mixed,
+      'extra'                               => AttributeType::Mixed,
       'notifySubmission'                    => AttributeType::Bool,
       'notifyEmail'                         => AttributeType::String,
       'submitterEmail'                      => AttributeType::String,
@@ -52,6 +53,7 @@ class FormBuilder2_FormModel extends BaseModel
       'emailCustomLogo'                     => AttributeType::Number,
       'emailBackgroundColor'                => AttributeType::String,
       'emailContainerWidth'                 => AttributeType::Number,
+      'sortOrder'                           => AttributeType::SortOrder,
     );
   }
 
