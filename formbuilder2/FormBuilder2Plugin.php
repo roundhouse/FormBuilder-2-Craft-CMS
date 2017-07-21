@@ -188,5 +188,9 @@ class FormBuilder2Plugin extends BasePlugin
       'formbuilder2/templates/layouts/(?P<layoutId>\d+)/edit'     => array('action' => 'formBuilder2_Layout/editLayout'),
     );
   }
+}
 
+function fb()
+{
+    return Craft::app()->getComponent('formBuilder2');
 }

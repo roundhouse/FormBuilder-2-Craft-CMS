@@ -1,0 +1,14 @@
+<fieldset class="formbuilder-terms">
+    <label class="required">{{ termsAndConditionsLabel }}</label>
+    <div class="copy">
+        <p>{{ termsAndConditionsCopy |raw }}</p>
+    </div>
+
+    <div class="field">
+        <div class="input">
+            <input type="checkbox" name="formbuilderTerms" id="formbuilder-terms"> <label for="formbuilder-terms">{{ termsAndConditionsCheckboxLabel }}</label>
+        </div>
+    </div>
+
+    <p class="text x-small help-block formbuilder-terms-instructions">{{ termsAndConditionsInstructions }}</p>
+</fieldset>

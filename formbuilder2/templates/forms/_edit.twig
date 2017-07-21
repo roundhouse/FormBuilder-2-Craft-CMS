@@ -40,6 +40,7 @@
             <h2 class="tab-toggle-spam-protection"><a href="#spam-protection">{{ "Spam Protection"|t }}</a></h2>
             <h2 class="tab-toggle-messages"><a href="#messages">{{ "Messages"|t }}</a></h2>
             <h2 class="tab-toggle-notify"><a href="#notify">{{ "Email Settings"|t }}</a></h2>
+            <h2 class="tab-toggle-extra"><a href="#extra">{{ "Extra"|t }}</a></h2>
             <h2 class="tab-toggle-fields"><a href="#fields">{{ "Fields"|t }}</a></h2>
         </div>
 
@@ -81,6 +82,11 @@
                 {% if form.getFieldLayout().getFields() %}
                     {% include 'formbuilder2/forms/_includes/email-settings/custom-subject' ignore missing %}
                 {% endif %}
+            </div>
+
+            <div id="extra" class="tab-content">
+                {% include 'formbuilder2/forms/_includes/extra/header-copy' ignore missing %}
+                {% include 'formbuilder2/forms/_includes/extra/terms' ignore missing %}
             </div>
 
             <div id="fields" class="tab-content">

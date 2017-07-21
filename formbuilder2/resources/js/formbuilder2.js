@@ -51,6 +51,9 @@ App = (function() {
       if ($('#notify').find('.errors').length > 0) {
         $('.tab-toggle-notify').addClass('has-errors');
       }
+      if ($('#extra').find('.errors').length > 0) {
+        $('.tab-toggle-extra').addClass('has-errors');
+      }
       if ($('.has-errors').length > 0) {
         $('.menu-tabs h2').removeClass('current');
         $('.has-errors').first().addClass('current').find('a').trigger('click');
@@ -92,6 +95,10 @@ App = (function() {
       if ($('#customSubject').is(':checked')) {
         $('.method-customsubject .checkbox-toggle').addClass('selected');
         $('.method-customsubject .checkbox-extra').show();
+      }
+      if ($('#termsAndConditions').is(':checked')) {
+        $('.method-terms .checkbox-toggle').addClass('selected');
+        $('.method-terms .checkbox-extra').show();
       }
       return $('.checkbox-toggle').on('click', function() {
         var toggle;

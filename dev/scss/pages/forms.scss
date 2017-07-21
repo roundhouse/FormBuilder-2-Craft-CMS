@@ -158,7 +158,7 @@
   }
 
   // Form Methods
-  .method-datepickerscripts, .method-time, .method-honeypot, .method-notify, .method-notify-submitter, .method-customsubject, .method-ajax, .method-redirect, .method-files, .method-database {
+  .method-datepickerscripts, .method-time, .method-honeypot, .method-notify, .method-notify-submitter, .method-customsubject, .method-ajax, .method-redirect, .method-files, .method-database, .method-terms {
     @include transition(background .3s ease);
     &.pane { padding: 0 !important; margin-bottom: 20px !important; }
     &:hover .checkbox-toggle { background: darken(white, 3); }

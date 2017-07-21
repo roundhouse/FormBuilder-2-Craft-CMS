@@ -209,6 +209,16 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
         break;
       }
     }
+
+    if (isset($form->extra['termsAndConditions']) && $form->extra['termsAndConditions']) {
+        $terms = array_key_exists('formbuilderTerms', $submissionData);
+        if (!$terms) {
+            $errorMessage['formbuilderTerms'] = Craft::t('Terms must be checked.', array(
+                'fieldname' => 'formbuilderTerms'
+            ));
+        }
+    }
+
     return $errorMessage;
   }
 
@@ -219,11 +229,15 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
   public function processSubmissionEntry(FormBuilder2_EntryModel $submission)
   { 
     // Fire Before Save Event
-    $this->onBeforeSave(new Event($this, array(
-      'entry' => $submission
-    )));
+    Craft::import('plugins.formBuilder2.events.FormBuilder2_OnBeforeSaveEntryEvent');
+    $event = new FormBuilder2_OnBeforeSaveEntryEvent(
+        $this, array(
+            'entry' => $submission
+        )
+    );
+    craft()->formBuilder2->onBeforeSaveEntry($event);
 
-    $form                       = craft()->formBuilder2_form->getFormById($submission->formId);
+    $form                       = fb()->forms->getFormById($submission->formId);
     $formFields                 = $form->fieldLayout->getFieldLayout()->getFields();
     $attributes                 = $form->getAttributes();
     $formSettings               = $attributes['formSettings'];
@@ -239,7 +253,6 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $submissionRecord->validate();
     $submission->addErrors($submissionRecord->getErrors());
 
-    // Save To Database
     if (!$submission->hasErrors()) {
       $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
       try {
@@ -261,7 +274,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
         throw $e;
       }
       return true;
-    } else { 
+    } else {
       return false; 
     }
   }
@@ -352,4 +365,13 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     
     return $errors ? false : true;
   }
+
+    /**
+    * Delete Submission
+    *
+    */
+    public function deleteEntryById($entryId)
+    {
+        return craft()->elements->deleteElementById($entryId);
+    }
 }

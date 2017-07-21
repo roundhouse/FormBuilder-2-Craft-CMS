@@ -21,11 +21,16 @@
     <fieldset class="{{ tab.name | camelCase(tab.name) }}">
       <legend>{{ tab.name }}</legend>
       {% for field in fields %}
-        {% set input = craft.formBuilder2.getInputHtml(field) %}
+        {% set value = value is defined ? value : [] %}
+        {% set input = craft.formBuilder2.getInputHtml(field, value) %}
         {{ input |raw }}
       {% endfor %} 
     </fieldset>
   {% endfor %}
+
+  {% if form.extra['termsAndConditions'] is defined and form.extra['termsAndConditions'] %}
+    {{ craft.formBuilder2.getTermsInputs(form) |raw }}
+  {% endif %}
 
   {# Errors/Success Messages #}
   <div class="notifications">

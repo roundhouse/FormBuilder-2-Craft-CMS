@@ -6,7 +6,6 @@ class FormBuilder2
   init: () =>
     @$notificationContainer = @$form.find('.notifications')
     $emailField = @$form.find("input[type='email']")
-
     self = @
     @$form.on 'submit', (e) =>
       e.preventDefault()
@@ -44,11 +43,8 @@ class FormBuilder2
         else
             self.$notificationContainer.html '<p class="error-message flash-inline error">' + response.customErrorMessage + '</p>'
             $.each response.validationErrors, (index, value) ->
-                label = $('#field-' + index)
+                label = $('input[name="'+index+'"]')
+                console.log label
                 if label.length
                     label.addClass('has-error').find('span').remove()
-
-$(document).ready ->
-    theForm = $('form.formbuilder2')
-    theForm.each (index, el) ->
-        new FormBuilder2(el).init()
+                    label.parent().parent().addClass 'has-error'

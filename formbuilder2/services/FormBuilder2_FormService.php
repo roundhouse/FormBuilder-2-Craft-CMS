@@ -122,12 +122,14 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     $formRecord->spamProtectionSettings       = JsonHelper::encode($form->spamProtectionSettings);
     $formRecord->messageSettings              = JsonHelper::encode($form->messageSettings);
     $formRecord->notificationSettings         = JsonHelper::encode($form->notificationSettings);
+    $formRecord->extra                        = JsonHelper::encode($form->extra);
     
     $attributes                   = $form->getAttributes();
     $formSettings                 = $attributes['formSettings'];
     $spamProtectionSettings       = $attributes['spamProtectionSettings'];
     $messageSettings              = $attributes['messageSettings'];
     $notificationSettings         = $attributes['notificationSettings'];
+    $extra                        = $attributes['extra'];
     
     // Cant use Ajax with file uplaods (for now)
     if ($formSettings['hasFileUploads'] != '' && $formSettings['ajaxSubmit'] != '') {
@@ -160,6 +162,10 @@ class FormBuilder2_FormService extends BaseApplicationComponent
 
     if (isset($notificationSettings['customSubject']) && ($notificationSettings['customSubject'] == '1' && $notificationSettings['customSubjectLine'] == '')) {
       $form->addError('customSubjectLine', Craft::t('Please select a field.'));
+    }
+
+    if ($extra['termsAndConditions'] == '1' && $extra['termsAndConditionsCopy'] == '') {
+      $form->addError('termsAndConditionsCopy', Craft::t('Please enter terms copy.'));
     }
     
     $formRecord->validate();

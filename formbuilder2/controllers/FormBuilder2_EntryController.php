@@ -12,7 +12,7 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionEntriesIndex()
   {
-    $formItems = craft()->formBuilder2_form->getAllForms();
+    $formItems = fb()->forms->getAllForms();
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
     $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
@@ -30,7 +30,7 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionViewEntry(array $variables = array())
   {
-    $entry = craft()->formBuilder2_entry->getSubmissionById($variables['entryId']);
+    $entry = fb()->entries->getSubmissionById($variables['entryId']);
 
     if (empty($entry)) { throw new HttpException(404); }
 
@@ -47,7 +47,7 @@ class FormBuilder2_EntryController extends BaseController
     $variables['settings']    = $settings;
     $variables['entry']       = $entry;
     $variables['title']       = 'FormBuilder2';
-    $variables['form']        = craft()->formBuilder2_form->getFormById($entry->formId);
+    $variables['form']        = fb()->forms->getFormById($entry->formId);
     $variables['files']       = $files;
     $variables['submission']  = $entry->submission;
     $variables['navigation']  = $this->navigation();
@@ -78,7 +78,7 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // FORM
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $form = craft()->formBuilder2_entry->getFormByHandle(craft()->request->getPost('formHandle'));
+    $form = fb()->entries->getFormByHandle(craft()->request->getPost('formHandle'));
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -183,6 +183,7 @@ class FormBuilder2_EntryController extends BaseController
       if ($submissionDuration < $allowedTime) {
         if ($ajax) {
           $this->returnJson(array(
+            'success' => false,
             'validationErrors' => array(Craft::t('You submitted too fast, you are robot!')),
             'customErrorMessage' => $customErrorMessage
           ));
@@ -203,6 +204,7 @@ class FormBuilder2_EntryController extends BaseController
       if ($honeypotField != '') {
         if ($ajax) {
           $this->returnJson(array(
+            'success' => false,
             'validationErrors' => array(Craft::t('You tried the honey, you are robot bear!')),
             'customErrorMessage' => $customErrorMessage
           ));
@@ -241,12 +243,13 @@ class FormBuilder2_EntryController extends BaseController
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // VALIDATE SUBMISSION DATA
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $validation = craft()->formBuilder2_entry->validateEntry($form, $submissionData, $files);
+    $validation = fb()->entries->validateEntry($form, $submissionData, $files);
 
     // if ($validation != '') {
     if (!empty($validation)) {
       if ($ajax) {
         $this->returnJson(array(
+          'success' => false,
           'passedValidation' => false,
           'validationErrors' => $validation,
           'customErrorMessage' => $customErrorMessage
@@ -289,7 +292,7 @@ class FormBuilder2_EntryController extends BaseController
         $submissionEntry->files = $fileIds;
       }
 
-      $submissionResponseId = craft()->formBuilder2_entry->processSubmissionEntry($submissionEntry);
+      $submissionResponseId = fb()->entries->processSubmissionEntry($submissionEntry);
 
       if ($submissionResponseId) {
         // Notify Admin of Submission
@@ -309,6 +312,15 @@ class FormBuilder2_EntryController extends BaseController
         foreach ($fileCollection as $file) {
           IOHelper::deleteFile($file['tempPath'], true);
         }
+
+        // Fire After Submission Complete Event
+        Craft::import('plugins.formBuilder2.events.FormBuilder2_OnAfterSubmissionCompleteEvent');
+        $event = new FormBuilder2_OnAfterSubmissionCompleteEvent(
+            $this, array(
+                'entryId' => $submissionResponseId
+            )
+        );
+        craft()->formBuilder2->onAfterSubmissionCompleteEvent($event);
 
         // Successful Submission Messages
         if ($ajax) {
@@ -332,11 +344,11 @@ class FormBuilder2_EntryController extends BaseController
             'errors' => $validation
           ));
         } else {
-          craft()->userSession->setFlash('error', $customErrorMessage);
-        return craft()->urlManager->setRouteVariables(array(
-          'value' => $submissionData, // Pass filled in data back to form
-          'errors' => $validation // Pass validation errors back to form
-        ));
+            craft()->userSession->setFlash('error', $customErrorMessage);
+            return craft()->urlManager->setRouteVariables(array(
+              'value' => $submissionData, // Pass filled in data back to form
+              'errors' => $validation // Pass validation errors back to form
+            ));
         }
       }
     }
@@ -351,12 +363,14 @@ class FormBuilder2_EntryController extends BaseController
   public function actionDeleteSubmission()
   {
     $this->requirePostRequest();
+
     $entryId = craft()->request->getRequiredPost('entryId');
 
     if (craft()->elements->deleteElementById($entryId)) {
-      craft()->userSession->setNotice(Craft::t('Entry deleted.'));
-      $this->redirectToPostedUrl();
-      craft()->userSession->setError(Craft::t('Couldn’t delete entry.'));
+        craft()->userSession->setNotice(Craft::t('Entry deleted.'));
+        $this->redirectToPostedUrl();
+    } else {
+        craft()->userSession->setError(Craft::t('Couldn’t delete entry.'));
     }
   }
 
@@ -366,7 +380,7 @@ class FormBuilder2_EntryController extends BaseController
    */
   protected function notifySubmitterOfSubmission($submissionResponseId, $form)
   {
-    $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
+    $submission       = fb()->entries->getSubmissionById($submissionResponseId);
     $files            = array();
     $postUploads      = $submission->files;
     $postData         = $submission->submission;
@@ -387,7 +401,7 @@ class FormBuilder2_EntryController extends BaseController
     $variables['data']                  = $postData;
 
     if ($notificationSettings['emailTemplateSubmitter'] && $notificationSettings['emailTemplateSubmitter'] != '') {
-      $template = craft()->formBuilder2_template->getTemplateByHandle($notificationSettings['emailTemplateSubmitter']);
+      $template = fb()->templates->getTemplateByHandle($notificationSettings['emailTemplateSubmitter']);
       $variables['template'] = $template;
     }
 
@@ -399,7 +413,7 @@ class FormBuilder2_EntryController extends BaseController
     // Email
     $toEmail = $postData[$emailField];
 
-    if (craft()->formBuilder2_entry->sendEmailNotificationToSubmitter($form, $message, true, $toEmail)) {
+    if (fb()->entries->sendEmailNotificationToSubmitter($form, $message, true, $toEmail)) {
       return true;
     } else {
       return false;
@@ -412,7 +426,7 @@ class FormBuilder2_EntryController extends BaseController
    */
   protected function notifyAdminOfSubmission($submissionResponseId, $fileCollection, $form)
   {
-    $submission       = craft()->formBuilder2_entry->getSubmissionById($submissionResponseId);
+    $submission       = fb()->entries->getSubmissionById($submissionResponseId);
     $files            = '';
     $postUploads      = $submission->files;
     $postData         = $submission->submission;
@@ -442,7 +456,7 @@ class FormBuilder2_EntryController extends BaseController
     $variables['data'] = $postData;
 
     if ($notificationSettings['emailTemplate'] && $notificationSettings['emailTemplate'] != '') {
-      $template = craft()->formBuilder2_template->getTemplateByHandle($notificationSettings['emailTemplate']);
+      $template = fb()->templates->getTemplateByHandle($notificationSettings['emailTemplate']);
       $variables['template'] = $template;
     }
 
@@ -465,7 +479,7 @@ class FormBuilder2_EntryController extends BaseController
       $customEmail = $postData[$notificationSettings['customEmailField']];
     }
 
-    if (craft()->formBuilder2_entry->sendEmailNotification($form, $fileCollection, $postData, $customEmail, $customSubject, $message, true, null)) {
+    if (fb()->entries->sendEmailNotification($form, $fileCollection, $postData, $customEmail, $customSubject, $message, true, null)) {
       return true;
     } else {
       return false;
@@ -515,13 +529,13 @@ class FormBuilder2_EntryController extends BaseController
           array(
             'label' => Craft::t('Forms'),
             'icon'  => 'list-alt',
-            'extra' => craft()->formBuilder2_form->getTotalForms(),
+            'extra' => fb()->forms->getTotalForms(),
             'url'   => UrlHelper::getCpUrl('formbuilder2/forms'),
           ),
           array(
             'label' => Craft::t('Entries'),
             'icon'  => 'file-text-o',
-            'extra' => craft()->formBuilder2_entry->getTotalEntries(),
+            'extra' => fb()->entries->getTotalEntries(),
             'url'   => UrlHelper::getCpUrl('formbuilder2/entries'),
           ),
         )

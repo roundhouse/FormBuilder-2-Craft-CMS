@@ -39,6 +39,8 @@ class App
         $('.tab-toggle-messages').addClass 'has-errors' 
       if $('#notify').find('.errors').length > 0
         $('.tab-toggle-notify').addClass 'has-errors' 
+      if $('#extra').find('.errors').length > 0
+        $('.tab-toggle-extra').addClass 'has-errors' 
 
       if $('.has-errors').length > 0
         $('.menu-tabs h2').removeClass 'current'
@@ -87,6 +89,11 @@ class App
       if $('#customSubject').is(':checked')
         $('.method-customsubject .checkbox-toggle').addClass 'selected'
         $('.method-customsubject .checkbox-extra').show()
+
+      #Extra
+      if $('#termsAndConditions').is(':checked')
+        $('.method-terms .checkbox-toggle').addClass 'selected'
+        $('.method-terms .checkbox-extra').show()
 
       $('.checkbox-toggle').on 'click', ->
         toggle = $(@).data 'checkbox'

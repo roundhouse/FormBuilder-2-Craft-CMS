@@ -154,6 +154,18 @@ function successfulSubmission(e) {
 
 ***
 
+# Form's Terms & Conditions
+
+You can now add "Terms & Conditions" to your forms. In your form settings, there is a new tab called `Extra`. You will need to update your front-end code to use this functionality. Add the following to your code right above the notifications div. You can also checkout the `sampleForm.twig` file for examples.
+
+```
+{% if form.extra['termsAndConditions'] is defined and form.extra['termsAndConditions'] %}
+  {{ craft.formBuilder2.getTermsInputs(form) |raw }}
+{% endif %}
+```
+
+***
+
 
 ## Todo
 

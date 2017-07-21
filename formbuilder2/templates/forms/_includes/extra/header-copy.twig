@@ -1,0 +1,18 @@
+{{ forms.textAreaField({
+  label: "Header Copy"|t,
+  instructions: "Enter optional header copy for the form."|t,
+  id: 'formHeaderCopy',
+  class: 'formHeaderCopy',
+  name: 'extra[formHeaderCopy]',
+  value: form.extra.formHeaderCopy is defined ? form.extra.formHeaderCopy : '',
+  rows: 8,
+  errors: form.getErrors('formHeaderCopy'),
+}) }}
+
+
+{% includejs %}
+    $('#formHeaderCopy').redactor({
+      buttons: ['bold', 'italic', 'link', 'horizontalrule'],
+      plugins: ['alignment', 'inlinestyle']
+    });
+{% endincludejs %}

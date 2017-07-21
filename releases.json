@@ -142,4 +142,15 @@
       "[Added] Forms can be sorted now in the admin"
     ]
   },
+  {
+    "version": "2.0.16",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2017-07-21T10:19:55-07:00",
+    "notes": [
+      "[Added] New event added onAfterSubmissionCompleteEvent",
+      "[Added] You can now add terms and conditions to your forms, see Extra tab in your forms",
+      "[Improved] Submission values are now saved and returned back to the form on validation errors, needs front-end code update",
+      "[Improved] Updated ajax submission functionality"
+    ]
+  },
 ]

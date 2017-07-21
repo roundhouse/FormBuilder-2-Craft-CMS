@@ -6,42 +6,44 @@ class FormBuilder2Variable
 
     private $form;
 
-  /**
-   * Load Required Scripts
-   *
-   */
-  public function includeScripts($form)
-  {
-    // Ajax Submit Script
-    if ($form->formSettings["ajaxSubmit"] == "1") {
-      craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/ajaxsubmit.js'));
-    }
-
-    $fieldLayout = $form->fieldLayout->getFieldLayout();
-    $fields = $fieldLayout->getFields();
-    foreach ($fields as $key => $value) {
-      $field = $value->getField();
-      if ($field->type == 'Color') {
-        // Colorpicker
-        craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/colorpicker.css'));
-        craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/libs/colorpicker.js'));
-      } elseif ($field->type == 'Date') {
-        if (!isset($form->formSettings["disableDatepickerScripts"]) || $form->formSettings["disableDatepickerScripts"] != "1") {
-            craft()->templates->includeJsFile(UrlHelper::getResourceUrl('/lib/jquery-ui.min.js'));
-            craft()->templates->includeJsFile(UrlHelper::getResourceUrl('lib/jquery.timepicker/jquery.timepicker.min.js'));
-            craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/datetimepicker.css'));
+    /**
+    * Load Required Scripts
+    *
+    */
+    public function includeScripts($form)
+    {
+        // Ajax Submit Script
+        if ($form->formSettings["ajaxSubmit"] == "1") {
+            $namespaced = '.formbuilder2#'.$form->handle;
+            craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/ajaxsubmit.js'));
+            craft()->templates->includeJs('new FormBuilder2("'.$namespaced.'").init()');
         }
-      } elseif ($field->type == 'RichText') {
-        // WYSIWYG Editor
-        craft()->templates->includeCssResource('/lib/redactor/redactor.css');
-        craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
-      } elseif ($field->type == 'Lightswitch') {
-        // Lightswitch
-        craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/lightswitch.css'));
-      }
+
+        $fieldLayout = $form->fieldLayout->getFieldLayout();
+        $fields = $fieldLayout->getFields();
+        foreach ($fields as $key => $value) {
+          $field = $value->getField();
+          if ($field->type == 'Color') {
+            // Colorpicker
+            craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/colorpicker.css'));
+            craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/libs/colorpicker.js'));
+          } elseif ($field->type == 'Date') {
+            if (!isset($form->formSettings["disableDatepickerScripts"]) || $form->formSettings["disableDatepickerScripts"] != "1") {
+                craft()->templates->includeJsFile(UrlHelper::getResourceUrl('/lib/jquery-ui.min.js'));
+                craft()->templates->includeJsFile(UrlHelper::getResourceUrl('lib/jquery.timepicker/jquery.timepicker.min.js'));
+                craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/datetimepicker.css'));
+            }
+          } elseif ($field->type == 'RichText') {
+            // WYSIWYG Editor
+            craft()->templates->includeCssResource('/lib/redactor/redactor.css');
+            craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
+          } elseif ($field->type == 'Lightswitch') {
+            // Lightswitch
+            craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/lightswitch.css'));
+          }
+        }
+        return;
     }
-    return;
-  }
 
     /**
     * Get Form By Id
@@ -49,7 +51,7 @@ class FormBuilder2Variable
     */
     public function getFormById($formId)
     {
-        return craft()->formBuilder2_form->getFormById($formId);
+        return fb()->forms->getFormById($formId);
     }
 
     /**
@@ -58,7 +60,7 @@ class FormBuilder2Variable
 	*/
 	public function getFormHtmlById($formId)
 	{
-		$form = craft()->formBuilder2_form->getFormById($formId);
+		$form = fb()->forms->getFormById($formId);
 		$oldPath = craft()->templates->getTemplatesPath();
 
     $variables['formId'] = $form;
@@ -76,7 +78,7 @@ class FormBuilder2Variable
    */
   public function getFormByHandle($formHandle)
   {
-    $form = craft()->formBuilder2_form->getFormByHandle($formHandle);
+    $form = fb()->forms->getFormByHandle($formHandle);
     $this->form = $form; 
     return $form;
   }
@@ -87,7 +89,7 @@ class FormBuilder2Variable
    */
   public function totalForms()
   {
-    $count = craft()->formBuilder2_form->getTotalForms();
+    $count = fb()->forms->getTotalForms();
     return $count;
   }
 
@@ -97,7 +99,7 @@ class FormBuilder2Variable
    */
   public function getAllForms()
   {
-    $forms = craft()->formBuilder2_form->getAllForms();
+    $forms = fb()->forms->getAllForms();
     return $forms;
   }
 
@@ -109,7 +111,7 @@ class FormBuilder2Variable
    */
   public function totalEntries()
   {
-    $count = craft()->formBuilder2_entry->getTotalEntries();
+    $count = fb()->entries->getTotalEntries();
     return $count;
   }
 
@@ -119,7 +121,7 @@ class FormBuilder2Variable
    */
   public function getAllEntriesFromFormID($formId)
   {
-    return craft()->formBuilder2_entry->getAllEntriesFromFormID($formId);
+    return fb()->entries->getAllEntriesFromFormID($formId);
   }
 
   /**
@@ -128,7 +130,7 @@ class FormBuilder2Variable
    */
   public function getFormEntryById($entryId)
   {
-    $entryModel = craft()->formBuilder2_entry->getFormEntryById($entryId);
+    $entryModel = fb()->entries->getFormEntryById($entryId);
     $entry['form'] = array(
       'id'    =>  $entryModel->attributes['id'],
       'title' =>  $entryModel->attributes['title']
@@ -154,7 +156,7 @@ class FormBuilder2Variable
   {
     $theField       = $field->getField();
     $fieldType      = $theField->getFieldType();
-    $template       = craft()->formBuilder2_field->getFieldTemplate($field);
+    $template       = fb()->fields->getFieldTemplate($field);
     $originaPath    = craft()->templates->getTemplatesPath();
 
     $theField->required = $field->required;
@@ -190,7 +192,6 @@ class FormBuilder2Variable
   	} else {
   		$varSources = null;
   	}
-
     // Check if there was a value
     if (isset($attributes['settings']['value'])){
         $value = $attributes['settings']['value'];
@@ -398,6 +399,18 @@ class FormBuilder2Variable
     return $html;
   }
 
+  
+  public function getTermsInputs($form)
+  {
+    $originaPath    = craft()->templates->getTemplatesPath();
+    $terms          = $form->extra;
+
+    $this->_setTemplate(null, 'plugin');
+    $html = craft()->templates->render('formbuilder2/templates/inputs/terms', $terms);
+    $this->_setTemplate($originaPath, 'site');
+    return $html;
+  }
+
   // Template Setters
   private function _setTemplate($path, $type = 'site')
   {
@@ -413,13 +426,13 @@ class FormBuilder2Variable
   // Custom Field Templates
   public function getJsonLabels()
   {
-    $labels = craft()->formBuilder2_field->getJsonLabels();
+    $labels = fb()->fields->getJsonLabels();
     return json_encode($labels);
   }
 
   public function getFields()
   {
-    $fields = craft()->formBuilder2_field->getFields();
+    $fields = fb()->fields->getFields();
     return json_encode($fields);
   }
 
@@ -451,19 +464,19 @@ class FormBuilder2Variable
 
   public function getLayout($key)
   {
-    $layout = craft()->formBuilder2_layout->getLayoutById($key);
+    $layout = fb()->layouts->getLayoutById($key);
     return $layout;
   }
 
   public function getTemplates()
   {
-    $templates = craft()->formBuilder2_template->getAllTemplates();
+    $templates = fb()->templates->getAllTemplates();
     return $templates;
   }
 
   public function getBlockTypes()
   {
-    $blockTypes = craft()->formBuilder2_template->getBlockTypes();
+    $blockTypes = fb()->templates->getBlockTypes();
     return $blockTypes;
   }
 

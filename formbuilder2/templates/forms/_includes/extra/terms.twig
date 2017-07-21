@@ -1,0 +1,69 @@
+<div class="method-terms pane">
+  <div class="checkbox-toggle" data-checkbox="termsAndConditions">
+    <div class="togglebox">
+      <svg><use xlink:href="#icon-terms" class="icon-terms"/></svg>
+       {{ forms.checkboxField({
+        id: 'termsAndConditions',
+        class: 'termsAndConditions',
+        name: 'extra[termsAndConditions]',
+        value: 1,
+        checked: form.extra.termsAndConditions is defined ? form.extra.termsAndConditions : null,
+        errors: form.getErrors('termsAndConditions'),
+        required: false
+      }) }}
+    </div>
+    <div class="togglecontent">
+      <h3>{{ "Terms & Conditions"|t }}</h3>
+      <p>{{ "This form requires acceptance of terms & conditions."|t }}</p>
+    </div>
+  </div>
+  
+  <div class="checkbox-extra">
+    {{ forms.textField({
+      label: "Terms Label"|t,
+      instructions: "Enter label text (Ex: 'Terms and Conditions')"|t,
+      id: 'termsAndConditionsLabel',
+      class: 'termsAndConditionsLabel',
+      name: 'extra[termsAndConditionsLabel]',
+      value: form.extra.termsAndConditionsLabel is defined ? form.extra.termsAndConditionsLabel : '',
+      errors: form.getErrors('termsAndConditionsLabel'),
+    }) }}
+
+    {{ forms.textAreaField({
+      label: "Terms Copy"|t,
+      instructions: "Enter copy for your terms & conditions."|t,
+      id: 'termsAndConditionsCopy',
+      class: 'termsAndConditionsCopy',
+      name: 'extra[termsAndConditionsCopy]',
+      value: form.extra.termsAndConditionsCopy is defined ? form.extra.termsAndConditionsCopy : '',
+      rows: 8,
+      errors: form.getErrors('termsAndConditionsCopy'),
+    }) }}
+    {{ forms.textField({
+      label: "Checkbox Label"|t,
+      instructions: "Enter label text (Ex: 'I agree')"|t,
+      id: 'termsAndConditionsCheckboxLabel',
+      class: 'termsAndConditionsCheckboxLabel',
+      name: 'extra[termsAndConditionsCheckboxLabel]',
+      value: form.extra.termsAndConditionsCheckboxLabel is defined ? form.extra.termsAndConditionsCheckboxLabel : '',
+      errors: form.getErrors('termsAndConditionsCheckboxLabel'),
+    }) }}
+    {{ forms.textField({
+      label: "Instructions"|t,
+      instructions: "Enter optional instructions that goes under label."|t,
+      id: 'termsAndConditionsInstructions',
+      class: 'termsAndConditionsInstructions',
+      name: 'extra[termsAndConditionsInstructions]',
+      value: form.extra.termsAndConditionsInstructions is defined ? form.extra.termsAndConditionsInstructions : '',
+      errors: form.getErrors('termsAndConditionsInstructions'),
+    }) }}
+
+  </div>
+</div>
+
+{% includejs %}
+    $('#termsAndConditionsCopy').redactor({
+      buttons: ['bold', 'italic', 'link', 'horizontalrule'],
+      plugins: ['alignment', 'inlinestyle']
+    });
+{% endincludejs %}

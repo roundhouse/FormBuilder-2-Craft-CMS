@@ -9,8 +9,8 @@ class FormBuilder2_TemplateController extends BaseController
 
   public function actionIndex()
   {
-    $templates  = craft()->formBuilder2_template->getAllTemplates();
-    $layouts    = craft()->formBuilder2_layout->getAllLayouts();
+    $templates  = fb()->templates->getAllTemplates();
+    $layouts    = fb()->layouts->getAllLayouts();
 
     $variables['title']       = 'FormBuilder2';
     $variables['templates']   = $templates;
@@ -23,11 +23,11 @@ class FormBuilder2_TemplateController extends BaseController
   {
     $variables['brandNewTemplate'] = false;
 
-    $variables['templateLayouts'] = craft()->formBuilder2_template->getTemplateFiles();
+    $variables['templateLayouts'] = fb()->templates->getTemplateFiles();
 
     if (!empty($variables['templateId'])) {
       if (empty($variables['template'])) {
-        $variables['template'] = craft()->formBuilder2_template->getTemplateById($variables['templateId']);
+        $variables['template'] = fb()->templates->getTemplateById($variables['templateId']);
         if (!$variables['template']) { 
           throw new HttpException(404, Craft::t('No templates exist.'));
         }
@@ -53,7 +53,7 @@ class FormBuilder2_TemplateController extends BaseController
 
     $templateId = craft()->request->getRequiredPost('id');
 
-    craft()->formBuilder2_template->deleteTemplateById($templateId);
+    fb()->templates->deleteTemplateById($templateId);
     $this->returnJson(array('success' => true));
   }
 
@@ -67,7 +67,7 @@ class FormBuilder2_TemplateController extends BaseController
     $templateName = craft()->request->getPost('templateName');
 
     if (!$templateName == 0) {
-        $templateInformation = craft()->formBuilder2_template->getTemplateByName($templateName);
+        $templateInformation = fb()->templates->getTemplateByName($templateName);
     } else {
         $templateInformation = false;
     }
@@ -105,7 +105,7 @@ class FormBuilder2_TemplateController extends BaseController
         $template->templateStyles     = craft()->request->getPost('templateStyles');
         $template->templateSettings   = craft()->request->getPost('templateSettings');
 
-        if (craft()->formBuilder2_template->saveTemplate($template)) {
+        if (fb()->templates->saveTemplate($template)) {
           craft()->userSession->setNotice(Craft::t('Template saved.'));
           $this->redirectToPostedUrl($template);
         } else {

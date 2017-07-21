@@ -14,7 +14,7 @@ class FormBuilder2_FormController extends BaseController
   public function actionFormsIndex()
   { 
 
-    $formItems = craft()->formBuilder2_form->getAllForms();
+    $formItems = fb()->forms->getAllForms();
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
     $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
@@ -27,7 +27,6 @@ class FormBuilder2_FormController extends BaseController
     return $this->renderTemplate('formbuilder2/forms/index', $variables);
   }
 
-
   /**
    * View/Edit Form
    *
@@ -37,9 +36,12 @@ class FormBuilder2_FormController extends BaseController
     $variables['brandNewForm'] = false;
     $variables['navigation']  = $this->navigation();
 
+    craft()->templates->includeCssResource('/lib/redactor/redactor.css');
+    craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
+
     if (!empty($variables['formId'])) {
       if (empty($variables['form'])) {
-        $variables['form'] = craft()->formBuilder2_form->getFormById($variables['formId']);
+        $variables['form'] = fb()->forms->getFormById($variables['formId']);
 
         if (!$variables['form']) { 
           throw new HttpException(404);
@@ -74,12 +76,13 @@ class FormBuilder2_FormController extends BaseController
     $form->spamProtectionSettings       = craft()->request->getPost('spamProtectionSettings');
     $form->messageSettings              = craft()->request->getPost('messageSettings');
     $form->notificationSettings         = craft()->request->getPost('notificationSettings');
+    $form->extra                        = craft()->request->getPost('extra');
 
     $fieldLayout = craft()->fields->assembleLayoutFromPost();
     $fieldLayout->type = ElementType::Asset;
     $form->setFieldLayout($fieldLayout);
 
-    if (craft()->formBuilder2_form->saveForm($form)) {
+    if (fb()->forms->saveForm($form)) {
       craft()->userSession->setNotice(Craft::t('Form saved.'));
       $this->redirectToPostedUrl($form);
     } else {
@@ -102,7 +105,7 @@ class FormBuilder2_FormController extends BaseController
 
     $formId = craft()->request->getRequiredPost('id');
 
-    craft()->formBuilder2_form->deleteFormById($formId);
+    fb()->forms->deleteFormById($formId);
     $this->returnJson(array('success' => true));
   }
 
@@ -125,7 +128,7 @@ class FormBuilder2_FormController extends BaseController
           array(
             'label' => Craft::t('Forms'),
             'icon'  => 'list-alt',
-            'extra' => craft()->formBuilder2_form->getTotalForms(),
+            'extra' => fb()->forms->getTotalForms(),
             'url'   => UrlHelper::getCpUrl('formbuilder2/forms'),
           ),
           array(
@@ -175,7 +178,7 @@ class FormBuilder2_FormController extends BaseController
 
       $ids = JsonHelper::decode(craft()->request->getRequiredPost('ids'));
 
-      if ($success = craft()->formBuilder2_form->reorderForms($ids)) {
+      if ($success = fb()->forms->reorderForms($ids)) {
           return $this->returnJson(array('success' => $success));
       }
 

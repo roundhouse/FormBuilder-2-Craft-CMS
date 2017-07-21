@@ -9,7 +9,7 @@ class FormBuilder2_LayoutController extends BaseController
 
   public function actionIndex()
   {
-    $layouts = craft()->formBuilder2_layout->getAllLayouts();
+    $layouts = fb()->layouts->getAllLayouts();
 
     $variables['title']       = 'FormBuilder2';
     $variables['layouts']     = $layouts;
@@ -21,11 +21,11 @@ class FormBuilder2_LayoutController extends BaseController
   {
     $variables['brandNewLayout'] = false;
 
-    $variables['templateLayouts'] = craft()->formBuilder2_template->getTemplateFiles();
+    $variables['templateLayouts'] = fb()->templates->getTemplateFiles();
 
     if (!empty($variables['layoutId'])) {
       if (empty($variables['layout'])) {
-        $variables['layout'] = craft()->formBuilder2_layout->getLayoutById($variables['layoutId']);
+        $variables['layout'] = fb()->layouts->getLayoutById($variables['layoutId']);
         if (!$variables['layout']) {
           throw new HttpException(404, Craft::t('No layout exist.'));
         }
@@ -65,7 +65,7 @@ class FormBuilder2_LayoutController extends BaseController
         $layout->templateOriginalName   = craft()->request->getPost('templateOriginalName');
         $layout->templatePath           = craft()->request->getPost('templatePath');
 
-        if (craft()->formBuilder2_layout->saveLayout($layout)) {
+        if (fb()->layouts->saveLayout($layout)) {
           craft()->userSession->setNotice(Craft::t('Layout saved.'));
           $this->redirectToPostedUrl($layout);
         } else {

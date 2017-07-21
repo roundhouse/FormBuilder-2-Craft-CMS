@@ -65,9 +65,11 @@ FormBuilder2 = (function() {
         self.$notificationContainer.html('<p class="error-message flash-inline error">' + response.customErrorMessage + '</p>');
         return $.each(response.validationErrors, function(index, value) {
           var label;
-          label = $('#field-' + index);
+          label = $('input[name="' + index + '"]');
+          console.log(label);
           if (label.length) {
-            return label.addClass('has-error').find('span').remove();
+            label.addClass('has-error').find('span').remove();
+            return label.parent().parent().addClass('has-error');
           }
         });
       }
@@ -77,11 +79,3 @@ FormBuilder2 = (function() {
   return FormBuilder2;
 
 })();
-
-$(document).ready(function() {
-  var theForm;
-  theForm = $('form.formbuilder2');
-  return theForm.each(function(index, el) {
-    return new FormBuilder2(el).init();
-  });
-});

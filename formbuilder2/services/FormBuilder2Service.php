@@ -3,10 +3,26 @@ namespace Craft;
 
 class FormBuilder2Service extends BaseApplicationComponent
 {
-	
 	private $_constraints;
 	private $_currentVersion;
 	private $_filePath;
+
+    public $forms;
+    public $entries;
+    public $fields;
+    public $layouts;
+    public $templates;
+
+    public function init()
+    {
+        parent::init();
+
+        $this->forms = Craft::app()->getComponent('formBuilder2_form');
+        $this->entries = Craft::app()->getComponent('formBuilder2_entry');
+        $this->fields = Craft::app()->getComponent('formBuilder2_field');
+        $this->layouts = Craft::app()->getComponent('formBuilder2_layout');
+        $this->templates = Craft::app()->getComponent('formBuilder2_template');
+    }
 
 	/**
 	 * Backup All Forms
@@ -252,5 +268,21 @@ class FormBuilder2Service extends BaseApplicationComponent
 
 		return $result;
 	}
+
+    /**
+     * @param FormBuilder2_OnBeforeSaveEntryEvent $event
+     */
+    public function onBeforeSaveEntry(FormBuilder2_OnBeforeSaveEntryEvent $event)
+    {
+        $this->raiseEvent('onBeforeSaveEntry', $event);
+    }
+
+    /**
+     * @param FormBuilder2_OnAfterSubmissionCompleteEvent $event
+     */
+    public function onAfterSubmissionCompleteEvent(FormBuilder2_OnAfterSubmissionCompleteEvent $event)
+    {
+        $this->raiseEvent('onAfterSubmissionCompleteEvent', $event);
+    }
 
 }

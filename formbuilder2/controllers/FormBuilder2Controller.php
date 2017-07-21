@@ -9,7 +9,7 @@ class FormBuilder2Controller extends BaseController
   public function actionGetFormFields()
   {
     $formId = craft()->request->getPost('formId');
-    $form = craft()->formBuilder2_form->getFormById($formId);
+    $form = fb()->forms->getFormById($formId);
 
 
     if ($formId) {
@@ -86,9 +86,9 @@ class FormBuilder2Controller extends BaseController
     			$submission[$index] = 'File:' . $file->getUrl();
     		}
     	}
-    	$attributes[$key]['id'] 				= $entry['id'];
-    	$attributes[$key]['formId'] 		= $entry['formId'];
-    	$attributes[$key]['title'] 			= $entry['title'];
+    	$attributes[$key]['id'] 		= $entry['id'];
+    	$attributes[$key]['formId']     = $entry['formId'];
+    	$attributes[$key]['title'] 		= $entry['title'];
     	$attributes[$key]['submission'] = StringHelper::arrayToString($submission, ',');
     }
 
@@ -118,7 +118,7 @@ class FormBuilder2Controller extends BaseController
 	  
 	  $variables['title']       = 'FormBuilder2';
 	  $variables['settings']    = $settings;
-    $variables['plugin']      = $plugin;
+      $variables['plugin']      = $plugin;
 	  $variables['navigation']  = $this->navigation();
 	  
 	  $this->renderTemplate('formbuilder2/tools/configuration', $variables);
@@ -180,7 +180,7 @@ class FormBuilder2Controller extends BaseController
 	{
 		// TODO: look at this for saving files http://craftcms.stackexchange.com/questions/2179/how-can-i-force-a-download-of-entry-data-to-an-excel-file
 		$this->requirePostRequest();
-		$response = craft()->formBuilder2->backupAllForms();
+		$response = fb()->backupAllForms();
 		if (!$response) {
 			craft()->templates->includeJs('var message = "You do not have any forms to backup!"; var notifications = new Craft.CP; notifications.displayNotification("error", message);');
 		}
@@ -220,13 +220,13 @@ class FormBuilder2Controller extends BaseController
           array(
             'label' => Craft::t('Forms'),
             'icon'  => 'list-alt',
-            'extra' => craft()->formBuilder2_form->getTotalForms(),
+            'extra' => fb()->forms->getTotalForms(),
             'url'   => UrlHelper::getCpUrl('formbuilder2/forms'),
           ),
           array(
             'label' => Craft::t('Entries'),
             'icon'  => 'file-text-o',
-            'extra' => craft()->formBuilder2_entry->getTotalEntries(),
+            'extra' => fb()->entries->getTotalEntries(),
             'url'   => UrlHelper::getCpUrl('formbuilder2/entries'),
           ),
         )
