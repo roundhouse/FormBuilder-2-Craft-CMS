@@ -229,7 +229,7 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
   public function processSubmissionEntry(FormBuilder2_EntryModel $submission)
   { 
     // Fire Before Save Event
-    Craft::import('plugins.formBuilder2.events.FormBuilder2_OnBeforeSaveEntryEvent');
+    Craft::import('plugins.formbuilder2.events.FormBuilder2_OnBeforeSaveEntryEvent');
     $event = new FormBuilder2_OnBeforeSaveEntryEvent(
         $this, array(
             'entry' => $submission
