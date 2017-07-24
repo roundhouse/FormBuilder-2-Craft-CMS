@@ -314,7 +314,7 @@ class FormBuilder2_EntryController extends BaseController
         }
 
         // Fire After Submission Complete Event
-        Craft::import('plugins.formBuilder2.events.FormBuilder2_OnAfterSubmissionCompleteEvent');
+        Craft::import('plugins.formbuilder2.events.FormBuilder2_OnAfterSubmissionCompleteEvent');
         $event = new FormBuilder2_OnAfterSubmissionCompleteEvent(
             $this, array(
                 'entryId' => $submissionResponseId
