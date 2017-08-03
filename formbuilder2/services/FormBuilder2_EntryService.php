@@ -375,4 +375,17 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     {
         return craft()->elements->deleteElementById($entryId);
     }
+
+    public function removeFilesFromSubmission($entryId)
+    {
+        $record = FormBuilder2_EntryRecord::model()->findById($entryId);
+
+        if ($record) {
+            $record->setAttribute('files', null);
+            return $record->save();
+
+        } else {
+            throw new Exception(Craft::t('Submission not found '));
+        }
+    }
 }

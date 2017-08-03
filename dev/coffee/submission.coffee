@@ -15,7 +15,7 @@ if $ and window.Garnish
         else if type == 'form'
             $('<li><a href="/admin/formbuilder2/forms/'+formId+'/edit">View Form</a></li>').appendTo($menu.find('ul'))
         else if type == 'uploads'
-            $('<li><a href="/admin/formbuilder2/entries">Delete All</a></li>').appendTo($menu.find('ul'))
+            $('<li><a href="/admin/formbuilder2/entries" class="delete-all-files">Delete All</a></li>').appendTo($menu.find('ul'))
             $('<li><a href="/admin/formbuilder2/entries" class="download-all-files">Download All</a></li>').appendTo($menu.find('ul'))
 
         new (Garnish.HUD)($(this), $menu,
@@ -27,24 +27,43 @@ if $ and window.Garnish
             data = id: entryId
             if confirm Craft.t("Are you sure you want to delete this submission?")
                 Craft.postActionRequest 'formBuilder2/entry/deleteSubmissionAjax', data, $.proxy(((response, textStatus) ->
-                    console.log 'Response: ', response
-                    console.log 'Text Status: ', textStatus
                     if textStatus == 'success'
                         Craft.cp.displayNotice Craft.t('Submission deleted')
                         window.location.href = '/admin/formbuilder2/entries'
                 ), this)
         
+        $menu.find('.delete-all-files').on 'click', (e) ->
+            e.preventDefault()
+            data = fileId: fileIds
+            Craft.postActionRequest 'assets/deleteFile', data, $.proxy(((response, textStatus) ->
+                if response.success
+                    newData = entryId: entryId
+                    Craft.postActionRequest 'formBuilder2/entry/removeAssetsFromSubmission', newData, $.proxy(((response, textStatus) ->
+                        if response.success
+                            for hudID of Garnish.HUD.activeHUDs
+                                Garnish.HUD.activeHUDs[hudID].hide()
+                            $('.upload-details').addClass 'zap'
+                            setTimeout (->
+                                $('.upload-details').remove()
+                            ), 300
+                    ), this)
+            ), this)
+
+
         $menu.find('.download-all-files').on 'click', (e) ->
             e.preventDefault()
+            Craft.cp.displayNotice Craft.t('Downloading...')
             data = 
                 ids: fileIds
                 formId: formId
             Craft.postActionRequest 'formBuilder2/entry/downloadAllFiles', data, $.proxy(((response, textStatus) ->
-                console.log 'Response: ', response.success
                 if response.success
-                    Craft.cp.displayNotice Craft.t('Downloading...')
+                    window.location = '/actions/formBuilder2/entry/downloadFiles?filePath=' + response.filePath
+                    Craft.cp.displayNotice Craft.t('Download Successful')
                 else
                     Craft.cp.displayError Craft.t(response.message)
+                for hudID of Garnish.HUD.activeHUDs
+                    Garnish.HUD.activeHUDs[hudID].hide()
             ), this)
 
 
