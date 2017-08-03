@@ -376,6 +376,33 @@ class FormBuilder2_EntryController extends BaseController
 
   }
 
+    public function actionRemoveAssetsFromSubmission()
+    {
+        $this->requirePostRequest();
+        $this->requireAjaxRequest();
+
+        $entryId = craft()->request->getRequiredPost('entryId');
+
+        if (fb()->entries->removeFilesFromSubmission($entryId)) {
+            $this->returnJson(array(
+                'success' => true,
+                'message' => 'Submission Updated',
+            ));
+        } else {
+            $this->returnJson(array(
+                'success' => false,
+                'message' => 'Submission Updated Failed',
+            ));
+        }
+
+    }
+
+    public function actionDownloadFiles()
+    {
+        $filePath = craft()->request->query['filePath'];
+        craft()->request->sendFile(IOHelper::getFileName($filePath), IOHelper::getFileContents($filePath), array('forceDownload' => true));
+    }
+
     public function actionDownloadAllFiles()
     {
         $this->requireAjaxRequest();
@@ -406,11 +433,12 @@ class FormBuilder2_EntryController extends BaseController
             // readfile($zipname);
 
             if ($filePath == $zipname) {
-                craft()->request->sendFile(IOHelper::getFileName($filePath), IOHelper::getFileContents($filePath), array('forceDownload' => true));
-                // $this->returnJson(array(
-                //     'success' => true,
-                //     'message' => 'Download Complete.'
-                // ));
+                // craft()->request->sendFile(IOHelper::getFileName($filePath), IOHelper::getFileContents($filePath), array('forceDownload' => true));
+                $this->returnJson(array(
+                    'success' => true,
+                    'message' => 'Download Complete.',
+                    'filePath' => $filePath
+                ));
             }
         } else {
             $this->returnJson(array(

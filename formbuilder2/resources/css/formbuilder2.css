@@ -661,8 +661,13 @@
       border-color: #6F8996; }
   .formbuilder.fb-submission .submission-details-tout.theme-white main {
     padding: 16px 0; }
-  .formbuilder.fb-submission .submission-details-tout.upload-details main {
-    padding: 0; }
+  .formbuilder.fb-submission .submission-details-tout.upload-details {
+    transform-origin: center center;
+    transition: transform .3s ease; }
+    .formbuilder.fb-submission .submission-details-tout.upload-details.zap {
+      transform: scale(0); }
+    .formbuilder.fb-submission .submission-details-tout.upload-details main {
+      padding: 0; }
 .formbuilder.fb-submission table.submission tr td {
   padding: 16px 20px;
   vertical-align: top; }
@@ -684,6 +689,8 @@
   left: 0 !important; }
 .formbuilder.fb-submission .elements .title {
   font-size: 12px; }
+.formbuilder.fb-submission .elements .no-files {
+  padding: 20px 20px 10px 20px; }
 
 /* ============================================ *
  * Templates
