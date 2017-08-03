@@ -54,6 +54,7 @@ class FormBuilder2_FormModel extends BaseModel
       'emailBackgroundColor'                => AttributeType::String,
       'emailContainerWidth'                 => AttributeType::Number,
       'sortOrder'                           => AttributeType::SortOrder,
+      'dateUpdated'                         => AttributeType::DateTime,
     );
   }
 

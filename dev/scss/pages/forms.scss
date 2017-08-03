@@ -1,6 +1,111 @@
-/* ============================================ *
- * Forms
- * ============================================ */
+.formbuilder.fb-forms {
+    #page-header {
+        .btns {
+            margin-left: auto;
+        }
+    }
+
+    .forms-container {
+        padding: 20px 60px 60px 60px;
+        background-color: $c-offWhite;
+
+        thead {
+            th {
+                font-family: 'Roboto';
+                font-weight: bold;
+                font-size: 12px;
+                text-transform: uppercase;
+                text-align: center;
+                color: $c-textLight;
+                background-color: $c-grayBackground;
+                letter-spacing: $letter-spacing;
+                padding: 16px 0;
+                @include antialias;
+                &:nth-child(2) { text-align: left; }
+                &:first-child { border-top-left-radius: $border-radius; }
+                &:last-child { border-top-right-radius: $border-radius; }
+                // width: 20%;
+            }
+        }
+
+        tbody {
+            tr {
+                &:hover {
+                    td.name a {
+                        color: $c-info;
+                    }
+                    .icon.move svg { opacity: 1; }
+                }
+                &:last-child {
+                    td { border: none; }
+                    td:first-child {
+                        border-bottom-left-radius: $border-radius;
+                    }
+                    td:last-child {
+                        border-bottom-right-radius: $border-radius;
+                    }
+                }
+            }
+            td {
+                font-family: 'Roboto';
+                font-size: 14px;
+                padding: 16px 0;
+                background-color: $c-white;
+                @include antialias;
+                border-bottom: 1px solid $c-border;
+
+                &.dragsort {
+                    text-align: center;
+                    width: 60px;
+                }
+
+                &.form-actions {
+                    text-align: center;
+                }
+
+                &.name a {
+                    font-weight: bold;
+                    color: $c-textDarkBlue;
+                    transition: color .3s ease;
+                }
+                &.updated, &.count {
+                    color: $c-textLight;
+                    text-align: center;
+                }
+            }
+        }
+
+        .icon.move {
+            svg { opacity: .3; transition: opacity .3s ease; }
+            &:hover {
+                svg { opacity: 1; }
+            }
+            &:before {
+                display: none !important;
+            }
+        }
+    }
+
+    .datatablesorthelper {
+        .icon.move:before { display: none; }
+        td {
+            font-family: 'Roboto';
+            font-size: 14px;
+            @include antialias;
+        }
+        td.dragsort {
+            text-align: center;
+        }
+        td.name a {
+            font-weight: bold;
+            color: $c-info;
+        }
+        td.updated, td.count {
+            color: $c-textLight;
+        }
+    }
+}
+
 
 .fb-new-form {
   

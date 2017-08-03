@@ -92,7 +92,7 @@ class FormBuilder2Plugin extends BasePlugin
 
   public function getSchemaVersion()
   {
-    return '2.0.1';
+    return '2.0.2';
   }
 
 	public function getVersion()

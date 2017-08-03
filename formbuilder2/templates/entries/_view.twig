@@ -5,124 +5,129 @@
 
 {% set elementType = 'FormBuilder2' %}
 {% set selectedSubnavItem = "entries" %}
-{% set bodyClass = 'formbuilder fb-entries' %}
-{% set page = 'Entry' %}
+{% set bodyClass = 'formbuilder fb-submission' %}
 
 {% block pageHeader %}
-  {% include 'formbuilder2/partials/header' %}
+    {% include 'formbuilder2/_includes/_header' ignore missing with { title: 'Submission' } %}
 {% endblock %}
 
 {% block content %}
-  <section id="fb-content">
 
-    <header class="page-header" id="page-header">
-      <div id="page-title"><h1>{{ page|t }}</h1></div>
-      <div id="extra-headers"><div class="buttons right"><div class="btngroup"><a href="{{ url('formbuilder2/entries') }}" class="btn icon"><span>{{ "Go Back"|t }}</span></a></div></div></div>
-    </header>
-
-    <div class="view-entry pane">
-
-      <div class="pane submission-details">
-        <header>
-          <h1>{{ "Submission Details"|t }}</h1>
-          <p>{{ "Form ID"|t }}: <span>{{ form.id }}</span></p>
-          <p>{{ "Form Name"|t }}: <span>{{ form.name }}</span></p>
-          <p>{{ "Submission ID"|t }}: <span>{{ entry.id }}</span></p>
-          <p>{{ "Submission Date"|t }}: <span>{{ entry.dateCreated | date('F jS, Y') }} at {{ entry.dateCreated | date('g:h A') }}</span></p>
-        </header>
-      </div>
-
-      {% if submission %}
-      <div class="pane submission-details">
-        <header>
-          <h1>{{ "Submission Content"|t }}</h1>
-        </header>
-
-        <table class="submission fullwidth collapsible">
-          {% for name, value in submission %}
-            {% set field = craft.fields.getFieldByHandle(name) %}
-            {% if field and value %}
-            <tr>
-              <td style="padding-top:10px;vertical-align:top;"><strong>{{ field.name }}</strong></td>
-              {% if value | checkArray == '1' %}
-                <td style="padding-top:10px;">
-                {% for key, item in value %}
-                  {{ item }}<br />
-                {% endfor %}
-                </td>
-              {% else %}
-                <td style="padding-top:10px;">{{ value|raw|nl2br }}</td>
-              {% endif %}
-            </tr>
-            {% endif %}
-          {% endfor %}
-        </table>
-      </div>
-      {% else %}
-        <p class="no-content">{{ "Submission has no content."|t }}</p>
-      {% endif %}
-
-      {% if files %}
-        <div class="pane upload-details">
-          <header>
-            <h1>{{ "Uploads"|t }}</h1>
-          </header>
-          
-
-
-          <div class="elements">
-            <table class="data fullwidth">
-              
-              {% for file in files %}
-
-                {% if  file  %}
-                    <tr data-id="{{ file.id }}" tabindex="0">
-                      <td data-title="Title">
-                        <div class="element small hasthumb" data-id="{{ file.id }}" data-locale="{{ file.locale }}" data-status="{{ file.getStatus() }}" data-label="{{ file.title }}" data-url="{{ file.url }}" data-editable="{{ file.isEditable() }}">
-                          <div class="elementthumb">
-                            <img sizes="30px" srcset="{{ file.getThumbUrl(30) }} 30w, {{ file.getThumbUrl(60) }} 60w, {{ file.getThumbUrl(100) }} 100w, {{ file.getThumbUrl(200) }} 200w" alt="{{ file.title }}">
-                          </div>
-                          <div class="label">
-                            <span class="title">{{ file.title }}</span>
-                          </div>
-                        </div>
-                      </td>
-                      <td data-title="Filename" data-attr="filename">
-                        <span style="word-break: break-word;">{{ file.filename }}</span>
-                      </td>
-                      <td data-title="File Size" data-attr="size">{{ file.size|filesize }}</td>
-                      <td data-title="File Modified Date" data-attr="dateModified">
-                        <span title="{{ file.dateModified |date("m/d/Y") }}">{{ file.dateModified |date("m/d/Y") }}</span>
-                      </td>
-                    </tr>
-                {% else %}
-                    <p>Looks like files were removed!</p>
-                {% endif %}
-                
-              {% endfor %}
-
-            </table>
-          </div>
-
+    <section class="submission-container grid">
+        <div class="item" data-colspan="2">
+            {% if submission %}
+            <div class="submission-details-tout theme-white">
+                <header>
+                    <span class="tout-title">{{ "Submission Content"|t }}</span>
+                    <span class="right">
+                        <span class="tout-date">{{ entry.dateCreated | date('F jS, Y') }}</span>
+                        <a href="#" class="submission-action-trigger" data-type="submission" data-form-id="{{ form.id }}" data-entry-id="{{ entry.id }}">
+                            <svg width="22" height="5" viewBox="0 0 22 5" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M19.578 5c-1.337 0-2.422-1.119-2.422-2.5S18.241 0 19.578 0C20.916 0 22 1.119 22 2.5S20.916 5 19.578 5zM11 5C9.671 5 8.594 3.881 8.594 2.5S9.671 0 11 0c1.329 0 2.406 1.119 2.406 2.5S12.329 5 11 5zM2.422 5C1.084 5 0 3.881 0 2.5S1.084 0 2.422 0c1.337 0 2.422 1.119 2.422 2.5S3.759 5 2.422 5z" fill="#D0D7DD" fill-rule="evenodd"/>
+                            </svg>
+                        </span>
+                    </a>
+                </header>
+                <main>
+                    <table class="submission fullwidth collapsible">
+                      {% for name, value in submission %}
+                        {% set field = craft.fields.getFieldByHandle(name) %}
+                        {% if field and value %}
+                        <tr>
+                          <td><strong>{{ field.name }}</strong></td>
+                          {% if value | checkArray == '1' %}
+                            <td>
+                            {% for key, item in value %}
+                              {{ item }}<br />
+                            {% endfor %}
+                            </td>
+                          {% else %}
+                            <td>{{ value|raw|nl2br }}</td>
+                          {% endif %}
+                        </tr>
+                        {% endif %}
+                      {% endfor %}
+                    </table>
+                    {% else %}
+                        <p class="no-content">{{ "Submission has no content."|t }}</p>
+                    {% endif %}
+                    
+                </main>
+            </div>
         </div>
-      {% endif %}
+        <div class="item" data-colspan="1">
+            <div class="submission-details-tout theme-moss">
+                <header>
+                    <span class="tout-title">{{ "Form Details"|t }}</span>
+                    <a href="#" class="submission-action-trigger right" data-type="form" data-form-id="{{ form.id }}" data-entry-id="{{ entry.id }}">
+                        <svg width="22" height="5" viewBox="0 0 22 5" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.578 5c-1.337 0-2.422-1.119-2.422-2.5S18.241 0 19.578 0C20.916 0 22 1.119 22 2.5S20.916 5 19.578 5zM11 5C9.671 5 8.594 3.881 8.594 2.5S9.671 0 11 0c1.329 0 2.406 1.119 2.406 2.5S12.329 5 11 5zM2.422 5C1.084 5 0 3.881 0 2.5S1.084 0 2.422 0c1.337 0 2.422 1.119 2.422 2.5S3.759 5 2.422 5z" fill="#D0D7DD" fill-rule="evenodd"/>
+                        </svg>
+                    </a>
+                </header>
 
-    </div>
-    {% if currentUser.admin or settings.canDoActions %}
-      <div class="pane">
-        <form method="post" accept-charset="utf-8">
-          <input type="hidden" name="action" value="formBuilder2/entry/deleteSubmission">
-          <input type="hidden" name="redirect" value="formbuilder2/entries">
-          <input type="hidden" name="entryId" value="{{ entry.id }}">
-          {{ getCsrfInput() }}
-          <button class="btn delete submit">{{ "Delete Submission"|t }}</button>
-        </form>
-      </div>
-    {% endif %}
+                <main>
+                    <p>{{ "Name"|t }}: <span>{{ form.name }}</span></p>
+                    <p>{{ "ID"|t }}: <span>{{ form.id }}</span></p>
+                </main>
 
-  </section>
+                {# {% if currentUser.admin or settings.canDoActions %}
+                    <form method="post" accept-charset="utf-8">
+                      <input type="hidden" name="action" value="formBuilder2/entry/deleteSubmission">
+                      <input type="hidden" name="redirect" value="formbuilder2/entries">
+                      <input type="hidden" name="entryId" value="{{ entry.id }}">
+                      {{ getCsrfInput() }}
+                      <button class="btns btn-danger delete submit">{{ "Delete Submission"|t }}</button>
+                    </form>
+                {% endif %} #}
+            </div>
+        </div>
 
-{% includeJsResource "formbuilder2/js/entrydetails.js" %}
+        {% if files %}
+        <div class="item" data-colspan="1">
+            <div class="submission-details-tout theme-white upload-details">
+                <header>
+                    <span class="tout-title">{{ "Uploads"|t }}</h1>
+                    <a href="#" class="submission-action-trigger right" data-type="uploads" data-form-id="{{ form.id }}" data-file-ids="{{ fileIds |json_encode() }}">
+                        <svg width="22" height="5" viewBox="0 0 22 5" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M19.578 5c-1.337 0-2.422-1.119-2.422-2.5S18.241 0 19.578 0C20.916 0 22 1.119 22 2.5S20.916 5 19.578 5zM11 5C9.671 5 8.594 3.881 8.594 2.5S9.671 0 11 0c1.329 0 2.406 1.119 2.406 2.5S12.329 5 11 5zM2.422 5C1.084 5 0 3.881 0 2.5S1.084 0 2.422 0c1.337 0 2.422 1.119 2.422 2.5S3.759 5 2.422 5z" fill="#D0D7DD" fill-rule="evenodd"/>
+                        </svg>
+                    </a>
+                </header>
+                
+
+
+                <main class="elements">
+                  <table class="data fullwidth">
+                    {% for file in files %}
+
+                      {% if file %}
+                          <tr data-id="{{ file.id }}" tabindex="0">
+                            <td data-title="Title">
+                              <div class="element small hasthumb" data-id="{{ file.id }}" data-locale="{{ file.locale }}" data-status="{{ file.getStatus() }}" data-label="{{ file.title }}" data-url="{{ file.url }}" data-editable="{{ file.isEditable() }}">
+                                <div class="elementthumb">
+                                  <img sizes="30px" srcset="{{ file.getThumbUrl(30) }} 30w, {{ file.getThumbUrl(60) }} 60w, {{ file.getThumbUrl(100) }} 100w, {{ file.getThumbUrl(200) }} 200w" alt="{{ file.title }}">
+                                </div>
+                                <div class="label">
+                                  <span class="title">{{ file.title }}</span>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                      {% else %}
+                          <p>Looks like files were removed!</p>
+                      {% endif %}
+                      
+                    {% endfor %}
+
+                  </table>
+                </main>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+
+{% includeJsResource "formbuilder2/js/submission.js" %}
 
 {% includejs %}
   new Craft.FileUploadsIndex('Asset', $('.upload-details'), {

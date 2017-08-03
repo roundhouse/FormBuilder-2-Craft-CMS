@@ -4,10 +4,29 @@ namespace Craft;
 
 class FormBuilder2_FormService extends BaseApplicationComponent
 {
-  
-  private $_formsById;
-  private $_allFormIds;
-  private $_fetchedAllForms = false;
+
+    private $_formsById;
+    private $_allFormIds;
+    private $_fetchedAllForms = false;
+
+    public function getForms($variables)
+    {   
+        if ($variables) {
+            $forms = craft()->db->createCommand()
+                ->select('*')
+                ->from('formbuilder2_forms')
+                ->order($variables['order'])
+                ->limit($variables['limit'])
+                ->queryAll();
+        } else {
+            $forms = craft()->db->createCommand()
+                ->select('*')
+                ->from('formbuilder2_forms')
+                ->queryAll();
+        }
+
+        return FormBuilder2_FormModel::populateModels($forms);
+    }
 
   /**
    * Get All Form ID's
@@ -18,40 +37,30 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     if (!isset($this->_allFormIds)) {
       if ($this->_fetchedAllForms) {
         $this->_allFormIds = array_keys($this->_formsById);
-      } else {
-        $this->_allFormIds = craft()->db->createCommand()
-          ->select('id')
-          ->from('formbuilder2_forms')
-          ->queryColumn();
-      }
-    }
-    return $this->_allFormIds;
-  }
-
-  /**
-   * Get All Form
-   *
-   */
-  public function getAllForms($indexBy = null)
-  {
-    if (!$this->_fetchedAllForms) {
-      $formRecords = FormBuilder2_FormRecord::model()->ordered()->findAll();
-      $this->_formsById = FormBuilder2_FormModel::populateModels($formRecords, 'id');
-      $this->_fetchedAllForms = true;
-    }
-
-    if ($indexBy == 'id') {
-      return $this->_formsById;
-    } else if (!$indexBy) {
-      return array_values($this->_formsById);
     } else {
-      $forms = array();
-      foreach ($this->_formsById as $form) {
-        $forms[$form->$indexBy] = $form;
-      }
-      return $forms;
+        $this->_allFormIds = craft()->db->createCommand()
+        ->select('id')
+        ->from('formbuilder2_forms')
+        ->queryColumn();
     }
-  }
+}
+return $this->_allFormIds;
+}
+
+    /**
+    * Get All Form
+    *
+    */
+    public function getAllForms()
+    {
+        $forms = craft()->db->createCommand()
+            ->select('*')
+            ->from('formbuilder2_forms')
+            ->order('sortOrder asc')
+            ->queryAll();
+
+        return FormBuilder2_FormModel::populateModels($forms);
+    }
 
   /**
    * Get Form By Handle
@@ -61,12 +70,12 @@ class FormBuilder2_FormService extends BaseApplicationComponent
   {
     $formRecord = FormBuilder2_FormRecord::model()->findByAttributes(array(
       'handle' => $formHandle
-    ));
+      ));
 
     if ($formRecord) {
       return FormBuilder2_FormModel::populateModel($formRecord);
-    }
   }
+}
 
   /**
    * Get Form by ID
@@ -79,12 +88,12 @@ class FormBuilder2_FormService extends BaseApplicationComponent
 
       if ($formRecord) {
         $this->_formsById[$formId] = FormBuilder2_FormModel::populateModel($formRecord);
-      } else {
+    } else {
         $this->_formsById[$formId] = null;
-      }
     }
-    return $this->_formsById[$formId];
-  }
+}
+return $this->_formsById[$formId];
+}
 
   /**
    * Get Total Forms Count
@@ -93,7 +102,7 @@ class FormBuilder2_FormService extends BaseApplicationComponent
   public function getTotalForms()
   {
     return count($this->getAllFormIds());
-  }
+}
 
   /**
    * Save New Form
@@ -106,100 +115,100 @@ class FormBuilder2_FormService extends BaseApplicationComponent
 
       if (!$formRecord) {
         throw new Exception(Craft::t('No form exists with the ID “{id}”', array('id' => $form->id)));
-      }
-
-      $oldForm = FormBuilder2_FormModel::populateModel($formRecord);
-      $isNewForm = false;
-    } else {
-      $formRecord = new FormBuilder2_FormRecord();
-      $isNewForm = true;
     }
 
-    $formRecord->name                         = $form->name;
-    $formRecord->handle                       = $form->handle;
-    $formRecord->fieldLayoutId                = $form->fieldLayoutId;
-    $formRecord->formSettings                 = JsonHelper::encode($form->formSettings);
-    $formRecord->spamProtectionSettings       = JsonHelper::encode($form->spamProtectionSettings);
-    $formRecord->messageSettings              = JsonHelper::encode($form->messageSettings);
-    $formRecord->notificationSettings         = JsonHelper::encode($form->notificationSettings);
-    $formRecord->extra                        = JsonHelper::encode($form->extra);
-    
-    $attributes                   = $form->getAttributes();
-    $formSettings                 = $attributes['formSettings'];
-    $spamProtectionSettings       = $attributes['spamProtectionSettings'];
-    $messageSettings              = $attributes['messageSettings'];
-    $notificationSettings         = $attributes['notificationSettings'];
-    $extra                        = $attributes['extra'];
-    
+    $oldForm = FormBuilder2_FormModel::populateModel($formRecord);
+    $isNewForm = false;
+} else {
+  $formRecord = new FormBuilder2_FormRecord();
+  $isNewForm = true;
+}
+
+$formRecord->name                         = $form->name;
+$formRecord->handle                       = $form->handle;
+$formRecord->fieldLayoutId                = $form->fieldLayoutId;
+$formRecord->formSettings                 = JsonHelper::encode($form->formSettings);
+$formRecord->spamProtectionSettings       = JsonHelper::encode($form->spamProtectionSettings);
+$formRecord->messageSettings              = JsonHelper::encode($form->messageSettings);
+$formRecord->notificationSettings         = JsonHelper::encode($form->notificationSettings);
+$formRecord->extra                        = JsonHelper::encode($form->extra);
+
+$attributes                   = $form->getAttributes();
+$formSettings                 = $attributes['formSettings'];
+$spamProtectionSettings       = $attributes['spamProtectionSettings'];
+$messageSettings              = $attributes['messageSettings'];
+$notificationSettings         = $attributes['notificationSettings'];
+$extra                        = $attributes['extra'];
+
     // Cant use Ajax with file uplaods (for now)
-    if ($formSettings['hasFileUploads'] != '' && $formSettings['ajaxSubmit'] != '') {
-      $form->addError('cannotUseFileUploadAndAjax', Craft::t('Cannot use file uploads with ajax at the moment. Please unselect one.'));
-    }
-    
-    if ($formSettings['formRedirect']['customRedirect'] && $formSettings['formRedirect']['customRedirectUrl'] == '') {
-      $form->addError('customRedirectUrl', Craft::t('Please enter Redirect URL.'));
-    }
+if ($formSettings['hasFileUploads'] != '' && $formSettings['ajaxSubmit'] != '') {
+  $form->addError('cannotUseFileUploadAndAjax', Craft::t('Cannot use file uploads with ajax at the moment. Please unselect one.'));
+}
 
-    if ($spamProtectionSettings['spamTimeMethod'] != '' && $spamProtectionSettings['spamTimeMethodTime'] == '') {
-      $form->addError('spamTimeMethodTime', Craft::t('Please enter time.'));
-    }
+if ($formSettings['formRedirect']['customRedirect'] && $formSettings['formRedirect']['customRedirectUrl'] == '') {
+  $form->addError('customRedirectUrl', Craft::t('Please enter Redirect URL.'));
+}
 
-    if ($spamProtectionSettings['spamHoneypotMethod'] != '' && $spamProtectionSettings['spamHoneypotMethodMessage'] == '') {
-      $form->addError('spamHoneypotMethodMessage', Craft::t('Please enter message for screen readers.'));
-    }
-    
-    if ($notificationSettings['notifySubmission'] == '1' && $notificationSettings['emailSettings']['notifyEmail'] == '') {
-      $form->addError('notifyEmail', Craft::t('Please enter notification email.'));
-    }
+if ($spamProtectionSettings['spamTimeMethod'] != '' && $spamProtectionSettings['spamTimeMethodTime'] == '') {
+  $form->addError('spamTimeMethodTime', Craft::t('Please enter time.'));
+}
 
-    if ($notificationSettings['notifySubmission'] == '1' && $notificationSettings['emailSettings']['emailSubject'] == '') {
-      $form->addError('emailSubject', Craft::t('Please enter notification email subject.'));
-    }
+if ($spamProtectionSettings['spamHoneypotMethod'] != '' && $spamProtectionSettings['spamHoneypotMethodMessage'] == '') {
+  $form->addError('spamHoneypotMethodMessage', Craft::t('Please enter message for screen readers.'));
+}
 
-    if (isset($notificationSettings['notifySubmitter']) && ($notificationSettings['notifySubmitter'] == '1' && $notificationSettings['submitterEmail'] == '')) {
-      $form->addError('submitterEmail', Craft::t('Please select email field.'));
-    }
+if ($notificationSettings['notifySubmission'] == '1' && $notificationSettings['emailSettings']['notifyEmail'] == '') {
+  $form->addError('notifyEmail', Craft::t('Please enter notification email.'));
+}
 
-    if (isset($notificationSettings['customSubject']) && ($notificationSettings['customSubject'] == '1' && $notificationSettings['customSubjectLine'] == '')) {
-      $form->addError('customSubjectLine', Craft::t('Please select a field.'));
-    }
+if ($notificationSettings['notifySubmission'] == '1' && $notificationSettings['emailSettings']['emailSubject'] == '') {
+  $form->addError('emailSubject', Craft::t('Please enter notification email subject.'));
+}
 
-    if ($extra['termsAndConditions'] == '1' && $extra['termsAndConditionsCopy'] == '') {
-      $form->addError('termsAndConditionsCopy', Craft::t('Please enter terms copy.'));
-    }
-    
-    $formRecord->validate();
-    $form->addErrors($formRecord->getErrors());
+if (isset($notificationSettings['notifySubmitter']) && ($notificationSettings['notifySubmitter'] == '1' && $notificationSettings['submitterEmail'] == '')) {
+  $form->addError('submitterEmail', Craft::t('Please select email field.'));
+}
 
-    if (!$form->hasErrors()) {
-      $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
-      try {
-        if (!$isNewForm && $oldForm->fieldLayoutId) {
-          craft()->fields->deleteLayoutById($oldForm->fieldLayoutId);
-        }
+if (isset($notificationSettings['customSubject']) && ($notificationSettings['customSubject'] == '1' && $notificationSettings['customSubjectLine'] == '')) {
+  $form->addError('customSubjectLine', Craft::t('Please select a field.'));
+}
 
-        $fieldLayout = $form->getFieldLayout();
-        craft()->fields->saveLayout($fieldLayout);
+if ($extra['termsAndConditions'] == '1' && $extra['termsAndConditionsCopy'] == '') {
+  $form->addError('termsAndConditionsCopy', Craft::t('Please enter terms copy.'));
+}
 
-        $form->fieldLayoutId = $fieldLayout->id;
-        $formRecord->fieldLayoutId = $fieldLayout->id;
+$formRecord->validate();
+$form->addErrors($formRecord->getErrors());
 
-        $formRecord->save();
-
-        if (!$form->id) { $form->id = $formRecord->id; }
-
-        $this->_formsById[$form->id] = $form;
-
-        if ($transaction !== null) { $transaction->commit(); }
-      } catch (\Exception $e) {
-        if ($transaction !== null) { $transaction->rollback(); }
-        throw $e;
-      }
-      return true;
-    } else { 
-      return false; 
-    }
+if (!$form->hasErrors()) {
+  $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+  try {
+    if (!$isNewForm && $oldForm->fieldLayoutId) {
+      craft()->fields->deleteLayoutById($oldForm->fieldLayoutId);
   }
+
+  $fieldLayout = $form->getFieldLayout();
+  craft()->fields->saveLayout($fieldLayout);
+
+  $form->fieldLayoutId = $fieldLayout->id;
+  $formRecord->fieldLayoutId = $fieldLayout->id;
+
+  $formRecord->save();
+
+  if (!$form->id) { $form->id = $formRecord->id; }
+
+  $this->_formsById[$form->id] = $form;
+
+  if ($transaction !== null) { $transaction->commit(); }
+} catch (\Exception $e) {
+    if ($transaction !== null) { $transaction->rollback(); }
+    throw $e;
+}
+return true;
+} else { 
+  return false; 
+}
+}
 
 
   /**
@@ -213,31 +222,31 @@ class FormBuilder2_FormService extends BaseApplicationComponent
     $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
     try {
       $fieldLayoutId = craft()->db->createCommand()
-        ->select('fieldLayoutId')
-        ->from('formbuilder2_forms')
-        ->where(array('id' => $formId))
-        ->queryScalar();
+      ->select('fieldLayoutId')
+      ->from('formbuilder2_forms')
+      ->where(array('id' => $formId))
+      ->queryScalar();
 
       if ($fieldLayoutId) {
         craft()->fields->deleteLayoutById($fieldLayoutId);
-      }
-
-      $entryIds = craft()->db->createCommand()
-        ->select('id')
-        ->from('formbuilder2_entries')
-        ->where(array('formId' => $formId))
-        ->queryColumn();
-
-      craft()->elements->deleteElementById($entryIds);
-      $affectedRows = craft()->db->createCommand()->delete('formbuilder2_forms', array('id' => $formId));
-
-      if ($transaction !== null) { $transaction->commit(); }
-      return (bool) $affectedRows;
-    } catch (\Exception $e) {
-      if ($transaction !== null) { $transaction->rollback(); }
-      throw $e;
     }
-  }
+
+    $entryIds = craft()->db->createCommand()
+    ->select('id')
+    ->from('formbuilder2_entries')
+    ->where(array('formId' => $formId))
+    ->queryColumn();
+
+    craft()->elements->deleteElementById($entryIds);
+    $affectedRows = craft()->db->createCommand()->delete('formbuilder2_forms', array('id' => $formId));
+
+    if ($transaction !== null) { $transaction->commit(); }
+    return (bool) $affectedRows;
+} catch (\Exception $e) {
+  if ($transaction !== null) { $transaction->rollback(); }
+  throw $e;
+}
+}
 
   /**
    * Reorders Forms

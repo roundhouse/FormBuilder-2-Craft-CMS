@@ -1,0 +1,25 @@
+.template-tout {
+    main {
+        padding: 40px;
+        text-align: center;
+
+        .tout-icon {
+            margin-bottom: 20px;
+        }
+
+        .tout-title, .tout-copy {
+            display: block;
+            font-family: 'Roboto';
+            font-weight: bold;
+            font-size: 18px;
+            color: $c-textDarkBlue;
+            margin-bottom: 20px;
+        }
+
+        .tout-copy {
+            font-size: 14px;
+            font-weight: normal;
+            color: $c-text;
+        }
+    }
+}

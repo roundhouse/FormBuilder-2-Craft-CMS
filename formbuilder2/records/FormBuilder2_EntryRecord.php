@@ -23,6 +23,8 @@ class FormBuilder2_EntryRecord extends BaseRecord
       'title'       => AttributeType::String,
       'files'       => AttributeType::Mixed,
       'submission'  => AttributeType::Mixed,
+      'ipAddress'   => AttributeType::String,
+      'userAgent'   => AttributeType::Mixed
     );
   }
 

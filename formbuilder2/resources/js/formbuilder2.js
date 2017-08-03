@@ -8,19 +8,15 @@ App = (function() {
   }
 
   App.prototype.init = function() {
-    var clipboard, navTrigger, sidebar;
+    var navTrigger, sidebar;
     if ($('.formbuilder').length > 0) {
       sidebar = $('#sidebar .primary');
       navTrigger = $('.nav-trigger');
-      navTrigger.on('click', function(e) {
+      return navTrigger.on('click', function(e) {
         e.preventDefault();
         return sidebar.slideToggle();
       });
     }
-    clipboard = new Clipboard('.copy');
-    return clipboard.on('success', function(e) {
-      return e.clearSelection();
-    });
   };
 
   App.prototype.newForm = function() {
@@ -125,8 +121,14 @@ App = (function() {
 })();
 
 $(document).ready(function() {
-  var Application;
+  var Application, entryCount, formCount;
   Application = new App();
   Application.init();
-  return Application.newForm();
+  Application.newForm();
+  if (window.FormBuilder2) {
+    entryCount = window.FormBuilder2.entryCount;
+    formCount = window.FormBuilder2.formCount;
+    $('<style>#nav-formbuilder2 .subnav li:nth-child(2)::after{display:block;content:"' + formCount + '"}</style>').appendTo('head');
+    return $('<style>#nav-formbuilder2 .subnav li:nth-child(3)::after{display:block;content:"' + entryCount + '"}</style>').appendTo('head');
+  }
 });

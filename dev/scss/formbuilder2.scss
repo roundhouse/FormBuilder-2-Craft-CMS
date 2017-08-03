@@ -24,3 +24,9 @@
 @import "pages/configuration"; // Configuration styles
 @import "pages/backuprestore"; // Backup & Restore styles
 @import "pages/inputs"; // Inputs styles
+
+// Components
+@import "components/_buttons";
+@import "components/form-tout";
+@import "components/counter-tout";
+@import "components/template-tout";

@@ -243,12 +243,13 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     $formSettings               = $attributes['formSettings'];
 
     $submissionRecord = new FormBuilder2_EntryRecord();
-
     // Build Entry Record
     $submissionRecord->formId       = $submission->formId;
     $submissionRecord->title        = $submission->title;
     $submissionRecord->files        = $submission->files;
     $submissionRecord->submission   = $submission->submission;
+    $submissionRecord->ipAddress     = $submission->ipAddress;
+    $submissionRecord->userAgent     = $submission->userAgent;
 
     $submissionRecord->validate();
     $submission->addErrors($submissionRecord->getErrors());

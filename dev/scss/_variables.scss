@@ -6,6 +6,12 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800,300);
 $opensans: 'Open Sans', 'Helvetica', sans-serif;
 
+// Typography
+$letter-spacing: .04em;
+
+// Borders
+$border-radius: 5px;
+
 // Sizes
 $max-width: 960px;
 $desktop: 960px;
@@ -19,3 +25,22 @@ $c-teal: #47c5ca;
 $c-blue: #333f4d;
 $c-darkBlue: #273037;
 $c-red: #f07575;
+
+// New Colors
+$c-text: #595D66;
+$c-textLight: #989898;
+$c-textDark: #4A4A4A;
+$c-textDarkBlue: #323C47;
+
+$c-border: #E9EFF4;
+$c-grayBackground: #F4F7F9;
+
+$c-offWhite: #fafbfc;
+$c-white: #ffffff;
+$c-warning: #ffd012;
+$c-danger: #ff6d4a;
+$c-success: #a6e50f;
+$c-info: #4da1ff;
+$c-purple: #624096;
+$c-moss: #637c8a;
+

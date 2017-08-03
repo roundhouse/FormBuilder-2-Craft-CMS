@@ -6,6 +6,12 @@ class FormBuilder2Variable
 
     private $form;
 
+
+    public function forms($variables = null)
+    {
+        return craft()->formBuilder2_form->getForms($variables);
+    }
+
     /**
     * Load Required Scripts
     *

@@ -14,12 +14,10 @@ class FormBuilder2_FormController extends BaseController
   public function actionFormsIndex()
   { 
 
-    $formItems = fb()->forms->getAllForms();
     $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
     $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
     $variables['title']       = 'FormBuilder2';
-    $variables['formItems']   = $formItems;
     $variables['settings']    = $settings;
     $variables['plugin']      = $plugins;
     $variables['navigation']  = $this->navigation();

@@ -12,9 +12,9 @@ class App
       # sidebar.hide()
 
     # Copy Text Function
-    clipboard = new Clipboard('.copy')
-    clipboard.on 'success', (e) ->
-      e.clearSelection()
+    # clipboard = new Clipboard('.copy')
+    # clipboard.on 'success', (e) ->
+    #   e.clearSelection()
 
   newForm: =>
     if $('.fb-new-form').length > 0
@@ -114,3 +114,9 @@ $(document).ready ->
   Application = new App()
   Application.init()
   Application.newForm()
+
+  if window.FormBuilder2
+    entryCount = window.FormBuilder2.entryCount
+    formCount = window.FormBuilder2.formCount
+    $('<style>#nav-formbuilder2 .subnav li:nth-child(2)::after{display:block;content:"'+formCount+'"}</style>').appendTo('head')
+    $('<style>#nav-formbuilder2 .subnav li:nth-child(3)::after{display:block;content:"'+entryCount+'"}</style>').appendTo('head')

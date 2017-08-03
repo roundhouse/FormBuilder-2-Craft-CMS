@@ -153,4 +153,12 @@
       "[Improved] Updated ajax submission functionality"
     ]
   },
+  {
+    "version": "2.0.17",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2017-07-21T10:19:55-07:00",
+    "notes": [
+      "[Fixed] Files uplaod into the correct folders now",
+    ]
+  },
 ]

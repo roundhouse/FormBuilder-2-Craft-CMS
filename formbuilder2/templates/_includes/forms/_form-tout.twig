@@ -1,0 +1,73 @@
+<section class="form-tout">
+    <h2>{{ form.name }}</h2>
+    <div class="form-settings">
+        {% set redirect = form.formSettings.formRedirect.customRedirect is defined and form.formSettings.formRedirect.customRedirect != '' ? true : false %}
+        {% set uploads = form.formSettings.hasFileUploads is defined and form.formSettings.hasFileUploads != '' ? true : false %}
+        {% set ajax = form.formSettings.ajaxSubmit is defined and form.formSettings.ajaxSubmit != '' ? true : false %}
+        {% set scripts = form.formSettings.disableDatepickerScripts is defined and form.formSettings.disableDatepickerScripts != '' ? true : false %}
+        
+        {% set timed = form.spamProtectionSettings.spamTimeMethod is defined and form.spamProtectionSettings.spamTimeMethod != '' ? true : false %}
+        {% set honeypot = form.spamProtectionSettings.spamHoneypotMethod is defined and form.spamProtectionSettings.spamHoneypotMethod != '' ? true : false %}
+        
+        {% set notifyAdmin = form.notificationSettings.notifySubmission is defined and form.notificationSettings.notifySubmission != '' ? true : false %}
+        {% set notifySubmitter = form.notificationSettings.notifySubmitter is defined and form.notificationSettings.notifySubmitter != '' ? true : false %}
+        {% set customSubject = form.notificationSettings.customSubject is defined and form.notificationSettings.customSubject != '' ? true : false %}
+        
+        {% set terms = form.extra.termsAndConditions is defined and form.extra.termsAndConditions != '' ? true : false %}
+
+        <div class="setting-section">
+            <h3>Form Settings</h3>
+            <div class="setting-icons">
+                <div class="setting-icon setting-custom-redirect {% if redirect %}active{% endif %}" data-tooltip="{{ "Custom Redirects" |t }}">
+                    {% include 'formbuilder2/_includes/icons/custom-redirect' ignore missing %}    
+                </div>
+                <div class="setting-icon setting-file-upload {% if uploads %}active{% endif %}" data-tooltip="{{ "File Uploads" |t }}">
+                    {% include 'formbuilder2/_includes/icons/file-upload' ignore missing %}    
+                </div>
+                <div class="setting-icon setting-ajax {% if ajax %}active{% endif %}" data-tooltip="{{ "Ajax Submissions" |t }}">
+                    {% include 'formbuilder2/_includes/icons/ajax' ignore missing %}    
+                </div>
+                <div class="setting-icon setting-scripts {% if scripts %}active{% endif %}" data-tooltip="{{ "Datepicker Scripts" |t }}">
+                    {% include 'formbuilder2/_includes/icons/scripts' ignore missing %}    
+                </div>
+            </div>
+        </div>
+
+        <div class="setting-section">
+            <h3>Spam Protection</h3>
+            <div class="setting-icons">
+                <div class="setting-icon setting-timed {% if timed %}active{% endif %}" data-tooltip="{{ "Timer" |t }}">
+                    {% include 'formbuilder2/_includes/icons/clock' ignore missing %}    
+                </div>
+                <div class="setting-icon setting-honeypot {% if honeypot %}active{% endif %}" data-tooltip="{{ "Honeypot" |t }}">
+                    {% include 'formbuilder2/_includes/icons/target' ignore missing %}    
+                </div>
+            </div>
+        </div>
+
+        <div class="setting-section">
+            <h3>Notifications</h3>
+            <div class="setting-icons">
+                <div class="setting-icon setting-notifyAdmin {% if notifyAdmin %}active{% endif %}" data-tooltip="{{ "Admin" |t }}">
+                    {% include 'formbuilder2/_includes/icons/sound' ignore missing %}    
+                </div>
+                <div class="setting-icon setting-notifySubmitter {% if notifySubmitter %}active{% endif %}" data-tooltip="{{ "Submitter" |t }}">
+                    {% include 'formbuilder2/_includes/icons/warning' ignore missing %}    
+                </div>
+                <div class="setting-icon setting-customSubject {% if customSubject %}active{% endif %}" data-tooltip="{{ "Custom Subject" |t }}">
+                    {% include 'formbuilder2/_includes/icons/email' ignore missing %}    
+                </div>
+            </div>
+        </div>
+
+        <div class="setting-section">
+            <h3>Extra</h3>
+            <div class="setting-icons">
+                <div class="setting-icon setting-terms {% if terms %}active{% endif %}" data-tooltip="{{ "Terms & Services" |t }}">
+                    {% include 'formbuilder2/_includes/icons/terms' ignore missing %}    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

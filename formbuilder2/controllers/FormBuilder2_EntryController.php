@@ -34,11 +34,14 @@ class FormBuilder2_EntryController extends BaseController
 
     if (empty($entry)) { throw new HttpException(404); }
 
-    $files = '';
+    $files = array();
+    $fileIds = array();
+
     if ($entry->files) {
       $files = array();
       foreach ($entry->files as $key => $value) {
         $files[] = craft()->assets->getFileById($value);
+        $fileIds[] = $value;
       }
     }
 
@@ -49,6 +52,7 @@ class FormBuilder2_EntryController extends BaseController
     $variables['title']       = 'FormBuilder2';
     $variables['form']        = fb()->forms->getFormById($entry->formId);
     $variables['files']       = $files;
+    $variables['fileIds']     = $fileIds;
     $variables['submission']  = $entry->submission;
     $variables['navigation']  = $this->navigation();
 
@@ -125,9 +129,14 @@ class FormBuilder2_EntryController extends BaseController
                 foreach ($uploadedFiles as $file) {
                   $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
                   if (in_array($fileKind, $allowedKinds)) {
+                    if ($field->settings['useSingleFolder']) {
+                      $sourceId = $field->settings['singleUploadLocationSource'];
+                    } else {
+                      $sourceId = $field->settings['defaultUploadLocationSource'];
+                    }
                     $files[] = array(
                       'folderId' => $field->settings['singleUploadLocationSource'][0],
-                      'sourceId' => $field->settings['singleUploadLocationSource'][0],
+                      'sourceId' => $sourceId,
                       'filename' => $file->getName(),
                       'location' => $file->getTempName(),
                       'type'     => $file->getType(),
@@ -139,10 +148,15 @@ class FormBuilder2_EntryController extends BaseController
                 }
             } else {
                 foreach ($uploadedFiles as $file) {
-                  $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
+                    $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
+                    if ($field->settings['useSingleFolder']) {
+                      $sourceId = $field->settings['singleUploadLocationSource'];
+                    } else {
+                      $sourceId = $field->settings['defaultUploadLocationSource'];
+                    }
                     $files[] = array(
                       'folderId' => $field->settings['singleUploadLocationSource'][0],
-                      'sourceId' => $field->settings['singleUploadLocationSource'][0],
+                      'sourceId' => $sourceId,
                       'filename' => $file->getName(),
                       'location' => $file->getTempName(),
                       'type'     => $file->getType(),
@@ -227,6 +241,8 @@ class FormBuilder2_EntryController extends BaseController
     $submissionEntry->formId          = $form->id;
     $submissionEntry->title           = $form->name;
     $submissionEntry->submission      = $submissionData;
+    $submissionEntry->ipAddress       = craft()->request->getUserHostAddress();
+    $submissionEntry->userAgent       = craft()->request->getUserAgent();
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -277,11 +293,15 @@ class FormBuilder2_EntryController extends BaseController
       $fileIds = array();
       $fileCollection = array();
       $tempPath = array();
+
       if ($files) {
         foreach ($files as $key => $file) {
           $tempPath = AssetsHelper::getTempFilePath($file['filename']);
           move_uploaded_file($file['location'], $tempPath);
-          $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $file['folderId'], AssetConflictResolution::KeepBoth);
+          $folder = craft()->assets->findFolder(array(
+              'sourceId' => $file['sourceId']
+          ));
+          $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $folder->id, AssetConflictResolution::KeepBoth);
           $fileIds[] = $response->getDataItem('fileId');
           $fileCollection[] = array(
             'tempPath' => $tempPath,
@@ -356,6 +376,71 @@ class FormBuilder2_EntryController extends BaseController
 
   }
 
+    public function actionDownloadAllFiles()
+    {
+        $this->requireAjaxRequest();
+
+        // FormBuilder2Plugin::log("Files: ".$files, LogLevel::Error, true);
+
+        if (ini_get('allow_url_fopen')) {
+            $fileIds = craft()->request->getRequiredPost('ids');
+            $formId = craft()->request->getRequiredPost('formId');
+            $files = array();
+            $filePath = '';
+
+            foreach ($fileIds as $id) {
+                $files[] = craft()->assets->getFileById($id);
+            }
+            $zipname = craft()->path->getTempPath().'SubmissionFiles-'.$formId.'.zip';
+            $zip = new \ZipArchive();
+            $zip->open($zipname, \ZipArchive::CREATE);
+            foreach ($files as $file) {
+                $zip->addFromString($file->filename, file_get_contents($file->url));
+            }
+            $filePath = $zip->filename;
+            $zip->close();
+
+            // header('Content-type: application/zip');
+            // header('Content-disposition: attachment; filename='.$zipname);
+            // header('Content-Length: ' . filesize($zipname));
+            // readfile($zipname);
+
+            if ($filePath == $zipname) {
+                craft()->request->sendFile(IOHelper::getFileName($filePath), IOHelper::getFileContents($filePath), array('forceDownload' => true));
+                // $this->returnJson(array(
+                //     'success' => true,
+                //     'message' => 'Download Complete.'
+                // ));
+            }
+        } else {
+            $this->returnJson(array(
+                'success' => false,
+                'message' => 'Cannot download all files, `allow_url_fopen` must be enabled.'
+            ));
+        }
+
+
+    }
+
+  /**
+   * Delete Submission.
+   *
+   */
+  public function actionDeleteSubmissionAjax()
+  {
+    $this->requirePostRequest();
+    $this->requireAjaxRequest();
+
+    $entryId = craft()->request->getRequiredPost('id');
+
+    if (craft()->elements->deleteElementById($entryId)) {
+        $this->returnJson(array('success' => true));
+        craft()->userSession->setNotice(Craft::t('Submission deleted.'));
+    } else {
+        $this->returnJson(array('success' => false));
+    }
+  }
+
   /**
    * Delete Submission
    *
@@ -367,7 +452,7 @@ class FormBuilder2_EntryController extends BaseController
     $entryId = craft()->request->getRequiredPost('entryId');
 
     if (craft()->elements->deleteElementById($entryId)) {
-        craft()->userSession->setNotice(Craft::t('Entry deleted.'));
+        craft()->userSession->setNotice(Craft::t('Submission deleted.'));
         $this->redirectToPostedUrl();
     } else {
         craft()->userSession->setError(Craft::t('Couldn’t delete entry.'));

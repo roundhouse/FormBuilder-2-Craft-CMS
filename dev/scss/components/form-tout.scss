@@ -1,0 +1,40 @@
+.form-tout {
+    padding: 30px;
+    background-color: $c-white;
+    border-radius: 5px;
+
+    .form-settings {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        svg {
+            * { fill: $c-textLight; }
+        }
+        .setting-section {
+            margin-bottom: 20px;
+            margin-right: 20px;
+            padding-right: 10px;
+            border-right: 1px solid $c-border;
+            &:last-child { margin-bottom: 0; border: none; }
+            h3 {
+                color: $c-textLight;
+            }
+        }
+        .setting-icons {
+            display: flex;
+            flex-direction: row;
+        }
+        .setting-icon {
+            @include size(15px);
+            padding: 8px;
+            border-radius: 100%;
+            background-color: $c-border;
+            margin-right: 10px;
+            cursor: default;
+            &.active {
+               background-color: $c-success;
+               svg * { fill: $c-white; }
+            }
+        }
+    }
+}

@@ -6,51 +6,50 @@
 {% set page = 'Forms' %}
 
 {% block pageHeader %}
-  {% include 'formbuilder2/partials/header' %}
+    {% include 'formbuilder2/_includes/_header' ignore missing with { title: 'Forms', createForm: true } %}
 {% endblock %}
 
 {% block main %}
+
+    {% set forms = craft.formBuilder2.forms({
+        limit: -1,
+        order: 'sortOrder'
+    }) %}
   
-  <section id="fb-content">
-    <header class="section-header">
-      <div id="page-title"><h1>{{ page|t }}</h1></div>
-      <div id="extra-headers"><div class="buttons right"><div class="btngroup"><a href="{{ url('formbuilder2/forms/new') }}" class="btn submit add icon"><span>{{ "Create a Form"|t }}</span></a></div></div></div>
-    </header>
+    {% if forms|length %}
+    <div class="forms-container">
 
-    {# Form List #}
-    {% if formItems|length %}
-    <div class="forms">
-
-      <table class="data fullwidth collapsible" id="forms">
-        <thead>
-          <tr>
-            <th scope="col">{{ "ID"|t }}</th>
-            <th scope="col">{{ "Name"|t }}</th>
-            <th scope="col">{{ "Handle"|t }}</th>
-            <th scope="col">{{ "Entries"|t }}</th>
-            <th scope="col">{{ "Action"|t }}</th>
-            <th class="think"></th>
-          </tr>
-        </thead>
+        <table class="data fullwidth collapsible" id="formbuilder-forms">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">{{ "Name"|t }}</th>
+                    <th scope="col">{{ "Updated"|t }}</th>
+                    <th scope="col">{{ "Entries"|t }}</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
 
         <tbody>
-          {% for form in formItems %}
+          {% for form in forms %}
           {% set submissions = craft.formBuilder2.getAllEntriesFromFormID(form.id) %}
 
-          <tr data-id="{{ form.id }}" data-name="{{ form.name }}">
-            <td data-title="{{ "ID"|t }}" class="id">{{ form.id }}</td>
+          <tr id="formbuilder-form-{{ form.id }}" data-id="{{ form.id }}" data-name="{{ form.name }}">
+            <td class="dragsort"><a class="move icon" title="{{ 'Reorder'|t }}" role="button">
+                <svg width="13px" height="13px" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.434317 13.028131c0-.48773-.395307-.883569-.882381-.883569-.487859 0-.882381.395839-.882381.883569v2.409592l-6.198631-6.206191 6.200199-6.206976v2.412733c0 .48773.394523.883569.882381.883569.487075 0 .881597-.395839.881597-.883569V.922839c.000785-.011781.003922-.021991.003922-.033772 0-.245829-.100395-.46731-.261969-.62753-.159221-.160221-.380404-.259181-.62355-.259181-.010196 0-.018824.002356-.02902.003142h-4.51387c-.487859 0-.882382.395839-.882382.883569 0 .48773.394523.882784.882382.882784h2.414979L9.223041 7.982754 3.019705 1.771066h2.410273c.487075 0 .882381-.395839.882381-.88357 0-.48773-.395306-.883569-.882381-.883569H.927089C.913755.003927.900421 0 .887087 0 .581979 0 .312951.155508.154515.391127.058041.532498.001569.703714.001569.887496c0 .01021.003137.01885.003137.02906v4.519162c0 .487731.394522.88357.882381.88357.487075 0 .882382-.395839.882382-.88357V3.017487l6.206473 6.214045-6.208826 6.215616v-2.421373c0-.48773-.394523-.883569-.882382-.883569-.487074 0-.882381.395839-.882381.883569v4.519948c0 .01021-.002353.018849-.002353.029059 0 .244258.099611.46574.259616.62596.160005.160221.381189.259966.625118.259966.010197 0 .018824-.002356.029021-.002356h4.514654c.487075 0 .882382-.395839.882382-.88357 0-.48773-.395307-.883569-.882382-.883569h-2.40792l6.202552-6.210118 6.204905 6.212474h-2.418901c-.487859 0-.882381.395054-.882381.88357 0 .48773.394522.883569.882381.883569h4.51387c.010197 0 .018824.002356.029021.002356.243929 0 .465113-.099745.625118-.259966.160789-.16022.259616-.381702.259616-.625959 0-.010211-.002353-.01885-.002353-.02906v-4.519948z" fill="#8094A1" fill-rule="evenodd" />
+                </svg>
+            </a></td>
             <td data-title="{{ "Name"|t }}" class="name"><a href="{{ url('formbuilder2/forms/' ~ form.id ~ '/edit') }}">{{ form.name }}</a></td>
-            <td data-title="{{ "Handle"|t }}" class="handle">
-              {{ form.handle }}
-            </td>
+            <td data-title="{{ "Updated"|t }}" class="updated">{{ form.dateUpdated |date('m/d/Y')}}</td>
             <td data-title="{{ "Entries"|t }}" class="count">{{ submissions|length }}</td>
-            <td data-title="{{ "Action"|t }}" class="action">
-              <span data-tooltip="Copy Handle"><svg class="icon copy" data-clipboard-text="{{ form.handle }}"><use xlink:href="#icon-copy" class="icon-copy"/></svg></span>
-              <a href="#" class="delete-from delete" title="Delete {{ form.name }}" role="button" data-tooltip="Delete Form">
-                <svg class="icon"><use xlink:href="#icon-trash" class="icon-trash"/></svg>
-              </a>
+            <td class="form-actions" data-form-id="{{ form.id }}" data-form-handle="{{ form.handle }}" data-form-name="{{ form.name }}">
+                <a href="#" class="form-action-trigger">
+                    <svg width="22" height="5" viewBox="0 0 22 5" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M19.578 5c-1.337 0-2.422-1.119-2.422-2.5S18.241 0 19.578 0C20.916 0 22 1.119 22 2.5S20.916 5 19.578 5zM11 5C9.671 5 8.594 3.881 8.594 2.5S9.671 0 11 0c1.329 0 2.406 1.119 2.406 2.5S12.329 5 11 5zM2.422 5C1.084 5 0 3.881 0 2.5S1.084 0 2.422 0c1.337 0 2.422 1.119 2.422 2.5S3.759 5 2.422 5z" fill="#D0D7DD" fill-rule="evenodd"/>
+                    </svg>
+                </a>
             </td>
-            <td class="thin"><a class="move icon" title="{{ 'Reorder'|t }}" role="button"></a></td>
           </tr>
           {% endfor %}
         </tbody>
@@ -65,26 +64,19 @@
     </div>
     {% endif %}
 
-  </section>
-
- {#  <section class="action-buttons">
-    <div id="create-form-button"><a href="{{ url('formbuilder2/forms/new') }}" class="create-form-button"><svg><use xlink:href="#icon-text" class="icon-text"/></svg> <span>{{ "Create a Form"|t }}</span></a></div>
-  </section> #}
-
 {% endblock %}
 
-{% set js %}
-  var adminTable = new Craft.AdminTable({
-    tableSelector: '#forms',
+{% includeJsResource "formbuilder2/js/plugins.js" %}
+{% includeJsResource "formbuilder2/js/forms.js" %}
+
+{% includejs %}
+  var formListTable = new Craft.AdminTable({
+    tableSelector: '#formbuilder-forms',
     noObjectsSelector: '#noforms',
-    newObjectBtnSelector: '#newformcontainer',
-    deleteAction: 'formBuilder2/form/deleteForm',
     sortable: true,
     reorderAction: 'formBuilder2/form/reorder',
     reorderSuccessMessage: '{{ "Form reordered"|t }}',
     reorderFailMessage: '{{ "Couldn’t reorder forms"|t }}',
-    confirmDeleteMessage: '{{ "Are you sure you want to delete “{name}” and all its entries?"|t }}'
   });
-{% endset %}
-{% includeJs js %}
+{% endincludejs %}
 

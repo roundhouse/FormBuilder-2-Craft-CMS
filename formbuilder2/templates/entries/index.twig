@@ -4,29 +4,28 @@
 {% set title = "Entries"|t %}
 {% set elementType = 'FormBuilder2' %}
 {% set selectedSubnavItem = "entries" %}
-{% set bodyClass = 'formbuilder fb-entries-index' %}
+{% set bodyClass = 'formbuilder fb-entries' %}
 {% set page = 'Entries' %}
 
 {% block pageHeader %}
-  {% include 'formbuilder2/partials/header' %}
+    {% include 'formbuilder2/_includes/_header' ignore missing with { title: 'Entries' } %}
 {% endblock %}
 
 {% block sidebar %}
-  {{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}
-  {{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% if sectionHandle is defined %}
-  {% includejs 'window.defaultSectionHandle = "'~sectionHandle~'";' %}
+    {% includejs 'window.defaultSectionHandle = "'~sectionHandle~'";' %}
 {% endif %}
 
 {% set exportImportJs %}
-  var pageHeader = $('#page-header');
-  pageHeader.after('<header class="section-header"><div id="page-title"><h1>{{ page |t}}</h1></div><div id="extra-headers"><div class="buttons right"><div class="btngroup"></div></div></div></header>');
-  
+    var pageHeader = $('#page-header');
+    pageHeader.after('<header class="section-header"><div id="page-title"><h1>{{ page |t}}</h1></div><div id="extra-headers"><div class="buttons right"><div class="btngroup"></div></div></div></header>');
 {% endset %}
 {% includeJs exportImportJs %}
 
