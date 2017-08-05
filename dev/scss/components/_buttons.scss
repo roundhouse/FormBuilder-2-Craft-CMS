@@ -21,10 +21,18 @@
         &:hover {
             background-image: none;
         }
+
         &.btn-info {
             background-color: $c-info;
             &:hover {
                 background-color: lighten($c-info, 5);
+            }
+        }
+
+        &.btn-danger {
+            background-color: $c-danger;
+            &:hover {
+                background-color: lighten($c-danger, 5);
             }
         }
     }

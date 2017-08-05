@@ -5,6 +5,10 @@
         }
     }
 
+    #main {
+        background-color: $c-offWhite;
+    }
+
     .forms-container {
         padding: 20px 60px 60px 60px;
         background-color: $c-offWhite;
@@ -107,310 +111,257 @@
 }
 
 
-.fb-new-form {
-  
-  .pane {
-    margin: 0;
-    padding: 20px;
-    border-radius: 0;
-  }
+// Edit Form / New Form
+.formbuilder.fb-edit-form {
 
-  #main > .padded {
-    padding: 0;
-  }
+    #main {
+        background-color: $c-offWhite;
+    }
 
-  #crumbs li:last-child {
-    &:after { content: ""; }
-  }
+    #tabs2 {
+        margin: 0;
+    }
+
+    #tab-spam-protection {
+        .spam-protection-honeypot-method, .spam-protection-timed-method {
+            border-radius: 0;
+            margin: 0;
+        }
+        .spam-protection-honeypot {
+            border-radius: 0;
+            margin: 0;
+        }
+        .spam-protection-timed.last {
+            margin: 0;
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+    }
+
+    .custom-redirect-method {
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .delete-form-meta {
+        box-shadow: none;
+        border: none;     
+        .delete-form {
+            display: block;
+            text-align: center;
+        }
+    }
+
+    .field-heading.sub-heading {
+        background-color: rgb(244, 245, 246);
+        color: rgb(85, 85, 85);
+        font-size: .8em;
+        min-height: auto;
+        padding: 8px auto;
+        text-transform: uppercase;
+        border-top: 1px solid #e3e5e8;
+        &.first {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
 }
 
-.fb-forms {
-  
-  #main > .padded {
-    padding: 0;
-  }
-  
-  // No Forms 
-  .no-forms {
-    text-align: center;
-    padding: 90px 0 300px 0;
-    p {
-      font-weight: 700;
-      font-size: 18px;
-      color: $c-gray;
-    }
-  }
-  // buttons
-  .create-form-button {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 300;
-    letter-spacing: .1em;
-    color: $c-lightGray;
-    margin: 0 auto;
-    padding: 30px 30px 25px 30px;
-    border: 1px solid rgba(white, .2);
-    border-radius: 5px;
-    outline: none;
-    background: #dfdfdf;
-    text-decoration: none;
-    text-transform: uppercase;
-    @include transition(all .3s ease);
-    &:hover {
-      background: $c-teal;
-      color: white;
-    }
-    span {
-      display: block;
-      text-align: center;
-    }
-    svg {
-      display: block;
-      margin: 0 auto 10px auto;
-      @include size(50px);
-      * { @include transition(all .3s ease); fill: white; }
-    }
-  }
-  
-  // Forms
-  .forms {
-    background: white;
-    min-height: 600px;
-    &.pane { padding: 0 !important; }
-    thead tr:hover { background: white; }
-    th {
-      padding: 20px;
-    }
-    tr {
-      @include transition(all .3s ease);
-      &:hover {
-        background: darken(white, 2);
-      }
-      td {
-        padding: 12px 20px;
-        &.name a, &.handle, &.count {
-          color: $c-blue;
-          font-family: $opensans;
-        }
-        &.handle {
-          font-weight: 400;
-        }
-        &.name a {
-          color: $c-teal;
-          text-decoration: none;
-          font-weight: 600;
-          &:hover { color: $c-blue; }
-        }
-        &.action {
-          svg {
-            cursor: pointer;
-            margin-right: 4px;
-            * { fill: $c-blue; @include transition(all .3s ease); }
-            &:hover {
-              * { fill: $c-teal; }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+// .fb-new-form {
+//   .forms.pane { padding: 30px !important; }
+//   .menu-tabs {
+//     margin-bottom: 20px;
+//     border-bottom: 2px solid rgba(gray, .1);
+//     h2 {
+//       display: inline-block;
+//       padding: 0 10px;
+//       margin: 0 0 6px 0;
+//       @include antialias;
+//       &:first-child { padding-left: 0; }
+//       &.current a {
+//         color: $c-blue;
+//         &:after {
+//           content: "";
+//           display: block;
+//           @include animation(slideDown .5s cubic-bezier(0.74, 0.21, 0, 0.88));
+//           @include position(absolute, null 0 -8px 0);
+//           @include size(100% 2px);
+//           background: rgba($c-teal, .6);
+//         }
+//       }
+//       &.has-errors {
+//         a { color: $c-red; }
+//       }
+//     }
+//     a {
+//       position: relative;
+//       display: block;
+//       font-family: $opensans;
+//       font-size: 12px;
+//       font-weight: 700;
+//       color: rgba($c-blue, .7);
+//       padding-bottom: 5px;
+//       text-decoration: none;
+//       &:hover { color: $c-blue; }
+//     }
+//   }
 
-.fb-new-form {
-  .forms.pane { padding: 30px !important; }
-  .menu-tabs {
-    margin-bottom: 20px;
-    border-bottom: 2px solid rgba(gray, .1);
-    h2 {
-      display: inline-block;
-      padding: 0 10px;
-      margin: 0 0 6px 0;
-      @include antialias;
-      &:first-child { padding-left: 0; }
-      &.current a {
-        color: $c-blue;
-        &:after {
-          content: "";
-          display: block;
-          @include animation(slideDown .5s cubic-bezier(0.74, 0.21, 0, 0.88));
-          @include position(absolute, null 0 -8px 0);
-          @include size(100% 2px);
-          background: rgba($c-teal, .6);
-        }
-      }
-      &.has-errors {
-        a { color: $c-red; }
-      }
-    }
-    a {
-      position: relative;
-      display: block;
-      font-family: $opensans;
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba($c-blue, .7);
-      padding-bottom: 5px;
-      text-decoration: none;
-      &:hover { color: $c-blue; }
-    }
-  }
+//   .tab-content {
+//     display: none;
+//   }
+//   #form-settings {
+//     display: block;   
+//   }
 
-  .tab-content {
-    display: none;
-  }
-  #form-settings {
-    display: block;   
-  }
+//   // Form Methods
+//   .method-datepickerscripts, .method-time, .method-honeypot, .method-notify, .method-notify-submitter, .method-customsubject, .method-ajax, .method-redirect, .method-files, .method-database, .method-terms {
+//     @include transition(background .3s ease);
+//     &.pane { padding: 0 !important; margin-bottom: 20px !important; }
+//     &:hover .checkbox-toggle { background: darken(white, 3); }
+//     .checkbox-extra { display: none; padding: 20px; }
+//   }
+//   .checkbox-toggle {
+//     position: relative;
+//     cursor: pointer;
+//     padding: 20px;
+//     @include clearfix;
+//     @include user-select(none);
+//     @include transition(background .3s ease);
+//     .field { opacity: 0; }
+//     label { display: none !important; }
+//     &.selected {
+//       background: $c-teal !important;
+//       h3, p { color: white !important; }
+//       svg * { fill: white !important; }
+//     }
+//     .togglebox, svg {
+//       @include size(50px);
+//     }
+//     .togglebox {
+//       float: left;
+//       input { top: 0; }
+//       label {
+//         display: block;
+//         @include size(100%);
+//       }
+//     }
+//     svg {
+//       position: absolute;
+//       * {
+//         fill: $c-blue;
+//       }
+//     }
+//     .togglecontent {
+//       overflow: hidden;
+//       padding: 10px;
+//       h3, p { margin: 0; padding: 0; }
+//       p {
+//         font-size: 11px;
+//         color: #8f98a3;
+//       }
+//     }
+//   }
 
-  // Form Methods
-  .method-datepickerscripts, .method-time, .method-honeypot, .method-notify, .method-notify-submitter, .method-customsubject, .method-ajax, .method-redirect, .method-files, .method-database, .method-terms {
-    @include transition(background .3s ease);
-    &.pane { padding: 0 !important; margin-bottom: 20px !important; }
-    &:hover .checkbox-toggle { background: darken(white, 3); }
-    .checkbox-extra { display: none; padding: 20px; }
-  }
-  .checkbox-toggle {
-    position: relative;
-    cursor: pointer;
-    padding: 20px;
-    @include clearfix;
-    @include user-select(none);
-    @include transition(background .3s ease);
-    .field { opacity: 0; }
-    label { display: none !important; }
-    &.selected {
-      background: $c-teal !important;
-      h3, p { color: white !important; }
-      svg * { fill: white !important; }
-    }
-    .togglebox, svg {
-      @include size(50px);
-    }
-    .togglebox {
-      float: left;
-      input { top: 0; }
-      label {
-        display: block;
-        @include size(100%);
-      }
-    }
-    svg {
-      position: absolute;
-      * {
-        fill: $c-blue;
-      }
-    }
-    .togglecontent {
-      overflow: hidden;
-      padding: 10px;
-      h3, p { margin: 0; padding: 0; }
-      p {
-        font-size: 11px;
-        color: #8f98a3;
-      }
-    }
-  }
+//   // Toggle Errors
+//   div.toggle-error {
+//     & > .selected {
+//       border: 3px dotted $c-red;
+//     }
+//   }
+//   h2.toggle-error {
+//     color: $c-red;
+//   }
 
-  // Toggle Errors
-  div.toggle-error {
-    & > .selected {
-      border: 3px dotted $c-red;
-    }
-  }
-  h2.toggle-error {
-    color: $c-red;
-  }
+//   .checkbox-extra {
+//     @include clearfix;
+//   }
 
-  .checkbox-extra {
-    @include clearfix;
-  }
+//   // Email Notification & Templates
+//   .method-notify {
+//     .checkbox-extra {
+//       padding: 0;
+//       margin-bottom: 20px;
+//       header {
+//         padding: 20px;
+//         h3 { 
+//           margin: 0;
+//         }
+//       }
+//     }
+//   }
 
-  // Email Notification & Templates
-  .method-notify {
-    .checkbox-extra {
-      padding: 0;
-      margin-bottom: 20px;
-      header {
-        padding: 20px;
-        h3 { 
-          margin: 0;
-        }
-      }
-    }
-  }
+//   .notification-tabs-wrapper {
+//     padding-bottom: 20px;
+//   }
 
-  .notification-tabs-wrapper {
-    padding-bottom: 20px;
-  }
+//   .notification-tabs-container {
+//     width: 100%;
+//     padding: 20px;
+//     h1 {
+//       color: $c-blue;
+//       font-size: 20px;
+//     }
+//   }
+//   .email-tab-content {
+//     display: none;
+//   }
+//   #optionalFooterCopy-field {
+//     margin-top: 0;
+//   }
 
-  .notification-tabs-container {
-    width: 100%;
-    padding: 20px;
-    h1 {
-      color: $c-blue;
-      font-size: 20px;
-    }
-  }
-  .email-tab-content {
-    display: none;
-  }
-  #optionalFooterCopy-field {
-    margin-top: 0;
-  }
+//   #html-template-extra {
+//     display: none;
+//     margin-bottom: 24px;
+//   }
+//   #email-admin-settings {
+//     display: block;   
+//   }
 
-  #html-template-extra {
-    display: none;
-    margin-bottom: 24px;
-  }
-  #email-admin-settings {
-    display: block;   
-  }
+//   // Email Template Tab
+//   #emailTemplateStyle-field {
+//     input[type="radio"]:checked + label {
+//       color: rgba(gray, .8);
+//       border: 4px solid $c-teal;
+//     }
+//     .input { @include clearfix; }
+//     .radio {
+//       display: inline-block;
+//       float: left;
+//       margin-right: 10px;
+//       text-align: center;
+//       span { display: block; }
+//       input { display: none; }
+//       svg {
+//         margin-bottom: 8px;
+//         @include size(30px);
+//         * { fill: white; }
+//       }
+//       label {
+//         display: block;
+//         padding: 10px;
+//         background: rgba(gray, .1);
+//         border: 4px solid rgba(gray, .1);
+//         font-size: 11px;
+//         line-height: 1.2;
+//         color: rgba(gray, .7);
+//         cursor: pointer;
+//         @include transition(all .3s ease);
+//         @include size(60px 70px);
+//         &:hover {
+//           border: 4px solid rgba(gray, .3);
+//         }
+//       }
+//     }
+//   }
+// }
 
-  // Email Template Tab
-  #emailTemplateStyle-field {
-    input[type="radio"]:checked + label {
-      color: rgba(gray, .8);
-      border: 4px solid $c-teal;
-    }
-    .input { @include clearfix; }
-    .radio {
-      display: inline-block;
-      float: left;
-      margin-right: 10px;
-      text-align: center;
-      span { display: block; }
-      input { display: none; }
-      svg {
-        margin-bottom: 8px;
-        @include size(30px);
-        * { fill: white; }
-      }
-      label {
-        display: block;
-        padding: 10px;
-        background: rgba(gray, .1);
-        border: 4px solid rgba(gray, .1);
-        font-size: 11px;
-        line-height: 1.2;
-        color: rgba(gray, .7);
-        cursor: pointer;
-        @include transition(all .3s ease);
-        @include size(60px 70px);
-        &:hover {
-          border: 4px solid rgba(gray, .3);
-        }
-      }
-    }
-  }
-}
-
-@include keyframes(slideDown) {
-  from { 
-    opacity: 0;
-    @include transform(translateY(-5px));
-  }
-  to {
-    opacity: 1;
-    @include transform(translateY(0));
-  }
-}
+// @include keyframes(slideDown) {
+//   from { 
+//     opacity: 0;
+//     @include transform(translateY(-5px));
+//   }
+//   to {
+//     opacity: 1;
+//     @include transform(translateY(0));
+//   }
+// }

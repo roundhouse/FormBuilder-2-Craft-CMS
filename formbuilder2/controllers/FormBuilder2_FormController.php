@@ -54,6 +54,18 @@ class FormBuilder2_FormController extends BaseController
       $variables['title'] = Craft::t('Create a new form');
     }
 
+    $variables['tabs'] = [
+        'formsettings'    => ['label' => Craft::t('Form Settings'), 'url' => '#form-settings'],
+        'messages'    => ['label' => Craft::t('Messages'), 'url' => '#messages'],
+        'emailsettings'    => ['label' => Craft::t('Email Settings'), 'url' => '#email-settings'],
+        'extra'    => ['label' => Craft::t('Extra'), 'url' => '#extra'],
+        'extrafields'    => ['label' => Craft::t('Fields'), 'url' => '#fields'],
+    ];
+
+    $variables['fullPageForm'] = true;
+    $variables['saveShortcutRedirect'] = 'formbuilder2/forms/edit/{id}';
+    $variables['continueEditingUrl'] = 'formbuilder2/forms/edit/{id}';
+
     $this->renderTemplate('formbuilder2/forms/_edit', $variables);
   }
 
