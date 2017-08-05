@@ -155,6 +155,8 @@
 
 .formbuilder.fb-forms #page-header .btns {
   margin-left: auto; }
+.formbuilder.fb-forms #main {
+  background-color: #fafbfc; }
 .formbuilder.fb-forms .forms-container {
   padding: 20px 60px 60px 60px;
   background-color: #fafbfc; }
@@ -231,303 +233,41 @@
 .formbuilder.fb-forms .datatablesorthelper td.updated, .formbuilder.fb-forms .datatablesorthelper td.count {
   color: #989898; }
 
-.fb-new-form .pane {
+.formbuilder.fb-edit-form #main {
+  background-color: #fafbfc; }
+.formbuilder.fb-edit-form #tabs2 {
+  margin: 0; }
+.formbuilder.fb-edit-form #tab-spam-protection .spam-protection-honeypot-method, .formbuilder.fb-edit-form #tab-spam-protection .spam-protection-timed-method {
+  border-radius: 0;
+  margin: 0; }
+.formbuilder.fb-edit-form #tab-spam-protection .spam-protection-honeypot {
+  border-radius: 0;
+  margin: 0; }
+.formbuilder.fb-edit-form #tab-spam-protection .spam-protection-timed.last {
   margin: 0;
-  padding: 20px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0; }
+.formbuilder.fb-edit-form .custom-redirect-method {
+  margin: 0;
   border-radius: 0; }
-.fb-new-form #main > .padded {
-  padding: 0; }
-.fb-new-form #crumbs li:last-child:after {
-  content: ""; }
-
-.fb-forms #main > .padded {
-  padding: 0; }
-.fb-forms .no-forms {
-  text-align: center;
-  padding: 90px 0 300px 0; }
-  .fb-forms .no-forms p {
-    font-weight: 700;
-    font-size: 18px;
-    color: #474747; }
-.fb-forms .create-form-button {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 300;
-  letter-spacing: .1em;
-  color: #a5a6a8;
-  margin: 0 auto;
-  padding: 30px 30px 25px 30px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
-  outline: none;
-  background: #dfdfdf;
-  text-decoration: none;
-  text-transform: uppercase;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  transition: all 0.3s ease; }
-  .fb-forms .create-form-button:hover {
-    background: #47c5ca;
-    color: white; }
-  .fb-forms .create-form-button span {
+.formbuilder.fb-edit-form .delete-form-meta {
+  box-shadow: none;
+  border: none; }
+  .formbuilder.fb-edit-form .delete-form-meta .delete-form {
     display: block;
     text-align: center; }
-  .fb-forms .create-form-button svg {
-    display: block;
-    margin: 0 auto 10px auto;
-    height: 50px;
-    width: 50px; }
-    .fb-forms .create-form-button svg * {
-      -webkit-transition: all 0.3s ease;
-      -moz-transition: all 0.3s ease;
-      transition: all 0.3s ease;
-      fill: white; }
-.fb-forms .forms {
-  background: white;
-  min-height: 600px; }
-  .fb-forms .forms.pane {
-    padding: 0 !important; }
-  .fb-forms .forms thead tr:hover {
-    background: white; }
-  .fb-forms .forms th {
-    padding: 20px; }
-  .fb-forms .forms tr {
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    transition: all 0.3s ease; }
-    .fb-forms .forms tr:hover {
-      background: #fafafa; }
-    .fb-forms .forms tr td {
-      padding: 12px 20px; }
-      .fb-forms .forms tr td.name a, .fb-forms .forms tr td.handle, .fb-forms .forms tr td.count {
-        color: #333f4d;
-        font-family: "Open Sans", "Helvetica", sans-serif; }
-      .fb-forms .forms tr td.handle {
-        font-weight: 400; }
-      .fb-forms .forms tr td.name a {
-        color: #47c5ca;
-        text-decoration: none;
-        font-weight: 600; }
-        .fb-forms .forms tr td.name a:hover {
-          color: #333f4d; }
-      .fb-forms .forms tr td.action svg {
-        cursor: pointer;
-        margin-right: 4px; }
-        .fb-forms .forms tr td.action svg * {
-          fill: #333f4d;
-          -webkit-transition: all 0.3s ease;
-          -moz-transition: all 0.3s ease;
-          transition: all 0.3s ease; }
-        .fb-forms .forms tr td.action svg:hover * {
-          fill: #47c5ca; }
+.formbuilder.fb-edit-form .field-heading.sub-heading {
+  background-color: #f4f5f6;
+  color: #555555;
+  font-size: .8em;
+  min-height: auto;
+  padding: 8px auto;
+  text-transform: uppercase;
+  border-top: 1px solid #e3e5e8; }
+  .formbuilder.fb-edit-form .field-heading.sub-heading.first {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
 
-.fb-new-form .forms.pane {
-  padding: 30px !important; }
-.fb-new-form .menu-tabs {
-  margin-bottom: 20px;
-  border-bottom: 2px solid rgba(128, 128, 128, 0.1); }
-  .fb-new-form .menu-tabs h2 {
-    display: inline-block;
-    padding: 0 10px;
-    margin: 0 0 6px 0;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility; }
-    .fb-new-form .menu-tabs h2:first-child {
-      padding-left: 0; }
-    .fb-new-form .menu-tabs h2.current a {
-      color: #333f4d; }
-      .fb-new-form .menu-tabs h2.current a:after {
-        content: "";
-        display: block;
-        -webkit-animation: slideDown 0.5s cubic-bezier(0.74, 0.21, 0, 0.88);
-        -moz-animation: slideDown 0.5s cubic-bezier(0.74, 0.21, 0, 0.88);
-        animation: slideDown 0.5s cubic-bezier(0.74, 0.21, 0, 0.88);
-        position: absolute;
-        right: 0;
-        bottom: -8px;
-        left: 0;
-        height: 2px;
-        width: 100%;
-        background: rgba(71, 197, 202, 0.6); }
-    .fb-new-form .menu-tabs h2.has-errors a {
-      color: #f07575; }
-  .fb-new-form .menu-tabs a {
-    position: relative;
-    display: block;
-    font-family: "Open Sans", "Helvetica", sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    color: rgba(51, 63, 77, 0.7);
-    padding-bottom: 5px;
-    text-decoration: none; }
-    .fb-new-form .menu-tabs a:hover {
-      color: #333f4d; }
-.fb-new-form .tab-content {
-  display: none; }
-.fb-new-form #form-settings {
-  display: block; }
-.fb-new-form .method-datepickerscripts, .fb-new-form .method-time, .fb-new-form .method-honeypot, .fb-new-form .method-notify, .fb-new-form .method-notify-submitter, .fb-new-form .method-customsubject, .fb-new-form .method-ajax, .fb-new-form .method-redirect, .fb-new-form .method-files, .fb-new-form .method-database, .fb-new-form .method-terms {
-  -webkit-transition: background 0.3s ease;
-  -moz-transition: background 0.3s ease;
-  transition: background 0.3s ease; }
-  .fb-new-form .method-datepickerscripts.pane, .fb-new-form .method-time.pane, .fb-new-form .method-honeypot.pane, .fb-new-form .method-notify.pane, .fb-new-form .method-notify-submitter.pane, .fb-new-form .method-customsubject.pane, .fb-new-form .method-ajax.pane, .fb-new-form .method-redirect.pane, .fb-new-form .method-files.pane, .fb-new-form .method-database.pane, .fb-new-form .method-terms.pane {
-    padding: 0 !important;
-    margin-bottom: 20px !important; }
-  .fb-new-form .method-datepickerscripts:hover .checkbox-toggle, .fb-new-form .method-time:hover .checkbox-toggle, .fb-new-form .method-honeypot:hover .checkbox-toggle, .fb-new-form .method-notify:hover .checkbox-toggle, .fb-new-form .method-notify-submitter:hover .checkbox-toggle, .fb-new-form .method-customsubject:hover .checkbox-toggle, .fb-new-form .method-ajax:hover .checkbox-toggle, .fb-new-form .method-redirect:hover .checkbox-toggle, .fb-new-form .method-files:hover .checkbox-toggle, .fb-new-form .method-database:hover .checkbox-toggle, .fb-new-form .method-terms:hover .checkbox-toggle {
-    background: #f7f7f7; }
-  .fb-new-form .method-datepickerscripts .checkbox-extra, .fb-new-form .method-time .checkbox-extra, .fb-new-form .method-honeypot .checkbox-extra, .fb-new-form .method-notify .checkbox-extra, .fb-new-form .method-notify-submitter .checkbox-extra, .fb-new-form .method-customsubject .checkbox-extra, .fb-new-form .method-ajax .checkbox-extra, .fb-new-form .method-redirect .checkbox-extra, .fb-new-form .method-files .checkbox-extra, .fb-new-form .method-database .checkbox-extra, .fb-new-form .method-terms .checkbox-extra {
-    display: none;
-    padding: 20px; }
-.fb-new-form .checkbox-toggle {
-  position: relative;
-  cursor: pointer;
-  padding: 20px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-transition: background 0.3s ease;
-  -moz-transition: background 0.3s ease;
-  transition: background 0.3s ease; }
-  .fb-new-form .checkbox-toggle::after {
-    clear: both;
-    content: "";
-    display: table; }
-  .fb-new-form .checkbox-toggle .field {
-    opacity: 0; }
-  .fb-new-form .checkbox-toggle label {
-    display: none !important; }
-  .fb-new-form .checkbox-toggle.selected {
-    background: #47c5ca !important; }
-    .fb-new-form .checkbox-toggle.selected h3, .fb-new-form .checkbox-toggle.selected p {
-      color: white !important; }
-    .fb-new-form .checkbox-toggle.selected svg * {
-      fill: white !important; }
-  .fb-new-form .checkbox-toggle .togglebox, .fb-new-form .checkbox-toggle svg {
-    height: 50px;
-    width: 50px; }
-  .fb-new-form .checkbox-toggle .togglebox {
-    float: left; }
-    .fb-new-form .checkbox-toggle .togglebox input {
-      top: 0; }
-    .fb-new-form .checkbox-toggle .togglebox label {
-      display: block;
-      height: 100%;
-      width: 100%; }
-  .fb-new-form .checkbox-toggle svg {
-    position: absolute; }
-    .fb-new-form .checkbox-toggle svg * {
-      fill: #333f4d; }
-  .fb-new-form .checkbox-toggle .togglecontent {
-    overflow: hidden;
-    padding: 10px; }
-    .fb-new-form .checkbox-toggle .togglecontent h3, .fb-new-form .checkbox-toggle .togglecontent p {
-      margin: 0;
-      padding: 0; }
-    .fb-new-form .checkbox-toggle .togglecontent p {
-      font-size: 11px;
-      color: #8f98a3; }
-.fb-new-form div.toggle-error > .selected {
-  border: 3px dotted #f07575; }
-.fb-new-form h2.toggle-error {
-  color: #f07575; }
-.fb-new-form .checkbox-extra::after {
-  clear: both;
-  content: "";
-  display: table; }
-.fb-new-form .method-notify .checkbox-extra {
-  padding: 0;
-  margin-bottom: 20px; }
-  .fb-new-form .method-notify .checkbox-extra header {
-    padding: 20px; }
-    .fb-new-form .method-notify .checkbox-extra header h3 {
-      margin: 0; }
-.fb-new-form .notification-tabs-wrapper {
-  padding-bottom: 20px; }
-.fb-new-form .notification-tabs-container {
-  width: 100%;
-  padding: 20px; }
-  .fb-new-form .notification-tabs-container h1 {
-    color: #333f4d;
-    font-size: 20px; }
-.fb-new-form .email-tab-content {
-  display: none; }
-.fb-new-form #optionalFooterCopy-field {
-  margin-top: 0; }
-.fb-new-form #html-template-extra {
-  display: none;
-  margin-bottom: 24px; }
-.fb-new-form #email-admin-settings {
-  display: block; }
-.fb-new-form #emailTemplateStyle-field input[type="radio"]:checked + label {
-  color: rgba(128, 128, 128, 0.8);
-  border: 4px solid #47c5ca; }
-.fb-new-form #emailTemplateStyle-field .input::after {
-  clear: both;
-  content: "";
-  display: table; }
-.fb-new-form #emailTemplateStyle-field .radio {
-  display: inline-block;
-  float: left;
-  margin-right: 10px;
-  text-align: center; }
-  .fb-new-form #emailTemplateStyle-field .radio span {
-    display: block; }
-  .fb-new-form #emailTemplateStyle-field .radio input {
-    display: none; }
-  .fb-new-form #emailTemplateStyle-field .radio svg {
-    margin-bottom: 8px;
-    height: 30px;
-    width: 30px; }
-    .fb-new-form #emailTemplateStyle-field .radio svg * {
-      fill: white; }
-  .fb-new-form #emailTemplateStyle-field .radio label {
-    display: block;
-    padding: 10px;
-    background: rgba(128, 128, 128, 0.1);
-    border: 4px solid rgba(128, 128, 128, 0.1);
-    font-size: 11px;
-    line-height: 1.2;
-    color: rgba(128, 128, 128, 0.7);
-    cursor: pointer;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-    height: 70px;
-    width: 60px; }
-    .fb-new-form #emailTemplateStyle-field .radio label:hover {
-      border: 4px solid rgba(128, 128, 128, 0.3); }
-
-@-webkit-keyframes slideDown {
-  from {
-    opacity: 0;
-    -webkit-transform: translateY(-5px); }
-  to {
-    opacity: 1;
-    -webkit-transform: translateY(0); } }
-@-moz-keyframes slideDown {
-  from {
-    opacity: 0;
-    -moz-transform: translateY(-5px); }
-  to {
-    opacity: 1;
-    -moz-transform: translateY(0); } }
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    -webkit-transform: translateY(-5px);
-    -moz-transform: translateY(-5px);
-    -ms-transform: translateY(-5px);
-    -o-transform: translateY(-5px);
-    transform: translateY(-5px); }
-  to {
-    opacity: 1;
-    -webkit-transform: translateY(0);
-    -moz-transform: translateY(0);
-    -ms-transform: translateY(0);
-    -o-transform: translateY(0);
-    transform: translateY(0); } }
 .formbuilder.fb-entries .section-header {
   display: none; }
 .formbuilder.fb-entries .pane {
@@ -1642,6 +1382,41 @@
     background-color: #4da1ff; }
     .formbuilder .btns.btn-info:hover {
       background-color: #67aeff; }
+  .formbuilder .btns.btn-danger {
+    background-color: #ff6d4a; }
+    .formbuilder .btns.btn-danger:hover {
+      background-color: #ff8264; }
+
+.cmp-tout {
+  font-family: 'Roboto';
+  font-size: 14px;
+  color: #323C47;
+  letter-spacing: 0.04em;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  border-radius: 5px;
+  background-color: #ffffff;
+  border: 1px solid #E9EFF4;
+  box-sizing: border-box; }
+  .cmp-tout header {
+    border-bottom: 1px solid #E9EFF4;
+    padding: 15px 20px; }
+    .cmp-tout header .tout-title {
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase; }
+  .cmp-tout main {
+    padding: 20px; }
+    .cmp-tout main .tout-count {
+      font-weight: bold; }
+    .cmp-tout main .tout-count-text {
+      font-size: 12px; }
+  .cmp-tout.theme-moss {
+    background-color: #637c8a;
+    color: #ffffff; }
+    .cmp-tout.theme-moss header {
+      border-color: #6F8996; }
 
 .form-tout {
   padding: 30px;

@@ -3,7 +3,7 @@
 {% hook 'formBuilder2.prepCpTemplate' %}
 
 {% set selectedSubnavItem = "forms" %}
-{% set bodyClass = 'formbuilder fb-new-form' %}
+{% set bodyClass = 'formbuilder fb-edit-form' %}
 {% set pageSlug = craft.request.lastSegment %}
 
 {% if pageSlug == 'edit' %}
@@ -13,11 +13,107 @@
 {% endif %}
 
 {% block pageHeader %}
-    {% include 'formbuilder2/partials/header' %}
+    {% include 'formbuilder2/_includes/_header' ignore missing with { title: page } %}
+{% endblock %}
+
+{% block saveButton %}
+    <input type="hidden" name="action" value="formBuilder2/form/saveForm">
+    <input type="hidden" name="redirect" value="formbuilder2/forms">
+
+    {% if form.id %}
+        <input type="hidden" name="formId" value="{{ form.id }}">
+        <input type="hidden" name="fieldLayoutId" value="{{ form.fieldLayoutId }}">
+    {% endif %}
+
+    <div class="btngroup submit first">
+        <input type="submit" class="btn submit" value="{{ 'Save'|t }}">
+        {% if form.id %}
+            <div class="btn submit menubtn"></div>
+            <div class="menu">
+                <ul>
+                    <li><a class="formsubmit" data-redirect="prodeal/forms/edit/{{ form.id  }}">{{ "Save and continue editing"|t }} <span class="shortcut">⌘S</span></a></li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block main %}
-<section id="fb-content">
+    
+    <div class="grid first" data-max-cols="3">
+
+        <div class="item" data-position="left" data-colspan="2">
+            <section class="cmp-tout">
+                <header>
+                    <span class="tout-title">{{ "Forms" |t }}</span>
+                </header>
+            </section>
+            {# <div id="fields" class="pane">
+                {% if tabs is defined and tabs %}
+                    {% include "_includes/tabs" %}
+                {% endif %}
+
+                <div id="form-settings" class="tab-content">
+                </div>
+
+                <div id="forms-guidelines" class="hidden">
+                    Test
+                </div>
+            </div> #}
+        </div>
+
+        <div class="editform-sidebar item" data-position="right">
+            <div class="pane meta">
+                {% set ant = form.getErrors('adminNotificationTemplateId') |length %}
+                {% set cnt = form.getErrors('customerNotificationTemplateId') |length %}
+                {% set tab = 1 %}
+                
+                {% if ant == 1 or cnt == 1 %}
+                    {% set taberror = true %}
+                {% else %}    
+                    {% set taberror = false %}
+                {% endif %} 
+
+                <nav id="tabs2" class="tabs">
+                    <ul>
+                        <li>
+                            <a class="tab {{ tab == 1 ? ' sel' : '' }}" href="#tab-form-settings">
+                                {{ "Settings"|t }}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="tab {{ tab == 2 ? ' sel' : '' }} {% if taberror %}error{% endif %}" href="#tab-spam-protection">
+                                {{ "Spam"|t }}
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                {% include 'formbuilder2/forms/_includes/form-settings/basic-settings' ignore missing %}
+                {% include 'formbuilder2/forms/_includes/spam-protection' ignore missing %}
+
+            </div>
+
+            <section class="custom-redirect-tout cmp-tout theme-moss">
+                <header>
+                    <span class="tout-title">{{ "Custom Redirects" |t }}</span>
+                </header>
+                <main>
+                    {% include 'formbuilder2/forms/_includes/form-settings/redirect' ignore missing %}
+                </main>
+            </section>
+
+            <div class="pane meta delete-form-meta last">
+                <a href="#" class="btns btn-danger delete-form">{{ "Delete Form" |t }}</a>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+{# <section id="fb-content">
 
     <header class="section-header">
       <div id="page-title"><h1>{{ page|t }}</h1></div>
@@ -95,7 +191,6 @@
 
         </div>
 
-        {# Errors #}
         {%- set errors = (errors is defined ? errors : null) -%}
         {% if errors %}
             {% include "formbuilder2/templates/inputs/errorList" with { errors: errors } %}
@@ -109,15 +204,17 @@
 
     </div>
 
-    {# No Forms #}
     <div class="no-forms" style="display: none;">
         <p>{{ "Hello! You don't have any forms yet."|t }}</p>
         <a href="#" class="create-form-button"><svg><use xlink:href="#icon-text" class="icon-text"/></svg> <span>{{ "Create a Form"|t }}</span></a>
     </div>
 
-</section>
+</section> #}
 
 {% endblock %}
+
+{% includeJsResource "formbuilder2/js/forms.js" %}
+
 
 {% includejs %}
     {% if not form.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}

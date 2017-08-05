@@ -1,0 +1,55 @@
+<div class="{{ tab != 2 ? 'hidden' : '' }} meta" id="tab-spam-protection">
+
+    <div class="pane meta spam-protection-honeypot-method">
+    {{ forms.lightswitchField({
+        label: "Honeypot"|t,
+        id: 'spamHoneypotMethod',
+        name: 'spamProtectionSettings[spamHoneypotMethod]',
+        toggle: 'settings-spamHoneypotMethod',
+        on: form.spamProtectionSettings.spamHoneypotMethod,
+        onLabel: "Enable"|t,
+        errors: form.getErrors('spamHoneypotMethod'),
+        small: true,
+    }) }}
+    </div>
+
+    <div class="pane meta spam-protection-honeypot {% if not form.spamProtectionSettings.spamHoneypotMethod %}hidden{% endif %}">
+    {{ forms.textField({
+        label: "Message <span class='info'>Enter message for screen readers.</span>"|t,
+        id: 'spamHoneypotMethodMessage',
+        class: 'spamHoneypotMethodMessage',
+        name: 'spamProtectionSettings[spamHoneypotMethodMessage]',
+        value: (form.spamProtectionSettings.spamHoneypotMethodMessage is defined ? form.spamProtectionSettings.spamHoneypotMethodMessage : null),
+        size: 50,
+        errors: form.getErrors('spamHoneypotMethodMessage'),
+        required: true
+    }) }}
+    </div>
+
+    <div class="pane meta spam-protection-timed-method">
+    {{ forms.lightswitchField({
+        label: "Timed"|t,
+        id: 'spamTimeMethod',
+        name: 'spamProtectionSettings[spamTimeMethod]',
+        toggle: 'settings-spamTimeMethod',
+        on: form.spamProtectionSettings.spamTimeMethod,
+        onLabel: "Enable"|t,
+        errors: form.getErrors('spamTimeMethod'),
+        small: true,
+    }) }}
+    </div>
+
+    <div class="pane meta last spam-protection-timed {% if not form.spamProtectionSettings.spamTimeMethod %}hidden{% endif %}">
+    {{ forms.textField({
+        label: "Time <span class='info'>Enter how many seconds to wait untill submissions are valid.</span>"|t,
+        id: 'spamTimeMethodTime',
+        class: 'spamTimeMethodTime',
+        name: 'spamProtectionSettings[spamTimeMethodTime]',
+        value: form.spamProtectionSettings.spamTimeMethodTime is defined ? form.spamProtectionSettings.spamTimeMethodTime : '',
+        size: 50,
+        errors: form.getErrors('spamTimeMethodTime'),
+        required: true
+    }) }}
+    </div>
+
+</div>

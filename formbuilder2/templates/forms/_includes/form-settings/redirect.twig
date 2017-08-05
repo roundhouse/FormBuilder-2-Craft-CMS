@@ -1,4 +1,30 @@
-<div class="method-redirect pane">
+<div class="pane meta custom-redirect-method">
+    {{ forms.lightswitchField({
+        label: "Redirect <span class='info'>Upon form submission redirect to custom success page. By default it redirects to form page</span>"|t,
+        id: 'customRedirectMethod',
+        name: 'formSettings[formRedirect][customRedirect]',
+        toggle: 'settings-customRedirect',
+        on: form.formSettings.formRedirect.customRedirect,
+        onLabel: "Enable"|t,
+        errors: form.getErrors('customRedirect'),
+        small: true,
+    }) }}
+</div>
+
+<div class="pane meta custom-redirect-container {% if not form.formSettings.formRedirect.customRedirect %}hidden{% endif %}">
+    {{ forms.textField({
+        label: "Redirect URL <span class='info'>Enter relative redirect page url</span>"|t,
+        id: 'customRedirectUrl',
+        class: 'customRedirectUrl',
+        name: 'formSettings[formRedirect][customRedirectUrl]',
+        value: form.formSettings.formRedirect.customRedirectUrl is defined ? form.formSettings.formRedirect.customRedirectUrl : '',
+        size: 50,
+        errors: form.getErrors('customRedirectUrl'),
+        required: true
+    }) }}
+</div>
+
+{# <div class="method-redirect pane">
   <div class="checkbox-toggle" data-checkbox="customRedirect">
     <div class="togglebox">
       <svg><use xlink:href="#icon-redirect" class="icon-redirect"/></svg>
@@ -30,4 +56,4 @@
       required: true
     }) }}
   </div>
-</div>
+</div> #}
