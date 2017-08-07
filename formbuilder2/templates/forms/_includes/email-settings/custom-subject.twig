@@ -1,45 +1,34 @@
-<div class="method-customsubject pane">
-  <div class="checkbox-toggle" data-checkbox="customSubject">
-    <div class="togglebox">
-      <svg><use xlink:href="#icon-email" class="icon-email"/></svg>
-       {{ forms.checkboxField({
-        id: 'customSubject',
-        class: 'customSubject',
-        name: 'notificationSettings[customSubject]',
-        value: 1,
-        checked: form.notificationSettings.customSubject is defined ? form.notificationSettings.customSubject : null,
-        errors: form.getErrors('customSubject'),
-        required: false
-      }) }}
-    </div>
-    <div class="togglecontent">
-      <h3>{{ "Custom Subject"|t }}</h3>
-      <p>{{ "Add a custom subject field."|t }}</p>
-    </div>
-  </div>
+{% set fields = form.getFieldLayout().getFields() %}
+{% set groupOptions = [{label: 'Select Field', value: ''}] %}
+{% for field in fields %}
+  {% set item = field.getField(field) %}
+  {% set groupOptions = groupOptions|merge([{ label: item.name, value: item.handle }]) %}
+{% endfor %}
 
-  <div class="checkbox-extra">
-    <div class="field" id="customSubjectLine-field">
-      <div class="heading">
-         <label for="customSubjectLine" class="required">{{ "Select Field"|t }}</label>
-        <div class="instructions"><p>{{ "Field will be used for the custom subject line"|t }}</p></div>
-      </div>
-      <div class="input">
-        {% set fields = form.getFieldLayout().getFields() %}
-        {% set groupOptions = [{label: 'Select Field', value: ''}] %}
-        {% for field in fields %}
-          {% set item = field.getField(field) %}
-          {% set groupOptions = groupOptions|merge([{ label: item.name, value: item.handle }]) %}
-        {% endfor %}
-        {{ forms.selectField({
-          id: 'customSubjectLine',
-          name: 'notificationSettings[customSubjectLine]',
-          options: groupOptions ? groupOptions : '',
-          value: (form.notificationSettings.customSubjectLine is defined ? form.notificationSettings.customSubjectLine : null),
-          errors: form.getErrors('customSubjectLine'),
-          required: true
-        }) }}
-      </div>
+<div class="option-item {% if form.notificationSettings.customSubject is defined and form.notificationSettings.customSubject %}option-enabled{% endif %}" 
+    id="option-customsubject"
+    data-modal="true"
+    data-input-type="select"
+    data-input-options="{{ groupOptions |json_encode() }}"
+    data-modal-title="{{ "Custom Subject" |t }}"
+    data-modal-instructions="{{ "Field will be used for the custom subject line." |t }}"
+    data-input-hint="{{ "FIELD" |t }}"
+    data-modal-success-message="{{ "Custom Subject Field Updated." |t }}"
+    data-input-value="{{ form.notificationSettings.customSubjectLine }}">
+
+
+    <span class="option-title">
+        <span class="option-text">{{ "Custom Subject" |t }} <span class="info">{{ "Field will be used for the custom subject line." |t }}</span></span>
+        <span class="option-result {% if form.notificationSettings.customSubject is defined and not form.notificationSettings.customSubject %}hidden{% endif %}">
+            {% include 'formbuilder2/_includes/icons/megaphone' ignore missing %}
+            <code>{{ form.notificationSettings.customSubjectLine }}</code>
+        </span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="option-edit hidden" title="{{ "Edit Custom Subject" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+        <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle Custom Subject" |t }}">{{ "Enable" |t }}</a>
     </div>
-  </div>
+    
+    <input type="hidden" value="1" class="enable-form-optio" name="notificationSettings[customSubject]" {% if form.notificationSettings.customSubject is defined and form.notificationSettings.customSubject %}checked{% endif %}>
+    <input type="hidden" class="text form-option-input" size="50" name="notificationSettings[customSubjectLine]" value="{{ form.notificationSettings.customSubjectLine }}" autocomplete="off">
 </div>

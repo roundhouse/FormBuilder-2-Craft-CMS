@@ -1,24 +1,11 @@
-<div class="method-ajax pane{% if ajaxUploadErrors %} errors toggle-error{% endif %}">
-  <div class="checkbox-toggle" data-checkbox="ajaxSubmit">
-    <div class="togglebox">
-      <svg><use xlink:href="#icon-rocket" class="icon-rocket"/></svg>
-       {{ forms.checkboxField({
-        id: 'ajaxSubmit',
-        class: 'ajaxSubmit',
-        name: 'formSettings[ajaxSubmit]',
-        value: 1,
-        checked: form.formSettings.ajaxSubmit is defined ? form.formSettings.ajaxSubmit : null,
-        errors: form.getErrors('ajaxSubmit'),
-        required: false
-      }) }}
+<div class="option-item {% if form.formSettings.ajaxSubmit is defined and form.formSettings.ajaxSubmit %}option-enabled{% endif %}" 
+    id="option-redirect"
+    data-modal="false">
+    <span class="option-title">
+        <span class="option-text">{{ "AJAX Submission" |t }} <span class="info">{{ "Should we submit the form via ajax? No page refresh will happen." |t }}</span></span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle AJAX" |t }}">{{ "Enable" |t }}</a>
     </div>
-    <div class="togglecontent">
-      <h3>{{ "Use AJAX?"|t }}</h3>
-      <p>{{ "Should we submit the form via ajax? No page refresh will happen."|t }}</p>
-    </div>
-  </div>
+    <input type="hidden" value="1" class="enable-form-option" name="formSettings[ajaxSubmit]" {% if form.formSettings.ajaxSubmit is defined and form.formSettings.ajaxSubmit %}checked{% endif %}>
 </div>
-
-{% for ajaxError in ajaxUploadErrors %}
-  <h2 class="toggle-error">{{ ajaxError }}</h2>
-{% endfor %}

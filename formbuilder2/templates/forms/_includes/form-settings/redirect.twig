@@ -1,59 +1,23 @@
-<div class="pane meta custom-redirect-method">
-    {{ forms.lightswitchField({
-        label: "Redirect <span class='info'>Upon form submission redirect to custom success page. By default it redirects to form page</span>"|t,
-        id: 'customRedirectMethod',
-        name: 'formSettings[formRedirect][customRedirect]',
-        toggle: 'settings-customRedirect',
-        on: form.formSettings.formRedirect.customRedirect,
-        onLabel: "Enable"|t,
-        errors: form.getErrors('customRedirect'),
-        small: true,
-    }) }}
-</div>
-
-<div class="pane meta custom-redirect-container {% if not form.formSettings.formRedirect.customRedirect %}hidden{% endif %}">
-    {{ forms.textField({
-        label: "Redirect URL <span class='info'>Enter relative redirect page url</span>"|t,
-        id: 'customRedirectUrl',
-        class: 'customRedirectUrl',
-        name: 'formSettings[formRedirect][customRedirectUrl]',
-        value: form.formSettings.formRedirect.customRedirectUrl is defined ? form.formSettings.formRedirect.customRedirectUrl : '',
-        size: 50,
-        errors: form.getErrors('customRedirectUrl'),
-        required: true
-    }) }}
-</div>
-
-{# <div class="method-redirect pane">
-  <div class="checkbox-toggle" data-checkbox="customRedirect">
-    <div class="togglebox">
-      <svg><use xlink:href="#icon-redirect" class="icon-redirect"/></svg>
-       {{ forms.checkboxField({
-        id: 'customRedirect',
-        class: 'customRedirect',
-        name: 'formSettings[formRedirect][customRedirect]',
-        value: 1,
-        checked: form.formSettings.formRedirect.customRedirect is defined ? form.formSettings.formRedirect.customRedirect : null,
-        errors: form.getErrors('customRedirect'),
-        required: false
-      }) }}
+<div class="option-item {% if form.formSettings.formRedirect.customRedirect is defined and form.formSettings.formRedirect.customRedirect %}option-enabled{% endif %}"
+    id="option-timed"
+    data-modal="true"
+    data-modal-title="{{ "Custom Redirect" |t }}"
+    data-modal-instructions="{{ "Enter relative path to your page." |t }}"
+    data-input-hint="{{ "PATH" |t }}"
+    data-modal-success-message="{{ "Custom Redirect Updated." |t }}"
+    data-input-value="{{ form.formSettings.formRedirect.customRedirectUrl }}">
+    <span class="option-title">
+        <span class="option-text">{{ "Custom Redirect" |t }} <span class="info">{{ "Upon form submission redirect to custom success page. By default it redirects to form page." |t }}</span></span>
+        <span class="option-result {% if form.formSettings.formRedirect.customRedirect is defined and not form.formSettings.formRedirect.customRedirect %}hidden{% endif %}">
+            {% include 'formbuilder2/_includes/icons/redirect' ignore missing %}
+            <code>{{ form.formSettings.formRedirect.customRedirectUrl }}</code>
+        </span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="option-edit hidden" title="{{ "Edit Redirect" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+        <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle Redirect" |t }}">{{ "Enable" |t }}</a>
     </div>
-    <div class="togglecontent">
-      <h3>{{ "Use Custom Redirect"|t }}</h3>
-      <p>{{ "Upon form submission redirect to custom success page. By default it redirects to form page."|t }}</p>
-    </div>
-  </div>
-  <div class="checkbox-extra">
-    {{ forms.textField({
-      label: "Redirect URL"|t,
-      instructions: "Enter relative redirect page url."|t,
-      id: 'customRedirectUrl',
-      class: 'customRedirectUrl',
-      name: 'formSettings[formRedirect][customRedirectUrl]',
-      value: form.formSettings.formRedirect.customRedirectUrl is defined ? form.formSettings.formRedirect.customRedirectUrl : '',
-      size: 50,
-      errors: form.getErrors('customRedirectUrl'),
-      required: true
-    }) }}
-  </div>
-</div> #}
+    
+    <input type="hidden" value="1" class="enable-form-option" name="formSettings[formRedirect][customRedirect]" {% if form.formSettings.formRedirect.customRedirect is defined and form.formSettings.formRedirect.customRedirect %}checked{% endif %}>
+    <input type="hidden" class="text form-option-input" size="50" name="formSettings[formRedirect][customRedirectUrl]" value="{{ form.formSettings.formRedirect.customRedirectUrl }}" autocomplete="off">
+</div>

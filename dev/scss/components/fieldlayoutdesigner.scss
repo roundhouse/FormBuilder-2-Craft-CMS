@@ -1,0 +1,293 @@
+.formbuilder {
+    #fieldlayoutform {
+        background-color: $c-offWhite;
+        background-image: none;
+        padding: 0;
+        .newtabbtn-container {
+            margin-bottom: 0;
+            padding: 20px;
+            &:before { display: none; }
+            .btn.icon {
+                &:before {
+                    content: "+";
+                }
+            }
+        }
+
+        header {
+            padding: 0 20px;
+            border-bottom: none;
+            h2 {
+                margin: 0 0 2px 0 !important;
+                font-family: 'Roboto';
+                font-size: 14px;
+                line-height: 1;
+                color: black;
+                font-weight: 700 !important;
+                font-style: normal;
+                text-transform: none;
+                text-decoration: none;
+                color: $c-textDarkBlue;
+            }
+            p {
+                padding: 0;
+                margin: 0;
+                font-family: 'Roboto';
+                font-size: 11px;
+                font-weight: 400;
+                font-style: normal;
+                color: $c-textLight;
+                text-transform: none;
+            }
+        }
+    }
+
+    .fld-tabs {
+        margin: 0 0 20px 0 !important;
+        padding: 20px;
+        border-bottom: 1px solid $c-border;
+        .fld-tab.last { margin-bottom: 30px !important; }
+    }
+
+    .unusedfields {
+        margin: 0 0 20px 0 !important;
+        padding: 20px;
+        .fld-tab.last { margin-bottom: 30px !important; }
+    }
+
+
+    // Field Tabs
+    .fld-tab {
+        margin: 0 20px 20px 0 !important;
+        .tabs {
+            padding: 0;
+            background: rgba(gray, .2);
+            width: 100%;
+            @include transition(background .3s ease);
+            &:hover {
+                background: rgba(gray, .3);
+            }
+            .tab {
+                padding: 10px 20px;
+                margin: 0;
+                border: none;
+                float: none;
+                width: 100%;
+                border-radius: none;
+                box-sizing: border-box;
+                box-shadow: none;
+                background: $c-moss;
+                span {
+                    font-family: 'Roboto';
+                    font-style: normal;
+                    font-weight: bold;
+                    text-transform: none;
+                    color: $c-white;
+                }
+                a {
+                    &:before {
+                        color: white;
+                    }
+                }
+            }
+            .settings {
+                float: right;
+            }
+        }
+
+        .template-result {
+            font-family: 'Roboto';
+            display: block;
+            font-size: 10px;
+            font-style: normal;
+            text-transform: none;
+            color: $c-textLight;
+            @include antialias;
+            svg {
+                width: 10px;
+                margin-right: 4px;
+                vertical-align: middle;
+            }
+        }
+
+        .fld-tabcontent {
+            padding: 0;
+            border: 1px solid $c-border;
+            .fld-field {
+                padding: 15px 20px;
+                border: none;
+                border-bottom: 1px solid rgba(gray, .1);
+                background: $c-white;
+                @include transition(background .3s ease);
+                &:hover {
+                    background: darken(white, 1);
+                }
+                &:last-child { border-bottom: none; }
+                &.fld-required {
+                    span:after {
+                        color: $c-red;
+                    }
+                }
+                a {
+                    &:before {
+                        color: #c9c9c9;
+                    }
+                }
+                & + .fld-field { margin: 0; }
+            }
+
+            span {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12px;
+                text-transform: none;
+                color: $c-textDarkBlue;
+            }
+
+            .fld-tab-caboose {
+                border: none !important;
+                margin: 0 0 0 -1px !important;
+                padding: 0 !important;
+                min-height: auto !important;
+                height: 5px;
+                background: $c-success;
+                box-sizing: border-box;
+            }
+        }
+
+        // Background insertion container
+        &.fld-insertion {
+            border: 2px dashed $c-info;
+            border-radius: $border-radius;
+            .tabs, .tab, .fld-tabcontent {
+                background: none;
+                border: none;
+            }
+        }
+    }
+
+    .draghelper {
+        &.fld-tab {
+            .tabs {
+                padding: 0;
+                background: rgba(gray, .2);
+                width: 100%;
+                @include transition(background .3s ease);
+                &:hover {
+                    background: rgba(gray, .3);
+                }
+                .tab {
+                    padding: 10px 20px;
+                    margin: 0;
+                    border: none;
+                    float: none;
+                    width: 100%;
+                    border-radius: none;
+                    box-sizing: border-box;
+                    box-shadow: none;
+                    background: $c-moss;
+                    span {
+                        font-family: 'Roboto';
+                        font-style: normal;
+                        font-weight: bold;
+                        text-transform: none;
+                        color: $c-white;
+                    }
+                    a {
+                        &:before {
+                            color: white;
+                        }
+                    }
+                }
+                .settings {
+                    float: right;
+                }
+            }
+            
+            .template-result {
+                font-family: 'Roboto';
+                display: block;
+                font-size: 10px;
+                font-style: normal;
+                text-transform: none;
+                color: $c-textLight;
+                @include antialias;
+                svg {
+                    width: 10px;
+                    margin-right: 4px;
+                    vertical-align: middle;
+                }
+            }
+
+            .fld-tabcontent {
+                padding: 0;
+                border: 1px solid $c-border;
+                .fld-field {
+                    padding: 15px 20px;
+                    border: none;
+                    border-bottom: 1px solid rgba(gray, .1);
+                    background: $c-white;
+                    @include transition(background .3s ease);
+                    &:hover {
+                        background: darken(white, 1);
+                    }
+                    &:last-child { border-bottom: none; }
+                    &.fld-required {
+                        span:after {
+                            color: $c-red;
+                        }
+                    }
+                    a {
+                        &:before {
+                            color: #c9c9c9;
+                        }
+                    }
+                    & + .fld-field { margin: 0; }
+                }
+
+                span {
+                    font-family: 'Roboto';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 12px;
+                    text-transform: none;
+                    color: $c-textDarkBlue;
+                }
+
+                .fld-tab-caboose {
+                    border: none !important;
+                    margin: 0 0 0 -1px !important;
+                    padding: 0 !important;
+                    min-height: auto !important;
+                    height: 5px;
+                    background: $c-success;
+                    box-sizing: border-box;
+                }
+            }
+        }
+
+        // Field
+        &.fld-field {
+            padding: 15px 20px;
+            border: none;
+            border-bottom: 1px solid rgba(gray, .1);
+            background: $c-white;
+            span {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12px;
+                text-transform: none;
+                color: $c-textDarkBlue;
+            }
+            .settings { opacity: 0; }
+        }
+    }
+
+    .unusedfields {
+        .unused {
+            .tab { cursor: move; }
+        }
+    }
+}

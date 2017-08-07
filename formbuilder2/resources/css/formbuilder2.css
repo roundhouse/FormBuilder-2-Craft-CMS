@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* ============================================ *
  * Name: FormBuilder 2
  * Description: Easy Form & Survey Builder
@@ -145,6 +146,18 @@
   .formbuilder .fb-hud .form-item-menu a svg {
     vertical-align: middle;
     margin-right: 10px; }
+.formbuilder .menu .status.on, .formbuilder .menu .status.enabled {
+  background-color: #a6e50f; }
+.formbuilder .menu .status.off, .formbuilder .menu .status.disabled {
+  background-color: #ff6d4a; }
+.formbuilder .menu a {
+  font-family: 'Roboto';
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  color: #323C47; }
+  .formbuilder .menu a:hover {
+    background-color: #F4F7F9; }
 
 .formbuilder.fb-dashboard #main {
   background-color: #fafbfc; }
@@ -235,21 +248,45 @@
 
 .formbuilder.fb-edit-form #main {
   background-color: #fafbfc; }
-.formbuilder.fb-edit-form #tabs2 {
-  margin: 0; }
-.formbuilder.fb-edit-form #tab-spam-protection .spam-protection-honeypot-method, .formbuilder.fb-edit-form #tab-spam-protection .spam-protection-timed-method {
-  border-radius: 0;
-  margin: 0; }
-.formbuilder.fb-edit-form #tab-spam-protection .spam-protection-honeypot {
-  border-radius: 0;
-  margin: 0; }
-.formbuilder.fb-edit-form #tab-spam-protection .spam-protection-timed.last {
-  margin: 0;
-  border-top-right-radius: 0;
-  border-top-left-radius: 0; }
-.formbuilder.fb-edit-form .custom-redirect-method {
-  margin: 0;
-  border-radius: 0; }
+  .formbuilder.fb-edit-form #main > .padded {
+    padding: 0 60px 60px 60px; }
+.formbuilder.fb-edit-form .form-options-tout .body, .formbuilder.fb-edit-form .spam-protection-tout .body {
+  padding: 0; }
+.formbuilder.fb-edit-form .option-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid #E9EFF4;
+  padding: 20px; }
+  .formbuilder.fb-edit-form .option-item:last-child {
+    border-bottom: none; }
+  .formbuilder.fb-edit-form .option-item .option-text {
+    font-family: 'Roboto';
+    font-weight: 500;
+    color: #595D66; }
+  .formbuilder.fb-edit-form .option-item .option-result {
+    display: block;
+    font-size: 10px; }
+    .formbuilder.fb-edit-form .option-item .option-result svg {
+      width: 10px;
+      margin-right: 4px;
+      vertical-align: middle; }
+  .formbuilder.fb-edit-form .option-item .option-actions {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto; }
+  .formbuilder.fb-edit-form .option-item .option-edit {
+    display: inline-block;
+    padding: 10px;
+    margin-right: 10px; }
+    .formbuilder.fb-edit-form .option-item .option-edit svg {
+      vertical-align: middle; }
+    .formbuilder.fb-edit-form .option-item .option-edit:hover svg * {
+      fill: #4da1ff; }
+  .formbuilder.fb-edit-form .option-item .toggle-option {
+    background-color: #c8d2d8; }
+  .formbuilder.fb-edit-form .option-item.option-enabled .option-actions .btns {
+    background-color: #a6e50f; }
 .formbuilder.fb-edit-form .delete-form-meta {
   box-shadow: none;
   border: none; }
@@ -267,6 +304,90 @@
   .formbuilder.fb-edit-form .field-heading.sub-heading.first {
     border-top-left-radius: 0;
     border-top-right-radius: 0; }
+.formbuilder.fb-edit-form .titlebar {
+  display: flex;
+  flex-direction: row;
+  align-items: center; }
+  .formbuilder.fb-edit-form .titlebar .preview {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 10px;
+    margin-left: 10px; }
+.formbuilder.fb-edit-form .actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center; }
+  .formbuilder.fb-edit-form .actions .status {
+    height: 10px;
+    width: 10px;
+    margin-right: 20px; }
+    .formbuilder.fb-edit-form .actions .status.off {
+      background-color: #ff6d4a; }
+    .formbuilder.fb-edit-form .actions .status.on {
+      background-color: #a6e50f; }
+  .formbuilder.fb-edit-form .actions .settings.icon {
+    color: #637c8a; }
+  .formbuilder.fb-edit-form .actions .icons {
+    display: inline-block;
+    padding: 15px 0;
+    height: 48px;
+    width: 48px;
+    text-align: center;
+    color: #637c8a;
+    border-left: 1px solid #E9EFF4;
+    box-sizing: border-box; }
+    .formbuilder.fb-edit-form .actions .icons:hover {
+      background-color: #E9EFF4; }
+    .formbuilder.fb-edit-form .actions .icons:after {
+      font-family: 'Craft';
+      speak: none;
+      -webkit-font-feature-settings: "liga", "dlig";
+      -moz-font-feature-settings: "liga=1, dlig=1";
+      -moz-font-feature-settings: "liga", "dlig";
+      -ms-font-feature-settings: "liga", "dlig";
+      -o-font-feature-settings: "liga", "dlig";
+      font-feature-settings: "liga", "dlig";
+      text-rendering: optimizeLegibility;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: inline-block;
+      text-align: center;
+      font-style: normal;
+      vertical-align: middle;
+      word-wrap: normal !important;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none; }
+  .formbuilder.fb-edit-form .actions .collapser:after {
+    content: '▼'; }
+  .formbuilder.fb-edit-form .actions .settings:after {
+    content: 'settings'; }
+.formbuilder.fb-edit-form .section-collapsible:not(.collapsed) .collapser:after {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg); }
+.formbuilder.fb-edit-form .setup-container {
+  display: flex;
+  flex-direction: row; }
+  .formbuilder.fb-edit-form .setup-container > div {
+    flex: 1;
+    margin: 20px;
+    border: 1px solid #E9EFF4;
+    border-radius: 5px;
+    height: 100%; }
 
 .formbuilder.fb-entries .section-header {
   display: none; }
@@ -1108,268 +1229,21 @@
   .fb-backup-restore .backup-restore .restore-forms button {
     margin-top: 10px; }
 
-/* ============================================ *
- * Input Defaults
- * ============================================ */
-.instructions {
-  font-size: 11px;
-  color: #8f98a3; }
-  .instructions p {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important; }
-  .instructions.switch p {
-    margin-bottom: .5em !important; }
-
-/* ============================================ *
- * Field Layout Designer
- * ============================================ */
-#fieldlayoutform {
-  background: none;
-  padding: 0; }
-  #fieldlayoutform .customfield {
-    position: relative; }
-    #fieldlayoutform .customfield:after {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 50%;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      height: 50%;
-      width: 5px;
-      background: rgba(71, 197, 202, 0.4);
-      margin-top: -6%; }
-    #fieldlayoutform .customfield .custom-field-label {
-      display: block;
-      font-size: 10px;
-      color: #b1b1b1 !important; }
-  #fieldlayoutform header h2 {
-    margin: 0 0 2px 0 !important;
-    font-family: "Open Sans", "Helvetica", sans-serif;
-    font-size: 14px;
-    line-height: 1;
-    color: black;
-    font-weight: 700 !important;
-    font-style: normal;
-    text-transform: none;
-    text-decoration: none; }
-  #fieldlayoutform header p {
-    padding: 0;
-    margin: 0;
-    font-family: "Open Sans", "Helvetica", sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    font-style: normal;
-    color: #8f98a3;
-    text-transform: none; }
-  #fieldlayoutform .fld-tabs {
-    margin: 0 0 0 -30px; }
-    #fieldlayoutform .fld-tabs .fld-tab.last {
-      margin-bottom: 30px !important; }
-  #fieldlayoutform .create-field {
-    display: inline-block;
-    font-style: normal;
-    text-decoration: none;
-    text-transform: none;
-    text-align: center;
-    margin: 5px 5px 0 0;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-    float: left;
-    color: #29323d;
-    background-image: linear-gradient(white, #fafafa);
-    height: 30px;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 3px;
-    white-space: nowrap;
-    cursor: pointer;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    -o-appearance: none;
-    appearance: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    box-sizing: border-box; }
-    #fieldlayoutform .create-field:hover {
-      background-image: linear-gradient(#fafafa, white); }
-  #fieldlayoutform .newtabbtn-container {
-    margin-bottom: 20px; }
-    #fieldlayoutform .newtabbtn-container .btn.icon {
-      padding-left: 0;
-      text-transform: none;
-      font-style: normal;
-      border-radius: 0;
-      box-shadow: none;
-      background: transparent;
-      float: none;
-      -webkit-transition: color 0.3s ease;
-      -moz-transition: color 0.3s ease;
-      transition: color 0.3s ease; }
-      #fieldlayoutform .newtabbtn-container .btn.icon:hover {
-        color: #47c5ca; }
-      #fieldlayoutform .newtabbtn-container .btn.icon:before {
-        content: "+"; }
-  #fieldlayoutform .fld-tab .tabs {
-    padding: 0;
-    background: rgba(128, 128, 128, 0.2);
-    width: 100%;
-    -webkit-transition: background 0.3s ease;
-    -moz-transition: background 0.3s ease;
-    transition: background 0.3s ease; }
-    #fieldlayoutform .fld-tab .tabs:hover {
-      background: rgba(128, 128, 128, 0.3); }
-    #fieldlayoutform .fld-tab .tabs .tab {
-      padding: 10px 20px;
-      margin: 0;
-      border: none;
-      float: none;
-      width: 100%;
-      border-radius: none;
-      box-sizing: border-box;
-      box-shadow: none;
-      background: rgba(128, 128, 128, 0.2); }
-      #fieldlayoutform .fld-tab .tabs .tab span {
-        font-family: Roboto, HelveticaNeue, sans-serif;
-        font-style: normal;
-        font-weight: 500;
-        text-transform: none;
-        color: #2e2e2e; }
-      #fieldlayoutform .fld-tab .tabs .tab a:before {
-        color: white; }
-    #fieldlayoutform .fld-tab .tabs .settings {
-      float: right; }
-  #fieldlayoutform .fld-tab .fld-tabcontent {
-    padding: 0;
-    border: none; }
-    #fieldlayoutform .fld-tab .fld-tabcontent .fld-field {
-      padding: 15px 20px;
-      border: none;
-      border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-      background: rgba(128, 128, 128, 0.1);
-      -webkit-transition: background 0.3s ease;
-      -moz-transition: background 0.3s ease;
-      transition: background 0.3s ease; }
-      #fieldlayoutform .fld-tab .fld-tabcontent .fld-field:hover {
-        background: #fcfcfc; }
-      #fieldlayoutform .fld-tab .fld-tabcontent .fld-field:last-child {
-        border-bottom: none; }
-      #fieldlayoutform .fld-tab .fld-tabcontent .fld-field.fld-required span:after {
-        color: #f07575; }
-      #fieldlayoutform .fld-tab .fld-tabcontent .fld-field a:before {
-        color: #c9c9c9; }
-      #fieldlayoutform .fld-tab .fld-tabcontent .fld-field + .fld-field {
-        margin: 0; }
-    #fieldlayoutform .fld-tab .fld-tabcontent span {
-      font-family: "Open Sans", "Helvetica", sans-serif;
-      font-style: normal;
-      font-weight: 400;
-      text-transform: none;
-      color: #2e2e2e; }
-    #fieldlayoutform .fld-tab .fld-tabcontent .fld-tab-caboose {
-      border: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      min-height: auto !important;
-      height: 4px;
-      background: #47c5ca;
-      box-sizing: border-box; }
-  #fieldlayoutform .fld-tab.fld-insertion .tab {
-    border: none;
-    background: none;
-    border-bottom-color: white !important; }
-  #fieldlayoutform .fld-tab.fld-insertion .tabs {
-    min-height: 39px;
-    background: rgba(71, 197, 202, 0.1); }
-  #fieldlayoutform .fld-tab.fld-insertion .fld-tabcontent {
-    border: none;
-    background: rgba(71, 197, 202, 0.1); }
-  #fieldlayoutform .fld-tab.fld-tab-caboose {
-    border: 2px dotted #47c5ca; }
-
-.draghelper.fld-tab .tabs {
-  padding: 0;
-  width: 100%; }
-  .draghelper.fld-tab .tabs .tab {
-    background: rgba(128, 128, 128, 0.2) !important;
-    padding: 10px 20px;
-    margin: 0 !important;
-    float: none;
-    width: 100%;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-sizing: border-box; }
-    .draghelper.fld-tab .tabs .tab span {
-      font-family: Roboto, HelveticaNeue, sans-serif;
-      font-style: normal;
-      font-weight: 500;
-      text-transform: none;
-      color: #2e2e2e; }
-    .draghelper.fld-tab .tabs .tab a:before {
-      color: #c9c9c9; }
-  .draghelper.fld-tab .tabs .settings {
-    float: right; }
-.draghelper.fld-tab .fld-tabcontent {
-  padding: 0;
-  border: none;
-  box-shadow: none !important; }
-  .draghelper.fld-tab .fld-tabcontent .fld-field {
-    padding: 15px 20px;
-    border: none;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-    background: rgba(128, 128, 128, 0.1);
-    -webkit-transition: background 0.3s ease;
-    -moz-transition: background 0.3s ease;
-    transition: background 0.3s ease; }
-    .draghelper.fld-tab .fld-tabcontent .fld-field:hover {
-      background: #fcfcfc; }
-    .draghelper.fld-tab .fld-tabcontent .fld-field:last-child {
-      border-bottom: none; }
-    .draghelper.fld-tab .fld-tabcontent .fld-field.fld-required span:after {
-      color: #f07575; }
-    .draghelper.fld-tab .fld-tabcontent .fld-field a:before {
-      color: #c9c9c9; }
-    .draghelper.fld-tab .fld-tabcontent .fld-field + .fld-field {
-      margin: 0; }
-  .draghelper.fld-tab .fld-tabcontent span {
-    font-family: "Open Sans", "Helvetica", sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    text-transform: none;
-    color: #2e2e2e; }
-.draghelper.fld-field {
-  padding: 15px 20px;
-  border: none;
-  background: rgba(0, 0, 0, 0.3);
-  box-shadow: none; }
-  .draghelper.fld-field span {
-    font-family: "Open Sans", "Helvetica", sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    text-transform: none;
-    color: white; }
-  .draghelper.fld-field .settings {
-    opacity: 0; }
-
-.unusedfields .unused .tab {
-  cursor: move; }
-
 .formbuilder .btns {
   display: inline-block;
   font-family: 'Roboto';
   font-weight: 900;
   font-size: 12px;
+  font-style: normal;
   border-radius: 5px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #ffffff;
-  padding: 12px 18px 10px 19px;
+  padding: 12px 19px 10px 19px;
   height: auto;
   background-image: none !important;
-  transition: background-color .3s ease;
+  transition: all .3s ease;
+  box-shadow: none;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility; }
@@ -1378,6 +1252,18 @@
     font-size: 15px; }
   .formbuilder .btns:hover {
     background-image: none; }
+  .formbuilder .btns.btn-white {
+    background-color: #ffffff;
+    border: 1px solid #E9EFF4;
+    color: #323C47; }
+    .formbuilder .btns.btn-white.icon {
+      background: #ffffff; }
+    .formbuilder .btns.btn-white:hover {
+      background-color: #E9EFF4; }
+  .formbuilder .btns.btn-link {
+    color: #4da1ff; }
+    .formbuilder .btns.btn-link:hover {
+      color: #006de6; }
   .formbuilder .btns.btn-info {
     background-color: #4da1ff; }
     .formbuilder .btns.btn-info:hover {
@@ -1386,8 +1272,343 @@
     background-color: #ff6d4a; }
     .formbuilder .btns.btn-danger:hover {
       background-color: #ff8264; }
+  .formbuilder .btns.btn-moss {
+    background-color: #637c8a; }
+    .formbuilder .btns.btn-moss:hover, .formbuilder .btns.btn-moss.active {
+      background-color: #6f8998; }
+
+.formbuilder-modal {
+  border: 1px solid #E9EFF4; }
+  .formbuilder-modal header {
+    padding: 60px 60px 40px 60px;
+    text-align: center; }
+    .formbuilder-modal header .modal-title {
+      font-family: 'Roboto';
+      font-size: 28px;
+      color: #323C47;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      text-rendering: optimizeLegibility; }
+    .formbuilder-modal header .instructions {
+      padding-top: 15px;
+      font-family: 'Roboto';
+      font-size: 14px;
+      color: #989898;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      text-rendering: optimizeLegibility; }
+  .formbuilder-modal .body {
+    position: relative;
+    padding: 0 60px 50px 60px; }
+    .formbuilder-modal .body input {
+      box-shadow: none;
+      border-color: #E9EFF4; }
+    .formbuilder-modal .body .path-text {
+      position: absolute;
+      top: 17px;
+      right: auto;
+      bottom: auto;
+      left: 75px;
+      font-family: Menlo, monospace;
+      color: #d8e3ec;
+      font-size: 10px; }
+  .formbuilder-modal .text {
+    padding: 15px 10px;
+    text-align: center; }
+  .formbuilder-modal .code {
+    font-family: Menlo, monospace; }
+  .formbuilder-modal footer {
+    border-top: 1px solid #E9EFF4;
+    background-image: none;
+    background-color: #ffffff;
+    box-shadow: none;
+    padding: 0; }
+  .formbuilder-modal .buttons {
+    display: flex;
+    flex-direction: row; }
+    .formbuilder-modal .buttons > input {
+      display: block;
+      flex: 1;
+      border: none;
+      outline: none;
+      border-radius: 0;
+      padding: 20px;
+      cursor: pointer;
+      color: #323C47;
+      background-color: transparent;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      -o-appearance: none;
+      appearance: none; }
+      .formbuilder-modal .buttons > input:first-child {
+        border-right: 1px solid #E9EFF4; }
+      .formbuilder-modal .buttons > input:hover {
+        background-color: #E9EFF4; }
+    .formbuilder-modal .buttons:before, .formbuilder-modal .buttons:after {
+      display: none; }
+
+.formbuilder .field label {
+  font-family: 'Roboto';
+  font-weight: bold;
+  color: #323C47; }
+.formbuilder .select {
+  box-shadow: none;
+  border: 1px solid #E9EFF4;
+  width: 100%;
+  background-image: none;
+  box-shadow: none; }
+  .formbuilder .select:after {
+    right: 20px !important; }
+  .formbuilder .select select {
+    font-family: 'Roboto';
+    color: #323C47;
+    width: 100%;
+    padding: 16px 10px 13px 60px !important;
+    outline: none;
+    box-shadow: none !important; }
+.formbuilder input.text, .formbuilder textarea.text {
+  font-family: 'Roboto';
+  color: #323C47;
+  padding: 15px 10px;
+  width: 100%;
+  box-shadow: none; }
+  .formbuilder input.text:focus, .formbuilder textarea.text:focus {
+    border-color: #E9EFF4;
+    box-shadow: none; }
+.formbuilder input.code, .formbuilder textarea.code {
+  font-family: Menlo, monospace; }
+
+.formbuilder #fieldlayoutform {
+  background-color: #fafbfc;
+  background-image: none;
+  padding: 0; }
+  .formbuilder #fieldlayoutform .newtabbtn-container {
+    margin-bottom: 0;
+    padding: 20px; }
+    .formbuilder #fieldlayoutform .newtabbtn-container:before {
+      display: none; }
+    .formbuilder #fieldlayoutform .newtabbtn-container .btn.icon:before {
+      content: "+"; }
+  .formbuilder #fieldlayoutform header {
+    padding: 0 20px;
+    border-bottom: none; }
+    .formbuilder #fieldlayoutform header h2 {
+      margin: 0 0 2px 0 !important;
+      font-family: 'Roboto';
+      font-size: 14px;
+      line-height: 1;
+      color: black;
+      font-weight: 700 !important;
+      font-style: normal;
+      text-transform: none;
+      text-decoration: none;
+      color: #323C47; }
+    .formbuilder #fieldlayoutform header p {
+      padding: 0;
+      margin: 0;
+      font-family: 'Roboto';
+      font-size: 11px;
+      font-weight: 400;
+      font-style: normal;
+      color: #989898;
+      text-transform: none; }
+.formbuilder .fld-tabs {
+  margin: 0 0 20px 0 !important;
+  padding: 20px;
+  border-bottom: 1px solid #E9EFF4; }
+  .formbuilder .fld-tabs .fld-tab.last {
+    margin-bottom: 30px !important; }
+.formbuilder .unusedfields {
+  margin: 0 0 20px 0 !important;
+  padding: 20px; }
+  .formbuilder .unusedfields .fld-tab.last {
+    margin-bottom: 30px !important; }
+.formbuilder .fld-tab {
+  margin: 0 20px 20px 0 !important; }
+  .formbuilder .fld-tab .tabs {
+    padding: 0;
+    background: rgba(128, 128, 128, 0.2);
+    width: 100%;
+    -webkit-transition: background 0.3s ease;
+    -moz-transition: background 0.3s ease;
+    transition: background 0.3s ease; }
+    .formbuilder .fld-tab .tabs:hover {
+      background: rgba(128, 128, 128, 0.3); }
+    .formbuilder .fld-tab .tabs .tab {
+      padding: 10px 20px;
+      margin: 0;
+      border: none;
+      float: none;
+      width: 100%;
+      border-radius: none;
+      box-sizing: border-box;
+      box-shadow: none;
+      background: #637c8a; }
+      .formbuilder .fld-tab .tabs .tab span {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: bold;
+        text-transform: none;
+        color: #ffffff; }
+      .formbuilder .fld-tab .tabs .tab a:before {
+        color: white; }
+    .formbuilder .fld-tab .tabs .settings {
+      float: right; }
+  .formbuilder .fld-tab .template-result {
+    font-family: 'Roboto';
+    display: block;
+    font-size: 10px;
+    font-style: normal;
+    text-transform: none;
+    color: #989898;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility; }
+    .formbuilder .fld-tab .template-result svg {
+      width: 10px;
+      margin-right: 4px;
+      vertical-align: middle; }
+  .formbuilder .fld-tab .fld-tabcontent {
+    padding: 0;
+    border: 1px solid #E9EFF4; }
+    .formbuilder .fld-tab .fld-tabcontent .fld-field {
+      padding: 15px 20px;
+      border: none;
+      border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+      background: #ffffff;
+      -webkit-transition: background 0.3s ease;
+      -moz-transition: background 0.3s ease;
+      transition: background 0.3s ease; }
+      .formbuilder .fld-tab .fld-tabcontent .fld-field:hover {
+        background: #fcfcfc; }
+      .formbuilder .fld-tab .fld-tabcontent .fld-field:last-child {
+        border-bottom: none; }
+      .formbuilder .fld-tab .fld-tabcontent .fld-field.fld-required span:after {
+        color: #f07575; }
+      .formbuilder .fld-tab .fld-tabcontent .fld-field a:before {
+        color: #c9c9c9; }
+      .formbuilder .fld-tab .fld-tabcontent .fld-field + .fld-field {
+        margin: 0; }
+    .formbuilder .fld-tab .fld-tabcontent span {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      text-transform: none;
+      color: #323C47; }
+    .formbuilder .fld-tab .fld-tabcontent .fld-tab-caboose {
+      border: none !important;
+      margin: 0 0 0 -1px !important;
+      padding: 0 !important;
+      min-height: auto !important;
+      height: 5px;
+      background: #a6e50f;
+      box-sizing: border-box; }
+  .formbuilder .fld-tab.fld-insertion {
+    border: 2px dashed #4da1ff;
+    border-radius: 5px; }
+    .formbuilder .fld-tab.fld-insertion .tabs, .formbuilder .fld-tab.fld-insertion .tab, .formbuilder .fld-tab.fld-insertion .fld-tabcontent {
+      background: none;
+      border: none; }
+.formbuilder .draghelper.fld-tab .tabs {
+  padding: 0;
+  background: rgba(128, 128, 128, 0.2);
+  width: 100%;
+  -webkit-transition: background 0.3s ease;
+  -moz-transition: background 0.3s ease;
+  transition: background 0.3s ease; }
+  .formbuilder .draghelper.fld-tab .tabs:hover {
+    background: rgba(128, 128, 128, 0.3); }
+  .formbuilder .draghelper.fld-tab .tabs .tab {
+    padding: 10px 20px;
+    margin: 0;
+    border: none;
+    float: none;
+    width: 100%;
+    border-radius: none;
+    box-sizing: border-box;
+    box-shadow: none;
+    background: #637c8a; }
+    .formbuilder .draghelper.fld-tab .tabs .tab span {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: bold;
+      text-transform: none;
+      color: #ffffff; }
+    .formbuilder .draghelper.fld-tab .tabs .tab a:before {
+      color: white; }
+  .formbuilder .draghelper.fld-tab .tabs .settings {
+    float: right; }
+.formbuilder .draghelper.fld-tab .template-result {
+  font-family: 'Roboto';
+  display: block;
+  font-size: 10px;
+  font-style: normal;
+  text-transform: none;
+  color: #989898;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility; }
+  .formbuilder .draghelper.fld-tab .template-result svg {
+    width: 10px;
+    margin-right: 4px;
+    vertical-align: middle; }
+.formbuilder .draghelper.fld-tab .fld-tabcontent {
+  padding: 0;
+  border: 1px solid #E9EFF4; }
+  .formbuilder .draghelper.fld-tab .fld-tabcontent .fld-field {
+    padding: 15px 20px;
+    border: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+    background: #ffffff;
+    -webkit-transition: background 0.3s ease;
+    -moz-transition: background 0.3s ease;
+    transition: background 0.3s ease; }
+    .formbuilder .draghelper.fld-tab .fld-tabcontent .fld-field:hover {
+      background: #fcfcfc; }
+    .formbuilder .draghelper.fld-tab .fld-tabcontent .fld-field:last-child {
+      border-bottom: none; }
+    .formbuilder .draghelper.fld-tab .fld-tabcontent .fld-field.fld-required span:after {
+      color: #f07575; }
+    .formbuilder .draghelper.fld-tab .fld-tabcontent .fld-field a:before {
+      color: #c9c9c9; }
+    .formbuilder .draghelper.fld-tab .fld-tabcontent .fld-field + .fld-field {
+      margin: 0; }
+  .formbuilder .draghelper.fld-tab .fld-tabcontent span {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: none;
+    color: #323C47; }
+  .formbuilder .draghelper.fld-tab .fld-tabcontent .fld-tab-caboose {
+    border: none !important;
+    margin: 0 0 0 -1px !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    height: 5px;
+    background: #a6e50f;
+    box-sizing: border-box; }
+.formbuilder .draghelper.fld-field {
+  padding: 15px 20px;
+  border: none;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+  background: #ffffff; }
+  .formbuilder .draghelper.fld-field span {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: none;
+    color: #323C47; }
+  .formbuilder .draghelper.fld-field .settings {
+    opacity: 0; }
+.formbuilder .unusedfields .unused .tab {
+  cursor: move; }
 
 .cmp-tout {
+  position: relative;
   font-family: 'Roboto';
   font-size: 14px;
   color: #323C47;
@@ -1398,25 +1619,61 @@
   border-radius: 5px;
   background-color: #ffffff;
   border: 1px solid #E9EFF4;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  margin-bottom: 14px; }
   .cmp-tout header {
     border-bottom: 1px solid #E9EFF4;
     padding: 15px 20px; }
     .cmp-tout header .tout-title {
       font-size: 14px;
       font-weight: bold;
-      text-transform: uppercase; }
-  .cmp-tout main {
+      text-transform: uppercase;
+      letter-spacing: .07em; }
+  .cmp-tout .body {
     padding: 20px; }
-    .cmp-tout main .tout-count {
+    .cmp-tout .body .tout-count {
       font-weight: bold; }
-    .cmp-tout main .tout-count-text {
+    .cmp-tout .body .tout-count-text {
       font-size: 12px; }
   .cmp-tout.theme-moss {
     background-color: #637c8a;
     color: #ffffff; }
     .cmp-tout.theme-moss header {
       border-color: #6F8996; }
+
+.notification-email-tout {
+  background-color: #ffffff; }
+  .notification-email-tout header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px 20px; }
+    .notification-email-tout header .action {
+      margin-left: auto; }
+  .notification-email-tout .body {
+    padding: 0; }
+  .notification-email-tout .settings-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid #E9EFF4;
+    padding: 10px 20px; }
+    .notification-email-tout .settings-item:last-child {
+      border-bottom: none; }
+    .notification-email-tout .settings-item .settings-title {
+      font-family: 'Roboto';
+      font-weight: 500; }
+      .notification-email-tout .settings-item .settings-title .settings-result {
+        font-size: 10px; }
+    .notification-email-tout .settings-item .settings-action {
+      margin-left: auto; }
+      .notification-email-tout .settings-item .settings-action .btns {
+        padding-right: 0; }
+      .notification-email-tout .settings-item .settings-action .settings-edit {
+        display: block;
+        padding: 9px; }
+        .notification-email-tout .settings-item .settings-action .settings-edit:hover svg * {
+          fill: #4da1ff; }
 
 .form-tout {
   padding: 30px;

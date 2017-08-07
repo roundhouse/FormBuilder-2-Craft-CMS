@@ -1,0 +1,83 @@
+.formbuilder-modal {
+    border: 1px solid $c-border;
+    
+    header {
+        padding: 60px 60px 40px 60px;
+        text-align: center;
+        .modal-title {
+            font-family: 'Roboto';
+            font-size: 28px;
+            color: $c-textDarkBlue;
+            @include antialias;
+        }
+
+        .instructions {
+            padding-top: 15px;
+            font-family: 'Roboto';
+            font-size: 14px;
+            color: $c-textLight;
+            @include antialias;
+
+        }
+    }
+
+    .body {
+        position: relative;
+        padding: 0 60px 50px 60px;
+        input {
+            box-shadow: none;
+            border-color: $c-border;
+        }
+
+        .path-text {
+            @include position(absolute, 17px auto auto 75px);
+            font-family: Menlo, monospace;
+            color: darken($c-border, 5);
+            font-size: 10px;
+        }
+    }
+
+    .text {
+        padding: 15px 10px;
+        text-align: center;
+    }
+
+    .code {
+        font-family: Menlo, monospace;
+    }
+
+    footer {
+        border-top: 1px solid $c-border;
+        background-image: none;
+        background-color: $c-white;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        & > input {
+            display: block;
+            flex: 1;
+            border: none;
+            outline: none;
+            border-radius: 0;
+            padding: 20px;
+            cursor: pointer;
+            color: $c-textDarkBlue;
+            background-color: transparent;
+            @include appearance(none);
+            &:first-child {
+                border-right: 1px solid $c-border;
+            }
+            &:hover {
+                background-color: $c-border;
+            }
+        }
+        &:before, &:after {
+            display: none;
+        }
+    }
+
+}

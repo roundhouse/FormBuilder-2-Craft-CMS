@@ -1,0 +1,33 @@
+<section class="cmp-tout section-collapsible">
+    <header>
+        <div class="titlebar">
+            <span class="tout-title">{{ "Submitter Notification" |t }}</span>
+            <div class="preview"></div>
+        </div>
+        <div class="actions">
+            {% if form.notificationSettings.notifySubmitter %}
+                <div class="status on" title="Enabled"></div>
+            {% else %}
+                <div class="status off" title="Disabled"></div>
+            {% endif %}
+
+            <a class="icons collapser" title="Actions" role="combobox" tabindex="0"></a>
+            <a class="icons settings" title="Actions" role="combobox" tabindex="0"></a>
+
+            <div class="menu">
+                <ul class="padded">
+                    <li {% if not form.notificationSettings.notifySubmitter %}class="hidden"{% endif %}><a data-action="disable"><span class="status off"></span>
+                        {{ "Disable"|t }}
+                    </a></li>
+                    <li {% if form.notificationSettings.notifySubmitter %}class="hidden"{% endif %}><a data-action="enable"><span class="status enabled"></span>
+                        {{ "Enable"|t }}
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="fields">
+        {% include 'formbuilder2/forms/_includes/email-settings/notify-submitter' ignore missing %}
+    </div>
+</section>

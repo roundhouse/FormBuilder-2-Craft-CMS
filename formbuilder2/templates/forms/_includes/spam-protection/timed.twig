@@ -1,0 +1,27 @@
+<div class="option-item {% if form.spamProtectionSettings.spamTimeMethod is defined and form.spamProtectionSettings.spamTimeMethod %}option-enabled{% endif %}"
+    id="option-timed"
+    data-modal="true"
+    data-modal-title="{{ "Time" |t }}"
+    data-modal-instructions="{{ "Enter how many seconds to wait untill submissions are valid." |t }}"
+    data-input-hint="{{ "NUMBER" |t }}"
+    data-modal-success-message="{{ "Timed Protection Updated." |t }}"
+    data-input-value="{{ form.spamProtectionSettings.spamTimeMethodTime }}">
+    <span class="option-title">
+        <span class="option-text">{{ "Timed" |t }}</span>
+        <span class="option-result {% if form.spamProtectionSettings.spamTimeMethod is defined and not form.spamProtectionSettings.spamTimeMethod %}hidden{% endif %}">
+            {% include 'formbuilder2/_includes/icons/clock' ignore missing %}
+            <code>{{ form.spamProtectionSettings.spamTimeMethodTime }}</code>
+        </span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="option-edit hidden" title="{{ "Edit Timed" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+        {% if form.spamProtectionSettings.spamTimeMethod is defined and not form.spamProtectionSettings.spamTimeMethod %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle Timed" |t }}">{{ "Enable" |t }}</a>
+        {% else %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle Timed" |t }}">{{ "Disable" |t }}</a>
+        {% endif %}
+    </div>
+    
+    <input type="hidden" value="1" class="enable-form-option" name="spamProtectionSettings[spamTimeMethod]">
+    <input type="hidden" class="text form-option-input" size="50" name="spamProtectionSettings[spamTimeMethodTime]" value="{{ form.spamTimeMethodTime.spamTimeMethodTime is defined ? form.spamTimeMethodTime.spamTimeMethodTime : '' }}" autocomplete="off">
+</div>

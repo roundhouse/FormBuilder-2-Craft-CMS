@@ -1,0 +1,43 @@
+.formbuilder {
+    .field {
+        label {
+            font-family: 'Roboto';
+            font-weight: bold;
+            color: $c-textDarkBlue;
+        }
+    }
+    .select {
+        box-shadow: none;
+        border: 1px solid $c-border;
+        width: 100%;
+        background-image: none;
+        box-shadow: none;
+        &:after {
+            right: 20px !important;
+        }
+        select {
+            font-family: 'Roboto';
+            color: $c-textDarkBlue;
+            width: 100%;
+            padding: 16px 10px 13px 60px !important;
+            outline: none;
+            box-shadow: none !important;
+        }
+    }
+    input, textarea {
+        &.text {
+            font-family: 'Roboto';
+            color: $c-textDarkBlue;
+            padding: 15px 10px;
+            width: 100%;
+            box-shadow: none;
+            &:focus {
+                border-color: $c-border;
+                box-shadow: none;
+            }
+        }
+        &.code {
+            font-family: Menlo, monospace;
+        }
+    }
+}

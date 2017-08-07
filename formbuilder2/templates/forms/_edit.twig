@@ -39,68 +39,49 @@
 {% endblock %}
 
 {% block main %}
+
+    {% set templates = craft.formBuilder2.getTemplates() %}
+    {% set templateGroupOptions = [{label: 'Select Template', value: ''}] %}
     
     <div class="grid first" data-max-cols="3">
 
         <div class="item" data-position="left" data-colspan="2">
-            <section class="cmp-tout">
-                <header>
-                    <span class="tout-title">{{ "Forms" |t }}</span>
-                </header>
-            </section>
-            {# <div id="fields" class="pane">
-                {% if tabs is defined and tabs %}
-                    {% include "_includes/tabs" %}
-                {% endif %}
-
-                <div id="form-settings" class="tab-content">
-                </div>
-
-                <div id="forms-guidelines" class="hidden">
-                    Test
-                </div>
-            </div> #}
+            {% include 'formbuilder2/forms/_includes/fields' ignore missing %}
+            {% include 'formbuilder2/forms/_includes/admin-notification' ignore missing %}
+            {% include 'formbuilder2/forms/_includes/submitter-notification' ignore missing %}
         </div>
 
         <div class="editform-sidebar item" data-position="right">
-            <div class="pane meta">
-                {% set ant = form.getErrors('adminNotificationTemplateId') |length %}
-                {% set cnt = form.getErrors('customerNotificationTemplateId') |length %}
-                {% set tab = 1 %}
-                
-                {% if ant == 1 or cnt == 1 %}
-                    {% set taberror = true %}
-                {% else %}    
-                    {% set taberror = false %}
-                {% endif %} 
-
-                <nav id="tabs2" class="tabs">
-                    <ul>
-                        <li>
-                            <a class="tab {{ tab == 1 ? ' sel' : '' }}" href="#tab-form-settings">
-                                {{ "Settings"|t }}
-                            </a>
-                        </li>
-                        <li>
-                            <a class="tab {{ tab == 2 ? ' sel' : '' }} {% if taberror %}error{% endif %}" href="#tab-spam-protection">
-                                {{ "Spam"|t }}
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-
-                {% include 'formbuilder2/forms/_includes/form-settings/basic-settings' ignore missing %}
-                {% include 'formbuilder2/forms/_includes/spam-protection' ignore missing %}
-
-            </div>
-
-            <section class="custom-redirect-tout cmp-tout theme-moss">
+            {% includeJsResource "formbuilder2/js/form-options.js" %}
+            <section class="form-settings-tout cmp-tout theme-white">
                 <header>
-                    <span class="tout-title">{{ "Custom Redirects" |t }}</span>
+                    <span class="tout-title">{{ "Form Settings" |t }}</span>
                 </header>
-                <main>
+                <div class="body">
+                    {% include 'formbuilder2/forms/_includes/form-settings/basic-settings' ignore missing %}
+                </div>
+            </section>
+
+            <section class="form-options-tout cmp-tout theme-white">
+                <header>
+                    <span class="tout-title">{{ "Form Options" |t }}</span>
+                </header>
+                <div class="body">
                     {% include 'formbuilder2/forms/_includes/form-settings/redirect' ignore missing %}
-                </main>
+                    {% include 'formbuilder2/forms/_includes/form-settings/ajax' ignore missing %}
+                    {% include 'formbuilder2/forms/_includes/form-settings/file-uploads' ignore missing %}
+                    {% include 'formbuilder2/forms/_includes/form-settings/scripts' ignore missing %}
+                    {% include 'formbuilder2/forms/_includes/email-settings/custom-subject' ignore missing %}
+                </div>
+            </section>
+            <section class="spam-protection-tout cmp-tout theme-white">
+                <header>
+                    <span class="tout-title">{{ "Spam Protection" |t }}</span>
+                </header>
+                <div class="body">
+                    {% include 'formbuilder2/forms/_includes/spam-protection/honeypot' ignore missing %}
+                    {% include 'formbuilder2/forms/_includes/spam-protection/timed' ignore missing %}
+                </div>
             </section>
 
             <div class="pane meta delete-form-meta last">
@@ -215,7 +196,10 @@
 
 {% includeJsResource "formbuilder2/js/forms.js" %}
 
-
 {% includejs %}
+    $('.section-collapsible').each(function(i,el){
+        new FormBuilderSection(el);
+    });
+
     {% if not form.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}
 {% endincludejs %}

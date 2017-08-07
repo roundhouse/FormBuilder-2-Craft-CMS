@@ -156,6 +156,27 @@
             }
         }
     }
+
+    .menu {
+        .status {
+            &.on, &.enabled {
+                background-color: $c-success;
+            }
+            &.off, &.disabled {
+                background-color: $c-danger;
+            }
+        }
+        a {
+            font-family: 'Roboto';
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: $letter-spacing;
+            color: $c-textDarkBlue;
+            &:hover {
+                background-color: $c-grayBackground;
+            }
+        }
+    }
 }
 
 

@@ -23,10 +23,12 @@
 @import "pages/layouts"; // Layouts styles
 @import "pages/configuration"; // Configuration styles
 @import "pages/backuprestore"; // Backup & Restore styles
-@import "pages/inputs"; // Inputs styles
 
 // Components
 @import "components/_buttons";
+@import "components/_modals";
+@import "components/_inputs";
+@import "components/fieldlayoutdesigner";
 @import "components/cmp-tout";
 @import "components/form-tout";
 @import "components/counter-tout";

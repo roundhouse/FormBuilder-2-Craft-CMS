@@ -34,7 +34,7 @@ class FormBuilder2Variable
             craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/colorpicker.css'));
             craft()->templates->includeJsFile(UrlHelper::getResourceUrl('formbuilder2/js/libs/colorpicker.js'));
           } elseif ($field->type == 'Date') {
-            if (!isset($form->formSettings["disableDatepickerScripts"]) || $form->formSettings["disableDatepickerScripts"] != "1") {
+            if (!isset($form->formSettings["disableDatepickerScripts"]) || $form->formSettings["disableDatepickerScripts"] == "1") {
                 craft()->templates->includeJsFile(UrlHelper::getResourceUrl('/lib/jquery-ui.min.js'));
                 craft()->templates->includeJsFile(UrlHelper::getResourceUrl('lib/jquery.timepicker/jquery.timepicker.min.js'));
                 craft()->templates->includeCssFile(UrlHelper::getResourceUrl('formbuilder2/css/libs/datetimepicker.css'));

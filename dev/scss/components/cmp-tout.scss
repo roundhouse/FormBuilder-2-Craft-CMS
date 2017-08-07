@@ -1,4 +1,5 @@
 .cmp-tout {
+    position: relative;
     font-family: 'Roboto';
     font-size: 14px;
     color: $c-textDarkBlue;
@@ -10,6 +11,8 @@
     border: 1px solid $c-border;
     box-sizing: border-box;
 
+    margin-bottom: 14px;
+
     header {
         border-bottom: 1px solid $c-border;
         padding: 15px 20px;
@@ -17,10 +20,13 @@
             font-size: 14px;
             font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: .07em;
         }
     }
 
-    main {
+
+
+    .body {
         padding: 20px;
         .tout-count {
             font-weight: bold;
@@ -37,6 +43,62 @@
 
         header {
             border-color: #6F8996;
+        }
+    }
+
+    .notification-fields {
+        // background-color: $c-offWhite;
+    }
+}
+
+// Notification Touts
+.notification-email-tout {
+    background-color: $c-white;
+    header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 15px 20px;
+        .action {
+            margin-left: auto;
+        }
+    }
+
+    .body {
+        padding: 0;
+    }
+
+    .settings-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-bottom: 1px solid $c-border;
+        padding: 10px 20px;
+        &:last-child {
+            border-bottom: none;
+        }
+
+        .settings-title {
+            font-family: 'Roboto';
+            font-weight: 500;
+
+            .settings-result {
+                font-size: 10px;
+            }
+        }
+
+        .settings-action {
+            margin-left: auto;
+            .btns {
+                padding-right: 0;
+            }
+            .settings-edit {
+                display: block;
+                padding: 9px;
+                &:hover {
+                    svg * { fill: $c-info; }
+                }
+            }
         }
     }
 }

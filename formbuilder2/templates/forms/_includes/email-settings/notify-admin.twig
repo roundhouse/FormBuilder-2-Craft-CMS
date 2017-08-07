@@ -1,4 +1,99 @@
-<div class="method-notify pane">
+<input type="hidden" value="1" class="enable-notification-section" name="notificationSettings[notifySubmission]" {% if form.notificationSettings.notifySubmission %}checked{% endif %}>
+
+<div class="setup-container">
+    <div class="notification-email-tout">
+        <header>
+            <span class="tout-title">Email Settings</span>
+            <div class="action">
+                <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+            </div>
+        </header>
+        <div class="body">
+            <div class="settings-item">
+                <div class="settings-title">
+                    <div class="settings-title-text">From Email</div>
+                    <div class="settings-result">
+                        <code>{{ form.notificationSettings.adminNotification.fromEmail is defined ? form.notificationSettings.adminNotification.fromEmail : craft.systemSettings.email.emailAddress }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                    <a href="#" class="settings-edit" title="{{ "Configure Email Settings" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-title">
+                    <div class="settings-title-text">From Name</div>
+                    <div class="settings-result">
+                        <code>{{ form.notificationSettings.adminNotification.fromName is defined ? form.notificationSettings.adminNotification.fromName : craft.systemSettings.email.senderName }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                    <a href="#" class="settings-edit" title="{{ "Configure Email Settings" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-title">
+                    <div class="settings-title-text">To Email</div>
+                    <div class="settings-result">
+                        <code>{{ form.notificationSettings.emailSettings.notifyEmail is defined ? form.notificationSettings.emailSettings.notifyEmail : craft.systemSettings.email.emailAddress }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                    <a href="#" class="settings-edit" title="{{ "Configure Email Settings" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                </div>
+            </div>
+            <div class="settings-item">Subject: </div>
+            <div class="settings-item">Body: </div>
+            <div class="settings-item">HTML Body: </div>
+            <div class="settings-item">Reply To: </div>
+            <div class="settings-item">CC: </div>
+            <div class="settings-item">BCC: </div>
+            <div class="settings-item">Attachments: </div>
+            <div class="settings-item">
+                <span class="settings-title">
+                    Custom Headers
+                </span>
+                <span class="settings-action">
+                    <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+                </span>
+            </div>
+        </div>
+    </div>
+    {# <div class="setup-email-tout">
+        <header>
+            <span class="icons">{% include 'formbuilder2/_includes/icons/settings' ignore missing %}</span>
+            <span class="tout-title">{{ "Email Settings" |t }}</span>
+        </header>
+        <div class="body">
+            <a href="#" class="btns btn-info">{{ "Setup" |t }}</a>
+        </div>
+    </div> #}
+
+    <div class="setup-email-template-tout">
+        <header>
+            <span class="icons">{% include 'formbuilder2/_includes/icons/template' ignore missing %}</span>
+            <span class="tout-title">{{ "Email Template" |t }}</span>
+        </header>
+        <div class="body">
+            <a href="#" class="btns btn-info">{{ "Setup" |t }}</a>
+        </div>
+    </div>
+</div>
+
+{# 
+
+<div class="notification-email-tout">
+    <header>
+        <span class="tout-title">Email Template Setup</span>
+    </header>
+    <div class="body">
+        List of Templates
+    </div>
+</div> #}
+
+
+
+{# <div class="method-notify pane">
 
   <div class="checkbox-toggle" data-checkbox="notifySubmission">
     <div class="togglebox">
@@ -112,4 +207,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> #}

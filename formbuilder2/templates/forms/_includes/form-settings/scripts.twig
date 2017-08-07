@@ -1,26 +1,12 @@
-<div class="method-datepickerscripts pane{% if ajaxUploadErrors %} errors toggle-error{% endif %}">
-
-    <div class="checkbox-toggle" data-checkbox="disableDatepickerScripts">
-
-    <div class="togglebox">
-
-        <svg><use xlink:href="#icon-datepicker" class="icon-datepicker"/></svg>
-
-        {{ forms.checkboxField({
-            id: 'disableDatepickerScripts',
-            class: 'disableDatepickerScripts',
-            name: 'formSettings[disableDatepickerScripts]',
-            value: 1,
-            checked: form.formSettings.disableDatepickerScripts is defined ? form.formSettings.disableDatepickerScripts : null,
-            errors: form.getErrors('disableDatepickerScripts'),
-            required: false
-        }) }}
-        </div>
-
-        <div class="togglecontent">
-            <h3>{{ "Disable Date/Time Picker Scripts"|t }}</h3>
-            <p>{{ "When disabled, browser defaults will be used."|t }}</p>
-        </div>
+<div class="option-item {% if form.formSettings.disableDatepickerScripts is defined and form.formSettings.disableDatepickerScripts %}option-enabled{% endif %}" 
+    id="option-datetime"
+    data-modal="false">
+    <span class="option-title">
+        <span class="option-text">{{ "DateTime Picker Scripts" |t }} <span class="info">{{ "When disabled, browser defaults will be used." |t }}</span></span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle Date Picker Scripts" |t }}">{{ "Enable" |t }}</a>
     </div>
-
+    <input type="hidden" value="1" class="enable-form-option" class="disableDatepickerScripts checkbox" name="formSettings[disableDatepickerScripts]" {% if form.formSettings.disableDatepickerScripts is defined and form.formSettings.disableDatepickerScripts %}checked{% endif %}>
 </div>
+

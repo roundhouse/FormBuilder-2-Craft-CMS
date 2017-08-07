@@ -36,12 +36,9 @@ if $ and window.Garnish
 
         $menu.find('.delete').on 'click', (e) ->
             e.preventDefault()
-            console.log formId
             data = id: formId
             if confirm Craft.t("Are you sure you want to delete #{formName} and all its entries?")
                 Craft.postActionRequest 'formBuilder2/form/deleteForm', data, $.proxy(((response, textStatus) ->
-                    console.log 'Response: ', response
-                    console.log 'Text Status: ', textStatus
                     if textStatus == 'success'
                         $row = $('#formbuilder-form-'+formId)
                         formListTable.sorter.removeItems($row)
@@ -52,33 +49,177 @@ if $ and window.Garnish
 
                 ), this)
 
-enableHoneypotProtection = (el) ->
-    el = $(el)
-    if el.hasClass('on')
-        $('.spam-protection-honeypot').removeClass 'hidden'
-    else
-        $('.spam-protection-honeypot').addClass 'hidden'
 
-enableTimedProtection = (el) ->
-    el = $(el)
-    if el.hasClass('on')
-        $('.spam-protection-timed').removeClass 'hidden'
-    else
-        $('.spam-protection-timed').addClass 'hidden'
 
-enableCustomRedirect = (el) ->
-    el = $(el)
-    if el.hasClass('on')
-        $('.custom-redirect-container').removeClass 'hidden'
-    else
-        $('.custom-redirect-container').addClass 'hidden'
+    # Sections
+    FormBuilderSection = Garnish.Base.extend(
+        $container: null
+        $titlebar: null
+        $fieldsContainer: null
+        $previewContainer: null
+        $actionMenu: null
+        $collapserBtn: null
+        $menuBtn: null
+        $status: null
 
-$(document).ready ->
-    $('#spamHoneypotMethod').on 'change', ->
-        enableHoneypotProtection(this)
+        collapsed: false
 
-    $('#spamTimeMethod').on 'change', ->
-        enableTimedProtection(this)
+        init: (el) ->
+            @$container = $(el)
+            @$menuBtn = @$container.find('.actions > .settings')
+            @$collapserBtn = @$container.find '.actions > .collapser'
+            @$titlebar = @$container.find('.titlebar')
+            @$fieldsContainer = @$container.find('.fields')
+            @$previewContainer = @$container.find('.preview')
+            @$status = @$container.find('.actions > .status')
 
-    $('#customRedirectMethod').on 'change', ->
-        enableCustomRedirect(this)
+            menuBtn = new (Garnish.MenuBtn)(@$menuBtn)
+            @$actionMenu = menuBtn.menu.$container
+            menuBtn.menu.settings.onOptionSelect = $.proxy(this, 'onMenuOptionSelect')
+            # if Garnish.hasAttr(@$container, 'data-collapsed')
+            #     @collapse()
+
+            @_handleTitleBarClick = (ev) ->
+                ev.preventDefault()
+                @toggle()
+
+            @addListener @$collapserBtn, 'click', @toggle
+            @addListener @$titlebar, 'doubletap', @_handleTitleBarClick
+
+        toggle: () ->
+            if @collapsed
+                @expand()
+            else
+                @collapse true
+
+        collapse: (animate) ->
+            if @collapsed
+                return
+
+            @$container.addClass 'collapsed'
+            previewHtml = ''
+
+            title = @$titlebar.find('.tout-title').text()
+
+            if title == 'Fields'
+                $fields = @$fieldsContainer.find('.fld-field:not(.unused)').length
+                $customTemplates = @$fieldsContainer.find('.custom-template:not(.unused)').length
+                if $fields > 0
+                    previewHtml +=  "| #{$fields} Total Fields"
+                if $customTemplates > 0
+                    previewHtml += " | #{$customTemplates} Custom Templates"
+
+
+            @$previewContainer.html(previewHtml)
+
+            @$fieldsContainer.velocity 'stop'
+            @$container.velocity 'stop'
+
+            if animate
+                @$fieldsContainer.velocity 'fadeOut', duration: 'fast'
+                @$container.velocity { height: 50 }, 'fast'
+            else
+                @$previewContainer.show()
+                @$fieldsContainer.hide()
+                @$container.css height: 50
+
+            setTimeout $.proxy((->
+                @$actionMenu.find('a[data-action=collapse]:first').parent().addClass 'hidden'
+                @$actionMenu.find('a[data-action=expand]:first').parent().removeClass 'hidden'
+            ), this), 200
+
+            @collapsed = true
+
+
+        expand: () ->
+            if !@collapsed
+                return
+
+            @$container.removeClass 'collapsed'
+            @$fieldsContainer.velocity 'stop'
+            @$container.velocity 'stop'
+
+            collapsedContainerHeight = @$container.height()
+            @$container.height 'auto'
+            @$fieldsContainer.show()
+            expandedContainerHeight = @$container.height()
+            @$container.height(collapsedContainerHeight)
+            @$fieldsContainer.hide().velocity 'fadeIn', duration: 'fast'
+            @$container.velocity { height: expandedContainerHeight }, 'fast', $.proxy((->
+                @$container.height 'auto'
+            ), this)
+
+            setTimeout $.proxy((->
+                @$actionMenu.find('a[data-action=collapse]:first').parent().removeClass 'hidden'
+                @$actionMenu.find('a[data-action=expand]:first').parent().addClass 'hidden'
+            ), this), 200
+
+            @collapsed = false
+
+        disable: () ->
+            @$fieldsContainer.find('.enable-notification-section').val('').prop('checked', false)
+            @$status.removeClass 'on'
+            @$status.addClass 'off'
+
+            setTimeout $.proxy((->
+                @$actionMenu.find('a[data-action=disable]:first').parent().addClass 'hidden'
+                @$actionMenu.find('a[data-action=enable]:first').parent().removeClass 'hidden'
+            ), this), 200
+            @collapse true
+
+
+        enable: () ->
+            @$fieldsContainer.find('.enable-notification-section').val('1').prop('checked', true)
+            @$status.removeClass 'off'
+            @$status.addClass 'on'
+
+            setTimeout $.proxy((->
+                @$actionMenu.find('a[data-action=disable]:first').parent().removeClass 'hidden'
+                @$actionMenu.find('a[data-action=enable]:first').parent().addClass 'hidden'
+            ), this), 200
+
+        onMenuOptionSelect: (option) ->
+            $option = $(option)
+            switch $option.data('action')
+                when 'collapse'
+                    @collapse true
+                when 'expand'
+                    @expand()
+                when 'disable'
+                    @disable()
+                when 'enable'
+                    @enable()
+                    @expand()
+
+    )
+
+# enableHoneypotProtection = (el) ->
+#     el = $(el)
+#     if el.hasClass('on')
+#         $('.spam-protection-honeypot').removeClass 'hidden'
+#     else
+#         $('.spam-protection-honeypot').addClass 'hidden'
+
+# enableTimedProtection = (el) ->
+#     el = $(el)
+#     if el.hasClass('on')
+#         $('.spam-protection-timed').removeClass 'hidden'
+#     else
+#         $('.spam-protection-timed').addClass 'hidden'
+
+# enableCustomRedirect = (el) ->
+#     el = $(el)
+#     if el.hasClass('on')
+#         $('.custom-redirect-container').removeClass 'hidden'
+#     else
+#         $('.custom-redirect-container').addClass 'hidden'
+
+# $(document).ready ->
+#     $('#spamHoneypotMethod').on 'change', ->
+#         enableHoneypotProtection(this)
+
+#     $('#spamTimeMethod').on 'change', ->
+#         enableTimedProtection(this)
+
+#     $('#customRedirectMethod').on 'change', ->
+#         enableCustomRedirect(this)

@@ -116,9 +116,12 @@
                 if template
                     $('<input type="hidden" name="' + templateField + '">').val(template).appendTo $field
                 hasLabel = ! !template
-                $field.toggleClass 'customfield', hasLabel
+                $field.toggleClass 'custom-template', hasLabel
                 if hasLabel
                     @labels[fieldId] = template: template
+                    svg = '<svg width="25" height="13" viewBox="0 0 25 13" xmlns="http://www.w3.org/2000/svg"><path d="M20.656 12.656c-.23.225-.533.337-.836.337-.302 0-.604-.112-.835-.337-.462-.45-.462-1.178 0-1.627L21.07 9H7C3.186 9-.003 6.104-.003 2.39V1.148c0-.635.53-1.15 1.182-1.15C1.83-.002 2 .365 2 1v1c0 2.445 2.49 5 5 5h14.085L19 5c-.462-.45-.477-1.25-.015-1.7.46-.45 1.21-.45 1.67 0l3.956 3.852c.248.236.363.53.362.826 0 .296-.114.59-.345.816l-3.97 3.862z" fill="#8094A1" fill-rule="evenodd"/></svg>'
+                    $field.append("<div class=\"template-result\">#{template}</div>")
+                    $field.find('.template-result').prepend svg
                 else
                     delete @labels[fieldId]
         )
@@ -130,43 +133,39 @@
             init: (originalTemplate) ->
                 @base()
                 @originalTemplate = originalTemplate
-                @$form = $('<form class="modal fitted">').appendTo(Garnish.$bod)
+                console.log originalTemplate
+                @$form = $('<form class="modal fitted formbuilder-modal">').appendTo(Garnish.$bod)
                 @setContainer @$form
                 body = $([
+                    '<header>'
+                        '<span class="modal-title">'
+                            Craft.t('Template Path')
+                        '</span>'
+                        '<div class="instructions"><p>'
+                            Craft.t('The template to use for this field.')
+                        '</p></div>'
+                    '</header>'
                     '<div class="body">'
-                    '<div class="field">'
-                    '<div class="heading">'
-                    '<label for="customfield-name-field">'
-                    Craft.t('Template Path')
-                    '</label>'
-                    '<div class="instructions"><p>'
-                    Craft.t('The template to use for this field.')
-                    '</p></div>'
+                        '<input id="customfield-name-field" type="text" class="text fullwidth" placeholder="templates/path">'
+                        '<ul id="customfield-name-errors" class="errors" style="display: none;"></ul>'
                     '</div>'
-                    '<div class="input">'
-                    '<input id="customfield-name-field" type="text" class="text fullwidth" placeholder="/templates/path">'
-                    '<ul id="customfield-name-errors" class="errors" style="display: none;"></ul>'
-                    '</div>'
-                    '</div>'
-                    '<div class="buttons right" style="margin-top: 0;">'
-                    '<div id="customfield-cancel-button" class="btn">'
-                    Craft.t('Cancel')
-                    '</div>'
-                    '<input id="customfield-save-button" type="submit" class="btn submit" value="'
-                    Craft.t('Save')
-                    '">'
-                    '</div>'
-                    '</div>'
+                    '<footer class="footer">'
+                        '<div class="buttons">'
+                            '<input type="button" class="btns btn-modal cancel" value="'+Craft.t('Cancel')+'">'
+                            '<input type="submit" class="btns btn-modal submit" value="'+Craft.t('Save')+'">'
+                        '</div>'
+                    '</footer>'
                   ].join('')).appendTo(@$form)
                 @$nameField = body.find('#customfield-name-field')
                 @$nameErrors = body.find('#customfield-name-errors')
-                @$cancelBtn = body.find('#customfield-cancel-button')
-                @$saveBtn = body.find('#customfield-save-button')
-                @$nameField.prop 'placeholder', @originalTemplate
+                @$cancelBtn = body.find('.cancel')
+                @$saveBtn = body.find('.submit')
+                # @$nameField.prop 'placeholder', @originalTemplate
                 @addListener @$cancelBtn, 'click', 'hide'
                 @addListener @$form, 'submit', 'onFormSubmit'
 
             onFormSubmit: (e) ->
+                console.log @$nameField.val()
                 e.preventDefault()
                 # Prevent multi form submits with the return key
                 if !@visible

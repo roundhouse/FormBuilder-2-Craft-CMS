@@ -194,4 +194,5 @@ class FormBuilder2_FormController extends BaseController
 
       return $this->returnJson(array('error' => Craft::t("Couldn't reorder forms.")));
   }
+
 }

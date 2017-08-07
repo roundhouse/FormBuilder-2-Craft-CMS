@@ -5,14 +5,16 @@
         font-family: 'Roboto';
         font-weight: 900;
         font-size: 12px;
+        font-style: normal;
         border-radius: 5px;
         letter-spacing: $letter-spacing;
         text-transform: uppercase;
         color: $c-white;
-        padding: 12px 18px 10px 19px;
+        padding: 12px 19px 10px 19px;
         height: auto;
         background-image: none !important;
-        transition: background-color .3s ease;
+        transition: all .3s ease;
+        box-shadow: none;
         @include antialias;
         &:before {
             margin-right: 19px !important;
@@ -20,6 +22,25 @@
         }
         &:hover {
             background-image: none;
+        }
+
+        &.btn-white {
+            background-color: $c-white;
+            border: 1px solid $c-border;
+            color: $c-textDarkBlue;
+            &.icon {
+                background: $c-white;
+            }
+            &:hover {
+                background-color: $c-border;
+            }
+        }
+        
+        &.btn-link {
+            color: $c-info;
+            &:hover {
+                color: darken($c-info, 20);
+            }
         }
 
         &.btn-info {
@@ -33,6 +54,13 @@
             background-color: $c-danger;
             &:hover {
                 background-color: lighten($c-danger, 5);
+            }
+        }
+
+        &.btn-moss {
+            background-color: $c-moss;
+            &:hover, &.active {
+                background-color: lighten($c-moss, 5);
             }
         }
     }

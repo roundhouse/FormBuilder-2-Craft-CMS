@@ -1,20 +1,11 @@
-<div class="method-files pane{% if ajaxUploadErrors %} errors toggle-error{% endif %}">
-  <div class="checkbox-toggle" data-checkbox="hasFileUploads">
-    <div class="togglebox">
-      <svg><use xlink:href="#icon-upload" class="icon-upload"/></svg>
-       {{ forms.checkboxField({
-        id: 'hasFileUploads',
-        class: 'hasFileUploads',
-        name: 'formSettings[hasFileUploads]',
-        value: 1,
-        checked: form.formSettings.hasFileUploads is defined ? form.formSettings.hasFileUploads : null,
-        errors: form.getErrors('hasFileUploads'),
-        required: false
-      }) }}
+<div class="option-item {% if form.formSettings.hasFileUploads is defined and form.formSettings.hasFileUploads %}option-enabled{% endif %}" 
+    id="option-uploads"
+    data-modal="false">
+    <span class="option-title">
+        <span class="option-text">{{ "File Uploads" |t }} <span class="info">{{ "Will this form upload any files?" |t }}</span></span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle File Uploads" |t }}">{{ "Enable" |t }}</a>
     </div>
-    <div class="togglecontent">
-      <h3>{{ "Has Files Uploads"|t }}</h3>
-      <p>{{ "Will this form upload any files?"|t }}</p>
-    </div>
-  </div>
+    <input type="hidden" value="1" class="enable-form-option" name="formSettings[hasFileUploads]" {% if form.formSettings.hasFileUploads is defined and form.formSettings.hasFileUploads %}checked{% endif %}>
 </div>

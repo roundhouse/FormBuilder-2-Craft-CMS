@@ -1,0 +1,27 @@
+<div class="option-item {% if form.spamProtectionSettings.spamHoneypotMethod is defined and form.spamProtectionSettings.spamHoneypotMethod %}option-enabled{% endif %}"
+    id="option-honeypot"
+    data-modal="true"
+    data-modal-title="{{ "Honeypot Message" |t }}"
+    data-modal-instructions="{{ "Enter message for screen readers." |t }}"
+    data-input-hint="{{ "TEXT" |t}}"
+    data-modal-success-message="{{ "Honeypot Protection Updated." |t }}"
+    data-input-value="{{ form.spamProtectionSettings.spamHoneypotMethodMessage }}">
+    <span class="option-title">
+        <span class="option-text">{{ "Honeypot" |t }}</span>
+        <span class="option-result {% if form.spamProtectionSettings.spamHoneypotMethod is defined and not form.spamProtectionSettings.spamHoneypotMethod %}hidden{% endif %}">
+            {% include 'formbuilder2/_includes/icons/honeypot' ignore missing %}
+            <code>{{ form.spamProtectionSettings.spamHoneypotMethodMessage }}</code>
+        </span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="option-edit hidden" title="{{ "Edit Honeypot" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+        {% if form.spamProtectionSettings.spamHoneypotMethod is defined and not form.spamProtectionSettings.spamHoneypotMethod %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle Honeypot" |t }}">{{ "Enable" |t }}</a>
+        {% else %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle Honeypot" |t }}">{{ "Disable" |t }}</a>
+        {% endif %}
+    </div>
+    
+    <input type="hidden" value="1" class="enable-form-option" name="spamProtectionSettings[spamHoneypotMethod]">
+    <input type="hidden" class="text form-option-input" size="50" name="spamProtectionSettings[spamHoneypotMethodMessage]" value="{{ form.spamProtectionSettings.spamHoneypotMethodMessage is defined ? form.spamProtectionSettings.spamHoneypotMethodMessage : '' }}" autocomplete="off">
+</div>

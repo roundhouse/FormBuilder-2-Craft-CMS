@@ -1,37 +1,34 @@
-<div class="{{ tab != 1 ? 'hidden' : '' }} meta" id="tab-form-settings">
-    {{ forms.textField({
-        first: true,
-        label: "Name"|t,
-        id: 'name',
-        name: 'name',
-        value: form.name,
-        errors: form.getErrors('name'),
-        autofocus: true,
-        required: true,
-        size: 50,
-        translatable: true
-    }) }}
+{{ forms.textField({
+    first: true,
+    label: "Name"|t,
+    id: 'name',
+    name: 'name',
+    value: form.name,
+    errors: form.getErrors('name'),
+    autofocus: true,
+    required: true,
+    size: 50,
+    translatable: true
+}) }}
 
-    {{ forms.textField({
-        label: "Handle"|t,
-        id: 'handle',
-        class: 'code',
-        name: 'handle',
-        value: form.handle,
-        size: 50,
-        errors: form.getErrors('handle'),
-        required: true
-    }) }}
+{{ forms.textField({
+    label: "Handle"|t,
+    id: 'handle',
+    class: 'code',
+    name: 'handle',
+    value: form.handle,
+    size: 50,
+    errors: form.getErrors('handle'),
+    required: true
+}) }}
 
-    {{ forms.textField({
-        label: "Submit Text"|t,
-        id: 'submitButtonText',
-        class: 'code',
-        name: 'formSettings[submitButtonText]',
-        value: form.formSettings.submitButtonText is defined ? form.formSettings.submitButtonText : '',
-        size: 50,
-        value: 'Submit Form',
-        errors: form.getErrors('submitButtonText'),
-        required: false
-    }) }}
-</div>
+{{ forms.textField({
+    label: "Submit Text"|t,
+    id: 'submitButtonText',
+    name: 'formSettings[submitButtonText]',
+    value: form.formSettings.submitButtonText is defined ? form.formSettings.submitButtonText : '',
+    size: 50,
+    value: 'Submit Form',
+    errors: form.getErrors('submitButtonText'),
+    required: false
+}) }}
