@@ -1,9 +1,29 @@
 .formbuilder {
     .field {
+        position: relative;
         label {
             font-family: 'Roboto';
             font-weight: bold;
             color: $c-textDarkBlue;
+        }
+
+        input.text {
+            padding-left: 75px;
+        }
+
+        .result-label {
+            position: absolute;
+            top: 17px;
+            right: auto;
+            bottom: auto;
+            left: 15px;
+            font-family: Menlo, monospace;
+            color: $c-textLight;
+            font-size: 10px;
+            &.doubled {
+                line-height: 1.4;
+                top: 14px;
+            }
         }
     }
     .select {
@@ -28,7 +48,7 @@
         &.text {
             font-family: 'Roboto';
             color: $c-textDarkBlue;
-            padding: 15px 10px;
+            padding: 15px 15px 15px 50px;
             width: 100%;
             box-shadow: none;
             &:focus {

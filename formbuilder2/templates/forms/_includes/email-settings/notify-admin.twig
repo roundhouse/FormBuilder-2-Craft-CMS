@@ -1,57 +1,166 @@
-<input type="hidden" value="1" class="enable-notification-section" name="notificationSettings[notifySubmission]" {% if form.notificationSettings.notifySubmission %}checked{% endif %}>
+{% set adminNotificationEnabled = form.notificationSettings.admin.enabled ? true : false %}
+
+<input type="hidden" value="true" class="enable-notification-section" name="notificationSettings[admin][enabled]" {% if adminNotificationEnabled %}checked{% endif %}>
 
 <div class="setup-container">
     <div class="notification-email-tout">
         <header>
-            <span class="tout-title">Email Settings</span>
-            <div class="action">
-                <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
-            </div>
+            <span class="tout-title">{{ "Email Settings" |t }}</span>
         </header>
         <div class="body">
-            <div class="settings-item">
+            {% set adminFromEmail = form.notificationSettings.admin.fromEmail %}
+            <div class="settings-item"
+                id="settings-admin-from-email"
+                data-modal="true"
+                data-modal-title="{{ "From Email" |t }}"
+                data-modal-instructions="{{ "The sender’s email address. Defaults to the System Email Address defined in Settings → Email." |t }}"
+                data-input-hint="{{ "EMAIL" |t }}"
+                data-modal-success-message="{{ "From Email Updated." |t }}"
+                data-input-value="{{ adminFromEmail }}">
                 <div class="settings-title">
-                    <div class="settings-title-text">From Email</div>
+                    <div class="settings-title-text">{{ "From Email" |t }}</div>
                     <div class="settings-result">
-                        <code>{{ form.notificationSettings.adminNotification.fromEmail is defined ? form.notificationSettings.adminNotification.fromEmail : craft.systemSettings.email.emailAddress }}</code>
+                        <code>{{ adminFromEmail ? adminFromEmail : craft.systemSettings.email.emailAddress }}</code>
                     </div>
                 </div>
                 <div class="settings-action">
-                    <a href="#" class="settings-edit" title="{{ "Configure Email Settings" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                    <a href="#" class="settings-edit" title="{{ "Configure From Email" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
                 </div>
+                <input type="text" class="settings-input" name="notificationSettings[admin][fromEmail]" value="{{ adminFromEmail ? adminFromEmail : craft.systemSettings.email.emailAddress }}" autocomplete="off">
             </div>
-            <div class="settings-item">
+            {% set adminFromName = form.notificationSettings.admin.fromName %}
+            <div class="settings-item"
+                id="settings-admin-from-name"
+                data-modal="true"
+                data-modal-title="{{ "From Name" |t }}"
+                data-modal-instructions="{{ "The sender’s name. Defaults to the Sender Name defined in Settings → Email." |t }}"
+                data-input-hint="{{ "NAME" |t }}"
+                data-modal-success-message="{{ "From Name Updated." |t }}"
+                data-input-value="{{ adminFromName }}">
                 <div class="settings-title">
-                    <div class="settings-title-text">From Name</div>
+                    <div class="settings-title-text">{{ "From Name" |t }}</div>
                     <div class="settings-result">
-                        <code>{{ form.notificationSettings.adminNotification.fromName is defined ? form.notificationSettings.adminNotification.fromName : craft.systemSettings.email.senderName }}</code>
+                        <code>{{ adminFromName ? adminFromName : craft.systemSettings.email.senderName }}</code>
                     </div>
                 </div>
                 <div class="settings-action">
-                    <a href="#" class="settings-edit" title="{{ "Configure Email Settings" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                    <a href="#" class="settings-edit" title="{{ "Configure From Name" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
                 </div>
+                <input type="text" class="settings-input" name="notificationSettings[admin][fromName]" value="{{ adminFromName ? adminFromName : craft.systemSettings.email.senderName }}" autocomplete="off">
             </div>
-            <div class="settings-item">
+            {% set adminToEmail = form.notificationSettings.admin.toEmail %}
+            <div class="settings-item"
+                id="settings-admin-to-email"
+                data-modal="true"
+                data-modal-title="{{ "To Email" |t }}"
+                data-modal-instructions="{{ "The recipient’s email address." |t }}"
+                data-input-hint="{{ "EMAIL" |t }}"
+                data-modal-success-message="{{ "To Email Updated." |t }}"
+                data-input-value="{{ adminToEmail }}">
                 <div class="settings-title">
-                    <div class="settings-title-text">To Email</div>
+                    <div class="settings-title-text">{{ "To Email" |t }}</div>
                     <div class="settings-result">
-                        <code>{{ form.notificationSettings.emailSettings.notifyEmail is defined ? form.notificationSettings.emailSettings.notifyEmail : craft.systemSettings.email.emailAddress }}</code>
+                        <code>{{ adminToEmail ? adminToEmail : craft.systemSettings.email.emailAddress }}</code>
                     </div>
                 </div>
                 <div class="settings-action">
-                    <a href="#" class="settings-edit" title="{{ "Configure Email Settings" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                    <a href="#" class="settings-edit" title="{{ "Configure To Email" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
                 </div>
+                <input type="text" class="settings-input" name="notificationSettings[admin][toEmail]" value="{{ adminToEmail ? adminToEmail : craft.systemSettings.email.emailAddress }}" autocomplete="off">
             </div>
-            <div class="settings-item">Subject: </div>
-            <div class="settings-item">Body: </div>
-            <div class="settings-item">HTML Body: </div>
-            <div class="settings-item">Reply To: </div>
-            <div class="settings-item">CC: </div>
-            <div class="settings-item">BCC: </div>
-            <div class="settings-item">Attachments: </div>
             <div class="settings-item">
                 <span class="settings-title">
-                    Custom Headers
+                    <div class="settings-title-text">{{ "Subject" |t }}</div>
+                    <div class="settings-result">
+                        <code>Field</code>
+                    </div>
+                </span>
+                <span class="settings-action">
+                    <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+                </span>
+            </div>
+            <div class="settings-item">
+                <span class="settings-title">
+                    <div class="settings-title-text">{{ "Body" |t }}</div>
+                    <div class="settings-result">
+                        <code>HTML</code>
+                    </div>
+                </span>
+                <span class="settings-action">
+                    <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+                </span>
+            </div>
+            {% set adminReplyTo = form.notificationSettings.admin.replyTo %}
+            <div class="settings-item"
+                id="settings-admin-reply-to"
+                data-modal="true"
+                data-modal-title="{{ "Reply To" |t }}"
+                data-modal-instructions="{{ "The Reply-To email address." |t }}"
+                data-input-hint="{{ "EMAIL" |t }}"
+                data-modal-success-message="{{ "Reply To Email Updated." |t }}"
+                data-input-value="{{ adminReplyTo }}">
+                <div class="settings-title">
+                    <div class="settings-title-text">{{ "Reply To" |t }}</div>
+                    <div class="settings-result">
+                        <code>{{ adminReplyTo ? adminReplyTo : craft.systemSettings.email.emailAddress }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                    <a href="#" class="settings-edit" title="{{ "Configure Reply To" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                </div>
+                <input type="text" class="settings-input" name="notificationSettings[admin][replyTo]" value="{{ adminReplyTo ? adminReplyTo : craft.systemSettings.email.emailAddress }}" autocomplete="off">
+            </div>
+            {% set adminCc = form.notificationSettings.admin.cc %}
+            <div class="settings-item"
+                id="settings-admin-cc"
+                data-modal="true"
+                data-modal-title="{{ "CC" |t }}"
+                data-modal-instructions="{{ "The recipients that should be CC’d on the email. Each element of this array should be a nested array containing the keys 'name' and 'email'." |t }}"
+                data-input-hint="{{ "EMAIL" |t }}"
+                data-modal-success-message="{{ "CC Emails Updated." |t }}"
+                data-input-value="{{ adminCc }}">
+                <div class="settings-title">
+                    <div class="settings-title-text">{{ "CC" |t }}</div>
+                    <div class="settings-result">
+                        <code>{{ adminCc }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                    <a href="#" class="settings-edit" title="{{ "Configure CC" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                </div>
+                <input type="text" class="settings-input" name="notificationSettings[admin][cc]" value="{{ adminCc ? adminCc : null }}" autocomplete="off">
+            </div>
+            {% set adminBcc = form.notificationSettings.admin.bcc %}
+            <div class="settings-item"
+                id="settings-admin-cc"
+                data-modal="true"
+                data-modal-title="{{ "BCC" |t }}"
+                data-modal-instructions="{{ "The recipients that should be BCC’d on the email. Each element of this array should be a nested array containing the keys 'name' and 'email'." |t }}"
+                data-input-hint="{{ "EMAIL" |t }}"
+                data-modal-success-message="{{ "BCC Emails Updated." |t }}"
+                data-input-value="{{ adminBcc }}">
+                <div class="settings-title">
+                    <div class="settings-title-text">{{ "BCC" |t }}</div>
+                    <div class="settings-result">
+                        <code>{{ adminBcc }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                    <a href="#" class="settings-edit" title="{{ "Configure BCC" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                </div>
+                <input type="text" class="settings-input" name="notificationSettings[admin][bcc]" value="{{ adminBcc ? adminBcc : null }}" autocomplete="off">
+            </div>
+            <div class="settings-item">
+                <span class="settings-title">
+                    {{ "Attachments" |t }}
+                </span>
+                <span class="settings-action">
+                    <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+                </span>
+            </div>
+            <div class="settings-item">
+                <span class="settings-title">
+                    {{ "Custom Headers" |t }}
                 </span>
                 <span class="settings-action">
                     <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
@@ -69,7 +178,7 @@
         </div>
     </div> #}
 
-    <div class="setup-email-template-tout">
+    {# <div class="setup-email-template-tout">
         <header>
             <span class="icons">{% include 'formbuilder2/_includes/icons/template' ignore missing %}</span>
             <span class="tout-title">{{ "Email Template" |t }}</span>
@@ -77,7 +186,7 @@
         <div class="body">
             <a href="#" class="btns btn-info">{{ "Setup" |t }}</a>
         </div>
-    </div>
+    </div> #}
 </div>
 
 {# 

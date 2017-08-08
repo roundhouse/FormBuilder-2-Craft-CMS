@@ -17,7 +17,7 @@
         box-shadow: none;
         @include antialias;
         &:before {
-            margin-right: 19px !important;
+            margin-right: 15px !important;
             font-size: 15px;
         }
         &:hover {
@@ -44,6 +44,7 @@
         }
 
         &.btn-info {
+            color: $c-white;
             background-color: $c-info;
             &:hover {
                 background-color: lighten($c-info, 5);
@@ -51,6 +52,7 @@
         }
 
         &.btn-danger {
+            color: $c-white;
             background-color: $c-danger;
             &:hover {
                 background-color: lighten($c-danger, 5);

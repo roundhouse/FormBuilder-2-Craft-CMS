@@ -21,6 +21,9 @@
 .formbuilder a {
   text-decoration: none;
   outline: none; }
+.formbuilder hr {
+  border-color: #E9EFF4;
+  margin: 20px 0; }
 .formbuilder #page-header {
   padding: 40px 60px;
   background-color: #fafbfc;
@@ -384,7 +387,6 @@
   flex-direction: row; }
   .formbuilder.fb-edit-form .setup-container > div {
     flex: 1;
-    margin: 20px;
     border: 1px solid #E9EFF4;
     border-radius: 5px;
     height: 100%; }
@@ -1248,7 +1250,7 @@
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility; }
   .formbuilder .btns:before {
-    margin-right: 19px !important;
+    margin-right: 15px !important;
     font-size: 15px; }
   .formbuilder .btns:hover {
     background-image: none; }
@@ -1265,10 +1267,12 @@
     .formbuilder .btns.btn-link:hover {
       color: #006de6; }
   .formbuilder .btns.btn-info {
+    color: #ffffff;
     background-color: #4da1ff; }
     .formbuilder .btns.btn-info:hover {
       background-color: #67aeff; }
   .formbuilder .btns.btn-danger {
+    color: #ffffff;
     background-color: #ff6d4a; }
     .formbuilder .btns.btn-danger:hover {
       background-color: #ff8264; }
@@ -1278,7 +1282,8 @@
       background-color: #6f8998; }
 
 .formbuilder-modal {
-  border: 1px solid #E9EFF4; }
+  border: 1px solid #E9EFF4;
+  min-width: 420px !important; }
   .formbuilder-modal header {
     padding: 60px 60px 40px 60px;
     text-align: center; }
@@ -1345,13 +1350,31 @@
         border-right: 1px solid #E9EFF4; }
       .formbuilder-modal .buttons > input:hover {
         background-color: #E9EFF4; }
+      .formbuilder-modal .buttons > input.submit:focus {
+        background-color: #E9EFF4; }
     .formbuilder-modal .buttons:before, .formbuilder-modal .buttons:after {
       display: none; }
 
-.formbuilder .field label {
-  font-family: 'Roboto';
-  font-weight: bold;
-  color: #323C47; }
+.formbuilder .field {
+  position: relative; }
+  .formbuilder .field label {
+    font-family: 'Roboto';
+    font-weight: bold;
+    color: #323C47; }
+  .formbuilder .field input.text {
+    padding-left: 75px; }
+  .formbuilder .field .result-label {
+    position: absolute;
+    top: 17px;
+    right: auto;
+    bottom: auto;
+    left: 15px;
+    font-family: Menlo, monospace;
+    color: #989898;
+    font-size: 10px; }
+    .formbuilder .field .result-label.doubled {
+      line-height: 1.4;
+      top: 14px; }
 .formbuilder .select {
   box-shadow: none;
   border: 1px solid #E9EFF4;
@@ -1370,7 +1393,7 @@
 .formbuilder input.text, .formbuilder textarea.text {
   font-family: 'Roboto';
   color: #323C47;
-  padding: 15px 10px;
+  padding: 15px 15px 15px 50px;
   width: 100%;
   box-shadow: none; }
   .formbuilder input.text:focus, .formbuilder textarea.text:focus {
@@ -1380,18 +1403,23 @@
   font-family: Menlo, monospace; }
 
 .formbuilder #fieldlayoutform {
-  background-color: #fafbfc;
   background-image: none;
   padding: 0; }
+  .formbuilder #fieldlayoutform hr {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    border-color: #d8e3ec; }
   .formbuilder #fieldlayoutform .newtabbtn-container {
-    margin-bottom: 0;
-    padding: 20px; }
+    margin-bottom: 20px; }
     .formbuilder #fieldlayoutform .newtabbtn-container:before {
       display: none; }
-    .formbuilder #fieldlayoutform .newtabbtn-container .btn.icon:before {
-      content: "+"; }
+    .formbuilder #fieldlayoutform .newtabbtn-container .btn.icon {
+      padding: 12px 35px 10px; }
+      .formbuilder #fieldlayoutform .newtabbtn-container .btn.icon:before {
+        content: "+"; }
   .formbuilder #fieldlayoutform header {
-    padding: 0 20px;
+    padding: 0;
+    margin-bottom: 20px;
     border-bottom: none; }
     .formbuilder #fieldlayoutform header h2 {
       margin: 0 0 2px 0 !important;
@@ -1414,16 +1442,13 @@
       color: #989898;
       text-transform: none; }
 .formbuilder .fld-tabs {
-  margin: 0 0 20px 0 !important;
-  padding: 20px;
-  border-bottom: 1px solid #E9EFF4; }
+  margin: 0 0 20px 0 !important; }
   .formbuilder .fld-tabs .fld-tab.last {
-    margin-bottom: 30px !important; }
+    margin-bottom: 0 !important; }
 .formbuilder .unusedfields {
-  margin: 0 0 20px 0 !important;
-  padding: 20px; }
+  margin: 0 0 20px 0 !important; }
   .formbuilder .unusedfields .fld-tab.last {
-    margin-bottom: 30px !important; }
+    margin-bottom: 0 !important; }
 .formbuilder .fld-tab {
   margin: 0 20px 20px 0 !important; }
   .formbuilder .fld-tab .tabs {
@@ -1613,33 +1638,65 @@
   font-size: 14px;
   color: #323C47;
   letter-spacing: 0.04em;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  text-rendering: optimizeLegibility;
   border-radius: 5px;
   background-color: #ffffff;
-  border: 1px solid #E9EFF4;
+  border: 1px solid #d8e3ec;
   box-sizing: border-box;
-  margin-bottom: 14px; }
+  margin-bottom: 14px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility; }
+  .cmp-tout.collapsed header {
+    border-radius: 5px; }
+    .cmp-tout.collapsed header > .actions .icons.last {
+      border-bottom-right-radius: 5px; }
   .cmp-tout header {
-    border-bottom: 1px solid #E9EFF4;
+    border-bottom: 1px solid #d8e3ec;
     padding: 15px 20px; }
     .cmp-tout header .tout-title {
       font-size: 14px;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: .07em; }
+    .cmp-tout header.theme-moss {
+      color: #ffffff;
+      background-color: #637c8a;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px; }
+      .cmp-tout header.theme-moss > .actions .icons {
+        color: #ffffff;
+        border-color: #7e95a2; }
+        .cmp-tout header.theme-moss > .actions .icons:hover {
+          background-color: #7e95a2; }
+        .cmp-tout header.theme-moss > .actions .icons.last {
+          border-top-right-radius: 5px; }
   .cmp-tout .body {
-    padding: 20px; }
+    padding: 20px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px; }
     .cmp-tout .body .tout-count {
       font-weight: bold; }
     .cmp-tout .body .tout-count-text {
       font-size: 12px; }
+    .cmp-tout .body.theme-moss {
+      background-color: #f5f6f7; }
   .cmp-tout.theme-moss {
     background-color: #637c8a;
     color: #ffffff; }
     .cmp-tout.theme-moss header {
       border-color: #6F8996; }
+
+.form-settings-tout .body {
+  padding: 0; }
+.form-settings-tout .field {
+  margin: 0; }
+  .form-settings-tout .field input.text {
+    border-radius: 0;
+    border: 0;
+    background-color: transparent;
+    border-bottom: 1px solid #E9EFF4; }
+  .form-settings-tout .field:last-child input.text {
+    border-bottom: 0; }
 
 .notification-email-tout {
   background-color: #ffffff; }

@@ -46,13 +46,12 @@
     <div class="grid first" data-max-cols="3">
 
         <div class="item" data-position="left" data-colspan="2">
-            {% include 'formbuilder2/forms/_includes/fields' ignore missing %}
-            {% include 'formbuilder2/forms/_includes/admin-notification' ignore missing %}
-            {% include 'formbuilder2/forms/_includes/submitter-notification' ignore missing %}
+            {% include 'formbuilder2/forms/_includes/fields' ignore missing with { theme: 'moss' } %}
+            {% include 'formbuilder2/forms/_includes/admin-notification' ignore missing with { theme: 'moss' } %}
+            {% include 'formbuilder2/forms/_includes/submitter-notification' ignore missing with { theme: 'moss' } %}
         </div>
 
         <div class="editform-sidebar item" data-position="right">
-            {% includeJsResource "formbuilder2/js/form-options.js" %}
             <section class="form-settings-tout cmp-tout theme-white">
                 <header>
                     <span class="tout-title">{{ "Form Settings" |t }}</span>
@@ -67,11 +66,12 @@
                     <span class="tout-title">{{ "Form Options" |t }}</span>
                 </header>
                 <div class="body">
+                    {% include 'formbuilder2/forms/_includes/form-settings/submit-button' ignore missing %}
                     {% include 'formbuilder2/forms/_includes/form-settings/redirect' ignore missing %}
                     {% include 'formbuilder2/forms/_includes/form-settings/ajax' ignore missing %}
                     {% include 'formbuilder2/forms/_includes/form-settings/file-uploads' ignore missing %}
-                    {% include 'formbuilder2/forms/_includes/form-settings/scripts' ignore missing %}
-                    {% include 'formbuilder2/forms/_includes/email-settings/custom-subject' ignore missing %}
+                    {# {% include 'formbuilder2/forms/_includes/form-settings/scripts' ignore missing %} #}
+                    {# {% include 'formbuilder2/forms/_includes/email-settings/custom-subject' ignore missing %} #}
                 </div>
             </section>
             <section class="spam-protection-tout cmp-tout theme-white">
@@ -195,11 +195,17 @@
 {% endblock %}
 
 {% includeJsResource "formbuilder2/js/forms.js" %}
+{% includeJsResource "formbuilder2/js/form-options.js" %}
+{% includeJsResource "formbuilder2/js/notification-settings.js" %}
 
 {% includejs %}
     $('.section-collapsible').each(function(i,el){
         new FormBuilderSection(el);
     });
 
-    {% if not form.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}
+    $('.settings-item').each(function(i,el){
+        new NotificationSettingsItem(el);
+    });
+
+    {% if not form.handle %}new Craft.HandleGenerator('#formName', '#formHandle');{% endif %}
 {% endincludejs %}

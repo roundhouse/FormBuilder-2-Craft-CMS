@@ -1,4 +1,22 @@
-{{ forms.textField({
+<div class="field">
+    <input class="text" type="text" id="formName" name="name" value="{{ form.name }}" autocomplete="off" required>
+    <div class="result-label">{{ "NAME" |t }}</div>
+</div>
+
+<div class="field">
+    <input class="text code" type="text" id="formHandle" name="handle" value="{{ form.handle }}" autocomplete="off" required>
+    <div class="result-label">{{ "HANDLE" |t }}</div>
+</div>
+
+{# <div class="field">
+    <input class="text" type="text" name="formSettings[submitButtonText]" value="{% if form.formSettings.submitButtonText is defined and form.formSettings.submitButtonText != '' %}{{ form.formSettings.submitButtonText }}{% else %}Submit{% endif %}" autocomplete="off">
+    <div class="result-label doubled">
+        {{ "SUBMIT" |t }}<br />
+        {{ "TEXT" |t }}
+    </div>
+</div> #}
+
+{# {{ forms.textField({
     first: true,
     label: "Name"|t,
     id: 'name',
@@ -9,9 +27,8 @@
     required: true,
     size: 50,
     translatable: true
-}) }}
-
-{{ forms.textField({
+}) }} #}
+{# {{ forms.textField({
     label: "Handle"|t,
     id: 'handle',
     class: 'code',
@@ -20,9 +37,9 @@
     size: 50,
     errors: form.getErrors('handle'),
     required: true
-}) }}
+}) }} #}
 
-{{ forms.textField({
+{# {{ forms.textField({
     label: "Submit Text"|t,
     id: 'submitButtonText',
     name: 'formSettings[submitButtonText]',
@@ -31,4 +48,4 @@
     value: 'Submit Form',
     errors: form.getErrors('submitButtonText'),
     required: false
-}) }}
+}) }} #}

@@ -1,15 +1,14 @@
 if $ and window.Garnish
     FormOption = Garnish.Base.extend(
         $container: null
-
         $enableFormOption: null
         $formOptionInput: null
         $formOptionResultHtml: null
-
         $toggleBtn: null
         $editFormOption: null
 
         modal: null
+        editing: false
      
         init: (container) ->
             @$container = $(container)
@@ -28,6 +27,7 @@ if $ and window.Garnish
 
         editFormOption: (e) ->
             e.preventDefault()
+            @editing = true
             if !@modal
                 @modal = new FormOptionModal(@)
             else
@@ -35,6 +35,7 @@ if $ and window.Garnish
                 @modal.$formOptionModalInput.removeClass 'error'
 
         edit: (e) ->
+            @editing = false
             e.preventDefault()
             if @$container.hasClass 'option-enabled'
                 @$editFormOption.addClass 'hidden'
@@ -69,10 +70,11 @@ if $ and window.Garnish
     FormOptionModal = Garnish.Modal.extend(
         option: null
         $formOptionModalInput: null
+        
         init: (option) ->
             @option = option
             @base()
-            @$form = $('<form class="modal fitted formbuilder-modal" id="custom-redirect-modal">').appendTo(Garnish.$bod)
+            @$form = $('<form class="modal fitted formbuilder-modal">').appendTo(Garnish.$bod)
             @setContainer @$form
             body = $([
                 '<header>'
@@ -113,10 +115,47 @@ if $ and window.Garnish
             @$formOptionModalInput.val(@option.$formOptionInput.val())
             @$saveBtn = body.find '.submit'
             @$cancelBtn = body.find '.cancel'
-            @addListener @$cancelBtn, 'click', 'hide'
-            @addListener @$form, 'submit', 'onFormSubmit'
+            @addListener @$cancelBtn, 'click', 'cancel'
+            @addListener @$form, 'submit', 'save'
 
-        onFormSubmit: (e) ->
+        cancel: () ->
+            if !@option.editing
+                @option.$editFormOption.addClass 'hidden'
+                @option.$container.removeClass 'option-enabled'
+                @option.$enableFormOption.val('')
+                @option.$enableFormOption.prop 'checked', false
+                @option.$formOptionInput.val ''
+                @option.$formOptionResultHtml.addClass 'hidden'
+                @option.$toggleBtn.html 'ENABLE'
+                @closeModal()
+            else
+                @closeModal()
+
+        hide: () ->
+            @cancel()
+
+        closeModal: (ev) ->
+            @disable()
+            if ev
+                ev.stopPropagation()
+            if @$container
+                @$container.velocity 'fadeOut', duration: Garnish.FX_DURATION
+                @$shade.velocity 'fadeOut',
+                    duration: Garnish.FX_DURATION
+                    complete: $.proxy(this, 'onFadeOut')
+                if @settings.hideOnShadeClick
+                    @removeListener @$shade, 'click'
+                @removeListener Garnish.$win, 'resize'
+            @visible = false
+            Garnish.Modal.visibleModal = null
+            if @settings.hideOnEsc
+                Garnish.escManager.unregister this
+            @trigger 'hide'
+            @settings.onHide()
+
+
+
+        save: (e) ->
             e.preventDefault()
             data = 
                 formOptionResultText: @$formOptionModalInput.val()
@@ -126,7 +165,7 @@ if $ and window.Garnish
                 Garnish.shake(@$container)
             else
                 @option.updateHtmlFromModal()
-                @hide()
+                @closeModal()
                 Craft.cp.displayNotice(@option.$container.data('modal-success-message'))
     )
 

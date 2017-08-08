@@ -15,6 +15,10 @@
         text-decoration: none;
         outline: none;
     }
+    hr {
+        border-color: $c-border;
+        margin: 20px 0;
+    }
     
     // Header
     #page-header {

@@ -1,13 +1,19 @@
 .formbuilder {
     #fieldlayoutform {
-        background-color: $c-offWhite;
         background-image: none;
         padding: 0;
+
+        hr {
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            border-color: darken($c-border, 5);
+        }
+
         .newtabbtn-container {
-            margin-bottom: 0;
-            padding: 20px;
+            margin-bottom: 20px;
             &:before { display: none; }
             .btn.icon {
+                padding: 12px 35px 10px;
                 &:before {
                     content: "+";
                 }
@@ -15,7 +21,8 @@
         }
 
         header {
-            padding: 0 20px;
+            padding: 0;
+            margin-bottom: 20px;
             border-bottom: none;
             h2 {
                 margin: 0 0 2px 0 !important;
@@ -44,15 +51,13 @@
 
     .fld-tabs {
         margin: 0 0 20px 0 !important;
-        padding: 20px;
-        border-bottom: 1px solid $c-border;
-        .fld-tab.last { margin-bottom: 30px !important; }
+        // border-bottom: 1px solid $c-border;
+        .fld-tab.last { margin-bottom: 0 !important; }
     }
 
     .unusedfields {
         margin: 0 0 20px 0 !important;
-        padding: 20px;
-        .fld-tab.last { margin-bottom: 30px !important; }
+        .fld-tab.last { margin-bottom: 0 !important; }
     }
 
 

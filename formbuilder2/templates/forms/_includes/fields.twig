@@ -1,11 +1,11 @@
 <section class="cmp-tout section-collapsible fields-section">
-    <header>
+    <header class="theme-{{ theme is defined ? theme }}">
         <div class="titlebar">
             <span class="tout-title">{{ "Fields" |t }}</span>
             <div class="preview"></div>
         </div>
         <div class="actions">
-            <a class="icons collapser" title="Actions" role="combobox" tabindex="0"></a>
+            <a class="icons collapser last" title="Collapse" role="combobox" tabindex="0"></a>
             <div class="menu">
                 <ul class="padded">
                     <li><a data-icon="collapse" data-action="collapse">{{ "Collapse"|t }}</a></li>
@@ -15,7 +15,7 @@
         </div>
     </header>
 
-    <div class="fields">
+    <div class="body theme-{{ theme is defined ? theme }}">
         {% include 'formbuilder2/forms/_includes/fields/fields' ignore missing %}
     </div>
 </section>

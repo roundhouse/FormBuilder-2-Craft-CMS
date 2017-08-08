@@ -57,6 +57,7 @@ module.exports = (grunt) ->
           '<%= ResourcesDirectory %>/js/dashboard.js': ['<%= CoffeeDirectory %>/dashboard.coffee']
           '<%= ResourcesDirectory %>/js/custom-redirect.js': ['<%= CoffeeDirectory %>/custom-redirect.coffee']
           '<%= ResourcesDirectory %>/js/form-options.js': ['<%= CoffeeDirectory %>/form-options.coffee']
+          '<%= ResourcesDirectory %>/js/notification-settings.js': ['<%= CoffeeDirectory %>/notification-settings.coffee']
 
     # =============================================
     # UGLIFY JAVASCRIPT

@@ -4,17 +4,24 @@
     font-size: 14px;
     color: $c-textDarkBlue;
     letter-spacing: $letter-spacing;
-    @include antialias;
-
     border-radius: $border-radius;
     background-color: $c-white;
-    border: 1px solid $c-border;
+    border: 1px solid darken($c-border, 5);
     box-sizing: border-box;
-
     margin-bottom: 14px;
+    @include antialias;
+
+    &.collapsed {
+        header {
+            border-radius: $border-radius;
+            & > .actions .icons.last {
+                border-bottom-right-radius: $border-radius;
+            }
+        }
+    }
 
     header {
-        border-bottom: 1px solid $c-border;
+        border-bottom: 1px solid darken($c-border, 5);
         padding: 15px 20px;
         .tout-title {
             font-size: 14px;
@@ -22,17 +29,43 @@
             text-transform: uppercase;
             letter-spacing: .07em;
         }
+
+        &.theme-moss {
+            color: $c-white;
+            background-color: $c-moss;
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+
+            & > .actions {
+                .icons {
+                    color: $c-white;
+                    border-color: lighten($c-moss, 10);
+                    &:hover {
+                        background-color: lighten($c-moss, 10);
+                    }
+                    &.last {
+                        border-top-right-radius: $border-radius;
+                    }
+                }
+            }
+        }
     }
 
 
 
     .body {
         padding: 20px;
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
         .tout-count {
             font-weight: bold;
         }
         .tout-count-text {
             font-size: 12px;
+        }
+
+        &.theme-moss {
+            background-color: lighten($c-moss, 50);
         }
     }
 
@@ -48,6 +81,27 @@
 
     .notification-fields {
         // background-color: $c-offWhite;
+    }
+}
+
+// Form Settings
+.form-settings-tout {
+    .body {
+        padding: 0;
+    }
+    .field {
+        margin: 0;
+        input.text {
+            border-radius: 0;
+            border: 0;
+            background-color: transparent;
+            border-bottom: 1px solid $c-border;
+        }
+        &:last-child {
+            input.text {
+                border-bottom: 0;
+            }
+        }
     }
 }
 

@@ -1,0 +1,30 @@
+{% set submitButtonEnabled = form.formSettings.submitButton.enabled ? true : false %}
+{% set submitButtonText = form.formSettings.submitButton.text %}
+
+<div class="option-item {% if submitButtonEnabled %}option-enabled{% endif %}"
+    id="option-submit-button"
+    data-modal="true"
+    data-modal-title="{{ "Submit Button Text" |t }}"
+    data-modal-instructions="{{ "Enter a custom submit button text." |t }}"
+    data-input-hint="{{ "TEXT" |t }}"
+    data-modal-success-message="{{ "Submit Button Text Updated." |t }}"
+    data-input-value="{{ submitButtonText }}">
+    <span class="option-title">
+        <span class="option-text">{{ "Submit Button" |t }} <span class="info">{{ "Enter a custom submit button text." |t }}</span></span>
+        <span class="option-result {% if not submitButtonEnabled %}hidden{% endif %}">
+            {% include 'formbuilder2/_includes/icons/redirect' ignore missing %}
+            <code>{{ submitButtonText }}</code>
+        </span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+        {% if submitButtonEnabled%}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
+        {% else %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
+        {% endif %}
+    </div>
+    
+    <input type="hidden" value="true" class="enable-form-option" name="formSettings[submitButton][enabled]" {% if submitButtonEnabled %}checked{% endif %}>
+    <input type="hidden" class="text form-option-input" size="50" name="formSettings[submitButton][text]" value="{{ submitButtonText}}" autocomplete="off">
+</div>

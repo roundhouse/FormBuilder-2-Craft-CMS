@@ -4,70 +4,169 @@ namespace Craft;
 class FormBuilder2_FormController extends BaseController
 {
 
-  protected $allowAnonymous = true;
+    protected $allowAnonymous = true;
 
+    /**
+    * Get All Forms
+    *
+    */
+    public function actionFormsIndex()
+    { 
 
-  /**
-   * Get All Forms
-   *
-   */
-  public function actionFormsIndex()
-  { 
+        $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
+        $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
-    $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
-    $plugins = craft()->plugins->getPlugin('FormBuilder2');
+        $variables['title']       = 'FormBuilder2';
+        $variables['settings']    = $settings;
+        $variables['plugin']      = $plugins;
+        $variables['navigation']  = $this->navigation();
 
-    $variables['title']       = 'FormBuilder2';
-    $variables['settings']    = $settings;
-    $variables['plugin']      = $plugins;
-    $variables['navigation']  = $this->navigation();
-
-    return $this->renderTemplate('formbuilder2/forms/index', $variables);
-  }
-
-  /**
-   * View/Edit Form
-   *
-   */
-  public function actionEditForm(array $variables = array())
-  {
-    $variables['brandNewForm'] = false;
-    $variables['navigation']  = $this->navigation();
-
-    craft()->templates->includeCssResource('/lib/redactor/redactor.css');
-    craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
-
-    if (!empty($variables['formId'])) {
-      if (empty($variables['form'])) {
-        $variables['form'] = fb()->forms->getFormById($variables['formId']);
-
-        if (!$variables['form']) { 
-          throw new HttpException(404);
-        }
-      }
-      $variables['title'] = $variables['form']->name;
-    } else {
-      if (empty($variables['form'])) {
-        $variables['form'] = new FormBuilder2_FormModel();
-        $variables['brandNewForm'] = true;
-      }
-      $variables['title'] = Craft::t('Create a new form');
+        return $this->renderTemplate('formbuilder2/forms/index', $variables);
     }
 
-    $variables['tabs'] = [
-        'formsettings'    => ['label' => Craft::t('Form Settings'), 'url' => '#form-settings'],
-        'messages'    => ['label' => Craft::t('Messages'), 'url' => '#messages'],
-        'emailsettings'    => ['label' => Craft::t('Email Settings'), 'url' => '#email-settings'],
-        'extra'    => ['label' => Craft::t('Extra'), 'url' => '#extra'],
-        'extrafields'    => ['label' => Craft::t('Fields'), 'url' => '#fields'],
-    ];
 
-    $variables['fullPageForm'] = true;
-    $variables['saveShortcutRedirect'] = 'formbuilder2/forms/edit/{id}';
-    $variables['continueEditingUrl'] = 'formbuilder2/forms/edit/{id}';
+    /**
+    * Edit Form
+    *
+    */
+    public function actionEditForm(array $variables = array())
+    {
+        $variables['brandNewForm'] = false;
+        $variables['navigation'] = $this->navigation();
+        $variables['fullPageForm'] = true;
+        $variables['saveShortcutRedirect'] = 'formbuilder2/forms/edit/{id}';
+        $variables['continueEditingUrl'] = 'formbuilder2/forms/edit/{id}';
 
-    $this->renderTemplate('formbuilder2/forms/_edit', $variables);
-  }
+        if (!empty($variables['formId'])) {
+            $variables['form'] = fb()->forms->getFormById($variables['formId']);
+            if (!$variables['form']) { 
+                throw new HttpException(404);
+            }
+
+            $variables['title'] = $variables['form']->name;
+        } else {
+            if (empty($variables['form'])) {
+
+                $variables['form'] = $this->_prepareNewFormModel();
+                $variables['brandNewForm'] = true;
+            }
+
+            $variables['title'] = Craft::t('Create a new form');
+        }
+
+        // Load Redactor Scripts for Rich Text fields
+        craft()->templates->includeCssResource('/lib/redactor/redactor.css');
+        craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
+
+
+
+        $this->renderTemplate('formbuilder2/forms/_edit', $variables);
+
+    }
+
+    private function _prepareNewFormModel()
+    {   
+        $formSettings = [
+            'submitButton' => [
+                'enabled' => false,
+                'text' => null
+            ],
+            'redirect' => [
+                'enabled' => false,
+                'url' => null
+            ],
+            'ajax' => [
+                'enabled' => false
+            ],
+            'uploads' => [
+                'enabled' => false
+            ]
+        ];
+
+        $spamProtectionSettings = [
+            'honeypot' => [
+                'enabled' => false,
+                'message' => null
+            ],
+            'timed' => [
+                'enabled' => false,
+                'number' => null
+            ]
+        ];
+
+        $notificationSettings = [
+            'admin' => [
+                'enabled' => false,
+                'fromEmail' => null,
+                'fromName' => null,
+                'toEmail' => null,
+                'replyTo' => null,
+                'cc' => null,
+                'bcc' => null,
+            ],
+            'submitter' => [
+                'enabled' => false,
+                'fromEmail' => null,
+                'fromName' => null,
+                'toEmail' => null,
+                'replyTo' => null,
+                'cc' => null,
+                'bcc' => null,
+            ]
+        ];
+
+        $model = new FormBuilder2_FormModel();
+        $model->setAttribute('formSettings', $formSettings);
+        $model->setAttribute('spamProtectionSettings', $spamProtectionSettings);
+        $model->setAttribute('notificationSettings', $notificationSettings);
+
+        return $model;
+    }
+
+
+  // /**
+  //  * View/Edit Form
+  //  *
+  //  */
+  // public function actionEditForm(array $variables = array())
+  // {
+  //   $variables['brandNewForm'] = false;
+  //   $variables['navigation']  = $this->navigation();
+
+  //   craft()->templates->includeCssResource('/lib/redactor/redactor.css');
+  //   craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
+
+  //   if (!empty($variables['formId'])) {
+  //     if (empty($variables['form'])) {
+  //       $variables['form'] = fb()->forms->getFormById($variables['formId']);
+
+  //       if (!$variables['form']) { 
+  //         throw new HttpException(404);
+  //       }
+  //     }
+  //     $variables['title'] = $variables['form']->name;
+  //   } else {
+  //     if (empty($variables['form'])) {
+  //       $variables['form'] = new FormBuilder2_FormModel();
+  //       $variables['brandNewForm'] = true;
+  //     }
+  //     $variables['title'] = Craft::t('Create a new form');
+  //   }
+
+  //   $variables['tabs'] = [
+  //       'formsettings'    => ['label' => Craft::t('Form Settings'), 'url' => '#form-settings'],
+  //       'messages'    => ['label' => Craft::t('Messages'), 'url' => '#messages'],
+  //       'emailsettings'    => ['label' => Craft::t('Email Settings'), 'url' => '#email-settings'],
+  //       'extra'    => ['label' => Craft::t('Extra'), 'url' => '#extra'],
+  //       'extrafields'    => ['label' => Craft::t('Fields'), 'url' => '#fields'],
+  //   ];
+
+  //   $variables['fullPageForm'] = true;
+  //   $variables['saveShortcutRedirect'] = 'formbuilder2/forms/edit/{id}';
+  //   $variables['continueEditingUrl'] = 'formbuilder2/forms/edit/{id}';
+
+  //   $this->renderTemplate('formbuilder2/forms/_edit', $variables);
+  // }
 
   /**
    * Saves New Form.

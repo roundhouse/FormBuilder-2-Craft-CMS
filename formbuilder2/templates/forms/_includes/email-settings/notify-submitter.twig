@@ -1,4 +1,116 @@
-<input type="hidden" value="1" class="enable-notification-section" name="notificationSettings[notifySubmitter]" {% if form.notificationSettings.notifySubmitter %}checked{% endif %}>
+<input type="hidden" value="true" class="enable-notification-section" name="notificationSettings[submitter][enabled]" {% if form.notificationSettings.submitter.enabled is defined and form.notificationSettings.submitter.enabled %}checked{% endif %}>
+
+<div class="setup-container">
+    <div class="notification-email-tout">
+        <header>
+            <span class="tout-title">{{ "Email Settings" |t }}</span>
+        </header>
+        <div class="body">
+            <div class="settings-item">
+                <div class="settings-title">
+                    <div class="settings-title-text">{{ "From Email" |t }}</div>
+                    <div class="settings-result">
+                        <code>{{ form.notificationSettings.adminNotification.fromEmail is defined ? form.notificationSettings.adminNotification.fromEmail : craft.systemSettings.email.emailAddress }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                    <a href="#" class="settings-edit" title="{{ "Configure From Email" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-title">
+                    <div class="settings-title-text">{{ "From Name" |t }}</div>
+                    <div class="settings-result">
+                        <code>{{ form.notificationSettings.adminNotification.fromName is defined ? form.notificationSettings.adminNotification.fromName : craft.systemSettings.email.senderName }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                    <a href="#" class="settings-edit" title="{{ "Configure From Name" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-title">
+                    <div class="settings-title-text">{{ "To Email" |t }}</div>
+                    <div class="settings-result">
+                        <code>{{ form.notificationSettings.emailSettings.notifyEmail is defined ? form.notificationSettings.emailSettings.notifyEmail : craft.systemSettings.email.emailAddress }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                     <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+                </div>
+            </div>
+            <div class="settings-item">
+                <span class="settings-title">
+                    <div class="settings-title-text">{{ "Subject" |t }}</div>
+                    <div class="settings-result">
+                        <code>Field</code>
+                    </div>
+                </span>
+                <span class="settings-action">
+                    <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+                </span>
+            </div>
+            <div class="settings-item">
+                <span class="settings-title">
+                    <div class="settings-title-text">{{ "Body" |t }}</div>
+                    <div class="settings-result">
+                        <code>HTML</code>
+                    </div>
+                </span>
+                <span class="settings-action">
+                    <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+                </span>
+            </div>
+            <div class="settings-item">
+                <div class="settings-title">
+                    <div class="settings-title-text">{{ "Reply To" |t }}</div>
+                    <div class="settings-result">
+                        <code>{{ form.notificationSettings.adminNotification.fromEmail is defined ? form.notificationSettings.adminNotification.fromEmail : craft.systemSettings.email.emailAddress }}</code>
+                    </div>
+                </div>
+                <div class="settings-action">
+                    <a href="#" class="settings-edit" title="{{ "Configure Reply To" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                </div>
+            </div>
+            <div class="settings-item">
+                <span class="settings-title">
+                    {{ "Attachments" |t }}
+                </span>
+                <span class="settings-action">
+                    <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+                </span>
+            </div>
+            <div class="settings-item">
+                <span class="settings-title">
+                    {{ "Custom Headers" |t }}
+                </span>
+                <span class="settings-action">
+                    <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
+                </span>
+            </div>
+        </div>
+    </div>
+    {# <div class="setup-email-tout">
+        <header>
+            <span class="icons">{% include 'formbuilder2/_includes/icons/settings' ignore missing %}</span>
+            <span class="tout-title">{{ "Email Settings" |t }}</span>
+        </header>
+        <div class="body">
+            <a href="#" class="btns btn-info">{{ "Setup" |t }}</a>
+        </div>
+    </div> #}
+
+    {# <div class="setup-email-template-tout">
+        <header>
+            <span class="icons">{% include 'formbuilder2/_includes/icons/template' ignore missing %}</span>
+            <span class="tout-title">{{ "Email Template" |t }}</span>
+        </header>
+        <div class="body">
+            <a href="#" class="btns btn-info">{{ "Setup" |t }}</a>
+        </div>
+    </div> #}
+</div>
+
 {# 
 <div class="method-notify-submitter pane">
   <div class="checkbox-toggle" data-checkbox="notifySubmitter">

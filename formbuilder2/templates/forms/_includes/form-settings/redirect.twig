@@ -1,23 +1,30 @@
-<div class="option-item {% if form.formSettings.formRedirect.customRedirect is defined and form.formSettings.formRedirect.customRedirect %}option-enabled{% endif %}"
+{% set redirectEnabled = form.formSettings.redirect.enabled ? true : false %}
+{% set redirectUrl = form.formSettings.redirect.url %}
+
+<div class="option-item {% if redirectEnabled %}option-enabled{% endif %}"
     id="option-timed"
     data-modal="true"
-    data-modal-title="{{ "Custom Redirect" |t }}"
-    data-modal-instructions="{{ "Enter relative path to your page." |t }}"
+    data-modal-title="{{ "Redirect" |t }}"
+    data-modal-instructions="{{ "Enter relative site path." |t }}"
     data-input-hint="{{ "PATH" |t }}"
     data-modal-success-message="{{ "Custom Redirect Updated." |t }}"
-    data-input-value="{{ form.formSettings.formRedirect.customRedirectUrl }}">
+    data-input-value="{{ redirectUrl }}">
     <span class="option-title">
-        <span class="option-text">{{ "Custom Redirect" |t }} <span class="info">{{ "Upon form submission redirect to custom success page. By default it redirects to form page." |t }}</span></span>
-        <span class="option-result {% if form.formSettings.formRedirect.customRedirect is defined and not form.formSettings.formRedirect.customRedirect %}hidden{% endif %}">
+        <span class="option-text">{{ "Custom Redirect" |t }} <span class="info">{{ "Enter a custom redirect path for successful submissions." |t }}</span></span>
+        <span class="option-result {% if not redirectEnabled %}hidden{% endif %}">
             {% include 'formbuilder2/_includes/icons/redirect' ignore missing %}
-            <code>{{ form.formSettings.formRedirect.customRedirectUrl }}</code>
+            <code>{{ redirectUrl }}</code>
         </span>
     </span>
     <div class="option-actions">
-        <a href="#" class="option-edit hidden" title="{{ "Edit Redirect" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
-        <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle Redirect" |t }}">{{ "Enable" |t }}</a>
+        <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+        {% if redirectEnabled %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
+        {% else %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
+        {% endif %}
     </div>
     
-    <input type="hidden" value="1" class="enable-form-option" name="formSettings[formRedirect][customRedirect]" {% if form.formSettings.formRedirect.customRedirect is defined and form.formSettings.formRedirect.customRedirect %}checked{% endif %}>
-    <input type="hidden" class="text form-option-input" size="50" name="formSettings[formRedirect][customRedirectUrl]" value="{{ form.formSettings.formRedirect.customRedirectUrl }}" autocomplete="off">
+    <input type="hidden" value="true" class="enable-form-option" name="formSettings[redirect][enabled]" {% if redirectEnabled %}checked{% endif %}>
+    <input type="hidden" class="text form-option-input" size="50" name="formSettings[redirect][url]" value="{{ redirectUrl }}" autocomplete="off">
 </div>

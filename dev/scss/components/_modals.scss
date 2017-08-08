@@ -1,5 +1,6 @@
 .formbuilder-modal {
     border: 1px solid $c-border;
+    min-width: 420px !important;
     
     header {
         padding: 60px 60px 40px 60px;
@@ -72,6 +73,10 @@
                 border-right: 1px solid $c-border;
             }
             &:hover {
+                background-color: $c-border;
+            }
+
+            &.submit:focus {
                 background-color: $c-border;
             }
         }

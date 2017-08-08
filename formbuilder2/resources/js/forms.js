@@ -68,7 +68,7 @@ if ($ && window.Garnish) {
       this.$menuBtn = this.$container.find('.actions > .settings');
       this.$collapserBtn = this.$container.find('.actions > .collapser');
       this.$titlebar = this.$container.find('.titlebar');
-      this.$fieldsContainer = this.$container.find('.fields');
+      this.$fieldsContainer = this.$container.find('.body');
       this.$previewContainer = this.$container.find('.preview');
       this.$status = this.$container.find('.actions > .status');
       menuBtn = new Garnish.MenuBtn(this.$menuBtn);

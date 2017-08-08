@@ -146,6 +146,7 @@
                         '</p></div>'
                     '</header>'
                     '<div class="body">'
+                        '<div class="path-text">PATH</div>'
                         '<input id="customfield-name-field" type="text" class="text fullwidth" placeholder="templates/path">'
                         '<ul id="customfield-name-errors" class="errors" style="display: none;"></ul>'
                     '</div>'

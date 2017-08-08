@@ -69,7 +69,7 @@ if $ and window.Garnish
             @$menuBtn = @$container.find('.actions > .settings')
             @$collapserBtn = @$container.find '.actions > .collapser'
             @$titlebar = @$container.find('.titlebar')
-            @$fieldsContainer = @$container.find('.fields')
+            @$fieldsContainer = @$container.find('.body')
             @$previewContainer = @$container.find('.preview')
             @$status = @$container.find('.actions > .status')
 

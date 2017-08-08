@@ -1,11 +1,17 @@
-<div class="option-item {% if form.formSettings.ajaxSubmit is defined and form.formSettings.ajaxSubmit %}option-enabled{% endif %}" 
+{% set ajaxEnabled = form.formSettings.ajax.enabled ? true : false %}
+
+<div class="option-item {% if ajaxEnabled %}option-enabled{% endif %}" 
     id="option-redirect"
     data-modal="false">
     <span class="option-title">
         <span class="option-text">{{ "AJAX Submission" |t }} <span class="info">{{ "Should we submit the form via ajax? No page refresh will happen." |t }}</span></span>
     </span>
     <div class="option-actions">
-        <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle AJAX" |t }}">{{ "Enable" |t }}</a>
+        {% if ajaxEnabled %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
+        {% else %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
+        {% endif %}
     </div>
-    <input type="hidden" value="1" class="enable-form-option" name="formSettings[ajaxSubmit]" {% if form.formSettings.ajaxSubmit is defined and form.formSettings.ajaxSubmit %}checked{% endif %}>
+    <input type="hidden" value="true" class="enable-form-option" name="formSettings[ajax][enabled]" {% if ajaxEnabled %}checked{% endif %}>
 </div>
