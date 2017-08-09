@@ -13,14 +13,20 @@ if ($ && window.Garnish) {
       this.$settingInput = this.$container.find('.settings-input');
       this.$settingResultHtml = this.$container.find('.settings-result');
       this.$editSetting = this.$container.find('.settings-edit');
-      return this.addListener(this.$editSetting, 'click', 'editSettings');
+      this.addListener(this.$editSetting, 'click', 'editSettings');
+      return this.addListener(this.$editSingleSetting, 'click', 'editSettings');
     },
     editSettings: function(e) {
       e.preventDefault();
-      if (!this.modal) {
-        return this.modal = new SettingsItemModal(this);
-      } else {
-        return this.modal.show();
+      if (this.$container.hasClass('single-input')) {
+        if (!this.modal) {
+          this.modal = new SettingsItemModal(this);
+        } else {
+          this.modal.show();
+        }
+      }
+      if (this.$container.hasClass('select-input')) {
+        return console.log('is select input');
       }
     },
     updateHtmlFromModal: function() {

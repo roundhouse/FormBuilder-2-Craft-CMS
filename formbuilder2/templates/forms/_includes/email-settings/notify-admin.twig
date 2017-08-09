@@ -9,7 +9,7 @@
         </header>
         <div class="body">
             {% set adminFromEmail = form.notificationSettings.admin.fromEmail %}
-            <div class="settings-item"
+            <div class="settings-item single-input"
                 id="settings-admin-from-email"
                 data-modal="true"
                 data-modal-title="{{ "From Email" |t }}"
@@ -29,7 +29,7 @@
                 <input type="text" class="settings-input" name="notificationSettings[admin][fromEmail]" value="{{ adminFromEmail ? adminFromEmail : craft.systemSettings.email.emailAddress }}" autocomplete="off">
             </div>
             {% set adminFromName = form.notificationSettings.admin.fromName %}
-            <div class="settings-item"
+            <div class="settings-item single-input"
                 id="settings-admin-from-name"
                 data-modal="true"
                 data-modal-title="{{ "From Name" |t }}"
@@ -49,7 +49,7 @@
                 <input type="text" class="settings-input" name="notificationSettings[admin][fromName]" value="{{ adminFromName ? adminFromName : craft.systemSettings.email.senderName }}" autocomplete="off">
             </div>
             {% set adminToEmail = form.notificationSettings.admin.toEmail %}
-            <div class="settings-item"
+            <div class="settings-item single-input"
                 id="settings-admin-to-email"
                 data-modal="true"
                 data-modal-title="{{ "To Email" |t }}"
@@ -91,7 +91,7 @@
                 </span>
             </div>
             {% set adminReplyTo = form.notificationSettings.admin.replyTo %}
-            <div class="settings-item"
+            <div class="settings-item single-input"
                 id="settings-admin-reply-to"
                 data-modal="true"
                 data-modal-title="{{ "Reply To" |t }}"
@@ -111,7 +111,7 @@
                 <input type="text" class="settings-input" name="notificationSettings[admin][replyTo]" value="{{ adminReplyTo ? adminReplyTo : craft.systemSettings.email.emailAddress }}" autocomplete="off">
             </div>
             {% set adminCc = form.notificationSettings.admin.cc %}
-            <div class="settings-item"
+            <div class="settings-item select-input"
                 id="settings-admin-cc"
                 data-modal="true"
                 data-modal-title="{{ "CC" |t }}"
@@ -131,7 +131,7 @@
                 <input type="text" class="settings-input" name="notificationSettings[admin][cc]" value="{{ adminCc ? adminCc : null }}" autocomplete="off">
             </div>
             {% set adminBcc = form.notificationSettings.admin.bcc %}
-            <div class="settings-item"
+            <div class="settings-item select-input"
                 id="settings-admin-cc"
                 data-modal="true"
                 data-modal-title="{{ "BCC" |t }}"

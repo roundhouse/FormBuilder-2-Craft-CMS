@@ -12,17 +12,21 @@ if $ and window.Garnish
             @$container = $(container)
             @$settingInput = @$container.find '.settings-input'
             @$settingResultHtml = @$container.find '.settings-result'
+
             @$editSetting = @$container.find '.settings-edit'
 
             @addListener @$editSetting, 'click', 'editSettings'
+            @addListener @$editSingleSetting, 'click', 'editSettings'
 
         editSettings: (e) ->
             e.preventDefault()
-
-            if !@modal
-                @modal = new SettingsItemModal(@)
-            else
-                @modal.show()
+            if @$container.hasClass 'single-input'
+                if !@modal
+                    @modal = new SettingsItemModal(@)
+                else
+                    @modal.show()
+            if @$container.hasClass 'select-input'
+                console.log 'is select input'
 
         updateHtmlFromModal: ->
             settingsResultText = @modal.$settingsModalInput.val()
