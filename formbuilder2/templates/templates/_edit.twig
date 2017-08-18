@@ -2,73 +2,39 @@
 {% import "_includes/forms" as forms %}
 {% hook 'formBuilder2.prepCpTemplate' %}
 
-{% set selectedSubnavItem = "templates" %}
+{% set selectedSubnavItem = "forms" %}
 {% set bodyClass = 'formbuilder fb-templates-edit' %}
 {% set pageSlug = craft.request.lastSegment %}
 
 {% if pageSlug == 'edit' %}
-	{% set page = 'Edit Template' %}
+    {% set page = 'Edit Template' %}
 {% else %}
-	{% set page = 'New Template' %}
+    {% set page = 'New Template' %}
 {% endif %}
 
 {% block pageHeader %}
-  {% include 'formbuilder2/partials/header' %}
+    {% include 'formbuilder2/_includes/_header' ignore missing with { title: page } %}
 {% endblock %}
 
 {% block main %}
-  
-  <section id="fb-content">
-    <header class="section-header">
-      <div id="page-title"><h1>{{ page|t }}</h1></div>
-      <div id="extra-headers"><div class="buttons right"><div class="btngroup"><a href="{{ url('formbuilder2/templates') }}" class="btn icon"><span>{{ "Back to Templates"|t }}</span></a></div></div></div>
-    </header>
+    {% set errors = template.getErrors() %}
 
-    <div class="template-form">
+    <input type="hidden" name="action" value="formBuilder2/template/saveTemplate">
+    <input type="hidden" name="redirect" value="formbuilder2/templates">
+    <input type="hidden" name="type" value="{{ type }}">
 
-      <form method="post" accept-charset="UTF-8" data-saveshortcut="1">
-        <input type="hidden" name="action" value="formBuilder2/template/saveTemplate">
-        <input type="hidden" name="redirect" value="formbuilder2/templates">
-        {{ getCsrfInput() }}
+    {% if template.id %}
+        <input type="hidden" name="templateId" value="{{ template.id }}">
+    {% endif %}
 
-        {% if template.id %}
-          <input type="hidden" name="templateId" value="{{ template.id }}">
-        {% endif %}
+    {% include 'formBuilder2/templates/layouts/_' ~ type %}
 
-        <section id="template-container">
-          <div id="template-settings">
-            {# Template Settings #}
-            {% include 'formbuilder2/templates/partials/_template-settings' %}
-          </div>
-
-          <div id="template-designer">
-            {# Template Designer #}
-            {% include 'formbuilder2/templates/partials/_template-designer' %}
-          </div>
-        </section>
-
-        <div class="buttons">
-          <input type="submit" class="btn submit" value="{{ 'Save Template'|t }}">
-        </div>
-
-      </form>
-
-    </div>
-
-  </section>
+    {% includeJsResource "formbuilder2/js/forms.js" %}
+    {% includeJsResource "formbuilder2/js/templates.js" %}
+    {% includejs %}
+        $('.section-collapsible').each(function(i,el){
+            new FormBuilderSection(el);
+        });
+    {% endincludejs %}
 
 {% endblock %}
-
-{% includeJsResource "formbuilder2/js/templates.js" %}
-
-{% set js %}
-  {# var templatePicker = new TemplatePicker(); #}
-  {# var livePreview = new Craft.LivePreview(); #}
-  {% if not template.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}
- {#  $('#templateBodyCopy, #templateFooterCopy').redactor({
-    buttons: ['bold', 'italic', 'link', 'horizontalrule'],
-    plugins: ['alignment', 'inlinestyle']
-  }); #}
-{% endset %}
-{% includeJs js %}
-

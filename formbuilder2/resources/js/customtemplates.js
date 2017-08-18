@@ -158,6 +158,7 @@
     });
     EditorModal = Garnish.Modal.extend({
       originalTemplate: null,
+      $inputField: null,
       init: function(originalTemplate) {
         var body;
         this.base();
@@ -165,8 +166,9 @@
         console.log(originalTemplate);
         this.$form = $('<form class="modal fitted formbuilder-modal">').appendTo(Garnish.$bod);
         this.setContainer(this.$form);
-        body = $(['<header>', '<span class="modal-title">', Craft.t('Template Path'), '</span>', '<div class="instructions"><p>', Craft.t('The template to use for this field.'), '</p></div>', '</header>', '<div class="body">', '<div class="path-text">PATH</div>', '<input id="customfield-name-field" type="text" class="text fullwidth" placeholder="templates/path">', '<ul id="customfield-name-errors" class="errors" style="display: none;"></ul>', '</div>', '<footer class="footer">', '<div class="buttons">', '<input type="button" class="btns btn-modal cancel" value="' + Craft.t('Cancel') + '">', '<input type="submit" class="btns btn-modal submit" value="' + Craft.t('Save') + '">', '</div>', '</footer>'].join('')).appendTo(this.$form);
+        body = $(['<header>', '<span class="modal-title">', Craft.t('Template Path'), '</span>', '<div class="instructions"><p>', Craft.t('The template to use for this field.'), '</p></div>', '</header>', '<div class="body">', '<div class="fb-field">', '<div class="input-hint">PATH</div>', '<input id="customfield-name-field" type="text" class="text fullwidth" placeholder="templates/path">', '</div>', '<ul id="customfield-name-errors" class="errors" style="display: none;"></ul>', '</div>', '<footer class="footer">', '<div class="buttons">', '<input type="button" class="btns btn-modal cancel" value="' + Craft.t('Cancel') + '">', '<input type="submit" class="btns btn-modal submit" value="' + Craft.t('Save') + '">', '</div>', '</footer>'].join('')).appendTo(this.$form);
         this.$nameField = body.find('#customfield-name-field');
+        this.$inputField = body.find('.field');
         this.$nameErrors = body.find('#customfield-name-errors');
         this.$cancelBtn = body.find('.cancel');
         this.$saveBtn = body.find('.submit');
@@ -174,15 +176,19 @@
         return this.addListener(this.$form, 'submit', 'onFormSubmit');
       },
       onFormSubmit: function(e) {
-        console.log(this.$nameField.val());
         e.preventDefault();
-        if (!this.visible) {
-          return;
+        if (!this.$nameField.val()) {
+          this.$inputField.addClass('error');
+          return Garnish.shake(this.$container);
+        } else {
+          if (!this.visible) {
+            return;
+          }
+          this.trigger('setLabel', {
+            template: this.$nameField.val()
+          });
+          return this.hide();
         }
-        this.trigger('setLabel', {
-          template: this.$nameField.val()
-        });
-        return this.hide();
       },
       onFadeOut: function() {
         this.base();

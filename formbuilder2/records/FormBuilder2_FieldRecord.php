@@ -11,15 +11,17 @@ class FormBuilder2_FieldRecord extends BaseRecord
     protected function defineAttributes()
     {
         return array(
-            'template' => AttributeType::String
+            'template'          => AttributeType::String,
+            'fieldId'           => array(AttributeType::Number, 'required' => false)
+            'fieldLayoutId'     => array(AttributeType::Number, 'required' => false)
         );
     }
     
     public function defineRelations()
     {
         return array(
-            'field'       => array(static::BELONGS_TO, 'FieldRecord',       'onDelete' => static::CASCADE),
-            'fieldLayout' => array(static::BELONGS_TO, 'FieldLayoutRecord', 'onDelete' => static::CASCADE),
+            'fieldId'       => array(static::BELONGS_TO, 'FieldRecord', 'onDelete' => static::CASCADE),
+            'fieldLayout'   => array(static::BELONGS_TO, 'FieldLayoutRecord', 'onDelete' => static::CASCADE),
         );
     }
 

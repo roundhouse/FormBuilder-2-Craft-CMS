@@ -129,6 +129,7 @@
         # Editor Modal
         EditorModal = Garnish.Modal.extend(
             originalTemplate: null
+            $inputField: null
 
             init: (originalTemplate) ->
                 @base()
@@ -146,8 +147,10 @@
                         '</p></div>'
                     '</header>'
                     '<div class="body">'
-                        '<div class="path-text">PATH</div>'
-                        '<input id="customfield-name-field" type="text" class="text fullwidth" placeholder="templates/path">'
+                        '<div class="fb-field">'
+                            '<div class="input-hint">PATH</div>'
+                            '<input id="customfield-name-field" type="text" class="text fullwidth" placeholder="templates/path">'
+                        '</div>'
                         '<ul id="customfield-name-errors" class="errors" style="display: none;"></ul>'
                     '</div>'
                     '<footer class="footer">'
@@ -157,7 +160,9 @@
                         '</div>'
                     '</footer>'
                   ].join('')).appendTo(@$form)
+
                 @$nameField = body.find('#customfield-name-field')
+                @$inputField = body.find('.field')
                 @$nameErrors = body.find('#customfield-name-errors')
                 @$cancelBtn = body.find('.cancel')
                 @$saveBtn = body.find('.submit')
@@ -166,13 +171,15 @@
                 @addListener @$form, 'submit', 'onFormSubmit'
 
             onFormSubmit: (e) ->
-                console.log @$nameField.val()
                 e.preventDefault()
-                # Prevent multi form submits with the return key
-                if !@visible
-                    return
-                @trigger 'setLabel', template: @$nameField.val()
-                @hide()
+                if !@$nameField.val()
+                    @$inputField.addClass 'error'
+                    Garnish.shake(@$container)
+                else
+                    if !@visible
+                        return
+                    @trigger 'setLabel', template: @$nameField.val()
+                    @hide()
             
             onFadeOut: ->
                 @base()

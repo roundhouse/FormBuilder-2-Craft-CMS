@@ -270,6 +270,15 @@ class FormBuilder2Service extends BaseApplicationComponent
 	}
 
     /**
+     *  On Prepare Form Model Event
+     *  @param FormBuilder2_OnPrepareFormModelEvent $event
+     */
+    public function onPrepareFormModelEvent(FormBuilder2_OnPrepareFormModelEvent $event)
+    {
+        $this->raiseEvent('onPrepareFormModelEvent', $event);
+    }
+
+    /**
      * @param FormBuilder2_OnBeforeSaveEntryEvent $event
      */
     public function onBeforeSaveEntry(FormBuilder2_OnBeforeSaveEntryEvent $event)

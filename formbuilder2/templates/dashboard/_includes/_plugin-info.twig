@@ -1,0 +1,14 @@
+<div class="formbuilder-info item" data-position="right">
+    <header>
+        <div class="fb-logo">{% include 'formbuilder2/_includes/icons/formbuilder-icon' %}</div>
+        <h2>FormBuilder2</h2>
+    </header>
+    <div class="body">
+        <ul>
+            <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
+            <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
+            <li>{{ "Author"|t }}: <span><a href="https://github.com/owldesign" target="_balank" title="Vadim Goncharov">Vadim Goncharov</a> (<a href="https://twitter.com/owldesign" target="_blank">@owldesign</a>)</span></li>
+            <li>{{ "View Documentation"|t }}: <span><a href="{{ plugin.getDocumentationUrl() }}" target="_blank">GitHub</a></span></li>
+        </ul>
+    </div>
+</div>

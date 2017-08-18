@@ -1,11 +1,16 @@
-<section class="cmp-tout section-collapsible">
+{% set adminNotificationEnabled = form.notify.admin.enabled is defined ? form.notify.admin.enabled %}
+{% set hideAdminNotification = form.settings.sections.hideAdminNotification is defined ? form.settings.sections.hideAdminNotification %}
+
+<section class="cmp-tout section-collapsible"{% if hideAdminNotification %} data-collapsed{% endif %}>
+    <input type="checkbox" value="1" name="settings[sections][hideAdminNotification]" class="section-toggle hidden" {% if hideAdminNotification %}checked{% endif %}>
+
     <header class="theme-{{ theme is defined ? theme }}">
         <div class="titlebar">
             <span class="tout-title">{{ "Admin Notification" |t }}</span>
             <div class="preview"></div>
         </div>
         <div class="actions">
-            {% if form.notificationSettings.admin.enabled is defined and form.notificationSettings.admin.enabled %}
+            {% if adminNotificationEnabled %}
                 <div class="status on" title="Enabled"></div>
             {% else %}
                 <div class="status off" title="Disabled"></div>
@@ -16,18 +21,14 @@
 
             <div class="menu">
                 <ul class="padded">
-                    <li {% if form.notificationSettings.admin.enabled is defined and not form.notificationSettings.admin.enabled %}class="hidden"{% endif %}><a data-action="disable"><span class="status off"></span>
-                        {{ "Disable"|t }}
-                    </a></li>
-                    <li {% if form.notificationSettings.admin.enabled is defined and form.notificationSettings.admin.enabled %}class="hidden"{% endif %}><a data-action="enable"><span class="status enabled"></span>
-                        {{ "Enable"|t }}
-                    </a></li>
+                    <li {% if not adminNotificationEnabled %}class="hidden"{% endif %}><a data-action="disable"><span class="status off"></span>{{ "Disable"|t }}</a></li>
+                    <li {% if adminNotificationEnabled %}class="hidden"{% endif %}><a data-action="enable"><span class="status enabled"></span>{{ "Enable"|t }}</a></li>
                 </ul>
             </div>
         </div>
     </header>
 
     <div class="body notification-fields theme-{{ theme is defined ? theme }}">
-        {% include 'formbuilder2/forms/_includes/email-settings/notify-admin' ignore missing %}
+        {% include 'formbuilder2/forms/_includes/notify/notify-admin' ignore missing %}
     </div>
 </section>

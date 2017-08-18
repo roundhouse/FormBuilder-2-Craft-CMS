@@ -1,0 +1,23 @@
+<section class="template-settings-tout cmp-tout theme-white">
+    <header>
+        <span class="tout-title">{{ "Settings" |t }}</span>
+    </header>
+    <div class="body">
+        <div class="fb-field {{ errors is defined and template.getError('name') ? 'error' }}" {% if template.getError('name') %}data-error-message="{{ template.getError('name') }}"{% endif %}>
+            <label for="formName" class="input-hint">{{ "NAME" |t }}</label>
+            <input class="text" type="text" id="name" size="50" name="name" value="{{ template.name }}" autofocus="" autocomplete="off">
+            {% if template.getError('name') %}<div class="input-error">{{ template.getError('name') }}</div>{% endif %}
+        </div>
+
+        <div class="fb-field {{ errors is defined and template.getError('handle') ? 'error' }}" {% if template.getError('handle') %}data-error-message="{{ template.getError('handle') }}"{% endif %}>
+            <label for="formName" class="input-hint">{{ "HANDLE" |t }}</label>
+            <input class="text code" type="text" id="handle" size="50" name="handle" value="{{ template.handle }}" autocomplete="off">
+            {% if template.getError('handle') %}<div class="input-error">{{ template.getError('handle') }}</div>{% endif %}
+        </div>
+
+        {% includejs %}
+            {% if not template.handle %}new Craft.HandleGenerator('#name', '#handle');{% endif %}
+        {% endincludejs %}
+    </div>
+</section>
+

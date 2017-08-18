@@ -9,7 +9,12 @@ class FormBuilder2Variable
 
     public function forms($variables = null)
     {
-        return craft()->formBuilder2_form->getForms($variables);
+        return fb()->forms->getForms($variables);
+    }
+
+    public function templates($variables = null)
+    {
+        return fb()->templates->getTemplates($variables);
     }
 
     /**

@@ -7,23 +7,71 @@
 {% set page = 'Configuration' %}
 
 {% block pageHeader %}
-  {% include 'formbuilder2/partials/header' %}
+    {% include 'formbuilder2/_includes/_header' ignore missing with { title: 'Configuration' } %}
 {% endblock %}
 
 {% block main %}
-  <section id="fb-content">
+    
+    <section class="configuration-container">
+        <div class="grid first" data-max-cols="3">
+
+            <div class="item" data-position="left" data-colspan="1">
+                <section class="plugin-settings-tout cmp-tout theme-white theme-moss">
+                    <header>
+                        <span class="tout-title">{{ "Plugin Settings" |t }}</span>
+                    </header>
+                    <div class="body plugin-settings-fields">
+                        <form id="formbuilder-settings" method="post" accept-charset="UTF-8">
+                            <input type="hidden" name="action" value="formBuilder2/savePluginSettings">
+                            {{ getCsrfInput() }}
+
+                            {% include 'formbuilder2/tools/_includes/plugin-name' ignore missing %}
+                            {% include 'formbuilder2/tools/_includes/admin-permission' ignore missing %}
+
+                            <div class="button-wrapper">
+                                <input type="submit" class="btns btn-info submit" value="{{ 'Save'|t }}">
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            {# <div class="formbuilder-info item" data-position="right">
+                <header>
+                    <div class="fb-logo">{% include 'formbuilder2/_includes/icons/formbuilder-icon' %}</div>
+                    <h2>FormBuilder2</h2>
+                </header>
+                <div class="body">
+                    <ul>
+                        <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
+                        <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
+                        <li>{{ "Author"|t }}: <span><a href="https://github.com/owldesign" target="_balank" title="Vadim Goncharov">Vadim Goncharov</a> (<a href="https://twitter.com/owldesign" target="_blank">@owldesign</a>)</span></li>
+                        <li>{{ "View Documentation"|t }}: <span><a href="{{ plugin.getDocumentationUrl() }}" target="_blank">GitHub</a></span></li>
+                    </ul>
+                </div>
+            </div> #}
+
+        </div>
+    </section>
+
+    {% includeJsResource "formbuilder2/js/notification-settings.js" %}
+    {% includeJsResource "formbuilder2/js/form-options.js" %}
+
+    {% includejs %}
+        $('.settings-item').each(function(i,el){
+            new NotificationSettingsItem(el);
+        });
+    {% endincludejs %}
+    
+
+
+  {# <section id="fb-content">
     <header class="section-header">
       <div id="page-title"><h1>{{ page|t }}</h1></div>
     </header>
 
     <div class="pane">
-      <ul>
-        <li>{{ "Name"|t }}: <span>{{ plugin.getName() }}</span></li>
-        <li>{{ "Version"|t }}: <span>{{ plugin.getVersion() }}</span></li>
-        <li>{{ "Developer"|t }}: <span><a href="{{ plugin.getDeveloperUrl() }}" target="_blank">{{ plugin.getDeveloper() }}</a></span></li>
-        <li>{{ "Author"|t }}: <span><a href="https://github.com/owldesign" target="_balank" title="Vadim Goncharov">Vadim Goncharov</a> (<a href="https://twitter.com/owldesign" target="_blank">@owldesign</a>)</span></li>
-        <li>{{ "View Documentation"|t }}: <span><a href="{{ plugin.getDocumentationUrl() }}" target="_blank">GitHub</a></span></li>
-      </ul>
+      
     </div>
 
 
@@ -47,7 +95,7 @@
                   name: 'canDoActions',
                   label: 'Allow non-admins'|t,
                   on: settings.canDoActions,
-                  instructions: 'Whether non-admins add/update forms.'|t
+                  instructions: 'Whether non-admins can add/update forms.'|t
               }) }}
               <div class="buttons">
                   <input type="submit" class="btn submit" value="{{ 'Save'|t }}">
@@ -55,27 +103,6 @@
           </form>
       </div>
 
-  </section>
+  </section> #}
 
 {% endblock %}
-
-{% set configJs %}
-
-
- {#  var myModal = Craft.createElementSelectorModal('Asset', {
-    resizable:          true,
-    storageKey:         'someUniqueID',
-    criteria:           { status: null },
-    multiSelect:        false,
-    disableOnSelect:    true,
-    onCancel:           function(){},
-    onSelect:           function(asset){
-      console.log(asset[0].url);
-    }
-  });
-
-  $('.add').on('click', function(e){
-    myModal.show();
-  }); #}
-{% endset %}
-{% includeJs configJs %}

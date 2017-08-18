@@ -1,0 +1,30 @@
+{% set headerCopy = template.content.header.copy is defined ? template.content.header.copy %}
+{% set bodyCopy = template.content.body.copy is defined ? template.content.body.copy %}
+{% set footerCopy = template.content.footer.copy is defined ? template.content.footer.copy %}
+
+<section class="templates-container">
+    <div class="grid first" data-max-cols="3">
+        <div class="item" data-position="left" data-colspan="2">
+            
+            <section class="cmp-tout fields-section">
+                <header class="theme-moss">
+                    <div class="titlebar">
+                        <span class="tout-title">{{ "Email Template" |t }}</span>
+                        <div class="preview"></div>
+                    </div>
+                </header>
+
+                <div class="body theme-moss">
+                    {% include 'formbuilder2/templates/_includes/_template-minimal' ignore missing %}
+                </div>
+            </section>
+
+        </div>
+        <div class="item" data-position="right">
+            {% include 'formBuilder2/templates/_includes/settings/_template-info' ignore missing %}
+            {% include 'formBuilder2/templates/_includes/_content' ignore missing with { theme: 'moss' } %}
+            {% include 'formBuilder2/templates/_includes/_styles' ignore missing with { theme: 'moss' } %}
+            {% include 'formBuilder2/templates/_includes/_buttons' ignore missing %}
+        </div>
+    </div>
+</section>

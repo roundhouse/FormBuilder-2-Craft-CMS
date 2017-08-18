@@ -1,0 +1,9 @@
+<div class="pane meta save-template-meta last">
+    <button type="submit" href="#" class="btns btn-info save-template">{{ "Save Template" |t }}</button>
+</div>
+
+{% if template.id %}
+    <div class="pane meta delete-template-meta last">
+        <a href="#" class="btns btn-danger delete-template" data-id="{{ template.id }}">{{ "Delete Template" |t }}</a>
+    </div>
+{% endif %}

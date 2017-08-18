@@ -1,0 +1,25 @@
+{% set pluginName = settings.pluginName ? settings.pluginName %}
+
+<div class="settings-item"
+    id="plugin-name"
+    data-type="single"
+    data-modal="true"
+    data-name="pluginName"
+    data-modal-title="{{ "Plugin Name" |t }}"
+    data-modal-instructions="{{ "Plugin name for the end user." |t }}"
+    data-input-hint="{{ "NAME" |t }}"
+    data-modal-success-message="{{ "Plugin Name Updated" |t }}"
+    data-input-value="{{ pluginName }}">
+    <div class="settings-title">
+        <div class="settings-title-text">{{ "Plugin Name" |t }}</div>
+        <div class="settings-result">
+            {% if pluginName %}
+                <code>{{ pluginName }}</code>
+                <input type="text" class="form-settings-input hidden" id="pluginName" value="{{ pluginName }}" name="pluginName" autocomplete="off">
+            {% endif %}
+        </div>
+    </div>
+    <div class="settings-action">
+        <a href="#" class="settings-edit" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+    </div>
+</div>

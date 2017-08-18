@@ -1,0 +1,25 @@
+{% set headerEnabled = template.content.header.enabled is defined ? template.content.header.enabled %}
+
+<div class="option-item template-item {% if headerEnabled %}option-enabled{% endif %}"
+    id="template-header"
+    data-modal="true"
+    data-type="header"
+    data-name="content[header][copy]"
+    data-modal-title="{{ "Header Content" |t }}"
+    data-input-hint-textarea="{{ "COPY" |t }}"
+    data-modal-success-message="{{ "Header Content Updated" |t }}"
+    data-input-value="{{ headerCopy }}">
+    <span class="option-title">
+        <span class="option-text">{{ "Header" |t }} <span class="info">{{ "Include header content." |t }}</span></span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+        {% if headerEnabled %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
+        {% else %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
+        {% endif %}
+    </div>
+    
+    <input type="checkbox" value="{{ headerEnabled }}" class="enable-template-content hidden" name="content[header][enabled]" {% if headerEnabled %}checked{% endif %}>
+</div>

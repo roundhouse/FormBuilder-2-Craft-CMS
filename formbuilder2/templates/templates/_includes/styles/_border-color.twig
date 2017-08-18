@@ -1,0 +1,15 @@
+<div class="option-item styles-item">
+    <span class="option-title">
+        <span class="option-text">{{ "Border Color" |t }}</span>
+    </span>
+
+    <div class="option-actions">
+        {{ forms.color({
+          id: 'templateBorderColor',
+          class: 'templateBorderColor',
+          name: 'styles[border][color]',
+          value: template.styles.border.color is defined ? template.styles.border.color : '#E9EFF4',
+          size: 50,
+        }) }}
+    </div>
+</div>

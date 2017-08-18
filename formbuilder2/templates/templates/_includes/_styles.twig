@@ -1,0 +1,18 @@
+<section class="template-cmp-tout cmp-tout section-collapsible">
+    <header class="theme-{{ theme is defined ? theme }}">
+        <div class="titlebar">
+            <span class="tout-title">{{ "Styles" |t }}</span>
+        </div>
+        <div class="actions">
+            <a class="icons collapser" title="Collapse" role="combobox" tabindex="0"></a>
+        </div>
+    </header>
+
+    <div class="body">
+         {% include 'formbuilder2/templates/_includes/styles/_background-color' ignore missing %}
+         {% include 'formbuilder2/templates/_includes/styles/_border-color' ignore missing %}
+         {% include 'formbuilder2/templates/_includes/styles/_border-width' ignore missing %}
+         {% include 'formbuilder2/templates/_includes/styles/_border-radius' ignore missing %}
+         {% include 'formbuilder2/templates/_includes/styles/_container-padding' ignore missing %}
+    </div>
+</section>

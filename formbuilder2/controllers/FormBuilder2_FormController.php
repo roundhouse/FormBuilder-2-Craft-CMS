@@ -6,6 +6,8 @@ class FormBuilder2_FormController extends BaseController
 
     protected $allowAnonymous = true;
 
+    private $form;
+
     /**
     * Get All Forms
     *
@@ -34,8 +36,8 @@ class FormBuilder2_FormController extends BaseController
         $variables['brandNewForm'] = false;
         $variables['navigation'] = $this->navigation();
         $variables['fullPageForm'] = true;
-        $variables['saveShortcutRedirect'] = 'formbuilder2/forms/edit/{id}';
-        $variables['continueEditingUrl'] = 'formbuilder2/forms/edit/{id}';
+        // $variables['saveShortcutRedirect'] = 'formbuilder2/forms/edit/{id}';
+        // $variables['continueEditingUrl'] = 'formbuilder2/forms/edit/{id}';
 
         if (!empty($variables['formId'])) {
             $variables['form'] = fb()->forms->getFormById($variables['formId']);
@@ -46,7 +48,6 @@ class FormBuilder2_FormController extends BaseController
             $variables['title'] = $variables['form']->name;
         } else {
             if (empty($variables['form'])) {
-
                 $variables['form'] = $this->_prepareNewFormModel();
                 $variables['brandNewForm'] = true;
             }
@@ -58,165 +59,102 @@ class FormBuilder2_FormController extends BaseController
         craft()->templates->includeCssResource('/lib/redactor/redactor.css');
         craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
 
-
-
         $this->renderTemplate('formbuilder2/forms/_edit', $variables);
 
     }
 
-    private function _prepareNewFormModel()
-    {   
-        $formSettings = [
-            'submitButton' => [
-                'enabled' => false,
-                'text' => null
-            ],
-            'redirect' => [
-                'enabled' => false,
-                'url' => null
-            ],
-            'ajax' => [
-                'enabled' => false
-            ],
-            'uploads' => [
-                'enabled' => false
-            ]
-        ];
 
-        $spamProtectionSettings = [
-            'honeypot' => [
-                'enabled' => false,
-                'message' => null
-            ],
-            'timed' => [
-                'enabled' => false,
-                'number' => null
-            ]
-        ];
 
-        $notificationSettings = [
-            'admin' => [
-                'enabled' => false,
-                'fromEmail' => null,
-                'fromName' => null,
-                'toEmail' => null,
-                'replyTo' => null,
-                'cc' => null,
-                'bcc' => null,
-            ],
-            'submitter' => [
-                'enabled' => false,
-                'fromEmail' => null,
-                'fromName' => null,
-                'toEmail' => null,
-                'replyTo' => null,
-                'cc' => null,
-                'bcc' => null,
-            ]
-        ];
+    /**
+    * Save New Form
+    *
+    */
+    public function actionSaveForm()
+    {
+        $this->requirePostRequest();
+        $this->form = new FormBuilder2_FormModel();
+        $this->form->id                           = craft()->request->getPost('formId');
+        $this->form->name                         = craft()->request->getPost('name');
+        $this->form->handle                       = craft()->request->getPost('handle');
+        $this->form->fieldLayoutId                = craft()->request->getPost('fieldLayoutId');
+        
+        if (craft()->request->getPost('options')) {
+            $this->_populateFormOptions(craft()->request->getPost('options'));
+        }
 
-        $model = new FormBuilder2_FormModel();
-        $model->setAttribute('formSettings', $formSettings);
-        $model->setAttribute('spamProtectionSettings', $spamProtectionSettings);
-        $model->setAttribute('notificationSettings', $notificationSettings);
+        if (craft()->request->getPost('spam')) {
+            $this->_populateSpamProtection(craft()->request->getPost('spam'));
+        }
 
-        return $model;
+        if (craft()->request->getPost('notify')) {
+            $this->_populateNotifications(craft()->request->getPost('notify'));
+        }
+
+        if (craft()->request->getPost('messages')) {
+            $this->_populateMessages(craft()->request->getPost('messages'));
+        }
+
+        if (craft()->request->getPost('settings')) {
+            $this->_populateSettings(craft()->request->getPost('settings'));
+        }
+
+        // Craft::dd($_POST);
+
+        $fieldLayout = craft()->fields->assembleLayoutFromPost();
+        $fieldLayout->type = ElementType::Asset;
+        $this->form->setFieldLayout($fieldLayout);
+
+        if (fb()->forms->saveForm($this->form)) {
+            craft()->userSession->setNotice(Craft::t('Form saved.'));
+            $this->redirectToPostedUrl($this->form);
+        } else {
+            craft()->userSession->setError(Craft::t('Couldn’t save form.'));
+        }
+
+        craft()->urlManager->setRouteVariables(array(
+            'form' => $this->form
+        ));
     }
 
-
-  // /**
-  //  * View/Edit Form
-  //  *
-  //  */
-  // public function actionEditForm(array $variables = array())
-  // {
-  //   $variables['brandNewForm'] = false;
-  //   $variables['navigation']  = $this->navigation();
-
-  //   craft()->templates->includeCssResource('/lib/redactor/redactor.css');
-  //   craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
-
-  //   if (!empty($variables['formId'])) {
-  //     if (empty($variables['form'])) {
-  //       $variables['form'] = fb()->forms->getFormById($variables['formId']);
-
-  //       if (!$variables['form']) { 
-  //         throw new HttpException(404);
-  //       }
-  //     }
-  //     $variables['title'] = $variables['form']->name;
-  //   } else {
-  //     if (empty($variables['form'])) {
-  //       $variables['form'] = new FormBuilder2_FormModel();
-  //       $variables['brandNewForm'] = true;
-  //     }
-  //     $variables['title'] = Craft::t('Create a new form');
-  //   }
-
-  //   $variables['tabs'] = [
-  //       'formsettings'    => ['label' => Craft::t('Form Settings'), 'url' => '#form-settings'],
-  //       'messages'    => ['label' => Craft::t('Messages'), 'url' => '#messages'],
-  //       'emailsettings'    => ['label' => Craft::t('Email Settings'), 'url' => '#email-settings'],
-  //       'extra'    => ['label' => Craft::t('Extra'), 'url' => '#extra'],
-  //       'extrafields'    => ['label' => Craft::t('Fields'), 'url' => '#fields'],
-  //   ];
-
-  //   $variables['fullPageForm'] = true;
-  //   $variables['saveShortcutRedirect'] = 'formbuilder2/forms/edit/{id}';
-  //   $variables['continueEditingUrl'] = 'formbuilder2/forms/edit/{id}';
-
-  //   $this->renderTemplate('formbuilder2/forms/_edit', $variables);
-  // }
-
-  /**
-   * Saves New Form.
-   *
-   */
-  public function actionSaveForm()
-  {
-    $this->requirePostRequest();
-    $form = new FormBuilder2_FormModel();
-
-    $form->id                           = craft()->request->getPost('formId');
-    $form->name                         = craft()->request->getPost('name');
-    $form->handle                       = craft()->request->getPost('handle');
-    $form->fieldLayoutId                = craft()->request->getPost('fieldLayoutId');
-    $form->formSettings                 = craft()->request->getPost('formSettings');
-    $form->spamProtectionSettings       = craft()->request->getPost('spamProtectionSettings');
-    $form->messageSettings              = craft()->request->getPost('messageSettings');
-    $form->notificationSettings         = craft()->request->getPost('notificationSettings');
-    $form->extra                        = craft()->request->getPost('extra');
-
-    $fieldLayout = craft()->fields->assembleLayoutFromPost();
-    $fieldLayout->type = ElementType::Asset;
-    $form->setFieldLayout($fieldLayout);
-
-    if (fb()->forms->saveForm($form)) {
-      craft()->userSession->setNotice(Craft::t('Form saved.'));
-      $this->redirectToPostedUrl($form);
-    } else {
-      craft()->userSession->setError(Craft::t('Couldn’t save form.'));
+    private function _populateFormOptions($option)
+    {
+        $this->form->options = $option;
     }
 
-    craft()->urlManager->setRouteVariables(array(
-      'form' => $form
-    ));
-  }
+    private function _populateSpamProtection($option)
+    {
+        $this->form->spam = $option;
+    }
 
-  /**
-   * Delete Form.
-   *
-   */
-  public function actionDeleteForm()
-  {
-    $this->requirePostRequest();
-    $this->requireAjaxRequest();
+    private function _populateNotifications($option)
+    {
+        $this->form->notify = $option;
+    }
 
-    $formId = craft()->request->getRequiredPost('id');
+    private function _populateMessages($option)
+    {
+        $this->form->messages = $option;
+    }
 
-    fb()->forms->deleteFormById($formId);
-    $this->returnJson(array('success' => true));
-  }
+    private function _populateSettings($option)
+    {
+        $this->form->settings = $option;
+    }
+
+    /**
+    * Delete Form.
+    *
+    */
+    public function actionDeleteForm()
+    {
+        $this->requirePostRequest();
+        $this->requireAjaxRequest();
+
+        $formId = craft()->request->getRequiredPost('id');
+
+        fb()->forms->deleteFormById($formId);
+        $this->returnJson(array('success' => true));
+    }
 
   /**
    * Sidebar Navigation
@@ -274,24 +212,114 @@ class FormBuilder2_FormController extends BaseController
             'extra' => '',
             'url'   => UrlHelper::getCpUrl('formbuilder2/tools/configuration'),
           ),
+          array(
+            'label' => Craft::t('Create New Form'),
+            'icon'  => 'plus',
+            'extra' => '',
+            'url'   => UrlHelper::getCpUrl('formbuilder2/forms/new'),
+          ),
         )
       ),
     );
     return $navigationSections;
   }
 
-  public function actionReorder()
-  {
-      $this->requirePostRequest();
-      $this->requireAjaxRequest();
+    public function actionReorder()
+    {
+        $this->requirePostRequest();
+        $this->requireAjaxRequest();
 
-      $ids = JsonHelper::decode(craft()->request->getRequiredPost('ids'));
+        $ids = JsonHelper::decode(craft()->request->getRequiredPost('ids'));
 
-      if ($success = fb()->forms->reorderForms($ids)) {
-          return $this->returnJson(array('success' => $success));
-      }
+        if ($success = fb()->forms->reorderForms($ids)) {
+            return $this->returnJson(array('success' => $success));
+        }
 
-      return $this->returnJson(array('error' => Craft::t("Couldn't reorder forms.")));
-  }
+        return $this->returnJson(array('error' => Craft::t("Couldn't reorder forms.")));
+    }
+
+
+
+
+    /**
+     * Prepare Form Model
+     * @return FormBuilder2_Model
+     */
+    private function _prepareNewFormModel()
+    {   
+        // $messages = [
+        //     'success' => [
+        //         'message' => null
+        //     ],
+        //     'error' => [
+        //         'message' => null
+        //     ],
+        // ];
+
+        // $options = [
+        //     'submitButton' => [
+        //         'enabled' => null,
+        //         'text' => null
+        //     ],
+        //     'redirect' => [
+        //         'enabled' => null,
+        //         'url' => null
+        //     ],
+        //     'ajax' => [
+        //         'enabled' => null
+        //     ],
+        //     'uploads' => [
+        //         'enabled' => null
+        //     ]
+        // ];
+
+        // $spam = [
+        //     'honeypot' => [
+        //         'enabled' => null,
+        //         'message' => null
+        //     ],
+        //     'timed' => [
+        //         'enabled' => null,
+        //         'number' => null
+        //     ]
+        // ];
+
+
+        $settings = [
+            'sections' => [
+                'fields' => null,
+                'hideMessages' => true,
+                'hideAdminNotification' => true,
+                'hideSubmitterNotification' => true
+            ]
+        ];
+        
+        $notify = [
+            'admin' => [
+                'enabled' => false
+            ],
+            'submitter' => [
+                'enabled' => false
+            ]
+        ];
+
+        $model = new FormBuilder2_FormModel();
+        $model->setAttribute('notify', $notify);
+        $model->setAttribute('settings', $settings);
+        // $model->setAttribute('messages', $messages);
+        // $model->setAttribute('options', $options);
+        // $model->setAttribute('spam', $spam);
+
+        // Fire After Submission Complete Event
+        Craft::import('plugins.formBuilder2.events.FormBuilder2_OnPrepareFormModelEvent');
+        $event = new FormBuilder2_OnPrepareFormModelEvent(
+            $this, array(
+                'model' => $model
+            )
+        );
+        fb()->onPrepareFormModelEvent($event);
+
+        return $model;
+    }
 
 }

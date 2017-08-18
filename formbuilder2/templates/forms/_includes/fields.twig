@@ -1,4 +1,6 @@
-<section class="cmp-tout section-collapsible fields-section">
+{% set hideFields = form.settings.sections.hideFields is defined ? form.settings.sections.hideFields %}
+<section class="cmp-tout section-collapsible fields-section"{% if hideFields %} data-collapsed{% endif %}>
+    <input type="checkbox" value="1" name="settings[sections][hideFields]" class="section-toggle hidden" {% if hideFields %}checked{% endif %}>
     <header class="theme-{{ theme is defined ? theme }}">
         <div class="titlebar">
             <span class="tout-title">{{ "Fields" |t }}</span>

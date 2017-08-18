@@ -1,0 +1,26 @@
+<div class="template-container" id="template-minimum-html">
+    
+    {% if headerCopy %}
+        <span class="template-header">{{ headerCopy |raw }}</span>
+        <textarea name="content[header][copy]" id="header-copy-input" class="hidden" value="{{ headerCopy }}"></textarea>
+    {% else %}
+        <span class="template-header hidden">{{ "Thank you for reaching out." |t }}</span>
+    {% endif %}
+    
+    {% if bodyCopy %}
+        <span class="template-body">{{ bodyCopy |raw }}</span>
+        <textarea name="content[body][copy]" id="body-copy-input" class="hidden" value="{{ bodyCopy }}"></textarea>
+    {% else %}
+        <span class="template-body hidden">{{ "If you would like more information please contact us." |t }}</span>
+    {% endif %}
+    
+    <code class="sample">{{ "Submission will data goes here. (optional)" |t }}</code>
+
+    {% if footerCopy %}
+        <span class="template-footer">{{ footerCopy |raw }}</span>
+        <textarea name="content[footer][copy]" id="footer-copy-input" class="hidden" value="{{ footerCopy }}"></textarea>
+    {% else %}
+        <span class="template-footer hidden">{{ "Have a good day!" |t }}</span>
+    {% endif %}
+    
+</div>

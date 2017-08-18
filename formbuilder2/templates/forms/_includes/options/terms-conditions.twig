@@ -1,0 +1,46 @@
+{% set terms = form.options.terms.enabled is defined ? form.options.terms.enabled %}
+{% set termsLabel = form.options.terms.label is defined ? form.options.terms.label %}
+{% set termsCopy = form.options.terms.copy is defined ? form.options.terms.copy %}
+
+<div class="option-item {% if terms %}option-enabled{% endif %}"
+    id="option-terms"
+    data-modal="true"
+    data-name="options[terms][label]"
+    data-name-two="options[terms][copy]"
+    data-type="terms"
+    data-modal-title="{{ "Terms & Conditions" |t }}"
+    data-modal-instructions="{{ "This form requires acceptance of terms & conditions." |t }}"
+    data-input-hint-input="{{ "LABEL" |t }}"
+    data-input-hint-textarea="{{ "TEXT" |t }}"
+    data-modal-success-message="{{ "Terms & Conditions Updated" |t }}"
+    data-input-value-one="{{ termsLabel }}"
+    data-input-value-two="{{ termsCopy }}">
+    <span class="option-title">
+        <span class="option-text">{{ "Terms & Conditions" |t }} <span class="info">{{ "This form requires acceptance of terms & conditions." |t }}</span></span>
+        <span class="option-result {% if not terms %}hidden{% endif %}">
+            {% include 'formbuilder2/_includes/icons/lock' ignore missing %}
+            <div class="result-container">
+                {% if termsLabel or termsCopy %}
+                    {% if termsLabel %}
+                        <code>Label: {{ termsLabel }}</code>
+                    {% endif %}
+                    {% if termsLabel %}
+                        <code class="inline-copy">Copy: {{ termsCopy }}</code>
+                    {% endif %}
+                    <input type="text" class="form-option-input hidden" name="options[terms][label]" value="{{ termsLabel }}" />
+                    <textarea class="form-option-textarea hidden" name="options[terms][copy]">{{ termsCopy }}</textarea>
+                {% endif %}
+            </div>
+        </span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+        {% if terms %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
+        {% else %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
+        {% endif %}
+    </div>
+    
+    <input type="checkbox" value="{{ terms }}" class="enable-form-option hidden" name="options[terms][enabled]" {% if terms %}checked{% endif %}>
+</div>

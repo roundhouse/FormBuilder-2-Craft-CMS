@@ -1,0 +1,17 @@
+{% set uploadsEnabled = form.options.uploads.enabled is defined ? form.options.uploads.enabled %}
+
+<div class="option-item {% if uploadsEnabled %}option-enabled{% endif %}" 
+    id="option-uploads"
+    data-modal="false">
+    <span class="option-title">
+        <span class="option-text">{{ "File Uploads" |t }} <span class="info">{{ "Will this form upload any files?" |t }}</span></span>
+    </span>
+    <div class="option-actions">
+        {% if uploadsEnabled %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
+        {% else %}
+            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
+        {% endif %}
+    </div>
+    <input type="checkbox" value="{{ uploadsEnabled }}" class="enable-form-option hidden" name="options[uploads][enabled]" {{ uploadsEnabled ? 'checked' : null }}>
+</div>

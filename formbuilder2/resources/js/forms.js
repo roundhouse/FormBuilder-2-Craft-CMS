@@ -6,7 +6,7 @@ if ($ && window.Garnish) {
     formId = $(value).data('form-id');
     formHandle = $(value).data('form-handle');
     formName = $(value).data('form-name');
-    $menu = $('<div class="form"/>').html('<ul class="form-item-menu">' + '<li>' + '<a href="#" class="copy-handle" data-clipboard-text="' + formHandle + '">' + 'Copy Handle' + '</a>' + '</li>' + '<li>' + '<a href="#" class="delete">' + 'Delete</a>' + '</li>' + '</ul>');
+    $menu = $('<div class="form"/>').html('<ul class="action-item-menu">' + '<li>' + '<a href="#" class="copy-handle" data-clipboard-text="' + formHandle + '">' + 'Copy Handle' + '</a>' + '</li>' + '<li>' + '<a href="#" class="delete">' + 'Delete</a>' + '</li>' + '</ul>');
     $(value).on('click', function(e) {
       var formbuilderForms;
       e.preventDefault();
@@ -26,7 +26,7 @@ if ($ && window.Garnish) {
       for (hudID in Garnish.HUD.activeHUDs) {
         Garnish.HUD.activeHUDs[hudID].hide();
       }
-      return Craft.cp.displayNotice(Craft.t('Form handle copied'));
+      return Craft.cp.displayNotice(Craft.t('Form Handle Copied'));
     });
     return $menu.find('.delete').on('click', function(e) {
       var data;
@@ -37,14 +37,14 @@ if ($ && window.Garnish) {
       if (confirm(Craft.t("Are you sure you want to delete " + formName + " and all its entries?"))) {
         return Craft.postActionRequest('formBuilder2/form/deleteForm', data, $.proxy((function(response, textStatus) {
           var $row, hudID, results;
-          if (textStatus === 'success') {
+          if (response.success) {
             $row = $('#formbuilder-form-' + formId);
             formListTable.sorter.removeItems($row);
             $row.remove();
             results = [];
             for (hudID in Garnish.HUD.activeHUDs) {
               Garnish.HUD.activeHUDs[hudID].hide();
-              results.push(Craft.cp.displayNotice(Craft.t('Form deleted')));
+              results.push(Craft.cp.displayNotice(Craft.t('Form Deleted')));
             }
             return results;
           }
@@ -59,6 +59,7 @@ if ($ && window.Garnish) {
     $previewContainer: null,
     $actionMenu: null,
     $collapserBtn: null,
+    $sectionToggleInput: null,
     $menuBtn: null,
     $status: null,
     collapsed: false,
@@ -67,6 +68,7 @@ if ($ && window.Garnish) {
       this.$container = $(el);
       this.$menuBtn = this.$container.find('.actions > .settings');
       this.$collapserBtn = this.$container.find('.actions > .collapser');
+      this.$sectionToggleInput = this.$container.find('.section-toggle');
       this.$titlebar = this.$container.find('.titlebar');
       this.$fieldsContainer = this.$container.find('.body');
       this.$previewContainer = this.$container.find('.preview');
@@ -74,6 +76,9 @@ if ($ && window.Garnish) {
       menuBtn = new Garnish.MenuBtn(this.$menuBtn);
       this.$actionMenu = menuBtn.menu.$container;
       menuBtn.menu.settings.onOptionSelect = $.proxy(this, 'onMenuOptionSelect');
+      if (Garnish.hasAttr(this.$container, 'data-collapsed')) {
+        this.collapse();
+      }
       this._handleTitleBarClick = function(ev) {
         ev.preventDefault();
         return this.toggle();
@@ -83,8 +88,10 @@ if ($ && window.Garnish) {
     },
     toggle: function() {
       if (this.collapsed) {
+        this.$sectionToggleInput.prop('checked', false);
         return this.expand();
       } else {
+        this.$sectionToggleInput.prop('checked', true);
         return this.collapse(true);
       }
     },
@@ -192,3 +199,21 @@ if ($ && window.Garnish) {
     }
   });
 }
+
+$(document).ready(function() {
+  return $('.delete-form').on('click', function(e) {
+    var data, formId;
+    e.preventDefault();
+    formId = $(this).data('id');
+    data = {
+      id: formId
+    };
+    if (confirm(Craft.t("Are you sure you want to delete this form and all its entries?"))) {
+      return Craft.postActionRequest('formBuilder2/form/deleteForm', data, $.proxy((function(response, textStatus) {
+        if (textStatus === 'success') {
+          return window.location.href = '/admin/formbuilder2/forms';
+        }
+      }), this));
+    }
+  });
+});

@@ -1,11 +1,16 @@
-<section class="cmp-tout section-collapsible">
+{% set submitterNotificationEnabled = form.notify.submitter.enabled is defined ? form.notify.submitter.enabled %}
+{% set hideSubmitterNotification = form.settings.sections.hideSubmitterNotification is defined ? form.settings.sections.hideSubmitterNotification %}
+
+<section class="cmp-tout section-collapsible" {% if hideSubmitterNotification %} data-collapsed{% endif %}>
+    <input type="checkbox" value="1" name="settings[sections][hideSubmitterNotification]" class="section-toggle hidden" {% if hideSubmitterNotification %}checked{% endif %}>
+
     <header class="theme-{{ theme is defined ? theme }}">
         <div class="titlebar">
             <span class="tout-title">{{ "Submitter Notification" |t }}</span>
             <div class="preview"></div>
         </div>
         <div class="actions">
-            {% if form.notificationSettings.submitter.enabled is defined and form.notificationSettings.submitter.enabled %}
+            {% if form.notify.submitter.enabled is defined and form.notify.submitter.enabled %}
                 <div class="status on" title="Enabled"></div>
             {% else %}
                 <div class="status off" title="Disabled"></div>
@@ -16,18 +21,14 @@
 
             <div class="menu">
                 <ul class="padded">
-                    <li {% if form.notificationSettings.submitter.enabled is defined and not form.notificationSettings.submitter.enabled %}class="hidden"{% endif %}><a data-action="disable"><span class="status off"></span>
-                        {{ "Disable"|t }}
-                    </a></li>
-                    <li {% if form.notificationSettings.submitter.enabled is defined and form.notificationSettings.submitter.enabled %}class="hidden"{% endif %}><a data-action="enable"><span class="status enabled"></span>
-                        {{ "Enable"|t }}
-                    </a></li>
+                    <li {% if not submitterNotificationEnabled %}class="hidden"{% endif %}><a data-action="disable"><span class="status off"></span>{{ "Disable"|t }}</a></li>
+                    <li {% if submitterNotificationEnabled %}class="hidden"{% endif %}><a data-action="enable"><span class="status enabled"></span>{{ "Enable"|t }}</a></li>
                 </ul>
             </div>
         </div>
     </header>
 
-    <div class="body theme-{{ theme is defined ? theme }}">
-        {% include 'formbuilder2/forms/_includes/email-settings/notify-submitter' ignore missing %}
+    <div class="body notification-fields theme-{{ theme is defined ? theme }}">
+        {% include 'formbuilder2/forms/_includes/notify/notify-submitter' ignore missing %}
     </div>
 </section>

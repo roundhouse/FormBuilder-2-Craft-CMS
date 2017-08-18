@@ -6,58 +6,87 @@
 {% set page = 'Templates' %}
 
 {% block pageHeader %}
-  {% include 'formbuilder2/partials/header' %}
+    {% include 'formbuilder2/_includes/_header' ignore missing with { title: 'Templates' } %}
 {% endblock %}
 
 {% block main %}
-  
-  <section id="fb-content">
-    <header class="section-header">
-      <div id="page-title"><h1>{{ page|t }}</h1></div>
-      <div id="extra-headers"><div class="buttons right"><div class="btngroup"><a href="{{ url('formbuilder2/templates/new') }}" class="btn submit add icon"><span>{{ "Create a Template"|t }}</span></a></div></div></div>
-    </header>
 
-    {% if templates %}
-    <div class="templates">
-    <table class="data fullwidth collapsible" id="templates">
-        <thead>
-          <tr>
-            <th scope="col">{{ "ID"|t }}</th>
-            <th scope="col">{{ "Name"|t }}</th>
-            <th scope="col">{{ "Handle"|t }}</th>
-            <th scope="col">{{ "Action"|t }}</th>
-          </tr>
-        </thead>
+    {% set templates = craft.formBuilder2.templates({
+        limit: -1,
+        order: 'sortOrder'
+    }) %}
 
-        <tbody>
-            {% for template in templates %}
-            <tr data-id="{{ template.id }}" data-name="{{ template.name }}">
-                <td data-title="{{ "ID"|t }}" class="id">{{ template.id }}</td>
-                <td data-title="{{ "Name"|t }}" class="name"><a href="{{ url('formbuilder2/templates/' ~ template.id ~ '/edit') }}">{{ template.name }}</a></td>
-                <td data-title="{{ "Handle"|t }}" class="handle">{{ template.handle }}</td>
-                <td data-title="{{ "Action"|t }}" class="action"><a href="#" class="delete-from delete" title="Delete {{ template.name }}" role="button" data-tooltip="Delete"><svg class="icon"><use xlink:href="#icon-trash" class="icon-trash"/></svg></a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    </div>
+    <section class="templates-container">
+        <header>
+            <span class="title">Create New Template</span>
+            <span class="subtitle">Pick your template styles.</span>
+        </header>
 
+        <div class="templates-wrapper">
+            <div class="template-item">
+                <a href="{{ url('formbuilder2/templates/minimal/new') }}" class="template-new-link">
+                    {% include 'formbuilder2/_includes/icons/template-' ~ 'minimal' ignore missing with { title: 'Minimal' } %}
+                </a>
+            </div>
+
+            <div class="template-item">
+                <a href="{{ url('formbuilder2/templates/branded/new') }}" class="template-new-link">
+                    {% include 'formbuilder2/_includes/icons/template-' ~ 'branded' ignore missing with { title: 'Branded + Logo' } %}
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {% if templates|length %}
+        <section class="templates-container templates-table">
+
+            <table class="data fullwidth formbuilder-table" id="formbuilder-templates">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">{{ "Name"|t }}</th>
+                        <th scope="col">{{ "Updated"|t }}</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for template in templates %}
+                        <tr id="formbuilder-template-{{ template.id }}" data-id="{{ template.id }}" data-name="{{ template.name }}">
+                            <td class="dragsort"><a class="move icon" title="{{ 'Reorder'|t }}" role="button">
+                                {% include 'formbuilder2/_includes/icons/drag' %}
+                            </a></td>
+                            <td data-title="{{ "Name"|t }}" class="name"><a href="{{ url('formbuilder2/templates/' ~ template.type ~ '/' ~ template.id ~ '/edit') }}">{{ template.name }}</a></td>
+                            <td data-title="{{ "Updated"|t }}" class="updated">{{ template.dateUpdated |date('m/d/Y')}}</td>
+                            <td class="template-actions" data-template-id="{{ template.id }}" data-template-handle="{{ template.handle }}" data-template-name="{{ template.name }}">
+                                <a href="#" class="template-action-trigger">
+                                    <svg width="22" height="5" viewBox="0 0 22 5" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M19.578 5c-1.337 0-2.422-1.119-2.422-2.5S18.241 0 19.578 0C20.916 0 22 1.119 22 2.5S20.916 5 19.578 5zM11 5C9.671 5 8.594 3.881 8.594 2.5S9.671 0 11 0c1.329 0 2.406 1.119 2.406 2.5S12.329 5 11 5zM2.422 5C1.084 5 0 3.881 0 2.5S1.084 0 2.422 0c1.337 0 2.422 1.119 2.422 2.5S3.759 5 2.422 5z" fill="#D0D7DD" fill-rule="evenodd"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
     {% else %}
         <div class="no-templates" id="notemplates">
-            <p>{{ "There are no templates created."|t }}</p>
+            <span class="title">{{ "Hello! You don't have any templates yet."|t }}</span>
         </div>
     {% endif %}
 
-  </section>
+    {% includeJsResource "formbuilder2/js/templates.js" %}
+
+    {% includejs %}
+      var templateTable = new Craft.AdminTable({
+        tableSelector: '#formbuilder-templates',
+        noObjectsSelector: '#notemplates',
+        sortable: true,
+        reorderAction: 'formBuilder2/template/reorder',
+        reorderSuccessMessage: '{{ "Template reordered"|t }}',
+        reorderFailMessage: '{{ "Couldn’t reorder templates"|t }}',
+      });
+    {% endincludejs %}
 
 {% endblock %}
-{% set js %}
-    var adminTable = new Craft.AdminTable({
-      tableSelector: '#templates',
-      noObjectsSelector: '#notemplates',
-      deleteAction: 'formBuilder2/template/deleteTemplate',
-      confirmDeleteMessage: '{{ "Are you sure you want to delete “{name}” template?"|t }}'
-    });
-{% endset %}
-{% includeJs js %}
-

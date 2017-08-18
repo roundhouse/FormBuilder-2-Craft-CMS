@@ -13,13 +13,11 @@ class FormBuilder2_TemplateRecord extends BaseRecord
         return array(
             'name'                  => array(AttributeType::Name, 'required' => true),
             'handle'                => array(AttributeType::Handle, 'required' => true),
-            'layoutId'              => AttributeType::Number,
-            'bodyText'              => array(AttributeType::String, 'column' => ColumnType::Text),
-            'footerText'            => array(AttributeType::String, 'column' => ColumnType::Text),
-            'altText'               => array(AttributeType::String, 'column' => ColumnType::Text),
-            'templateContent'       => AttributeType::Mixed,
-            'templateStyles'        => AttributeType::Mixed,
-            'templateSettings'      => AttributeType::Mixed
+            'type'                  => array(AttributeType::String, 'required' => true),
+            'sortOrder'             => AttributeType::SortOrder,
+            'content'               => AttributeType::Mixed,
+            'styles'                => AttributeType::Mixed,
+            'settings'              => AttributeType::Mixed
         );
     }
 

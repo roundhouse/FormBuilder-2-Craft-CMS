@@ -4,7 +4,7 @@ if $ and window.Garnish
         formHandle = $(value).data 'form-handle'
         formName = $(value).data 'form-name'
         $menu = $('<div class="form"/>').html(
-            '<ul class="form-item-menu">' +
+            '<ul class="action-item-menu">' +
                 '<li>' +
                     '<a href="#" class="copy-handle" data-clipboard-text="'+formHandle+'">' +
                         # '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 32 32"><path d="M18 0H2C.896 0 0 .896 0 2v20c0 1.104.896 2 2 2h16c1.104 0 2-.896 2-2V2c0-1.104-.896-2-2-2z" fill="#CCC"/><path d="M17 2H3c-.553 0-1 .448-1 1.001v18c0 .552.447.999 1 .999h14c.552 0 1-.447 1-.999v-18C18 2.448 17.552 2 17 2z" fill="#FFF"/><path d="M11 10H7c-.553 0-1 .448-1 1 0 .553.447 1 1 1h4c.552 0 1-.447 1-1 0-.552-.448-1-1-1zm2-4H7c-.553 0-1 .448-1 1 0 .553.447 1 1 1h6c.552 0 1-.447 1-1 0-.552-.448-1-1-1z" fill="#CCC"/><path d="M30 8H14c-1.104 0-2 .896-2 2v20.001c0 1.103.896 1.999 2 1.999h11l7-7V10c0-1.104-.896-2-2-2z" fill="#88C057"/><path d="M29 10H15c-.553 0-1 .448-1 1v18c0 .553.447 1.001 1 1.001h9L30 24V11c0-.552-.448-1-1-1z" fill="#FFF"/><path d="M25 14h-6c-.553 0-1 .447-1 1s.447 1 1 1h6c.552 0 1-.447 1-1s-.448-1-1-1zm-2 4h-4c-.553 0-1 .448-1 1 0 .553.447 1 1 1h4c.552 0 1-.447 1-1 0-.552-.448-1-1-1z" fill="#CCC"/><path d="M26 24c-1.104 0-2 .896-2 2v6l8-8h-6z" fill="#638C3F"/></svg>' +
@@ -32,20 +32,20 @@ if $ and window.Garnish
             for hudID of Garnish.HUD.activeHUDs
                 Garnish.HUD.activeHUDs[hudID].hide()
 
-            Craft.cp.displayNotice Craft.t('Form handle copied')
+            Craft.cp.displayNotice Craft.t('Form Handle Copied')
 
         $menu.find('.delete').on 'click', (e) ->
             e.preventDefault()
             data = id: formId
             if confirm Craft.t("Are you sure you want to delete #{formName} and all its entries?")
                 Craft.postActionRequest 'formBuilder2/form/deleteForm', data, $.proxy(((response, textStatus) ->
-                    if textStatus == 'success'
+                    if response.success
                         $row = $('#formbuilder-form-'+formId)
                         formListTable.sorter.removeItems($row)
                         $row.remove()
                         for hudID of Garnish.HUD.activeHUDs
                             Garnish.HUD.activeHUDs[hudID].hide()
-                            Craft.cp.displayNotice Craft.t('Form deleted')
+                            Craft.cp.displayNotice Craft.t('Form Deleted')
 
                 ), this)
 
@@ -59,6 +59,7 @@ if $ and window.Garnish
         $previewContainer: null
         $actionMenu: null
         $collapserBtn: null
+        $sectionToggleInput: null
         $menuBtn: null
         $status: null
 
@@ -68,6 +69,7 @@ if $ and window.Garnish
             @$container = $(el)
             @$menuBtn = @$container.find('.actions > .settings')
             @$collapserBtn = @$container.find '.actions > .collapser'
+            @$sectionToggleInput = @$container.find '.section-toggle'
             @$titlebar = @$container.find('.titlebar')
             @$fieldsContainer = @$container.find('.body')
             @$previewContainer = @$container.find('.preview')
@@ -76,8 +78,8 @@ if $ and window.Garnish
             menuBtn = new (Garnish.MenuBtn)(@$menuBtn)
             @$actionMenu = menuBtn.menu.$container
             menuBtn.menu.settings.onOptionSelect = $.proxy(this, 'onMenuOptionSelect')
-            # if Garnish.hasAttr(@$container, 'data-collapsed')
-            #     @collapse()
+            if Garnish.hasAttr(@$container, 'data-collapsed')
+                @collapse()
 
             @_handleTitleBarClick = (ev) ->
                 ev.preventDefault()
@@ -88,8 +90,10 @@ if $ and window.Garnish
 
         toggle: () ->
             if @collapsed
+                @$sectionToggleInput.prop 'checked', false
                 @expand()
             else
+                @$sectionToggleInput.prop 'checked', true
                 @collapse true
 
         collapse: (animate) ->
@@ -190,8 +194,19 @@ if $ and window.Garnish
                 when 'enable'
                     @enable()
                     @expand()
-
     )
+
+$(document).ready ->
+    $('.delete-form').on 'click', (e) ->
+        e.preventDefault()
+        formId = $(this).data 'id'
+        data = id: formId
+        if confirm Craft.t("Are you sure you want to delete this form and all its entries?")
+            Craft.postActionRequest 'formBuilder2/form/deleteForm', data, $.proxy(((response, textStatus) ->
+                if textStatus == 'success'
+                    window.location.href = '/admin/formbuilder2/forms'
+            ), this)
+
 
 # enableHoneypotProtection = (el) ->
 #     el = $(el)

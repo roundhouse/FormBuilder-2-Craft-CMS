@@ -3,6 +3,35 @@ namespace Craft;
 
 class FormBuilder2_TemplateService extends BaseApplicationComponent
 {
+    public function getTemplates($variables)
+    {   
+        if ($variables) {
+            $templates = craft()->db->createCommand()
+                ->select('*')
+                ->from('formbuilder2_templates')
+                ->order($variables['order'])
+                ->limit($variables['limit'])
+                ->queryAll();
+        } else {
+            $templates = craft()->db->createCommand()
+                ->select('*')
+                ->from('formbuilder2_templates')
+                ->queryAll();
+        }
+
+        return FormBuilder2_TemplateModel::populateModels($templates);
+    }
+
+    public function getTemplatesCount()
+    {   
+        $templates = craft()->db->createCommand()
+            ->select('*')
+            ->from('formbuilder2_templates')
+            ->queryAll();
+
+        return count($templates);
+    }
+
 	
 	public function getFormTemplate($formId)
 	{
@@ -120,13 +149,12 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
  			$isNewTemplate = true;
  		}
 
- 		$templateRecord->name 				= $template->name;
- 		$templateRecord->handle 			= $template->handle;
- 		$templateRecord->bodyText 			= $template->bodyText;
- 		$templateRecord->footerText			= $template->footerText;
- 		$templateRecord->templateContent 	= JsonHelper::encode($template->templateContent);
- 		$templateRecord->templateStyles 	= JsonHelper::encode($template->templateStyles);
- 		$templateRecord->templateSettings 	= JsonHelper::encode($template->templateSettings);
+        $templateRecord->name       = $template->name;
+        $templateRecord->handle     = $template->handle;
+        $templateRecord->type       = $template->type;
+        $templateRecord->content 	= JsonHelper::encode($template->content);
+        $templateRecord->styles 	= JsonHelper::encode($template->styles);
+        $templateRecord->settings 	= JsonHelper::encode($template->settings);
 
  		$templateRecord->validate();
  		$template->addErrors($templateRecord->getErrors());
@@ -199,4 +227,61 @@ class FormBuilder2_TemplateService extends BaseApplicationComponent
 
  		return $blockTypeCollection;
  	}
+
+
+    /**
+     * Reorders Templates
+     *
+     * @param array $templateIds
+     *
+     * @throws \Exception
+     * @return bool
+     */
+    public function reorderTemplates($templateIds)
+    {
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+
+        try {
+            foreach ($templateIds as $template => $templateId) {
+                $templateRecord            = $this->_getTemplateRecordById($templateId);
+                $templateRecord->sortOrder = $template + 1;
+                $templateRecord->save();
+            }
+
+            if ($transaction !== null) {
+                $transaction->commit();
+            }
+        } catch (\Exception $e) {
+            if ($transaction !== null) {
+                $transaction->rollback();
+            }
+
+            throw $e;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets Template record.
+     *
+     * @param int $sourceId
+     *
+     * @throws Exception
+     * @return AssetSourceRecord
+     */
+    private function _getTemplateRecordById($templateId = null)
+    {
+        if ($templateId) {
+            $templateRecord = FormBuilder2_TemplateRecord::model()->findById($templateId);
+
+            if (!$templateRecord) {
+                throw new Exception(Craft::t('No template exists with the ID “{id}”.', array('id' => $templateId)));
+            }
+        } else {
+            $templateRecord = new FormBuilder2_TemplateRecord();
+        }
+
+        return $templateRecord;
+    }
 }

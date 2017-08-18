@@ -17,15 +17,15 @@ class FormBuilder2_FormRecord extends BaseRecord
   protected function defineAttributes()
   {
     return array(
-      'name'                                => array(AttributeType::Name, 'required' => true),
-      'handle'                              => array(AttributeType::Handle, 'required' => true),
-      'fieldLayoutId'                       => AttributeType::Number,
-      'formSettings'                        => AttributeType::Mixed,
-      'spamProtectionSettings'              => AttributeType::Mixed,
-      'messageSettings'                     => AttributeType::Mixed,
-      'notificationSettings'                => AttributeType::Mixed,
-      'extra'                               => AttributeType::Mixed,
-      'sortOrder'                           => AttributeType::SortOrder
+      'name'            => array(AttributeType::Name, 'required' => true),
+      'handle'          => array(AttributeType::Handle, 'required' => true),
+      'fieldLayoutId'   => AttributeType::Number,
+      'sortOrder'       => AttributeType::SortOrder,
+      'options'         => AttributeType::Mixed,
+      'spam'            => AttributeType::Mixed,
+      'messages'        => AttributeType::Mixed,
+      'notify'          => AttributeType::Mixed,
+      'settings'        => AttributeType::Mixed
     );
   }
 

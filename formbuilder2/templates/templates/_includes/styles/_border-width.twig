@@ -1,0 +1,8 @@
+<div class="option-item styles-item">
+    <span class="option-title">
+        <span class="option-text">{{ "Border Width" |t }}</span>
+    </span>
+    <div class="option-actions">
+        <input id="templateBorderWidth" type="range" name="styles[border][width]" min="1" max="100" step="1" value="{{ template.styles.border.width is defined ? template.styles.border.width : '1' }}" />
+    </div>
+</div>

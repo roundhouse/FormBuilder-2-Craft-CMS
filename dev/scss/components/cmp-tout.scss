@@ -20,6 +20,16 @@
         }
     }
 
+    &.section-collapsible {
+        &:not(.collapsed) {
+            .collapser {
+                &:after {
+                    @include transform(rotate(180deg));
+                }
+            }
+        }
+    }
+
     header {
         border-bottom: 1px solid darken($c-border, 5);
         padding: 15px 20px;
@@ -51,6 +61,73 @@
         }
     }
 
+    .actions {
+        @include position(absolute, 0 0 auto auto);
+        z-index: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .status {
+            @include size(10px);
+            margin-right: 20px;
+            &.off {
+                background-color: $c-danger;
+            }
+            &.on {
+                background-color: $c-success;
+            }
+        }
+
+        .settings {
+            &.icon {
+                color: $c-moss;
+            }
+        }
+
+        .icons {
+            display: inline-block;
+            padding: 15px 0;
+            @include size(48px);
+            text-align: center;
+            color: $c-moss;
+            border-left: 1px solid $c-border;
+            box-sizing: border-box;
+            &:hover {
+                background-color: $c-border;
+            }
+            &:after {
+                font-family: 'Craft';
+                speak: none;
+                -webkit-font-feature-settings: "liga", "dlig";
+                -moz-font-feature-settings: "liga=1, dlig=1";
+                -moz-font-feature-settings: "liga", "dlig";
+                -ms-font-feature-settings: "liga", "dlig";
+                -o-font-feature-settings: "liga", "dlig";
+                font-feature-settings: "liga", "dlig";
+                text-rendering: optimizeLegibility;
+                font-weight: normal;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 1;
+                direction: ltr;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                display: inline-block;
+                text-align: center;
+                font-style: normal;
+                vertical-align: middle;
+                word-wrap: normal !important;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+            }
+        }
+
+        .collapser { &:after { content: '▼'; } }
+        .settings { &:after { content: 'settings'; } }
+    }
+
 
 
     .body {
@@ -78,36 +155,33 @@
             border-color: #6F8996;
         }
     }
-
-    .notification-fields {
-        // background-color: $c-offWhite;
-    }
 }
 
 // Form Settings
-.form-settings-tout {
+.form-settings-tout, .template-settings-tout {
     .body {
         padding: 0;
     }
-    .field {
+    .fb-field {
         margin: 0;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid $c-border;
         input.text {
             border-radius: 0;
             border: 0;
             background-color: transparent;
-            border-bottom: 1px solid $c-border;
         }
         &:last-child {
-            input.text {
-                border-bottom: 0;
-            }
+            border-bottom: 0;
         }
     }
 }
 
 // Notification Touts
-.notification-email-tout {
-    background-color: $c-white;
+.notification-fields, .message-fields, .plugin-settings-fields {
+    padding: 0 !important;
+    background-color: $c-white !important;
     header {
         display: flex;
         flex-direction: row;
@@ -135,22 +209,111 @@
         .settings-title {
             font-family: 'Roboto';
             font-weight: 500;
+            color: $c-text;
 
             .settings-result {
                 font-size: 10px;
             }
         }
 
-        .settings-action {
-            margin-left: auto;
-            .btns {
-                padding-right: 0;
+        .settings-result.multiple {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            &.has-items {
+                margin-top: 10px;
             }
-            .settings-edit {
+        }
+
+        .result-item {
+            position: relative;
+            padding: 10px 15px;
+            border: 1px solid $c-border;
+            margin: 10px 10px 0 0;
+            @include transition(all .3s ease);
+            @include transform-origin(center center);
+
+            &.zap { 
+                @include transform(scale(0));
+            }
+
+            code {
                 display: block;
+                line-height: 1.4;
+            }
+
+            &:hover {
+                .settings-result-actions {
+                    opacity: 1;
+                    visibility: visible;
+                }
+                
+            }
+
+            .settings-result-actions {
+                opacity: 0;
+                visibility: hidden;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                @include position(absolute, 0 0 0 0);
+                @include size(100%);
+                background-color: rgba(white, .7);
+                transition: opacity .3 ease;
+
+                & > a {
+                    display: flex;
+                    flex: 1;
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+                    transition: all .3s ease;
+                    svg { 
+                        margin: auto;
+                        vertical-align: middle;
+                    }
+                    &:hover {
+                        svg * { fill: $c-white; }
+                    }
+                }
+
+                .settings-result-edit {
+                    &:hover {
+                        background-color: rgba($c-info, .4);
+                    }
+                }
+
+                .settings-result-delete {
+                    &:hover {
+                        background-color: rgba($c-danger, .4);
+                    }
+                }
+            }
+        }
+
+        .settings-action {
+            display: flex;
+            flex-direction: row;
+            margin-left: auto;
+
+            .toggle-settings {
+                background-color: lighten($c-moss, 35);
+            }
+
+            .settings-edit {
+                display: flex;
+                align-items: center;
                 padding: 9px;
                 &:hover {
                     svg * { fill: $c-info; }
+                }
+            }
+        }
+
+        &.settings-enabled {
+            .settings-action {
+                .toggle-settings {
+                    background-color: $c-success;
                 }
             }
         }

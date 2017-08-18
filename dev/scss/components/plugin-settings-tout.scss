@@ -1,0 +1,45 @@
+.plugin-settings-tout {
+    font-family: 'Roboto';
+    font-size: 14px;
+    color: $c-textDarkBlue;
+    letter-spacing: $letter-spacing;
+    @include antialias;
+
+    .wrapper {
+        border-radius: $border-radius;
+        background-color: $c-white;
+        border: 1px solid $c-border;
+        box-sizing: border-box;
+    }
+
+    header {
+        border-bottom: 1px solid $c-border;
+        padding: 15px 20px;
+        .tout-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
+
+    main {
+        padding: 20px;
+        .tout-count {
+            font-weight: bold;
+        }
+        .tout-count-text {
+            font-size: 12px;
+        }
+    }
+
+    // Theme 
+    &.theme-moss {
+        .wrapper {
+            background-color: $c-moss;
+            color: $c-white;
+        }
+        header {
+            border-color: #6F8996;
+        }
+    }
+}

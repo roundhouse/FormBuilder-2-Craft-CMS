@@ -1,11 +1,25 @@
-{{ forms.textField({
-  label: "Success Message"|t,
-  instructions: "Please enter success message."|t,
-  id: 'successMessage',
-  class: 'successMessage',
-  name: 'messageSettings[successMessage]',
-  value: (form.messageSettings.successMessage is defined ? form.messageSettings.successMessage : null),
-  size: 100,
-  errors: form.getErrors('successMessage'),
-  required: false
-}) }}
+{% set successMessage = form.messages.success.message is defined ? form.messages.success.message %}
+
+<div class="settings-item"
+    id="settings-message-success"
+    data-type="single"
+    data-name="messages[success][message]"
+    data-modal="true"
+    data-modal-title="{{ "Success Message" |t }}"
+    data-modal-instructions="{{ "Form submission success message." |t }}"
+    data-input-hint="{{ "TEXT" |t }}"
+    data-modal-success-message="{{ "Success Message Updated" |t }}"
+    data-input-value="{{ successMessage }}">
+    <div class="settings-title">
+        <div class="settings-title-text">{{ "Success Message" |t }}</div>
+        <div class="settings-result">
+            {% if successMessage %}
+                <code>{{ successMessage }}</code>
+                <input type="text" class="form-settings-input hidden" name="messages[success][message]" value="{{ successMessage }}" />
+            {% endif %}
+        </div>
+    </div>
+    <div class="settings-action">
+        <a href="#" class="settings-edit" title="{{ "Configure" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+    </div>
+</div>

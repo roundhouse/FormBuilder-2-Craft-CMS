@@ -1,25 +1,35 @@
 .formbuilder.fb-entries {
-  
+
     .section-header {
         display: none;
     }
 
     .pane {
+        padding-top: 0 !important;
         background-color: $c-offWhite;
     }
 
     #sidebar {
-        background-color: $c-white;
+        background-color: transparent;
         padding: 0 0 0 20px;
+        margin-top: 17px !important;
 
         .sel {
             background-color: $c-moss;
         }
     }
 
+    .show-sidebar {
+        background: $c-moss;
+        color: $c-white;
+        font-family: 'Roboto';
+        text-transform: uppercase;
+        letter-spacing: .07em;
+    }
+
     .chart-explorer-container {
         .chart-explorer {
-            background-color: $c-grayBackground;
+            background-color: $c-moss;
         }
 
         .total {
@@ -28,12 +38,29 @@
                 font-family: 'Roboto';
                 font-size: 12px;
                 text-transform: uppercase;
-                color: $c-textDarkBlue !important;
+                color: $c-white !important;
                 & > span {
                     padding-left: 8px;
                     font-weight: bold;
                 }
             }
+        }
+
+        .grid-line .tick {
+            line {
+                stroke: darken($c-moss, 2) !important;
+            }
+        }
+
+        .tick {
+            text { 
+                stroke: none !important; 
+                fill: $c-white !important;
+            }
+        }
+
+        .axis path {
+            stroke: $c-moss !important;
         }
 
         .plots .plot {
@@ -62,7 +89,6 @@
             tr.sel .checkbox {
                 &:before {
                     background: transparent;
-                    // border: 1px solid $c-white;
                     box-shadow: none !important;
                     line-height: 22px;
                 }
@@ -74,6 +100,7 @@
                 background-color: $c-offWhite;
             }
             td {
+                border: none !important;
                 background-color: $c-offWhite;
             }
         }
@@ -88,10 +115,11 @@
             td, th {
                 font-family: 'Roboto';
                 font-weight: bold;
-                font-size: 12px;
+                font-size: 14px;
+                letter-spacing: .07em;
                 text-transform: uppercase;
-                color: $c-textLight;
-                background-color: $c-grayBackground;
+                color: $c-white;
+                background-color: $c-moss;
                 letter-spacing: $letter-spacing;
                 padding: 16px 0;
                 @include antialias;
@@ -109,7 +137,6 @@
                     }
                 }
                 &:last-child {
-                    td { border: none; }
                     td:first-child {
                         border-bottom-left-radius: $border-radius;
                     }
@@ -150,7 +177,67 @@
                     color: $c-textLight;
                     text-align: center;
                 }
+
+                &:first-child {
+                    border-left: 1px solid $c-border;
+                }
+
+                &:last-child {
+                    border-right: 1px solid $c-border;
+                }
             }
+        }
+    }
+
+    // Collapsed
+    .tableview {
+        table.collapsed {
+            .checkbox-cell {
+                width: 100% !important;
+                box-sizing: border-box;
+                border-top: 1px solid $c-border !important;
+            }
+            tbody tr {
+                border: none;
+                margin-bottom: 30px;
+                &.sel {
+                    td {
+                        border-bottom: 1px solid rgba($c-white, .1);
+                    }
+                }
+                td {
+                    border-left: 1px solid $c-border;
+                    border-right: 1px solid $c-border;
+                    padding: 13px 20px !important;
+                    &:first-child {
+                        border-top-left-radius: $border-radius;
+                        border-top-right-radius: $border-radius;
+                    }
+                    &:last-child {
+                        border-bottom-left-radius: $border-radius;
+                        border-bottom-right-radius: $border-radius;
+                    }
+                }
+                &:last-child {
+                }
+           }
+        }
+    }
+    
+    @include bp(max-width, $desktop) {
+
+        #sidebar {
+            background-color: $c-white !important;
+            padding: 24px !important;
+            nav li a {
+                padding: 16px 0 16px 24px !important;
+            }
+        }
+    }
+
+    @include bp(max-width, $tablet) {
+        .pane {
+            padding-top: 24px !important;
         }
     }
 }

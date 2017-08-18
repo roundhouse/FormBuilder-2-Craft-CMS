@@ -10,6 +10,10 @@
     <a href="{{ url('formbuilder2/forms/new') }}" class="btns btn-info submit add icon">{{ "Create New Form"|t }}</a>
 {% endif %}
 
+{% if createTemplate is defined and createTemplate %}
+    <a href="{{ url('formbuilder2/templates/new') }}" class="btns btn-info submit add icon">{{ "Create New Template"|t }}</a>
+{% endif %}
+
 <script type="text/javascript">
 
     window.FormBuilder2 = {

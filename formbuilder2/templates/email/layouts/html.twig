@@ -105,7 +105,7 @@
                     {% set field = craft.fields.getFieldByHandle(key) %}
                     {% if field and value %}
                         <div class="item" style="margin-bottom: 10px;">
-                            <span class="field" style="display:block; font-size: 14px;">{{ field.name }}</span>
+                            <span class="fb-field" style="display:block; font-size: 14px;">{{ field.name }}</span>
                             <span class="value" style="display:block; font-size: 12px; font-weight: bold;">
                                 {% if value | checkArray == '1' %}
                                     {% for key, item in value %}

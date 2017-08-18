@@ -34,6 +34,10 @@
             margin: 0 0 0 20px;
             @include antialias;
         }
+
+        @include bp(max-width, $mobile) {
+            padding: 40px 20px;
+        }
     }
 
     #nav-formbuilder2 {
@@ -45,7 +49,7 @@
         .subnav {
             li {
                 position: relative;
-
+                transition: background-color .3s ease;
                 &:after {
                     display: none;
                     content: "";
@@ -79,6 +83,7 @@
                 }
 
                 a {
+                    transition: all .3s ease;
                     &.sel {
                         &:before { opacity: 1; }
                         &:after { right: -1px; }
@@ -90,6 +95,7 @@
                         }
                     }
                     &:after {
+                        transition: all .3s ease;
                         content: "";
                         display: block;
                         @include position(absolute, 5px -5px 0 auto);
@@ -99,6 +105,7 @@
                         border-bottom-left-radius: 5px;
                     }
                     &:before {
+                        transition: all .3s ease;
                         position: absolute;
                         margin-left: -26px;
                         opacity: .4;
@@ -128,6 +135,18 @@
                         -ms-user-select: none;
                     }
                 }
+
+                &:last-child {
+                    background-color: rgba($c-success, .3);
+                    &:hover {
+                        background-color: rgba($c-success, .7);
+                    }
+                    a {
+                        color: $c-white;
+                        &:after { display: none !important; }
+                        &:before { content: "plus"; }
+                    }
+                }
             }
         }
     }
@@ -137,7 +156,7 @@
             padding: 0;
         }
 
-        .form-item-menu {
+        .action-item-menu {
             li {
                 transition: background-color .3s ease;
                 &:hover {

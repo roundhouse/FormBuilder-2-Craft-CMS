@@ -10,7 +10,7 @@
         }
 
         .newtabbtn-container {
-            margin-bottom: 20px;
+            margin-bottom: 0;
             &:before { display: none; }
             .btn.icon {
                 padding: 12px 35px 10px;
@@ -24,6 +24,11 @@
             padding: 0;
             margin-bottom: 20px;
             border-bottom: none;
+
+            &.unused-header {
+                margin-bottom: 0;
+            }
+            
             h2 {
                 margin: 0 0 2px 0 !important;
                 font-family: 'Roboto';
@@ -51,19 +56,19 @@
 
     .fld-tabs {
         margin: 0 0 20px 0 !important;
-        // border-bottom: 1px solid $c-border;
         .fld-tab.last { margin-bottom: 0 !important; }
     }
 
     .unusedfields {
-        margin: 0 0 20px 0 !important;
+        margin: 0 !important;
         .fld-tab.last { margin-bottom: 0 !important; }
     }
 
 
     // Field Tabs
     .fld-tab {
-        margin: 0 20px 20px 0 !important;
+        margin: 20px 20px 0 0 !important;
+        height: 100% !important;
         .tabs {
             padding: 0;
             background: rgba(gray, .2);

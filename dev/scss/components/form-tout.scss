@@ -1,3 +1,79 @@
+.formbuilder {
+    // Form Options
+    .option-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-bottom: 1px solid $c-border;
+        padding: 20px;
+
+        &:last-child {
+            border-bottom: none;
+        }
+        
+        .option-text {
+            font-family: 'Roboto';
+            font-weight: 500;
+            color: $c-text;
+        }
+
+        .option-result {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            font-size: 10px;
+            svg {
+                width: 10px;
+                margin-right: 4px;
+                vertical-align: middle;
+            }
+
+            .result-container {
+                .inline-copy {
+                    display: inline-block;
+                    overflow: auto;
+                    max-height: 30px;
+                    * { display: inline; }
+                }
+            }
+        }
+
+        .option-actions {
+            display: flex;
+            flex-direction: row;
+            margin-left: auto;
+        }
+
+        .option-edit {
+            display: inline-block;
+            padding: 10px;
+            margin-right: 10px;
+            svg {
+                vertical-align: middle;
+            }
+            &:hover {
+                svg * {
+                    fill: $c-info;
+                }
+            }
+        }
+
+        // Disabled
+        .toggle-option {
+            background-color: lighten($c-moss, 35);
+        }
+
+        // Enabled
+        &.option-enabled {
+            .option-actions {
+                .btns {
+                    background-color: $c-success;
+                }
+            }
+        }
+    }
+}
+
 .form-tout {
     padding: 30px;
     background-color: $c-white;

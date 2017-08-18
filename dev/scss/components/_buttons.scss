@@ -1,5 +1,4 @@
 .formbuilder {
-
     .btns {
         display: inline-block;
         font-family: 'Roboto';
@@ -16,12 +15,23 @@
         transition: all .3s ease;
         box-shadow: none;
         @include antialias;
+
+        // Inputs
+        border: none;
+        box-shadow: none;
+        cursor: pointer;
+        outline: none;
+
         &:before {
             margin-right: 15px !important;
             font-size: 15px;
         }
         &:hover {
             background-image: none;
+        }
+
+        svg {
+            vertical-align: middle;
         }
 
         &.btn-white {
@@ -33,6 +43,16 @@
             }
             &:hover {
                 background-color: $c-border;
+            }
+        }
+
+        &.btn-add {
+            background-color: $c-success;
+            &:hover {
+                background-color: darken($c-success, 5);
+                svg * {
+                    fill: $c-white !important;
+                }
             }
         }
         

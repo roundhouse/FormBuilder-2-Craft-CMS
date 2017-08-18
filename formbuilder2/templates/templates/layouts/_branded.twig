@@ -1,0 +1,23 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+{% hook 'formBuilder2.prepCpTemplate' %}
+
+{% set selectedSubnavItem = "templates" %}
+{% set bodyClass = 'formbuilder fb-templates-edit' %}
+{% set pageSlug = craft.request.lastSegment %}
+
+{% if pageSlug == 'edit' %}
+    {% set page = 'Edit Template' %}
+{% else %}
+    {% set page = 'New Template' %}
+{% endif %}
+
+{% block pageHeader %}
+    {% include 'formbuilder2/_includes/_header' ignore missing with { title: page } %}
+{% endblock %}
+
+{% block main %}
+    <section class="templates-container">
+        Branded
+    </section>
+{% endblock %}

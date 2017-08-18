@@ -1,0 +1,15 @@
+<div class="option-item styles-item">
+    <span class="option-title">
+        <span class="option-text">{{ "Background Color" |t }}</span>
+    </span>
+
+    <div class="option-actions">
+        {{ forms.color({
+          id: 'templateBackgroundColor',
+          class: 'templateBackgroundColor',
+          name: 'styles[background][color]',
+          value: template.styles.background.color is defined ? template.styles.background.color : '#ffffff',
+          size: 50,
+        }) }}
+    </div>
+</div>

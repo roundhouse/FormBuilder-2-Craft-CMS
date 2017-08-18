@@ -1,0 +1,12 @@
+<div class="option-item {% if form.options.disableDatepickerScripts is defined and form.options.disableDatepickerScripts %}option-enabled{% endif %}" 
+    id="option-datetime"
+    data-modal="false">
+    <span class="option-title">
+        <span class="option-text">{{ "DateTime Picker Scripts" |t }} <span class="info">{{ "When disabled, browser defaults will be used." |t }}</span></span>
+    </span>
+    <div class="option-actions">
+        <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle Date Picker Scripts" |t }}">{{ "Enable" |t }}</a>
+    </div>
+    <input type="hidden" value="1" class="enable-form-option" class="disableDatepickerScripts checkbox" name="options[disableDatepickerScripts]" {% if form.options.disableDatepickerScripts is defined and form.options.disableDatepickerScripts %}checked{% endif %}>
+</div>
+

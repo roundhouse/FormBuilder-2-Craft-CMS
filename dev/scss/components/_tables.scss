@@ -1,0 +1,84 @@
+table.formbuilder-table {
+    thead {
+        th {
+            font-family: 'Roboto';
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            text-align: center !important;
+            color: $c-white;
+            background-color: $c-moss;
+            letter-spacing: $letter-spacing;
+            padding: 16px 0;
+            @include antialias;
+            &:nth-child(2) { text-align: left !important }
+            &:first-child { border-top-left-radius: $border-radius; }
+            &:last-child { border-top-right-radius: $border-radius; }
+        }
+    }
+
+    tbody {
+        tr {
+            &:hover {
+                td.name a {
+                    color: $c-info;
+                }
+                .icon.move svg { opacity: 1; }
+            }
+            td:first-child {
+                border-left: 1px solid $c-border;
+            }
+            td:last-child {
+                border-right: 1px solid $c-border;
+            }
+            &:last-child {
+                td { 
+                    // border: none;
+                }
+                td:first-child {
+                    border-bottom-left-radius: $border-radius;
+                }
+                td:last-child {
+                    border-bottom-right-radius: $border-radius;
+                }
+            }
+        }
+        td {
+            font-family: 'Roboto';
+            font-size: 14px;
+            padding: 16px 0;
+            background-color: $c-white;
+            @include antialias;
+            border-bottom: 1px solid $c-border;
+
+            &.dragsort {
+                text-align: center;
+                width: 60px;
+            }
+
+            &.form-actions {
+                text-align: center;
+            }
+
+            &.name a {
+                font-weight: bold;
+                color: $c-textDarkBlue;
+                transition: color .3s ease;
+            }
+            &.updated, &.count {
+                color: $c-textLight;
+                text-align: center;
+            }
+        }
+    }
+
+    .icon.move {
+        svg { opacity: .3; transition: opacity .3s ease; }
+        &:hover {
+            svg { opacity: 1; }
+        }
+        &:before {
+            display: none !important;
+        }
+    }
+}

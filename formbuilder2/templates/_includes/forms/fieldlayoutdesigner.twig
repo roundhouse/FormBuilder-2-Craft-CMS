@@ -39,6 +39,7 @@
 {% endmacro %}
 
 <div id="fieldlayoutform" class="fieldlayoutform">
+    {% set tabs = fieldLayout.getTabs() %}
 
 	{% if customizableTabs %}
 		<div class="newtabbtn-container buttons">
@@ -51,7 +52,7 @@
 			{% import _self as macros %}
 
 			{% if customizableTabs %}
-				{% for tab in fieldLayout.getTabs() %}
+				{% for tab in tabs %}
 					{{ macros.tab(customizableTabs, tab.name, tab.getFields()) }}
 				{% endfor %}
 			{% else %}
@@ -62,7 +63,7 @@
 
     <hr />
 
-    <header>
+    <header class="unused-header">
 		<h2>{{ "Unused Fields"|t }}</h2>
 		<p>{{ "Drag these fields or whole tabs to your form."|t }}</p>
 	</header>
@@ -97,9 +98,9 @@
 
 {% set js %}
 
-	CustomTemplates.labels = {{ craft.formBuilder2.getJsonLabels() |raw }};
-	CustomTemplates.fields = {{ craft.formBuilder2.getFields() |raw }};
-    CustomTemplates.setup();
+	{# CustomTemplates.labels = {{ craft.formBuilder2.getJsonLabels() |raw }}; #}
+	{# CustomTemplates.fields = {{ craft.formBuilder2.getFields() |raw }}; #}
+    {# CustomTemplates.setup(); #}
 
 	var initFLD = function() {
 		new Craft.FieldLayoutDesigner('#{{ "fieldlayoutform"|namespaceInputId }}', {

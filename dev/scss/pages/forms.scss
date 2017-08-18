@@ -10,84 +10,8 @@
     }
 
     .forms-container {
-        padding: 20px 60px 60px 60px;
+        padding: 20px 30px 60px 30px;
         background-color: $c-offWhite;
-
-        thead {
-            th {
-                font-family: 'Roboto';
-                font-weight: bold;
-                font-size: 12px;
-                text-transform: uppercase;
-                text-align: center;
-                color: $c-textLight;
-                background-color: $c-grayBackground;
-                letter-spacing: $letter-spacing;
-                padding: 16px 0;
-                @include antialias;
-                &:nth-child(2) { text-align: left; }
-                &:first-child { border-top-left-radius: $border-radius; }
-                &:last-child { border-top-right-radius: $border-radius; }
-                // width: 20%;
-            }
-        }
-
-        tbody {
-            tr {
-                &:hover {
-                    td.name a {
-                        color: $c-info;
-                    }
-                    .icon.move svg { opacity: 1; }
-                }
-                &:last-child {
-                    td { border: none; }
-                    td:first-child {
-                        border-bottom-left-radius: $border-radius;
-                    }
-                    td:last-child {
-                        border-bottom-right-radius: $border-radius;
-                    }
-                }
-            }
-            td {
-                font-family: 'Roboto';
-                font-size: 14px;
-                padding: 16px 0;
-                background-color: $c-white;
-                @include antialias;
-                border-bottom: 1px solid $c-border;
-
-                &.dragsort {
-                    text-align: center;
-                    width: 60px;
-                }
-
-                &.form-actions {
-                    text-align: center;
-                }
-
-                &.name a {
-                    font-weight: bold;
-                    color: $c-textDarkBlue;
-                    transition: color .3s ease;
-                }
-                &.updated, &.count {
-                    color: $c-textLight;
-                    text-align: center;
-                }
-            }
-        }
-
-        .icon.move {
-            svg { opacity: .3; transition: opacity .3s ease; }
-            &:hover {
-                svg { opacity: 1; }
-            }
-            &:before {
-                display: none !important;
-            }
-        }
     }
 
     .datatablesorthelper {
@@ -125,75 +49,14 @@
         .body { padding: 0; }
     }
 
-    // Form Options
-    .option-item {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        border-bottom: 1px solid $c-border;
-        padding: 20px;
-
-        &:last-child {
-            border-bottom: none;
-        }
-        
-        .option-text {
-            font-family: 'Roboto';
-            font-weight: 500;
-            color: $c-text;
-        }
-
-        .option-result {
-            display: block;
-            font-size: 10px;
-            svg {
-                width: 10px;
-                margin-right: 4px;
-                vertical-align: middle;
-            }
-        }
-
-        .option-actions {
-            display: flex;
-            flex-direction: row;
-            margin-left: auto;
-        }
-
-        .option-edit {
-            display: inline-block;
-            padding: 10px;
-            margin-right: 10px;
-            svg {
-                vertical-align: middle;
-            }
-            &:hover {
-                svg * {
-                    fill: $c-info;
-                }
-            }
-        }
-
-        // Disabled
-        .toggle-option {
-            background-color: lighten($c-moss, 35);
-        }
-
-        // Enabled
-        &.option-enabled {
-            .option-actions {
-                .btns {
-                    background-color: $c-success;
-                }
-            }
-        }
-    }
-
-    .delete-form-meta {
+    .delete-form-meta, .save-form-meta {
         box-shadow: none;
         border: none;     
-        .delete-form {
+        .delete-form, .save-form {
             display: block;
             text-align: center;
+            width: 100%;
+            box-sizing: border-box;
         }
     }
 
@@ -222,85 +85,6 @@
             margin-left: 10px;
         }
     }
-
-    .actions {
-        @include position(absolute, 0 0 auto auto);
-        z-index: 1;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-
-        .status {
-            @include size(10px);
-            margin-right: 20px;
-            &.off {
-                background-color: $c-danger;
-            }
-            &.on {
-                background-color: $c-success;
-            }
-        }
-
-        .settings {
-            &.icon {
-                color: $c-moss;
-            }
-        }
-
-        .icons {
-            display: inline-block;
-            padding: 15px 0;
-            @include size(48px);
-            text-align: center;
-            color: $c-moss;
-            border-left: 1px solid $c-border;
-            box-sizing: border-box;
-            &:hover {
-                background-color: $c-border;
-            }
-            &:after {
-                font-family: 'Craft';
-                speak: none;
-                -webkit-font-feature-settings: "liga", "dlig";
-                -moz-font-feature-settings: "liga=1, dlig=1";
-                -moz-font-feature-settings: "liga", "dlig";
-                -ms-font-feature-settings: "liga", "dlig";
-                -o-font-feature-settings: "liga", "dlig";
-                font-feature-settings: "liga", "dlig";
-                text-rendering: optimizeLegibility;
-                font-weight: normal;
-                font-variant: normal;
-                text-transform: none;
-                line-height: 1;
-                direction: ltr;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-                display: inline-block;
-                text-align: center;
-                font-style: normal;
-                vertical-align: middle;
-                word-wrap: normal !important;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-            }
-        }
-
-        .collapser { &:after { content: '▼'; } }
-        .settings { &:after { content: 'settings'; } }
-    }
-
-    // Sections
-    .section-collapsible {
-        &:not(.collapsed) {
-            .collapser {
-                &:after {
-                    @include transform(rotate(180deg));
-                }
-            }
-        }
-    }
-
 
     // Notifications
     .setup-container {
@@ -377,7 +161,7 @@
 //     @include clearfix;
 //     @include user-select(none);
 //     @include transition(background .3s ease);
-//     .field { opacity: 0; }
+//     .fb-field { opacity: 0; }
 //     label { display: none !important; }
 //     &.selected {
 //       background: $c-teal !important;

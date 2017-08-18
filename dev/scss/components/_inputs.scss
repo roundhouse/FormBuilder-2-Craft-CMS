@@ -1,14 +1,43 @@
 .formbuilder {
-    .field {
+    .fb-field {
         position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        border: 1px solid $c-border;
+        border-radius: $border-radius;
+
+        &.error {
+            border-color: $c-danger;
+            .input-hint {
+                color: $c-danger;
+            }
+        }
+
+        .input-control, > input, .select, > textarea {
+            flex: 1;
+        }
+
+        .input-error {
+            font-family: 'Roboto';
+            font-size: 10px;
+            padding: 0 15px 15px 15px;
+            width: 100%;
+        }
+
         label {
             font-family: 'Roboto';
-            font-weight: bold;
             color: $c-textDarkBlue;
         }
 
-        input.text {
-            padding-left: 75px;
+        .input-hint {
+            font-family: Menlo, monospace;
+            color: darken($c-border, 15);
+            font-size: 10px;
+            padding: 0 15px;
+            line-height: normal;
+            letter-spacing: .1em;
         }
 
         .result-label {
@@ -25,39 +54,92 @@
                 top: 14px;
             }
         }
-    }
-    .select {
-        box-shadow: none;
-        border: 1px solid $c-border;
-        width: 100%;
-        background-image: none;
-        box-shadow: none;
-        &:after {
-            right: 20px !important;
-        }
-        select {
+
+        input, textarea, select {
             font-family: 'Roboto';
             color: $c-textDarkBlue;
-            width: 100%;
-            padding: 16px 10px 13px 60px !important;
             outline: none;
             box-shadow: none !important;
-        }
-    }
-    input, textarea {
-        &.text {
-            font-family: 'Roboto';
-            color: $c-textDarkBlue;
-            padding: 15px 15px 15px 50px;
             width: 100%;
-            box-shadow: none;
+            border-radius: 0;
+            background-color: transparent;
+            background-image: none;
+            border: none;
+            padding: 14px 10px !important;
+
             &:focus {
                 border-color: $c-border;
-                box-shadow: none;
+            }
+            &.text {
+
+            }
+            &.code {
+                font-family: Menlo, monospace;
             }
         }
-        &.code {
-            font-family: Menlo, monospace;
+
+        .redactor-box {
+            flex: 1;
+            background: transparent;
+            .redactor-toolbar {
+                box-shadow: none !important;
+                border-left: 1px solid $c-border;
+                border-top-right-radius: $border-radius;
+                li a {
+                    &:hover {
+                        background-color: $c-info;
+                    }
+                }
+            }
+            .redactor-layer {
+                background: transparent;
+                min-height: 150px !important;
+                border: none;
+                border-top: 1px solid $c-border;
+                border-left: 1px solid $c-border;
+            }
+        }
+
+
+        .select {
+            box-shadow: none !important;
+            width: 100%;
+            border-radius: 0;
+            background-color: transparent;
+            background-image: none;
+            border: none;
+            &:after {
+                right: 20px !important;
+            }
         }
     }
+    // .select {
+    //     box-shadow: none;
+    //     width: 100%;
+    //     box-shadow: none;
+        // select {
+        //     font-family: 'Roboto';
+        //     color: $c-textDarkBlue;
+        //     width: 100%;
+        //     padding: 16px 10px 13px 60px !important;
+        //     outline: none;
+        //     box-shadow: none !important;
+        // }
+    // }
+    // input, textarea {
+        // &.text {
+        //     font-family: 'Roboto';
+        //     color: $c-textDarkBlue;
+        //     padding: 15px 15px 15px 60px;
+        //     width: 100%;
+        //     box-shadow: none;
+        //     &:focus {
+        //         border-color: $c-border;
+        //         box-shadow: none;
+        //     }
+        // }
+        // &.code {
+        //     font-family: Menlo, monospace;
+        // }
+    // }
 }

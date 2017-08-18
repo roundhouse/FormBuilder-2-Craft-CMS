@@ -1,11 +1,25 @@
-{{ forms.textField({
-  label: "Error Message"|t,
-  instructions: "Please enter error message."|t,
-  id: 'errorMessage',
-  class: 'errorMessage',
-  name: 'messageSettings[errorMessage]',
-  value: (form.messageSettings.errorMessage is defined ? form.messageSettings.errorMessage : null),
-  size: 100,
-  errors: form.getErrors('errorMessage'),
-  required: false
-}) }}
+{% set errorMessage = form.messages.error.message is defined ? form.messages.error.message %}
+
+<div class="settings-item"
+    id="settings-message-error"
+    data-type="single"
+    data-name="messages[error][message]"
+    data-modal="true"
+    data-modal-title="{{ "Error Message" |t }}"
+    data-modal-instructions="{{ "Form submission error message." |t }}"
+    data-input-hint="{{ "TEXT" |t }}"
+    data-modal-success-message="{{ "Error Message Updated" |t }}"
+    data-input-value="{{ errorMessage }}">
+    <div class="settings-title">
+        <div class="settings-title-text">{{ "Error Message" |t }}</div>
+        <div class="settings-result">
+           {% if errorMessage %}
+                <code>{{ errorMessage }}</code>
+                <input type="text" class="form-settings-input hidden" name="messages[error][message]" value="{{ errorMessage }}" />
+            {% endif %}
+        </div>
+    </div>
+    <div class="settings-action">
+        <a href="#" class="settings-edit" title="{{ "Configure" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+    </div>
+</div>
