@@ -1,35 +1,39 @@
-{% set submitButtonEnabled = form.options.submitButton.enabled is defined ? form.options.submitButton.enabled %}
-{% set submitButtonText = form.options.submitButton.text is defined ? form.options.submitButton.text %}
+{% set container = {
+    title: 'Submit Button' |t,
+    info: 'Enter a custom submit button text.' |t,
+    icon: null,
+    class: null,
+    id: null
+} %}
 
-<div class="option-item {% if submitButtonEnabled %}option-enabled{% endif %}"
-    id="option-submit-button"
-    data-modal="true"
-    data-name="options[submitButton][text]"
-    data-modal-title="{{ "Submit Button Text" |t }}"
-    data-modal-instructions="{{ "Enter a custom submit button text." |t }}"
-    data-input-hint="{{ "TEXT" |t }}"
-    data-modal-success-message="{{ "Submit Button Text Updated" |t }}"
-    data-input-value="{{ submitButtonText }}">
-    <span class="option-title">
-        <span class="option-text">{{ "Submit Button" |t }} <span class="info">{{ "Enter a custom submit button text." |t }}</span></span>
-        <span class="option-result {% if not submitButtonEnabled %}hidden{% endif %}">
-            {% include 'formbuilder2/_includes/icons/rocket' ignore missing %}
-            <div class="result-container">
-                {% if submitButtonText %}
-                    <code>{{ submitButtonText }}</code>
-                    <input type="text" class="form-option-input hidden" name="options[submitButton][text]" value="{{ submitButtonText }}" />
-                {% endif %}
-            </div>
-        </span>
-    </span>
-    <div class="option-actions">
-        <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
-        {% if submitButtonEnabled%}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
-        {% else %}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
-        {% endif %}
-    </div>
-    
-    <input type="checkbox" value="{{ submitButtonEnabled }}" class="enable-form-option hidden" name="options[submitButton][enabled]" {% if submitButtonEnabled %}checked{% endif %}>
-</div>
+{% set inputs = {
+    text: {
+        type: 'text',
+        name: 'options[submitButton][text]',
+        value: form.options.submitButton.text is defined ? form.options.submitButton.text : '',
+        class: 'hidden',
+        id: null,
+        hint: 'TEXT'
+    },
+    checkbox: {
+        type: 'checkbox',
+        name: 'options[submitButton][enabled]',
+        value: 'true',
+        checked: form.options.submitButton.enabled is defined and form.options.submitButton.enabled == 'true' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Submit Button Text' |t,
+    instructions: 'Enter a custom submit button text.' |t,
+    successMessage: 'Submit Button Text Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

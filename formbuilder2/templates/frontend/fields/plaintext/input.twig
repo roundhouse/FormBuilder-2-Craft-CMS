@@ -1,0 +1,39 @@
+{%- set type          = settings.multiline is empty ? field.type|lower : 'textarea' %}
+{%- set data          = renderingOptions.data is defined ? renderingOptions.data : null %}
+{%- set id            = renderingOptions.id is defined ? renderingOptions.id : name %}
+{%- set class         = renderingOptions.class is defined ? renderingOptions.class : name %}
+{%- set value         = value is not empty ? value : null %}
+{%- set required      = field.required is defined and field.required ? " required" %}
+
+{%- set placeholder   = settings.placeholder is not empty ? settings.placeholder : null %}
+{%- set maxLength     = settings.maxLength is not empty ? settings.maxLength : null %}
+{%- set initialRows   = settings.initialRows is not empty ? settings.initialRows : 10 %}
+
+{%- set dataAttributes = null %}
+{%- for key, dataValue in data %}
+    {%- set dataAttributes = dataAttributes ~ ' data-'~key~'="'~dataValue~'"' %}
+{% endfor -%}
+
+{%- if settings.multiline -%}
+    <textarea
+        {%- if id %} id="{{ id }}"{% endif %}
+        {%- if class %} class="{{ class }}"{% endif %}
+        {%- if name %} name="{{ name }}"{% endif %}
+        {%- if placeholder is not null %} placeholder="{{ placeholder }}"{% endif %}
+        {%- if maxLength is not null %} maxlength="{{ maxLength }}"{% endif %}
+        {%- if initialRows is not empty %} rows="{{ initialRows }}"{% endif %}
+        {{- required -}}
+        {{- dataAttributes|raw -}}
+        >{{ value }}</textarea>
+{%- else -%}
+    <input type="text"
+        {%- if id is not empty %} id="{{ id }}"{% endif %}
+        {%- if class is not empty %} class="{{ class }}"{% endif %}
+        {%- if name is not empty %} name="{{ name }}"{% endif %}
+        {%- if value is not empty %} value="{{ value }}"{% endif %}
+        {%- if placeholder is not null %} placeholder="{{ placeholder }}"{% endif %}
+        {%- if maxLength is not null %} maxlength="{{ maxLength }}"{% endif %}
+        {{- required -}}
+        {{- dataAttributes|raw -}}
+        />
+{%- endif -%}

@@ -156,7 +156,7 @@
             padding: 0;
         }
 
-        .action-item-menu {
+        .action-item-menu, .form-item-menu {
             li {
                 transition: background-color .3s ease;
                 &:hover {

@@ -1,0 +1,31 @@
+{% set container = {
+    title: 'To Email' |t,
+    info: null,
+    icon: null,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    text: {
+        type: 'text',
+        name: 'notify[admin][toEmail]',
+        value: form.notify.admin.toEmail is defined ? form.notify.admin.toEmail : '',
+        class: 'hidden',
+        id: null,
+        hint: 'EMAIL'
+    }
+} %}
+
+{% set modal = {
+    title: 'To Email' |t,
+    instructions: 'The recipient’s email address.' |t,
+    successMessage: 'To Email Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

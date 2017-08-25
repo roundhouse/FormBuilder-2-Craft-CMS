@@ -1,35 +1,39 @@
-{% set redirectEnabled = form.options.redirect.enabled is defined ? form.options.redirect.enabled %}
-{% set redirectUrl = form.options.redirect.url is defined ? form.options.redirect.url %}
+{% set container = {
+    title: 'Custom Redirect' |t,
+    info: 'Enter a custom redirect path for successful submissions.' |t,
+    icon: null,
+    class: null,
+    id: null
+} %}
 
-<div class="option-item {% if redirectEnabled %}option-enabled{% endif %}"
-    id="option-redirect"
-    data-modal="true"
-    data-name="options[redirect][url]"
-    data-modal-title="{{ "Redirect" |t }}"
-    data-modal-instructions="{{ "Enter relative site path." |t }}"
-    data-input-hint="{{ "PATH" |t }}"
-    data-modal-success-message="{{ "Custom Redirect Updated" |t }}"
-    data-input-value="{{ redirectUrl }}">
-    <span class="option-title">
-        <span class="option-text">{{ "Custom Redirect" |t }} <span class="info">{{ "Enter a custom redirect path for successful submissions." |t }}</span></span>
-        <span class="option-result {% if not redirectEnabled %}hidden{% endif %}">
-            {% include 'formbuilder2/_includes/icons/redirect' ignore missing %}
-            <div class="result-container">
-                {% if redirectUrl %}
-                    <code>{{ redirectUrl }}</code>
-                    <input type="text" class="form-option-input hidden" name="options[redirect][url]" value="{{ redirectUrl }}" />
-                {% endif %}
-            </div>
-        </span>
-    </span>
-    <div class="option-actions">
-        <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
-        {% if redirectEnabled %}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
-        {% else %}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
-        {% endif %}
-    </div>
-    
-    <input type="checkbox" value="{{ redirectEnabled }}" class="enable-form-option hidden" name="options[redirect][enabled]" {% if redirectEnabled %}checked{% endif %}>
-</div>
+{% set inputs = {
+    text: {
+        type: 'text',
+        name: 'options[redirect][url]',
+        value: form.options.redirect.url is defined ? form.options.redirect.url : '',
+        class: 'hidden',
+        id: null,
+        hint: 'PATH'
+    },
+    checkbox: {
+        type: 'checkbox',
+        name: 'options[redirect][enabled]',
+        value: 'true',
+        checked: form.options.redirect.enabled is defined and form.options.redirect.enabled == 'true' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Custom Redirect' |t,
+    instructions: 'Enter relative site path.' |t,
+    successMessage: 'Custom Redirect Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

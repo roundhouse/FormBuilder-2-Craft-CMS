@@ -23,6 +23,7 @@ class FormBuilder2_FormModel extends BaseModel
       'name'                    => array(AttributeType::Name, 'required' => true),
       'handle'                  => array(AttributeType::Handle, 'required' => true),
       'fieldLayoutId'           => AttributeType::Number,
+      'titleFormat'             => AttributeType::String,
       'options'                 => AttributeType::Mixed,
       'spam'                    => AttributeType::Mixed,
       'messages'                => AttributeType::Mixed,

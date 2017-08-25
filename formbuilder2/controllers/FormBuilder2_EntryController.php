@@ -4,377 +4,221 @@ namespace Craft;
 class FormBuilder2_EntryController extends BaseController
 {
 
-  protected $allowAnonymous = true;
+    // Properties
+    // =========================================================================
 
-  /**
-   * Entries Index
-   *
-   */
-  public function actionEntriesIndex()
-  {
-    $formItems = fb()->forms->getAllForms();
-    $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
-    $plugins = craft()->plugins->getPlugin('FormBuilder2');
+    protected $allowAnonymous = array('actionSaveEntry');
+    public $form;
 
-    $variables['title']       = 'FormBuilder2';
-    $variables['formItems']   = $formItems;
-    $variables['settings']    = $settings;
-    $variables['navigation']  = $this->navigation();
+    // Public Methods
+    // =========================================================================
 
-    return $this->renderTemplate('formbuilder2/entries/index', $variables);
-  }
+    /**
+    * Entries Index
+    *
+    */
+    public function actionEntriesIndex()
+    {
+        $formItems = fb()->forms->getAllForms();
+        $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
+        $plugins = craft()->plugins->getPlugin('FormBuilder2');
 
-  /**
-   * View/Edit Entry
-   *
-   */
-  public function actionViewEntry(array $variables = array())
-  {
-    $entry = fb()->entries->getSubmissionById($variables['entryId']);
+        $variables['title']       = 'FormBuilder2';
+        $variables['formItems']   = $formItems;
+        $variables['settings']    = $settings;
+        $variables['navigation']  = $this->navigation();
 
-    if (empty($entry)) { throw new HttpException(404); }
-
-    $files = array();
-    $fileIds = array();
-
-    if ($entry->files) {
-      $files = array();
-      foreach ($entry->files as $key => $value) {
-        $files[] = craft()->assets->getFileById($value);
-        $fileIds[] = $value;
-      }
+        return $this->renderTemplate('formbuilder2/entries/index', $variables);
     }
 
-    $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
-    // Craft::dd($entry->getAttributes());
-    $variables['settings']    = $settings;
-    $variables['entry']       = $entry;
-    $variables['title']       = 'FormBuilder2';
-    $variables['form']        = fb()->forms->getFormById($entry->formId);
-    $variables['files']       = $files;
-    $variables['fileIds']     = $fileIds;
-    $variables['submission']  = $entry->submission;
-    $variables['navigation']  = $this->navigation();
+    /**
+    * View/Edit Entry
+    *
+    */
+    public function actionViewEntry(array $variables = array())
+    {
+        $entry  = fb()->entries->getEntryById($variables['entryId']);
+        $form   = fb()->forms->getFormById($entry->formId);
+        $tabs   = $entry->getFieldLayout()->getTabs();
 
-    $this->renderTemplate('formbuilder2/entries/_view', $variables);
-  }
+        if (empty($entry)) { 
+            throw new HttpException(404);
+        }  
 
-  /**
-   * Submit Entry
-   *
-   */
-  public function actionSubmitEntry()
-  {
-    $this->requirePostRequest();
+        $variables['entry']         = $entry;
+        $variables['form']          = $form;
+        $variables['fieldTabs']     = $tabs;
+        $variables['title']         = 'Edit Entry';
 
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // VARIABLES
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $files                    = array();
-    $ajax                     = false;
-    $passedValidation         = true;
-    $validationErrors         = array();
-    $submissionErrorMessage   = array();
-    $customSuccessMessage     = '';
-    $customErrorMessage       = '';
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // $files = array();
+        // $fileIds = array();
 
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // FORM
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $form = fb()->entries->getFormByHandle(craft()->request->getPost('formHandle'));
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // if ($entry->files) {
+        //   $files = array();
+        //   foreach ($entry->files as $key => $value) {
+        //     $files[] = craft()->assets->getFileById($value);
+        //     $fileIds[] = $value;
+        //   }
+        // }
 
+        // $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
+        // // Craft::dd($entry->getAttributes());
+        // $variables['settings']    = $settings;
+        // $variables['entry']       = $entry;
+        // $variables['form']        = fb()->forms->getFormById($entry->formId);
+        // $variables['files']       = $files;
+        // $variables['fileIds']     = $fileIds;
+        // $variables['submission']  = $entry->submission;
+        // $variables['navigation']  = $this->navigation();
 
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // FORM SUBMISSION
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $formFields = $form->fieldLayout->getFieldLayout()->getFields(); // Get all form fields
-    $submission = craft()->request->getPost(); // Get all values from the submitted form
-    $submissionData = $this->filterSubmissionKeys($submission); // Fillter out unused submission data
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // FORM ATTRIBUTES
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $attributes                   = $form->getAttributes();
-    $formSettings                 = $attributes['formSettings'];
-    $spamProtectionSettings       = $attributes['spamProtectionSettings'];
-    $messageSettings              = $attributes['messageSettings'];
-    $notificationSettings         = $attributes['notificationSettings'];
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // FORM SETTINGS ||| (1) Custom Redirect, (2) File Uploads, (3) Ajax Submissions
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // (1) Custom Redirect
-    if ($formSettings['formRedirect']['customRedirect'] != '') {
-      $redirectUrl = $formSettings['formRedirect']['customRedirectUrl'];
+        $this->renderTemplate('formbuilder2/entries/_view', $variables);
     }
 
-    // (2) File Uploads
-    if ($formSettings['hasFileUploads'] == '1') {
-      foreach ($formFields as $key => $value) {
-        $field = $value->getField();
-        switch ($field->type) {
-          case 'Assets':
+    /**
+     * Processes Submissions
+     */
+    public function actionSaveEntry()
+    {
+        $this->requirePostRequest();
 
-            $uploadedFiles = UploadedFile::getInstancesByName($field->handle);
-            $allowedKinds = array();
-            if ($field->settings['restrictFiles']) {
-              $allowedKinds = $field->settings['allowedKinds'];
-            }
+        $formId = craft()->request->getRequiredPost('formId');
+        $this->form = fb()->forms->getFormById($formId);
 
-            if ($allowedKinds) {
-                foreach ($uploadedFiles as $file) {
-                  $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
-                  if (in_array($fileKind, $allowedKinds)) {
-                    if ($field->settings['useSingleFolder']) {
-                      $sourceId = $field->settings['singleUploadLocationSource'];
-                    } else {
-                      $sourceId = $field->settings['defaultUploadLocationSource'];
-                    }
-                    $files[] = array(
-                      'folderId' => $field->settings['singleUploadLocationSource'][0],
-                      'sourceId' => $sourceId,
-                      'filename' => $file->getName(),
-                      'location' => $file->getTempName(),
-                      'type'     => $file->getType(),
-                      'kind'     => $fileKind
-                    );
-                  } else {
-                    $submissionErrorMessage[] = Craft::t('File type is not allowed!');
-                  }
+        // $notify = $this->form->notify;
+
+        $entry = $this->_getEntryModel();
+
+        $this->_populateEntryModel($entry);
+
+        $saveEntry = isset($this->form->settings['database']['enabled']) && $this->form->settings['database']['enabled'] == 'true' ? true : false;
+
+        if ($saveEntry) {
+            
+            if (fb()->entries->saveEntry($entry)) {
+                if (craft()->request->isAjaxRequest()) {
+                    $this->returnJson(array(
+                        'success' => true
+                    ));
+                } else {
+                    craft()->userSession->setNotice(Craft::t('Entry Saved.'));
+                    $this->redirectToPostedUrl($entry);
                 }
             } else {
-                foreach ($uploadedFiles as $file) {
-                    $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
-                    if ($field->settings['useSingleFolder']) {
-                      $sourceId = $field->settings['singleUploadLocationSource'];
-                    } else {
-                      $sourceId = $field->settings['defaultUploadLocationSource'];
-                    }
-                    $files[] = array(
-                      'folderId' => $field->settings['singleUploadLocationSource'][0],
-                      'sourceId' => $sourceId,
-                      'filename' => $file->getName(),
-                      'location' => $file->getTempName(),
-                      'type'     => $file->getType(),
-                      'kind'     => $fileKind
-                    );
+                if (craft()->request->isAjaxRequest()) {
+                    $this->returnJson(array(
+                        'success' => false,
+                        'errors' => $entry->getErrors()
+                    ));
+                } else {
+                    craft()->userSession->setError(Craft::t('Couldn’t save entry.'));
+                    craft()->urlManager->setRouteVariables(array(
+                        'entry' => $entry
+                    ));
                 }
             }
 
-          break;
-        }
-      }
-    }
-
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // FORM CUSTOM MESSAGES ||| (1) Success Message (2) Error Message
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // (1) Success Message
-    $customSuccessMessage = $messageSettings['successMessage'] ? $messageSettings['successMessage'] : Craft::t('Submission was successful.');
-    // (2) Error Message
-    $customErrorMessage = $messageSettings['errorMessage'] ? $messageSettings['errorMessage'] : Craft::t('There was a problem with your submission.');
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    // (3) Ajax Submissions
-    if ($formSettings['ajaxSubmit'] == '1') {
-      $this->requireAjaxRequest();
-      $ajax = true;
-    }
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // FORM SPAM PROTECTION ||| (1) Timed Method (2) Honeypot Method
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // (1) Timed Method
-    if ($spamProtectionSettings['spamTimeMethod'] == '1') {
-      $formSubmissionTime = (int)craft()->request->getPost('spamTimeMethod');
-      $submissionDuration = time() - $formSubmissionTime;
-      $allowedTime = (int)$spamProtectionSettings['spamTimeMethodTime'];
-      if ($submissionDuration < $allowedTime) {
-        if ($ajax) {
-          $this->returnJson(array(
-            'success' => false,
-            'validationErrors' => array(Craft::t('You submitted too fast, you are robot!')),
-            'customErrorMessage' => $customErrorMessage
-          ));
         } else {
-          $spamTimedMethod = false;
-          $submissionErrorMessage[] = Craft::t('You submitted too fast, you are robot!');
+            // Don't save entry by do process notificaitons if any enabled
+
+            // fb()->notification->sendNotification($this->form, $entry, $_POST);
         }
-      } else {
-        $spamTimedMethod = true;
-      }
-    } else {
-      $spamTimedMethod = true;
+
+        // // On Entry Prepare Event
+        // Craft::import('plugins.formbuilder2.events.FormBuilder2_OnPrepareEntryModelEvent');
+        // $onPrepareEvent = new FormBuilder2_OnPrepareEntryModelEvent($this, array(
+        //     'entry' => $entry
+        // ));
+        // fb()->onPrepareEntryModelEvent($onPrepareEvent);
+
+        // $entry->formId = $this->form->id;
+
+
+        // Fire Before Save Event
+        // Craft::import('plugins.formBuilder2.events.FormBuilder2_OnBeforeSaveEntryEvent');
+        // $onBeforeSaveEntry = new FormBuilder2_OnBeforeSaveEntryEvent(
+        //     $this, array(
+        //         'entry' => $entry
+        //     )
+        // );
+        // fb()->onBeforeSaveEntry($onBeforeSaveEntry);
+
+        // $saved = true;
+
+        // if ($onBeforeSaveEntry->performAction) {
+
+        //     $saved = fb()->entries->saveEntry($entry);
+
+        // } else {
+
+        //     fb()->entries->callOnSaveEntryEvent($entry);
+
+        // }
+
+        // if ($saved) {
+        //     if (isset($notify['admin']['enabled']) && $notify['admin']['enabled'] == '1') {
+        //         fb()->notification->sendNotification($this->form, $entry, $_POST);
+        //     }
+
+        //     if (craft()->request->isAjaxRequest()) {
+        //         $this->returnJson(array(
+        //             'success' => true
+        //         ));
+        //     } else {
+        //         craft()->userSession->setNotice(Craft::t('Entry Submitted.'));
+        //         $this->redirectToPostedUrl($entry);
+        //     }
+        // } else {
+        //     if (craft()->request->isAjaxRequest()) {
+        //         $this->returnJson(array(
+        //             'errors' => $entry->getErrors(),
+        //         ));
+        //     } else {
+        //         craft()->userSession->setError(Craft::t('Unable to save submission.'));
+        //         fb()->forms->currentEntry[$this->form->handle] = $entry;
+        //         craft()->urlManager->setRouteVariables(array(
+        //             $this->form->handle => $entry
+        //         ));
+        //     }
+        // }
     }
 
-    // (2) Honeypot Method
-    if ($spamProtectionSettings['spamHoneypotMethod'] == '1') {
-      $honeypotField = craft()->request->getPost('email-address-new');
-      if ($honeypotField != '') {
-        if ($ajax) {
-          $this->returnJson(array(
-            'success' => false,
-            'validationErrors' => array(Craft::t('You tried the honey, you are robot bear!')),
-            'customErrorMessage' => $customErrorMessage
-          ));
-        } else {
-          $spamHoneypotMethod = false;
-          $submissionErrorMessage[] = Craft::t('You tried the honey, you are robot bear!');
-        }
-      } else {
-        $spamHoneypotMethod = true;
-      }
-    } else {
-      $spamHoneypotMethod = true;
+    // Protected Methods
+    // =========================================================================
+
+    /**
+     * Creates an EntryModel.
+     *
+     * @throws Exception
+     * @return EntryModel
+     */
+    private function _getEntryModel()
+    {
+        $entry = new FormBuilder2_EntryModel();
+
+        return $entry;
     }
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // NEW FORM MODEL
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $submissionEntry                  = new FormBuilder2_EntryModel();
-    $submissionEntry->formId          = $form->id;
-    $submissionEntry->title           = $form->name;
-    $submissionEntry->submission      = $submissionData;
-    $submissionEntry->ipAddress       = craft()->request->getUserHostAddress();
-    $submissionEntry->userAgent       = craft()->request->getUserAgent();
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /**
+     * Populates an FormBuilder2_EntryModel with post data.
+     *
+     * @param FormBuilder2_EntryModel $entry
+     *
+     * @return null
+     */
+    private function _populateEntryModel(FormBuilder2_EntryModel $entry)
+    {
+        $entry->formId    = $this->form->id;
+        $entry->ipAddress = craft()->request->getUserHostAddress();
+        $entry->userAgent = craft()->request->getUserAgent();
 
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // FAILED SUBMISSION REDIRECT W/MESSAGES (Spam Protection)
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    if ($submissionErrorMessage) {
-      craft()->userSession->setFlash('error', $customErrorMessage);
-      craft()->urlManager->setRouteVariables(array(
-        'errors' => $submissionErrorMessage
-      ));
+        $title = isset($this->form->settings['database']['titleFormat']) && $this->form->settings['database']['titleFormat'] != '' ? $this->form->settings['database']['titleFormat'] : 'Submission - '.DateTimeHelper::currentTimeStamp();
+        $_POST['fields']['date'] = DateTimeHelper::currentTimeStamp();
+
+        $entry->getContent()->title = craft()->templates->renderObjectTemplate($title, $_POST['fields']);
+        $fieldsLocation = craft()->request->getParam('fieldsLocation', 'fields');
+        $entry->setContentFromPost($fieldsLocation);
     }
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // VALIDATE SUBMISSION DATA
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $validation = fb()->entries->validateEntry($form, $submissionData, $files);
-
-    // if ($validation != '') {
-    if (!empty($validation)) {
-      if ($ajax) {
-        $this->returnJson(array(
-          'success' => false,
-          'passedValidation' => false,
-          'validationErrors' => $validation,
-          'customErrorMessage' => $customErrorMessage
-        ));
-      } else {
-        craft()->userSession->setFlash('error', $customErrorMessage);
-        $passedValidation = false;
-        return craft()->urlManager->setRouteVariables(array(
-          'value' => $submissionData, // Pass filled in data back to form
-          'errors' => $validation // Pass validation errors back to form
-        ));
-      }
-    }
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // PROCESS SUBMISSION ENTRY
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    if (!$submissionErrorMessage && $passedValidation && $spamTimedMethod && $spamHoneypotMethod) {
-
-      // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      // FILE UPLOADS
-      // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      $fileIds = array();
-      $fileCollection = array();
-      $tempPath = array();
-
-      if ($files) {
-        foreach ($files as $key => $file) {
-          $tempPath = AssetsHelper::getTempFilePath($file['filename']);
-          move_uploaded_file($file['location'], $tempPath);
-          $folder = craft()->assets->findFolder(array(
-              'sourceId' => $file['sourceId']
-          ));
-          $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $folder->id, AssetConflictResolution::KeepBoth);
-          $fileIds[] = $response->getDataItem('fileId');
-          $fileCollection[] = array(
-            'tempPath' => $tempPath,
-            'filename' => $file['filename'],
-            'type'     => $file['type']
-          );
-        }
-        $submissionEntry->files = $fileIds;
-      }
-
-      $submissionResponseId = fb()->entries->processSubmissionEntry($submissionEntry);
-
-      if ($submissionResponseId) {
-        // Notify Admin of Submission
-        if (isset($notificationSettings['notifySubmission'])) {
-          if ($notificationSettings['notifySubmission'] == '1') {
-            $this->notifyAdminOfSubmission($submissionResponseId, $fileCollection, $form);
-          }
-        }
-
-        // Notify Submitter of Submission
-        if (isset($notificationSettings['notifySubmitter'])) {
-          if ($notificationSettings['notifySubmitter'] == '1') {
-            $this->notifySubmitterOfSubmission($submissionResponseId, $form);
-          }
-        }
-
-        foreach ($fileCollection as $file) {
-          IOHelper::deleteFile($file['tempPath'], true);
-        }
-
-        // Fire After Submission Complete Event
-        Craft::import('plugins.formBuilder2.events.FormBuilder2_OnAfterSubmissionCompleteEvent');
-        $event = new FormBuilder2_OnAfterSubmissionCompleteEvent(
-            $this, array(
-                'entryId' => $submissionResponseId
-            )
-        );
-        craft()->formBuilder2->onAfterSubmissionCompleteEvent($event);
-
-        // Successful Submission Messages
-        if ($ajax) {
-          $this->returnJson(array(
-            'success' => true,
-            'submissionData' => $submissionData,
-            'customSuccessMessage' => $customSuccessMessage
-          ));
-        } else {
-          craft()->userSession->setFlash('success', $customSuccessMessage);
-          $cookie = new HttpCookie('formBuilder2SubmissionId', $submissionEntry->attributes['id']);
-          craft()->request->getCookies()->add($cookie->name, $cookie);
-          $this->redirectToPostedUrl();
-        }
-      } else {
-        // Submission Error Messages
-        if ($ajax) {
-          $this->returnJson(array(
-            'success' => false,
-            'customErrorMessage' => $customErrorMessage,
-            'errors' => $validation
-          ));
-        } else {
-            craft()->userSession->setFlash('error', $customErrorMessage);
-            return craft()->urlManager->setRouteVariables(array(
-              'value' => $submissionData, // Pass filled in data back to form
-              'errors' => $validation // Pass validation errors back to form
-            ));
-        }
-      }
-    }
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-  }
 
     public function actionRemoveAssetsFromSubmission()
     {

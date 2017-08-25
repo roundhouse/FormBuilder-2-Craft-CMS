@@ -12,10 +12,12 @@
 {% endblock %}
 
 {% block content %}
+    {% set files = [] %}
+    {% set fileIds = [] %}
 
     <section class="submission-container grid">
+
         <div class="item" data-colspan="2">
-            {% if submission %}
             <div class="submission-details-tout theme-white">
                 <header>
                     <span class="tout-title">{{ "Submission Content"|t }}</span>
@@ -28,58 +30,46 @@
                         </span>
                     </a>
                 </header>
-                <main>
-                    <table class="submission fullwidth collapsible">
-                      {% for name, value in submission %}
-                        {% set field = craft.fields.getFieldByHandle(name) %}
-                        {% if field and value %}
-                        <tr>
-                          <td><strong>{{ field.name }}</strong></td>
-                          {% if value | checkArray == '1' %}
-                            <td>
-                            {% for key, item in value %}
-                              {{ item }}<br />
+                <div class="body no-pad">
+
+                {% for tab in fieldTabs %}
+                    {% set fields = tab.getFields() %}
+
+                    {% for field in fields %}
+                        {% set self = field.getField() %}
+                        {% set handle = self.handle %}
+                        {% if self.type == 'Assets' %}
+                            {% set files = attribute(entry, handle).find() %}
+                            {% for file in files %}
+                                {% set fileIds = fileIds|merge([file.id]) %}
                             {% endfor %}
-                            </td>
-                          {% else %}
-                            <td>{{ value|raw|nl2br }}</td>
-                          {% endif %}
-                        </tr>
+                        {% else %}
+                            <div class="field">
+                                <span class="entry-label">{{ self.name }}</span>
+                                <span class="entry-value">{{ attribute(entry, handle) }}</span>
+                            </div>
                         {% endif %}
-                      {% endfor %}
-                    </table>
-                    {% else %}
-                        <p class="no-content">{{ "Submission has no content."|t }}</p>
-                    {% endif %}
-                    
-                </main>
+                    {% endfor %}
+
+                {% endfor %}
+                </div>
             </div>
         </div>
+
         <div class="item" data-colspan="1">
             <div class="submission-details-tout theme-moss">
                 <header>
                     <span class="tout-title">{{ "Form Details"|t }}</span>
                     <a href="#" class="submission-action-trigger right" data-type="form" data-form-id="{{ form.id }}" data-entry-id="{{ entry.id }}">
-                        <svg width="22" height="5" viewBox="0 0 22 5" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19.578 5c-1.337 0-2.422-1.119-2.422-2.5S18.241 0 19.578 0C20.916 0 22 1.119 22 2.5S20.916 5 19.578 5zM11 5C9.671 5 8.594 3.881 8.594 2.5S9.671 0 11 0c1.329 0 2.406 1.119 2.406 2.5S12.329 5 11 5zM2.422 5C1.084 5 0 3.881 0 2.5S1.084 0 2.422 0c1.337 0 2.422 1.119 2.422 2.5S3.759 5 2.422 5z" fill="#D0D7DD" fill-rule="evenodd"/>
-                        </svg>
+                        {% include 'formbuilder2/_includes/icons/dots' %}
                     </a>
                 </header>
 
-                <main>
+                <div class="body">
                     <p>{{ "Name"|t }}: <span>{{ form.name }}</span></p>
                     <p>{{ "ID"|t }}: <span>{{ form.id }}</span></p>
-                </main>
+                </div>
 
-                {# {% if currentUser.admin or settings.canDoActions %}
-                    <form method="post" accept-charset="utf-8">
-                      <input type="hidden" name="action" value="formBuilder2/entry/deleteSubmission">
-                      <input type="hidden" name="redirect" value="formbuilder2/entries">
-                      <input type="hidden" name="entryId" value="{{ entry.id }}">
-                      {{ getCsrfInput() }}
-                      <button class="btns btn-danger delete submit">{{ "Delete Submission"|t }}</button>
-                    </form>
-                {% endif %} #}
             </div>
         </div>
 
@@ -95,7 +85,7 @@
                     </a>
                 </header>
                 
-                <main class="elements">
+                <div class="elements">
                   <table class="data fullwidth">
                     {% for file in files %}
 
@@ -119,7 +109,7 @@
                     {% endfor %}
 
                   </table>
-                </main>
+                </div>
             </div>
         </div>
         {% endif %}

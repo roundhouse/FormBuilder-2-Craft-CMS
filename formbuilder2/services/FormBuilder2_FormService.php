@@ -4,7 +4,8 @@ namespace Craft;
 
 class FormBuilder2_FormService extends BaseApplicationComponent
 {
-
+    public $currentEntry;
+    
     private $_formsById;
     private $_allFormIds;
     private $_fetchedAllForms = false;

@@ -1,0 +1,31 @@
+{% set container = {
+    title: 'Reply-To' |t,
+    info: null,
+    icon: null,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    text: {
+        type: 'text',
+        name: 'notify[admin][replyTo]',
+        value: form.notify.admin.replyTo is defined ? form.notify.admin.replyTo : '',
+        class: 'hidden',
+        id: null,
+        hint: 'EMAIL'
+    }
+} %}
+
+{% set modal = {
+    title: 'Reply-To' |t,
+    instructions: 'The Reply-To email address..' |t,
+    successMessage: 'Reply-To Email Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

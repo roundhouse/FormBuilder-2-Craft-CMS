@@ -32,6 +32,18 @@
             color: $c-textLight;
         }
     }
+
+    #noforms {
+        text-align: center;
+        padding: 60px 30px;
+
+        .title {
+            font-weight: bold;
+            font-size: 18px;
+            padding-bottom: 5px;
+            color: $c-textDarkBlue;
+        }
+    }
 }
 
 

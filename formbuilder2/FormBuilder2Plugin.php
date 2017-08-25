@@ -22,9 +22,9 @@ class FormBuilder2Plugin extends BasePlugin
         // Craft::dd(DateTimeHelper::toIso8601(DateTimeHelper::currentTimeStamp()));
 
         // Formbuilder2 Events
-        craft()->on('formBuilder2.onPrepareFormModelEvent', function(Event $event) {
-            $model = $event->params['model'];
-        });
+        // craft()->on('formBuilder2.onPrepareFormModelEvent', function(Event $event) {
+        //     $model = $event->params['model'];
+        // });
 
         if (craft()->request->isCpRequest()) {
           craft()->templates->hook('formBuilder2.prepCpTemplate', array($this, 'prepCpTemplate'));

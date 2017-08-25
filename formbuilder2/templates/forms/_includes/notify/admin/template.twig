@@ -1,0 +1,32 @@
+{% set container = {
+    title: 'Email Template' |t,
+    info: null,
+    icon: null,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    select: {
+        type: 'select',
+        name: 'notify[admin][template]',
+        value: form.notify.admin.template is defined ? form.notify.admin.template : '',
+        options: templateOption |json_encode(),
+        class: 'hidden',
+        id: null,
+        hint: 'FIELD'
+    }
+} %}
+
+{% set modal = {
+    title: 'Email Template' |t,
+    instructions: 'Select email template to use for notification.' |t,
+    successMessage: 'Email Template Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

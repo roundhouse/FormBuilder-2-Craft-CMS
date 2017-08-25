@@ -1,0 +1,31 @@
+{% set container = {
+    title: 'From Name' |t,
+    info: null,
+    icon: null,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    text: {
+        type: 'text',
+        name: 'notify[admin][fromName]',
+        value: form.notify.admin.fromName is defined ? form.notify.admin.fromName : '',
+        class: 'hidden',
+        id: null,
+        hint: 'NAME'
+    }
+} %}
+
+{% set modal = {
+    title: 'From Name' |t,
+    instructions: 'The sender’s name. Defaults to the Sender Name defined in Settings → Email.' |t,
+    successMessage: 'From Name Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

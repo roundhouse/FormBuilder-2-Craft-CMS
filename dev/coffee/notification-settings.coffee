@@ -114,8 +114,6 @@ if $ and window.Garnish
         updateHtmlFromModal: ->
             if @modal.item.type == 'multiple'
                 @updateMultipleHtmlFromModal()
-            else if @modal.item.type == 'attachments'
-                @updateAttachmentsHtmlFromModal()
             else if @modal.item.type == 'select'
                 @updateSubjectHtmlFromModal()
             else if @modal.item.type == 'template'
@@ -145,9 +143,6 @@ if $ and window.Garnish
 
             @$settingInput = $($input)
             @$settingResultHtml.html $code + $input
-
-        updateAttachmentsHtmlFromModal: ->
-            console.log 'attachments html'
 
         updateMultipleHtmlFromModal: ->
             totalResults = @modal.item.$settingResultHtml.find('.result-item').length
@@ -275,7 +270,6 @@ if $ and window.Garnish
                 @item.$container.removeClass 'settings-enabled'
                 @item.$settingInput.val('')
                 @item.$settingInput.prop 'checked', false
-                # @item.$formOptionInput.val ''
                 @item.$settingResultHtml.addClass 'hidden'
                 @item.$toggleSettings.html 'ENABLE'
                 @closeModal()

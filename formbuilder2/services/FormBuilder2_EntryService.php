@@ -5,9 +5,117 @@ namespace Craft;
 class FormBuilder2_EntryService extends BaseApplicationComponent
 {
   
-  private $_entriesById;
-  private $_allEntryIds;
-  private $_fetchedAllEntries = false;
+    // Properties
+    // =========================================================================
+
+    private $_entriesById;
+    private $_allEntryIds;
+    private $_fetchedAllEntries = false;
+
+
+    // Public Methods
+    // =========================================================================
+
+    /**
+     * Returns a criteria model for FormBuilder2_Entry elements
+     *
+     * @param array $attributes
+     *
+     * @return ElementCriteriaModel
+     * @throws Exception
+     */
+    public function getCriteria(array $attributes = array())
+    {
+        return craft()->elements->getCriteria('FormBuilder2', $attributes);
+    }
+
+    /**
+    * Process Submission Entry
+    *
+    */
+    public function saveEntry(FormBuilder2_EntryModel $entry)
+    {
+        $entryRecord = new FormBuilder2_EntryRecord();
+
+        $entryRecord->formId           = $entry->formId;
+        $entryRecord->ipAddress        = $entry->ipAddress;
+        $entryRecord->userAgent        = $entry->userAgent;
+
+        $entryRecord->validate();
+        $entry->addErrors($entryRecord->getErrors());
+
+        if ($entry->hasErrors()) {
+            return false;
+        }
+
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+
+        try {
+
+            // Call onBeforeSaveEntryEvent
+
+            $success = craft()->elements->saveElement($entry);
+
+            if (!$success) {
+                if ($transaction !== null) {
+                    $transaction->rollback();
+                }
+            }
+
+            $entryRecord->id = $entry->id;
+
+            $entryRecord->save(false);
+
+            if ($transaction !== null) {
+                $transaction->commit();
+            }
+
+            // $form = fb()->forms->getFormById($entry->formId);
+            // $entry->getContent()->title = 'test';
+            // $entry->getContent->title = craft()->templates->renderObjectTemplate($form->titleFormat, $entry);
+
+
+            // $oldContext = craft()->content->fieldContext;
+            // $oldContentTable = craft()->content->contentTable;
+
+            // craft()->content->fieldContext = $entry->getFieldContext();
+            // craft()->content->contentTable = $entry->getContentTable();
+
+            // $entry->setRawPostContent('field_fullName', 'Vadim Goncharov');
+
+            // if (craft()->elements->saveElement($entry)) {
+            //     $submissionRecord->id = $entry->id;
+            // }
+
+            // $submissionRecord->save(false);
+
+            // if ($transaction !== null) {
+            //     $transaction->commit();
+            // }
+
+            // craft()->content->fieldContext = $oldContext;
+            // craft()->content->contentTable = $oldContentTable;
+
+            // $this->callOnSaveEntryEvent($entry);
+
+            // return true;
+
+        } catch (\Exception $e) {
+            if ($transaction !== null) {
+                $transaction->rollback();
+            }
+
+            throw $e;
+        }
+
+        if ($success) {
+            // Call onSaveEntryEvent
+        }
+
+        return $success;
+    }
+
+
 
   /**
    * Fires 'onBeforeSave' Form Entry
@@ -47,13 +155,22 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     return $entries;
   }
 
-  public function getEntryById($entryId)
-  {
-    $entryRecord = FormBuilder2_EntryRecord::model()->findByAttributes(array(
-      'id' => $entryId,
-    ));
-    $entry = FormBuilder2_EntryModel::populateModel($entryRecord);
-    return $entry;
+    public function getEntryById($entryId)
+    {
+        $entry = $this->getCriteria(array(
+            'limit' => 1, 
+            'id' => $entryId
+        ))->first();
+
+        return $entry;
+
+        // $entryRecord = FormBuilder2_EntryRecord::model()->findByAttributes(array(
+        //     'id' => $entryId,
+        // ));
+        
+        // $entry = FormBuilder2_EntryModel::populateModel($entryRecord);
+
+        // return $entry;
   }
 
   /**
@@ -83,19 +200,15 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
    * Get Form Entry By Id
    *
    */
-  public function getFormEntryById($id)
-  {
-    return craft()->elements->getElementById($id, 'FormBuilder2');
-  }
+  // public function getFormEntryById($id)
+  // {
+  //   return craft()->elements->getElementById($id, 'FormBuilder2');
+  // }
 
-  /**
-   * Get Submission By ID
-   *
-   */
-  public function getSubmissionById($entryId)
-  {
-    return FormBuilder2_EntryRecord::model()->findById($entryId);
-  }
+
+  
+        
+
 
   /**
    * Get All Entries From Form ID
@@ -110,6 +223,29 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       ->queryAll();
     return $result;
   }
+
+    public function getEntryModel(FormBuilder2_FormModel $form)
+    {
+        $entry = new FormBuilder2_EntryModel;
+        $entry->setAttribute('formId', $form->id);
+
+        return $entry;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
   /**
    * Validate values of a submitted form
@@ -222,20 +358,25 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
     return $errorMessage;
   }
 
-  /**
-   * Process Submission Entry
-   *
-   */
+
+    
+
+    public function callOnSaveEntryEvent($entry)
+    {
+        Craft::import('plugins.formBuilder2.events.FormBuilder2_OnSaveEntryEvent');
+        $onSaveEntry = new FormBuilder2_OnSaveEntryEvent(
+            $this, array(
+                'event'         => 'saveEntry',
+                'entry'         => $entry
+            )
+        );
+        fb()->onSaveEntry($onSaveEntry);
+    }
+
+
   public function processSubmissionEntry(FormBuilder2_EntryModel $submission)
   { 
-    // Fire Before Save Event
-    Craft::import('plugins.formBuilder2.events.FormBuilder2_OnBeforeSaveEntryEvent');
-    $event = new FormBuilder2_OnBeforeSaveEntryEvent(
-        $this, array(
-            'entry' => $submission
-        )
-    );
-    craft()->formBuilder2->onBeforeSaveEntry($event);
+    
 
     $form                       = fb()->forms->getFormById($submission->formId);
     $formFields                 = $form->fieldLayout->getFieldLayout()->getFields();

@@ -1,6 +1,7 @@
 {% extends "_layouts/cp" %}
-{# Maybe delte bellow? #}
+{# Maybe delete bellow? #}
 {% import "_includes/forms" as forms %}
+{% import "formbuilder2/_includes/_components" as components %}
 {% hook 'formBuilder2.prepCpTemplate' %}
 
 {% set selectedSubnavItem = "forms" %}
@@ -31,21 +32,20 @@
         <input type="hidden" name="fieldLayoutId" value="{{ form.fieldLayoutId }}">
     {% endif %}
 
-    {# <div class="btngroup submit first">
-        <input type="submit" class="btn submit" value="{{ 'Save'|t }}">
-        {% if form.id %}
-            <div class="btn submit menubtn"></div>
-            <div class="menu">
-                <ul>
-                    <li><a class="formsubmit" data-redirect="prodeal/forms/edit/{{ form.id  }}">{{ "Save and continue editing"|t }} <span class="shortcut">⌘S</span></a></li>
-                </ul>
-            </div>
-        {% endif %}
-    </div> #}
+    {% set availableFields = form.getFieldLayout().getFields() %}
+    {% set fieldsOption = [] %}
+    {% set fieldsOption = [{label: 'Select Field', value: ''}] %}
+    {% for field in availableFields %}
+        {% set fieldItem = field.getField(field) %}
+        {% set fieldsOption = fieldsOption|merge([{ label: fieldItem.name, value: fieldItem.handle }]) %}
+    {% endfor %}
 
     {% set errors = form.getErrors() %}
     {% set templates = craft.formBuilder2.getTemplates() %}
-    {% set templateGroupOptions = [{label: 'Select Template', value: ''}] %}
+    {% set templateOption = [{label: 'Select Template', value: ''}] %}
+    {% for template in templates %}
+        {% set templateOption = templateOption|merge([{ label: template.name, value: template.handle }]) %}
+    {% endfor %}
     
     <div class="grid first" data-max-cols="3">
 
@@ -62,7 +62,16 @@
                     <span class="tout-title">{{ "Form Settings" |t }}</span>
                 </header>
                 <div class="body">
-                    {% include 'formbuilder2/forms/_includes/options/basic-settings' ignore missing %}
+                    {% include 'formbuilder2/forms/_includes/settings/basic-settings' ignore missing %}
+                </div>
+            </section>
+
+            <section class="form-options-tout cmp-tout theme-white">
+                <header>
+                    <span class="tout-title">{{ "Database" |t }}</span>
+                </header>
+                <div class="body">
+                    {% include 'formbuilder2/forms/_includes/settings/save-entries' ignore missing %}
                 </div>
             </section>
 
@@ -74,7 +83,7 @@
                     {% include 'formbuilder2/forms/_includes/options/submit-button' ignore missing %}
                     {% include 'formbuilder2/forms/_includes/options/redirect' ignore missing %}
                     {% include 'formbuilder2/forms/_includes/options/ajax' ignore missing %}
-                    {% include 'formbuilder2/forms/_includes/options/file-uploads' ignore missing %}
+                    {# {% include 'formbuilder2/forms/_includes/options/file-uploads' ignore missing %} #}
                     {% include 'formbuilder2/forms/_includes/options/terms-conditions' ignore missing %}
                     {# {% include 'formbuilder2/forms/_includes/options/scripts' ignore missing %} #}
                     {# {% include 'formbuilder2/forms/_includes/options/custom-subject' ignore missing %} #}
@@ -107,17 +116,20 @@
 {% endblock %}
 
 {% includeJsResource "formbuilder2/js/forms.js" %}
-{% includeJsResource "formbuilder2/js/form-options.js" %}
-{% includeJsResource "formbuilder2/js/notification-settings.js" %}
+{% includeJsResource "formbuilder2/js/option.js" %}
+{% includeJsResource "formbuilder2/js/modal.js" %}
+{% includeJsResource "formbuilder2/js/fields.js" %}
+{# {% includeJsResource "formbuilder2/js/form-options.js" %} #}
+{# {% includeJsResource "formbuilder2/js/notification-settings.js" %} #}
 
 {% includejs %}
     $('.section-collapsible').each(function(i,el){
         new FormBuilderSection(el);
     });
 
-    $('.settings-item').each(function(i,el){
-        new NotificationSettingsItem(el);
-    });
+    // $('.settings-item').each(function(i,el){
+    //     new NotificationSettingsItem(el);
+    // });
 
     {% if not form.handle %}new Craft.HandleGenerator('#formName', '#formHandle');{% endif %}
 {% endincludejs %}

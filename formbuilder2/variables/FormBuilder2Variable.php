@@ -6,7 +6,6 @@ class FormBuilder2Variable
 
     private $form;
 
-
     public function forms($variables = null)
     {
         return fb()->forms->getForms($variables);
@@ -15,6 +14,55 @@ class FormBuilder2Variable
     public function templates($variables = null)
     {
         return fb()->templates->getTemplates($variables);
+    }
+
+    public function form($formHandle, array $options = null)
+    {
+        $form = fb()->forms->getFormByHandle($formHandle);
+        $tabs = $form->fieldLayout->getFieldLayout()->getTabs();
+        $fields = $form->fieldLayout->getFieldLayout()->getFields();
+        $oldPath = craft()->templates->getTemplatesPath();
+
+        craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder2/templates/frontend');
+
+        $fieldsetHtml = craft()->templates->render('fieldset', array(
+            'tabs'      => $tabs,
+            'form'      => $form,
+            'entry'     => fb()->entries->getEntryModel($form),
+            'options'   => $options
+        ));
+
+        $formHtml = craft()->templates->render('form', array(
+            'form'          => $form,
+            'fieldset'      => $fieldsetHtml,
+            'entry'         => fb()->entries->getEntryModel($form),
+            'options'       => $options
+        ));
+
+        craft()->templates->setTemplatesPath($oldPath);
+
+        return TemplateHelper::getRaw($formHtml);
+
+    }
+
+    public function getInputHtml($field, $value, $settings, array $options = null)
+    {
+        $oldPath = craft()->templates->getTemplatesPath();
+        $type = StringHelper::toLowerCase($field->type);
+
+        craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder2/templates/frontend/fields');
+
+        $input = craft()->templates->render($type.'/input', array(
+            'name'          => $field->handle,
+            'value'         => $value,
+            'field'         => $field,
+            'settings'      => $field->settings,
+            'options'       => $options
+        ));
+
+        craft()->templates->setTemplatesPath($oldPath);
+
+        return TemplateHelper::getRaw($input);
     }
 
     /**
@@ -74,13 +122,13 @@ class FormBuilder2Variable
 		$form = fb()->forms->getFormById($formId);
 		$oldPath = craft()->templates->getTemplatesPath();
 
-    $variables['formId'] = $form;
+        $variables['formId'] = $form;
 
-    craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder2/templates');
-    $html = craft()->templates->render('/forms/frontend', $variables);
-    craft()->templates->setTemplatesPath($oldPath);
+        craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder2/templates');
+        $html = craft()->templates->render('/forms/frontend', $variables);
+        craft()->templates->setTemplatesPath($oldPath);
 
-    return $html;
+        return $html;
   }
 
   /**
@@ -139,276 +187,276 @@ class FormBuilder2Variable
    * Get Entry By Id
    *
    */
-  public function getFormEntryById($entryId)
-  {
-    $entryModel = fb()->entries->getFormEntryById($entryId);
-    $entry['form'] = array(
-      'id'    =>  $entryModel->attributes['id'],
-      'title' =>  $entryModel->attributes['title']
-    );
+  // public function getFormEntryById($entryId)
+  // {
+  //   $entryModel = fb()->entries->getFormEntryById($entryId);
+  //   $entry['form'] = array(
+  //     'id'    =>  $entryModel->attributes['id'],
+  //     'title' =>  $entryModel->attributes['title']
+  //   );
 
-    $submission = array();
-    foreach (json_decode($entryModel->attributes['submission']) as $key => $object) {
-      $submission[$key] = $object;
-    }
+  //   $submission = array();
+  //   foreach (json_decode($entryModel->attributes['submission']) as $key => $object) {
+  //     $submission[$key] = $object;
+  //   }
 
-    $entry['data'] = $submission;
-    $entry['files'] = json_decode($entryModel->attributes['files']);
+  //   $entry['data'] = $submission;
+  //   $entry['files'] = json_decode($entryModel->attributes['files']);
 
-    return $entry;
-  }
+  //   return $entry;
+  // }
 
 
   /**
    * Get Input HTML for FieldTypes
    *
    */
-  public function getInputHtml($field, $value = array()) 
-  {
-    $theField       = $field->getField();
-    $fieldType      = $theField->getFieldType();
-    $template       = fb()->fields->getFieldTemplate($field);
-    $originaPath    = craft()->templates->getTemplatesPath();
+ //  public function getInputHtml($field, $value = array()) 
+ //  {
+ //    $theField       = $field->getField();
+ //    $fieldType      = $theField->getFieldType();
+ //    $template       = fb()->fields->getFieldTemplate($field);
+ //    $originaPath    = craft()->templates->getTemplatesPath();
 
-    $theField->required = $field->required;
+ //    $theField->required = $field->required;
 
-	$attributes 		= $theField->attributes;
+	// $attributes 		= $theField->attributes;
 
-	$fieldSettings = '';
-	if ($fieldType) {
-	  	$fieldSettings	= $fieldType->getSettings();
-    }
+	// $fieldSettings = '';
+	// if ($fieldType) {
+	//   	$fieldSettings	= $fieldType->getSettings();
+ //    }
 
-    if (isset($attributes['settings']['placeholder'])) { $varPlaceholder = $attributes['settings']['placeholder']; } else { $varPlaceholder = null; }
-    if (isset($attributes['settings']['options'])) { $varOptions = $attributes['settings']['options']; } else { $varOptions = null; }
-    if (isset($attributes['settings']['values'])) { $varValues = $attributes['settings']['values']; } else { $varValues = null; }
-    if (isset($attributes['settings']['default'])) { $varOn = $attributes['settings']['default']; } else { $varOn = null; }
-    if (isset($attributes['settings']['checked'])) { $varChecked = $attributes['settings']['checked']; } else { $varChecked = null; }
-    if (isset($attributes['settings']['minuteIncrement'])) { $varMinuteIncrement = $attributes['settings']['minuteIncrement']; } else { $varMinuteIncrement = null; }
-    if (isset($attributes['settings']['showTime'])) { $varShowTime = $attributes['settings']['showTime']; } else { $varShowTime = null; }
-    if (isset($attributes['settings']['showDate'])) { $varShowDate = $attributes['settings']['showDate']; } else { $varShowDate = null; }
-    if (isset($attributes['settings']['min'])) { $varMin = $attributes['settings']['min']; } else { $varMin = null; }
-    if (isset($attributes['settings']['max'])) { $varMax = $attributes['settings']['max']; } else { $varMax = null; }
-    if (isset($attributes['settings']['limit'])) { $varLimit = $attributes['settings']['limit']; } else { $varLimit = null; }
-    if (isset($attributes['settings']['selectionLabel'])) { $varSelectionLabel = $attributes['settings']['selectionLabel']; } else { $varSelectionLabel = null; }
+ //    if (isset($attributes['settings']['placeholder'])) { $varPlaceholder = $attributes['settings']['placeholder']; } else { $varPlaceholder = null; }
+ //    if (isset($attributes['settings']['options'])) { $varOptions = $attributes['settings']['options']; } else { $varOptions = null; }
+ //    if (isset($attributes['settings']['values'])) { $varValues = $attributes['settings']['values']; } else { $varValues = null; }
+ //    if (isset($attributes['settings']['default'])) { $varOn = $attributes['settings']['default']; } else { $varOn = null; }
+ //    if (isset($attributes['settings']['checked'])) { $varChecked = $attributes['settings']['checked']; } else { $varChecked = null; }
+ //    if (isset($attributes['settings']['minuteIncrement'])) { $varMinuteIncrement = $attributes['settings']['minuteIncrement']; } else { $varMinuteIncrement = null; }
+ //    if (isset($attributes['settings']['showTime'])) { $varShowTime = $attributes['settings']['showTime']; } else { $varShowTime = null; }
+ //    if (isset($attributes['settings']['showDate'])) { $varShowDate = $attributes['settings']['showDate']; } else { $varShowDate = null; }
+ //    if (isset($attributes['settings']['min'])) { $varMin = $attributes['settings']['min']; } else { $varMin = null; }
+ //    if (isset($attributes['settings']['max'])) { $varMax = $attributes['settings']['max']; } else { $varMax = null; }
+ //    if (isset($attributes['settings']['limit'])) { $varLimit = $attributes['settings']['limit']; } else { $varLimit = null; }
+ //    if (isset($attributes['settings']['selectionLabel'])) { $varSelectionLabel = $attributes['settings']['selectionLabel']; } else { $varSelectionLabel = null; }
 
-    // Unless "All" sections has been chosen loop through the array and
-    // remove the 'section:' string from all source ID's and. Then convert all
-    // the strings to intigers so we are left with an array of section ids
-    if (isset($attributes['settings']['sources'])) {
-    	$varSources = $attributes['settings']['sources'];
-    	if ($varSources != '*') {
-    		$varSources = array_map( function($var) { return is_numeric($var) ? (int)$var : $var; }, str_replace("section:", "", $varSources) );
-    	}
-  	} else {
-  		$varSources = null;
-  	}
-    // Check if there was a value
-    if (isset($attributes['settings']['value'])){
-        $value = $attributes['settings']['value'];
-    } else {
-        $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;
-    }
+ //    // Unless "All" sections has been chosen loop through the array and
+ //    // remove the 'section:' string from all source ID's and. Then convert all
+ //    // the strings to intigers so we are left with an array of section ids
+ //    if (isset($attributes['settings']['sources'])) {
+ //    	$varSources = $attributes['settings']['sources'];
+ //    	if ($varSources != '*') {
+ //    		$varSources = array_map( function($var) { return is_numeric($var) ? (int)$var : $var; }, str_replace("section:", "", $varSources) );
+ //    	}
+ //  	} else {
+ //  		$varSources = null;
+ //  	}
+ //    // Check if there was a value
+ //    if (isset($attributes['settings']['value'])){
+ //        $value = $attributes['settings']['value'];
+ //    } else {
+ //        $value = (array_key_exists($theField->handle, $value)) ? $value[$theField->handle] : null;
+ //    }
 
-	  $variables = array(
-	  	'field'             => $attributes,
-	  	'type'  			=> $attributes['type'],
-	  	'name'  			=> $attributes['handle'],
-	  	'label'  			=> $attributes['name'],
-	  	'handle'  			=> $attributes['handle'],
-	  	'instructions'  	=> $attributes['instructions'],
-	  	'placeholder'  		=> $varPlaceholder,
-	  	'options'  			=> $varOptions,
-	  	'value'  			=> $value,
-	  	'values'  			=> $varValues,
-	  	'on'		  		=> $varOn,
-	  	'checked'		  	=> $varChecked,
-	  	'minuteIncrement'   => $varMinuteIncrement,
-	  	'showTime'			=> $varShowTime,
-	  	'showDate'			=> $varShowDate,
-	  	'min'  				=> $varMin,
-	  	'max'  				=> $varMax,
-	  	'requiredJs'		=> null,
-	  	'required'	  		=> $theField->required,
-	  	'settings'	  		=> $fieldSettings,
-        'sources'           => $varSources,
-        'form'              => null
-	  );
+	//   $variables = array(
+	//   	'field'             => $attributes,
+	//   	'type'  			=> $attributes['type'],
+	//   	'name'  			=> $attributes['handle'],
+	//   	'label'  			=> $attributes['name'],
+	//   	'handle'  			=> $attributes['handle'],
+	//   	'instructions'  	=> $attributes['instructions'],
+	//   	'placeholder'  		=> $varPlaceholder,
+	//   	'options'  			=> $varOptions,
+	//   	'value'  			=> $value,
+	//   	'values'  			=> $varValues,
+	//   	'on'		  		=> $varOn,
+	//   	'checked'		  	=> $varChecked,
+	//   	'minuteIncrement'   => $varMinuteIncrement,
+	//   	'showTime'			=> $varShowTime,
+	//   	'showDate'			=> $varShowDate,
+	//   	'min'  				=> $varMin,
+	//   	'max'  				=> $varMax,
+	//   	'requiredJs'		=> null,
+	//   	'required'	  		=> $theField->required,
+	//   	'settings'	  		=> $fieldSettings,
+ //        'sources'           => $varSources,
+ //        'form'              => null
+	//   );
 
-    $html = '';
+ //    $html = '';
 
-    // Check for Sprout Fields Plugin
-    $sproutFieldsPlugin = craft()->plugins->getPlugin('sproutfields', false);
-    $sproutFields = false;
-    if ($sproutFieldsPlugin && $sproutFieldsPlugin->isInstalled && $sproutFieldsPlugin->isEnabled) {
-        $sproutFields = true;
-    }
-    switch ($theField->type) {
-	  	// Sprout Fields
-	  	case "SproutFields_Email":
-	  		if ($sproutFields) {
-                $this->_setTemplate(null, 'plugin');
-                $html = craft()->templates->render('formbuilder2/templates/inputs/email', $variables);
-                $this->_setTemplate($originaPath, 'site');
-            }
-        break;
-        case "SproutFields_Phone":
-            if ($sproutFields) {
-                $this->_setTemplate(null, 'plugin');
-                $html = craft()->templates->render('formbuilder2/templates/inputs/phone', $variables);
-                $this->_setTemplate($originaPath, 'site');
-            }
-        break;
-        case "SproutFields_Link":
-            if ($sproutFields) {
-                $this->_setTemplate(null, 'plugin');
-                $html = craft()->templates->render('formbuilder2/templates/inputs/link', $variables);
-                $this->_setTemplate($originaPath, 'site');
-            }
-      break;
-      case "SproutFields_Hidden":
-        if ($sproutFields) {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/hidden/input', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-        break;
-      case "PlainText":
-        if ($attributes['settings']['multiline']) {
-          if ($template) {
-            $html = craft()->templates->render($template->template, $variables);
-          } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/textarea', $variables);
-            $this->_setTemplate($originaPath, 'site');
-          }
-        } else {
-          if ($template) {
-            $html = craft()->templates->render($template->template, $variables);
-          } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/text', $variables);
-            $this->_setTemplate($originaPath, 'site');
-          }
-        }
-      break;
-      case "Checkboxes":
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/checkbox', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "RadioButtons":
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/radio', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "Entries":
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/entries', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "Dropdown":
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/select', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "MultiSelect":
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/multiselect', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "RichText":
-        $variables['requiredJs'] = 'redactor';
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/richtext', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "Lightswitch":
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/lightswitch', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "Color":
-        $variables['value'] = '#000000';
-        $variables['requiredJs'] = 'colorpicker';
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/color', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "Date":
-        $variables['form'] = $this->form;
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/datetime', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "Number":
-        $variables['value'] = craft()->numberFormatter->formatDecimal($attributes['settings']['decimals'], false);
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/number', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "Assets":
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/file', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-      case "Table":
-        if ($template) {
-          $html = craft()->templates->render($template->template, $variables);
-        } else {
-            $this->_setTemplate(null, 'plugin');
-            $html = craft()->templates->render('formbuilder2/templates/inputs/table', $variables);
-            $this->_setTemplate($originaPath, 'site');
-        }
-      break;
-    }
+ //    // Check for Sprout Fields Plugin
+ //    $sproutFieldsPlugin = craft()->plugins->getPlugin('sproutfields', false);
+ //    $sproutFields = false;
+ //    if ($sproutFieldsPlugin && $sproutFieldsPlugin->isInstalled && $sproutFieldsPlugin->isEnabled) {
+ //        $sproutFields = true;
+ //    }
+ //    switch ($theField->type) {
+	//   	// Sprout Fields
+	//   	case "SproutFields_Email":
+	//   		if ($sproutFields) {
+ //                $this->_setTemplate(null, 'plugin');
+ //                $html = craft()->templates->render('formbuilder2/templates/inputs/email', $variables);
+ //                $this->_setTemplate($originaPath, 'site');
+ //            }
+ //        break;
+ //        case "SproutFields_Phone":
+ //            if ($sproutFields) {
+ //                $this->_setTemplate(null, 'plugin');
+ //                $html = craft()->templates->render('formbuilder2/templates/inputs/phone', $variables);
+ //                $this->_setTemplate($originaPath, 'site');
+ //            }
+ //        break;
+ //        case "SproutFields_Link":
+ //            if ($sproutFields) {
+ //                $this->_setTemplate(null, 'plugin');
+ //                $html = craft()->templates->render('formbuilder2/templates/inputs/link', $variables);
+ //                $this->_setTemplate($originaPath, 'site');
+ //            }
+ //      break;
+ //      case "SproutFields_Hidden":
+ //        if ($sproutFields) {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('sproutfields/templates/_integrations/sproutforms/fields/hidden/input', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //        break;
+ //      case "PlainText":
+ //        if ($attributes['settings']['multiline']) {
+ //          if ($template) {
+ //            $html = craft()->templates->render($template->template, $variables);
+ //          } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/textarea', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //          }
+ //        } else {
+ //          if ($template) {
+ //            $html = craft()->templates->render($template->template, $variables);
+ //          } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/text', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //          }
+ //        }
+ //      break;
+ //      case "Checkboxes":
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/checkbox', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "RadioButtons":
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/radio', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "Entries":
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/entries', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "Dropdown":
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/select', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "MultiSelect":
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/multiselect', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "RichText":
+ //        $variables['requiredJs'] = 'redactor';
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/richtext', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "Lightswitch":
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/lightswitch', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "Color":
+ //        $variables['value'] = '#000000';
+ //        $variables['requiredJs'] = 'colorpicker';
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/color', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "Date":
+ //        $variables['form'] = $this->form;
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/datetime', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "Number":
+ //        $variables['value'] = craft()->numberFormatter->formatDecimal($attributes['settings']['decimals'], false);
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/number', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "Assets":
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/file', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //      case "Table":
+ //        if ($template) {
+ //          $html = craft()->templates->render($template->template, $variables);
+ //        } else {
+ //            $this->_setTemplate(null, 'plugin');
+ //            $html = craft()->templates->render('formbuilder2/templates/inputs/table', $variables);
+ //            $this->_setTemplate($originaPath, 'site');
+ //        }
+ //      break;
+ //    }
 
-    return $html;
-  }
+ //    return $html;
+ //  }
 
   
   public function getTermsInputs($form)

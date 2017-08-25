@@ -1,35 +1,39 @@
-{% set timedEnabled = form.spam.timed.enabled is defined ? form.spam.timed.enabled %}
-{% set timedNumber = form.spam.timed.number is defined ? form.spam.timed.number %}
+{% set container = {
+    title: 'Timed' |t,
+    info: null |t,
+    icon: null,
+    class: null,
+    id: null
+} %}
 
-<div class="option-item {% if timedEnabled %}option-enabled{% endif %}"
-    id="option-timed"
-    data-modal="true"
-    data-name="spam[timed][number]"
-    data-modal-title="{{ "Time" |t }}"
-    data-modal-instructions="{{ "Enter how many seconds to wait untill submissions are valid." |t }}"
-    data-input-hint="{{ "NUMBER" |t }}"
-    data-modal-success-message="{{ "Timed Protection Updated." |t }}"
-    data-input-value="{{ timedNumber }}">
-    <span class="option-title">
-        <span class="option-text">{{ "Timed" |t }}</span>
-        <span class="option-result {% if not timedEnabled %}hidden{% endif %}">
-            {% include 'formbuilder2/_includes/icons/clock' ignore missing %}
-            <div class="result-container">
-                {% if timedNumber %}
-                    <code>{{ timedNumber }}</code>
-                    <input type="text" class="form-option-input hidden" name="spam[timed][message]" value="{{ timedNumber }}" />
-                {% endif %}
-            </div>
-        </span>
-    </span>
-    <div class="option-actions">
-        <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
-        {% if timedEnabled %}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
-        {% else %}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
-        {% endif %}
-    </div>
-    
-    <input type="checkbox" value="{{ timedEnabled }}" class="enable-form-option hidden" name="spam[timed][enabled]" {% if timedEnabled %}checked{% endif %}>
-</div>
+{% set inputs = {
+    text: {
+        type: 'text',
+        name: 'spam[timed][number]',
+        value: form.spam.timed.number is defined ? form.spam.timed.number : '',
+        class: 'hidden',
+        id: null,
+        hint: 'NUMBER'
+    },
+    checkbox: {
+        type: 'checkbox',
+        name: 'spam[timed][enabled]',
+        value: 'true',
+        checked: form.spam.timed.enabled is defined and form.spam.timed.enabled == 'true' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Time' |t,
+    instructions: 'Enter how many seconds to wait untill submissions are valid.' |t,
+    successMessage: 'Timed Protection Updated.' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

@@ -37,14 +37,14 @@
         }
 
         .body {
-            margin-top: 30px;
+            margin-top: 15px;
 
             ul {
                 li {
                     font-family: 'Roboto';
-                    font-size: 16px;
+                    font-size: 12px;
                     @include antialias;
-                    padding-bottom: 10px;
+                    padding-bottom: 5px;
                     span {
                         font-weight: bold;
                     }

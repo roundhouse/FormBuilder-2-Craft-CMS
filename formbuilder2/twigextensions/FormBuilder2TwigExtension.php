@@ -6,20 +6,21 @@ use Twig_Filter_Method;
 
 class FormBuilder2TwigExtension extends \Twig_Extension  
 {
-  public function getName() {
-    Craft::t('AddSpace');
-  }
+    public function getName() {
+        Craft::t('AddSpace');
+    }
 
-  public function getFilters() {
-    return array(
-     'addSpace' => new Twig_Filter_Method($this, 'addSpace'),
-     'replaceUnderscoreWithSpace' => new Twig_Filter_Method($this, 'replaceUnderscoreWithSpace'),
-     'checkArray' => new Twig_Filter_Method($this, 'checkArray'),
-     'camelCase' => new Twig_Filter_Method($this, 'camelCase'),
-     'uncamelCase' => new Twig_Filter_Method($this, 'uncamelCase'),
-     'unescape' => new Twig_Filter_Method($this, 'unescape')
-    );
-  }
+    public function getFilters() {
+        return array(
+            'addSpace' => new Twig_Filter_Method($this, 'addSpace'),
+            'replaceUnderscoreWithSpace' => new Twig_Filter_Method($this, 'replaceUnderscoreWithSpace'),
+            'checkArray' => new Twig_Filter_Method($this, 'checkArray'),
+            'camelCase' => new Twig_Filter_Method($this, 'camelCase'),
+            'uncamelCase' => new Twig_Filter_Method($this, 'uncamelCase'),
+            'unescape' => new Twig_Filter_Method($this, 'unescape'),
+            'json_decode' => new Twig_Filter_Method($this, 'json_decode')
+        );
+    }
 
   public function addSpace($string) {
     $addSpace = preg_replace('/(?<!\ )[A-Z]/', ' $0', $string);
@@ -47,13 +48,17 @@ class FormBuilder2TwigExtension extends \Twig_Extension
     return $str;
   }
 
-  public function uncamelCase($str) {
-    $str = preg_replace('/([a-z])([A-Z])/', "\\1_\\2", $str);
-    $str = strtolower($str);
-    return $str;
-  }
+    public function uncamelCase($str) {
+        $str = preg_replace('/([a-z])([A-Z])/', "\\1_\\2", $str);
+        $str = strtolower($str);
+        return $str;
+    }
 
-  public function unescape($str) {
-    return html_entity_decode($str);
-  }
+    public function unescape($str) {
+        return html_entity_decode($str);
+    }
+
+    public function json_decode($json) {
+        return json_decode($json);
+    }
 }

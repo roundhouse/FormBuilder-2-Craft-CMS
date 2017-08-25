@@ -1,0 +1,25 @@
+{%- set type     = field.type|lower %}
+{%- set data     = renderingOptions.data is defined ? renderingOptions.data : null %}
+{%- set id       = renderingOptions.id is defined ? renderingOptions.id : name %}
+{%- set class    = renderingOptions.class is defined ? renderingOptions.class : name %}
+{%- set required = field.required is defined and field.required ? " required" %}
+{%- set name     = name ~ '[]' %}
+
+{%- set dataAttributes = null %}
+{%- for key, dataValue in data %}
+    {%- set dataAttributes = dataAttributes ~ ' data-'~key~'="'~dataValue~'"' %}
+{% endfor -%}
+
+{%- set multiple   = false %}
+{%- if settings.limit is defined and (settings.limit is empty or settings.limit > 1) %}
+    {%- set multiple = true %}
+{%- endif -%}
+
+<input type="file"
+        {%- if id %} id="{{ id }}"{% endif %}
+        {%- if class %} class="{{ class }}"{% endif %}
+        {%- if name %} name="{{ name }}"{% endif %}
+        {%- if multiple %} multiple{% endif %}
+        {{- required -}}
+        {{- dataAttributes|raw -}}
+>

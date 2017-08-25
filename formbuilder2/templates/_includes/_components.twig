@@ -1,0 +1,71 @@
+{% macro text(type, name, value, class, id) %}
+    <input type="{{ type|default('text') }}" name="{{ name }}" value="{{ value|e }}" {% if class %}class="{{ class }}"{% endif %} {% if id %} id="{{ id }}"{% endif %} />
+{% endmacro %}
+
+{% macro textarea(type, name, value, class, id) %}
+    <textarea name="{{ name }}" value="{{ value|e }}" {% if class %}class="{{ class }}"{% endif %} {% if id %} id="{{ id }}"{% endif %}>{{ value|e }}</textarea>
+{% endmacro %}
+
+{% macro checkbox(type, name, value, checked, class, id) %}
+    <input type="{{ type|default('checkbox') }}" name="{{ name }}" value="{{ value|e }}" {% if class %}class="{{ class }}"{% endif %} {% if id %} id="{{ id }}"{% endif %} {% if checked %}checked{% endif %} />
+{% endmacro %}
+
+{% macro select(type, name, value, options, class, id) %}
+    <select name="{{ name }}" {% if class %}class="{{ class }}"{% endif %} {% if id %} id="{{ id }}"{% endif %}>
+        {% for option in options|json_decode() %}
+            <option value="{{ option.value }}" {% if option.value == value %}selected{% endif %}>{{ option.label }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}
+
+{% macro optionItem(container, modal, inputs) %}
+    {% import _self as forms %}
+
+    {% if inputs.checkbox is defined %}
+        {% set input = inputs.checkbox %}
+        {% set enabled = input.checked ? true : false %}
+    {% endif %}
+    
+    <div class="option-item {% if enabled is defined and enabled %}option-enabled {% endif %}{% if container.class %}{{ container.class }}{% endif %}" {% if container.id %}id="{{ container.id }}"{% endif %} data-inputs="{{ inputs |json_encode() }}" data-modal="{{ modal |json_encode() }}">
+        
+        <div class="option-title">
+            <span class="option-text">{{ container.title }} {% if container.info %}<span class="info">{{ container.info }}</span>{% endif %}</span>
+            <span class="option-wrapper">
+                {% if container.icon is defined and container.icon != '' %}
+                    {% include 'formbuilder2/_includes/icons/' ~ container.icon ignore missing %}
+                {% endif %}
+                
+                <span class="option-result">
+                    {% for type, input in inputs %}
+                        {% if type != 'checkbox' %}
+                            {% if input.value != '' and input.hint %}
+                                <code><span>{{ input.hint }}:</span> {{ input.value }}</code>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </span>
+            </span>
+        </div>
+
+        <div class="option-actions">
+            {% if enabled is defined %}
+                {% if modal %}
+                    <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+                {% endif %}
+                {% if enabled %}
+                    <a href="#" class="btns btn-small btn-moss option-toggle" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
+                {% else %}
+                    <a href="#" class="btns btn-small btn-moss option-toggle" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
+                {% endif %}
+            {% else %}
+                <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+            {% endif %}
+        </div>
+
+    </div>
+
+    {% for type, input in inputs %}
+        {{ attribute(forms, type, input) }}
+    {% endfor %}
+
+{% endmacro %}

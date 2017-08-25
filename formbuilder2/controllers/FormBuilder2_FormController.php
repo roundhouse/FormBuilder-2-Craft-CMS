@@ -4,8 +4,6 @@ namespace Craft;
 class FormBuilder2_FormController extends BaseController
 {
 
-    protected $allowAnonymous = true;
-
     private $form;
 
     /**
@@ -58,12 +56,15 @@ class FormBuilder2_FormController extends BaseController
         // Load Redactor Scripts for Rich Text fields
         craft()->templates->includeCssResource('/lib/redactor/redactor.css');
         craft()->templates->includeJsResource('/lib/redactor/redactor.min.js');
+        craft()->templates->includeCssResource('formbuilder2/css/libs/alignment.css');
+        craft()->templates->includeJsResource('formbuilder2/js/libs/alignment.js');
+        craft()->templates->includeJsResource('formbuilder2/js/libs/fontfamily.js');
+        craft()->templates->includeJsResource('formbuilder2/js/libs/fontsize.js');
+        craft()->templates->includeJsResource('formbuilder2/js/libs/fontcolor.js');
 
         $this->renderTemplate('formbuilder2/forms/_edit', $variables);
 
     }
-
-
 
     /**
     * Save New Form
@@ -77,7 +78,7 @@ class FormBuilder2_FormController extends BaseController
         $this->form->name                         = craft()->request->getPost('name');
         $this->form->handle                       = craft()->request->getPost('handle');
         $this->form->fieldLayoutId                = craft()->request->getPost('fieldLayoutId');
-        
+        Craft::dd($_POST);
         if (craft()->request->getPost('options')) {
             $this->_populateFormOptions(craft()->request->getPost('options'));
         }
@@ -311,13 +312,13 @@ class FormBuilder2_FormController extends BaseController
         // $model->setAttribute('spam', $spam);
 
         // Fire After Submission Complete Event
-        Craft::import('plugins.formBuilder2.events.FormBuilder2_OnPrepareFormModelEvent');
-        $event = new FormBuilder2_OnPrepareFormModelEvent(
-            $this, array(
-                'model' => $model
-            )
-        );
-        fb()->onPrepareFormModelEvent($event);
+        // Craft::import('plugins.formBuilder2.events.FormBuilder2_OnPrepareFormModelEvent');
+        // $event = new FormBuilder2_OnPrepareFormModelEvent(
+        //     $this, array(
+        //         'model' => $model
+        //     )
+        // );
+        // fb()->onPrepareFormModelEvent($event);
 
         return $model;
     }

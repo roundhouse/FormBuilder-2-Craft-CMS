@@ -1,4 +1,52 @@
-{% set terms = form.options.terms.enabled is defined ? form.options.terms.enabled %}
+{% set container = {
+    title: 'Terms & Conditions' |t,
+    info: 'his form requires acceptance of terms & conditions.' |t,
+    icon: null,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    text: {
+        type: 'text',
+        name: 'options[terms][label]',
+        value: form.options.terms.label is defined ? form.options.terms.label : '',
+        class: 'hidden',
+        id: null,
+        hint: 'LABEL'
+    },
+    textarea: {
+        type: 'textarea',
+        name: 'options[terms][copy]',
+        value: form.options.terms.copy is defined ? form.options.terms.copy : '',
+        class: 'hidden',
+        id: null,
+        hint: 'TEXT'
+    },
+    checkbox: {
+        type: 'checkbox',
+        name: 'options[terms][enabled]',
+        value: 'true',
+        checked: form.options.terms.enabled is defined and form.options.terms.enabled == 'true' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Terms & Conditions' |t,
+    instructions: 'This form requires acceptance of terms & conditions.' |t,
+    successMessage: 'Terms & Conditions Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}
+
+{# {% set terms = form.options.terms.enabled is defined ? form.options.terms.enabled %}
 {% set termsLabel = form.options.terms.label is defined ? form.options.terms.label %}
 {% set termsCopy = form.options.terms.copy is defined ? form.options.terms.copy %}
 
@@ -43,4 +91,4 @@
     </div>
     
     <input type="checkbox" value="{{ terms }}" class="enable-form-option hidden" name="options[terms][enabled]" {% if terms %}checked{% endif %}>
-</div>
+</div> #}

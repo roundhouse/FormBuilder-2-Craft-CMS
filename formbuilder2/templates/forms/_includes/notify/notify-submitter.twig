@@ -54,7 +54,7 @@
 {% set submitterToEmail = form.notify.admin.toEmail is defined ? form.notify.admin.toEmail %}
 <div class="settings-item"
     id="settings-admin-to-email"
-    data-type="single"
+    data-type="select"
     data-modal="true"
     data-name="notify[admin][toEmail]"
     data-modal-title="{{ "To Email" |t }}"
@@ -127,16 +127,30 @@
     <input type="checkbox" value="{{ submitterCustomSubjectEnabled }}" class="form-settings-input hidden" name="notify[submitter][subject][enabled]" autocomplete="off" {% if submitterCustomSubjectEnabled %}checked {% endif %}>
 </div>
 
-<div class="settings-item">
-    <span class="settings-title">
+{% set templateHandle = form.notify.admin.template is defined ? form.notify.admin.template %}
+<div class="settings-item"
+    id="settings-submitter-from-email"
+    data-type="template"
+    data-modal="true"
+    data-name="notify[submitter][template]"
+    data-modal-title="{{ "Email Template" |t }}"
+    data-modal-instructions="{{ "Select email template to use for notification." |t }}"
+    data-input-hint-one="{{ "TEMPLATE" |t }}"
+    data-input-options="{{ templateOption |json_encode() }}"
+    data-modal-success-message="{{ "Email Template Updated" |t }}"
+    data-input-value="{{ templateHandle }}">
+    <div class="settings-title">
         <div class="settings-title-text">{{ "Body" |t }}</div>
         <div class="settings-result">
-            <code>HTML</code>
+            {% if templateHandle %}
+                <code>Template Handle: {{ templateHandle }}</code>
+                <input type="text" class="form-settings-input hidden" name="notify[submitter][template]" value="{{ templateHandle }}" />
+            {% endif %}
         </div>
-    </span>
-    <span class="settings-action">
-        <a href="#" class="btns btn-link">{{ "Configure" |t }}</a>
-    </span>
+    </div>
+    <div class="settings-action">
+        <a href="#" class="settings-edit" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
+    </div>
 </div>
 
 {% set submitterAttachmentsEnabled = form.notify.submitter.attachments.enabled is defined ? form.notify.submitter.attachments.enabled %}

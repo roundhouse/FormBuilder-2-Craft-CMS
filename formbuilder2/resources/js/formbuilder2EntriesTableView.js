@@ -49,8 +49,8 @@ Craft.FormBuilder2.EntriesTableView = Craft.TableElementIndexView.extend({
             $endDateContainer = $('<div class="datewrapper"></div>').appendTo($dateRange),
             $total = $('<div class="total"></div>').appendTo($chartHeader),
             $totalLabel = $('<div class="total-label light">'+Craft.t('Total Submissions')+'</div>').appendTo($total),
-            $totalValueWrapper = $('<div class="total-value-wrapper"></div>').appendTo($total);
-        $totalValue = $('<span class="total-value">&nbsp;</span>').appendTo($totalValueWrapper);
+            $totalValueWrapper = $('<div class="total-value-wrapper"></div>').appendTo($total),
+            $totalValue = $('<span class="total-value">&nbsp;</span>').appendTo($totalValueWrapper);
 
         this.$chartExplorer = $chartExplorer;
         this.$totalValue = $totalValue;
@@ -170,7 +170,6 @@ Craft.FormBuilder2.EntriesTableView = Craft.TableElementIndexView.extend({
                 var chartDataTable = new Craft.charts.DataTable(response.dataTable);
 
                 var chartSettings = {
-                    localeDefinition: response.localeDefinition,
                     orientation: response.orientation,
                     formats: response.formats,
                     dataScale: response.scale

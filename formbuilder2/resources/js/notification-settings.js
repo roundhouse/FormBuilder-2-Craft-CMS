@@ -130,8 +130,6 @@ if ($ && window.Garnish) {
     updateHtmlFromModal: function() {
       if (this.modal.item.type === 'multiple') {
         return this.updateMultipleHtmlFromModal();
-      } else if (this.modal.item.type === 'attachments') {
-        return this.updateAttachmentsHtmlFromModal();
       } else if (this.modal.item.type === 'select') {
         return this.updateSubjectHtmlFromModal();
       } else if (this.modal.item.type === 'template') {
@@ -163,9 +161,6 @@ if ($ && window.Garnish) {
       }
       this.$settingInput = $($input);
       return this.$settingResultHtml.html($code + $input);
-    },
-    updateAttachmentsHtmlFromModal: function() {
-      return console.log('attachments html');
     },
     updateMultipleHtmlFromModal: function() {
       var $resultHtml, body, index, totalResults;

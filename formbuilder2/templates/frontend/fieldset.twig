@@ -1,0 +1,24 @@
+{%- for tab in tabs -%}
+    <fieldset class="{{ tab.name | camelCase(tab.name) }}">
+
+        {%- set fields = tab.getFields() %}
+
+        {% for field in fields -%}
+            {%- set required    = field.required == '1' ? true : false -%}
+            {%- set field       = field.getField() -%}
+            {%- do field.setAttribute('required', required) -%}
+            
+            {%- if field -%}
+                {% include "field" with {
+                    form:       form,
+                    field:      field,
+                    element:    entry,
+                    required:   required,
+                    options:    options
+                } only %}
+            {%- endif %}
+
+        {% endfor %}
+
+    </fieldset>
+{%- endfor -%}

@@ -6,7 +6,6 @@ class FormBuilder2_ChartsController extends ElementIndexController
     public function actionGetEntriesData()
     {
         $formId = craft()->request->getPost('formId');
-
         $startDateParam = craft()->request->getRequiredPost('startDate');
         $endDateParam = craft()->request->getRequiredPost('endDate');
 
@@ -31,7 +30,7 @@ class FormBuilder2_ChartsController extends ElementIndexController
         }
 
         $dataTable = ChartHelper::getRunChartDataFromQuery($query, $startDate, $endDate,
-            'formbuilder2_entries.dateCreated',
+            'entries.dateCreated',
             [
                 'intervalUnit' => $intervalUnit,
                 'valueLabel' => Craft::t('Submissions'),
@@ -52,8 +51,7 @@ class FormBuilder2_ChartsController extends ElementIndexController
 
             'formats' => ChartHelper::getFormats(),
             'orientation' => craft()->locale->getOrientation(),
-            'scale' => $intervalUnit,
-            'localeDefinition' => [],
+            'scale' => $intervalUnit
         ]);
     }
 }

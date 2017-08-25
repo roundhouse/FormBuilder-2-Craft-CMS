@@ -1,0 +1,58 @@
+{%- set options     = options is defined and options is not empty ? options : {} %}
+{%- set errors      = entry.getErrors()|length ? entry.getErrors() : false %}
+{%- set errorClass  = options.errorClass is defined ? options.errorClass : 'errors' %}
+{%- set id          = options.id is defined ? options.id : form.handle ~ '-form' %}
+{%- set class       = options.class is defined ? options.class : form.handle ~ '-form' -%}
+{%- set settings    = form.options -%}
+{%- set spam        = form.spam -%}
+
+{# Options #}
+{%- set redirect = settings.redirect.enabled is defined and settings.redirect.enabled == 'true' ? true : false -%}
+{%- set honeypot = spam.honeypot.enabled is defined and spam.honeypot.enabled == 'true' ? true : false -%}
+{%- set timed = spam.timed.enabled is defined and spam.timed.enabled == 'true' ? true : false -%}
+
+<form method="post" accept-charset="utf-8" enctype="multipart/form-data" {%- if id %} id="{{ id }}"{% endif -%} {%- if class %} class="{{ class -}}{%- if errors %} {{ errorClass }}{% endif -%}"{% endif -%}>
+    {{ getCsrfInput() }}
+    <input type="hidden" name="action" value="formBuilder2/entry/saveEntry">
+    <input type="hidden" name="formId" value="{{ form.id }}">
+    <input type="hidden" name="redirect" value="{% if redirect %}{{ url(settings.redirect.url) }}{% else %}{{ craft.request.url }}{% endif %}">
+    {% if honeypot %}<div style="display:none;"><label for="email-addresss-new">{{ spam.honeypot.message }}</label><input name="email-address-new" value="" id="email-addresss-new"></div>{% endif %}
+    {% if timed %}<input type="hidden" name="spamTimeMethod" value="{{ 'now'|date('U') }}">{% endif %}
+
+    {# {% if form.extra['termsAndConditions'] is defined and form.extra['termsAndConditions'] %}
+      {{ craft.formBuilder2.getTermsInputs(form) |raw }}
+    {% endif %} #}
+
+    {% hook 'formBuilder2.beforeFieldsHook' %}
+    {{ fieldset | raw }}
+    {% hook 'formBuilder2.afterFieldsHook' %}
+
+    {# <div class="notifications">
+      <p class="notification error-message">{{ craft.session.getFlash('error') | raw }}</p>
+      <p class="notification success-message">{{ craft.session.getFlash('success') | raw }}</p>
+      {% set errors = (errors is defined ? errors : null) %}
+      {% if errors %}
+      <ul class="errors">
+        {% for error in errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div> #}
+
+    {% spaceless %}
+    {% set submitButton = settings.submitButton.enabled is defined and settings.submitButton.enabled == 'true' ? true : false %}
+    <div class="submit-button">
+        <button type="submit">
+            {% if submitButton %}
+                {{ settings.submitButton.text }}
+            {% else %}
+                {{ "Submit Message" |t }}
+            {% endif %}
+        </button>
+    </div>
+    {% endspaceless %}
+</form>
+
+
+

@@ -1,35 +1,39 @@
-{% set honeypotEnabled = form.spam.honeypot.enabled is defined ? form.spam.honeypot.enabled %}
-{% set honeypotMessage = form.spam.honeypot.message is defined ? form.spam.honeypot.message %}
+{% set container = {
+    title: 'Honeypot' |t,
+    info: null |t,
+    icon: null,
+    class: null,
+    id: null
+} %}
 
-<div class="option-item {% if honeypotEnabled %}option-enabled{% endif %}"
-    id="option-honeypot"
-    data-modal="true"
-    data-name="spam[honeypot][message]"
-    data-modal-title="{{ "Honeypot Message" |t }}"
-    data-modal-instructions="{{ "Enter message for screen readers." |t }}"
-    data-input-hint="{{ "TEXT" |t}}"
-    data-modal-success-message="{{ "Honeypot Protection Updated." |t }}"
-    data-input-value="{{ form.spam.honeypot.text is defined ? form.spam.honeypot.text : '' }}">
-    <span class="option-title">
-        <span class="option-text">{{ "Honeypot" |t }}</span>
-        <span class="option-result {% if not honeypotEnabled %}hidden{% endif %}">
-            {% include 'formbuilder2/_includes/icons/honeypot' ignore missing %}
-            <div class="result-container">
-                {% if honeypotMessage %}
-                    <code>{{ honeypotMessage }}</code>
-                    <input type="text" class="form-option-input hidden" name="spam[honeypot][message]" value="{{ honeypotMessage }}" />
-                {% endif %}
-            </div>
-        </span>
-    </span>
-    <div class="option-actions">
-        <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
-        {% if honeypotEnabled %}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
-        {% else %}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
-        {% endif %}
-    </div>
-    
-    <input type="checkbox" value="{{ honeypotEnabled }}" class="enable-form-option hidden" name="spam[honeypot][enabled" {% if honeypotEnabled %}checked{% endif %}>
-</div>
+{% set inputs = {
+    text: {
+        type: 'text',
+        name: 'spam[honeypot][message]',
+        value: form.spam.honeypot.message is defined ? form.spam.honeypot.message : '',
+        class: 'hidden',
+        id: null,
+        hint: 'TEXT'
+    },
+    checkbox: {
+        type: 'checkbox',
+        name: 'spam[honeypot][enabled]',
+        value: 'true',
+        checked: form.spam.honeypot.enabled is defined and form.spam.honeypot.enabled == 'true' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Honeypot Message' |t,
+    instructions: 'Enter message for screen readers.' |t,
+    successMessage: 'Honeypot Protection Updated.' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

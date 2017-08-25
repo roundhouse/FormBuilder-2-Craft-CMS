@@ -33,7 +33,6 @@
         }
     }
 
-
     footer {
         border-top: 1px solid $c-border;
         background-image: none;
@@ -69,6 +68,27 @@
         }
         &:before, &:after {
             display: none;
+        }
+    }
+
+    .tags-container {
+        display: flex;
+        flex-direction: row;
+
+        .tag-btn {
+            border-radius: $border-radius;
+            border: 1px solid $c-border;
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-family: 'Roboto';
+            font-size: 12px;
+            color: $c-textLight;
+            cursor: pointer;
+            transition: all .3s ease;
+            @include antialias;
+            &:hover {
+                background-color: $c-border;
+            }
         }
     }
 
