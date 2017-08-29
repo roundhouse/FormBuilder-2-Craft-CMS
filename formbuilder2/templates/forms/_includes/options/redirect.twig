@@ -2,12 +2,13 @@
     title: 'Custom Redirect' |t,
     info: 'Enter a custom redirect path for successful submissions.' |t,
     icon: null,
+    toggle: true,
     class: null,
     id: null
 } %}
 
 {% set inputs = {
-    text: {
+    0: {
         type: 'text',
         name: 'options[redirect][url]',
         value: form.options.redirect.url is defined ? form.options.redirect.url : '',
@@ -15,7 +16,7 @@
         id: null,
         hint: 'PATH'
     },
-    checkbox: {
+    1: {
         type: 'checkbox',
         name: 'options[redirect][enabled]',
         value: 'true',

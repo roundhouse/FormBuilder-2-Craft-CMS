@@ -2,12 +2,13 @@
     title: 'Save to Database' |t,
     info: 'Should entries be saved to database?' |t,
     icon: null,
+    toggle: true,
     class: 'has-fields',
     id: null
 } %}
 
 {% set inputs = {
-    text: {
+    0: {
         type: 'text',
         name: 'settings[database][titleFormat]',
         value: form.settings.database.titleFormat is defined ? form.settings.database.titleFormat : '',
@@ -16,7 +17,7 @@
         hint: 'FORMAT',
         tags: true
     },
-    checkbox: {
+    1: {
         type: 'checkbox',
         name: 'settings[database][enabled]',
         value: 'true',
@@ -39,42 +40,3 @@
     modal,
     inputs
 ) }}
-
-
-{# {% set saveEntriesEnabled = form.settings.database.enabled is defined ? form.settings.database.enabled %}
-{% set saveEntriesTitleFormat = form.settings.database.titleFormat is defined ? form.settings.database.titleFormat %}
-
-<div class="option-item {% if saveEntriesEnabled %}option-enabled{% endif %}"
-    id="settings-dabase"
-    data-type="titleFormat"
-    data-fields="{{ fieldsOption |json_encode() }}"
-    data-modal="true"
-    data-name="settings[database][titleFormat]"
-    data-modal-title="{{ "Title Format" |t }}"
-    data-modal-instructions="{{ "Enter format for saved entries." |t }}"
-    data-input-hint="{{ "FORMAT" |t }}"
-    data-modal-success-message="{{ "Title Format Updated" |t }}"
-    data-input-value="{{ saveEntriesTitleFormat }}">
-    <span class="option-title">
-        <span class="option-text">{{ "Save to Database" |t }} <span class="info">{{ "Should entries be saved to database?" |t }}</span></span>
-        <span class="option-result {% if not saveEntriesEnabled %}hidden{% endif %}">
-            {% include 'formbuilder2/_includes/icons/comment' ignore missing %}
-            <div class="result-container">
-                {% if saveEntriesTitleFormat %}
-                    <code>{{ saveEntriesTitleFormat }}</code>
-                    <input type="text" class="form-option-input hidden" name="settings[database][titleFormat]" value="{{ saveEntriesTitleFormat }}" />
-                {% endif %}
-            </div>
-        </span>
-    </span>
-    <div class="option-actions">
-        <a href="#" class="option-edit hidden" title="{{ "Edit" |t }}">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
-        {% if saveEntriesEnabled%}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Disable" |t }}</a>
-        {% else %}
-            <a href="#" class="btns btn-small btn-moss toggle-option" title="{{ "Toggle" |t }}">{{ "Enable" |t }}</a>
-        {% endif %}
-    </div>
-    
-    <input type="checkbox" value="{{ saveEntriesEnabled }}" class="enable-form-option hidden" name="settings[database][enabled]" {% if saveEntriesEnabled %}checked{% endif %}>
-</div> #}

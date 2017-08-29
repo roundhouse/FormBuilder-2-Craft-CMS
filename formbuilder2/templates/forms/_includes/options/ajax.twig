@@ -2,12 +2,13 @@
     title: 'AJAX Submission' |t,
     info: 'Should we submit the form via ajax? No page refresh will happen.' |t,
     icon: null,
+    toggle: true,
     class: null,
     id: null
 } %}
 
 {% set inputs = {
-    checkbox: {
+    0: {
         type: 'checkbox',
         name: 'options[ajax][enabled]',
         value: 'true',

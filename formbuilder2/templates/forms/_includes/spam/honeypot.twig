@@ -2,12 +2,13 @@
     title: 'Honeypot' |t,
     info: null |t,
     icon: null,
+    toggle: true,
     class: null,
     id: null
 } %}
 
 {% set inputs = {
-    text: {
+    0: {
         type: 'text',
         name: 'spam[honeypot][message]',
         value: form.spam.honeypot.message is defined ? form.spam.honeypot.message : '',
@@ -15,7 +16,7 @@
         id: null,
         hint: 'TEXT'
     },
-    checkbox: {
+    1: {
         type: 'checkbox',
         name: 'spam[honeypot][enabled]',
         value: 'true',

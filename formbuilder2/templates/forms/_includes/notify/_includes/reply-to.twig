@@ -1,3 +1,11 @@
+{% set name = 'notify[' ~ type ~ '][replyTo]' %}
+
+{% if type == 'admin' %}
+    {% set value = form.notify.admin.replyTo is defined ? form.notify.admin.replyTo : '' %}
+{% else %}
+    {% set value = form.notify.submitter.replyTo is defined ? form.notify.submitter.replyTo : '' %}
+{% endif %}
+
 {% set container = {
     title: 'Reply-To' |t,
     info: null,
@@ -7,10 +15,10 @@
 } %}
 
 {% set inputs = {
-    text: {
+    0: {
         type: 'text',
-        name: 'notify[admin][replyTo]',
-        value: form.notify.admin.replyTo is defined ? form.notify.admin.replyTo : '',
+        name: name,
+        value: value,
         class: 'hidden',
         id: null,
         hint: 'EMAIL'

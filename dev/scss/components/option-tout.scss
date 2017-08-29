@@ -43,6 +43,21 @@
                     span {
                         font-weight: bold;
                     }
+                    *:not(.input-hint) {
+                        display: inline !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: normal !important;
+                    }
+                }
+
+                &.multiple {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    &.has-items {
+                        margin-top: 10px;
+                    }
                 }
             }
         }
@@ -56,13 +71,79 @@
         .option-edit {
             display: inline-block;
             padding: 10px;
-            margin-right: 10px;
             svg {
                 vertical-align: middle;
             }
             &:hover {
                 svg * {
                     fill: $c-info;
+                }
+            }
+        }
+
+        .result-item {
+            position: relative;
+            padding: 10px 15px;
+            border: 1px solid $c-border;
+            margin: 10px 10px 0 0;
+            @include transition(all .3s ease);
+            @include transform-origin(center center);
+
+            &.zap { 
+                @include transform(scale(0));
+            }
+
+            code {
+                display: block;
+                line-height: 1.4;
+            }
+
+            &:hover {
+                .option-result-actions {
+                    opacity: 1;
+                    visibility: visible;
+                }
+                
+            }
+
+            .option-result-actions {
+                opacity: 0;
+                visibility: hidden;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                @include position(absolute, 0 0 0 0);
+                @include size(100%);
+                background-color: rgba(white, .7);
+                transition: opacity .3 ease;
+
+                & > a {
+                    display: flex;
+                    flex: 1;
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+                    transition: all .3s ease;
+                    svg { 
+                        @include size(23px 22px);
+                        margin: auto;
+                        vertical-align: middle;
+                    }
+                    &:hover {
+                        svg * { fill: $c-white; }
+                    }
+                }
+
+                .option-result-edit {
+                    &:hover {
+                        background-color: rgba($c-info, .4);
+                    }
+                }
+
+                .option-result-delete {
+                    &:hover {
+                        background-color: rgba($c-danger, .4);
+                    }
                 }
             }
         }

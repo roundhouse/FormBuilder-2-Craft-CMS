@@ -37,7 +37,9 @@
     {% set fieldsOption = [{label: 'Select Field', value: ''}] %}
     {% for field in availableFields %}
         {% set fieldItem = field.getField(field) %}
-        {% set fieldsOption = fieldsOption|merge([{ label: fieldItem.name, value: fieldItem.handle }]) %}
+        {% if fieldItem.type == 'PlainText' %}
+            {% set fieldsOption = fieldsOption|merge([{ label: fieldItem.name, value: fieldItem.handle }]) %}
+        {% endif %}
     {% endfor %}
 
     {% set errors = form.getErrors() %}
@@ -83,10 +85,7 @@
                     {% include 'formbuilder2/forms/_includes/options/submit-button' ignore missing %}
                     {% include 'formbuilder2/forms/_includes/options/redirect' ignore missing %}
                     {% include 'formbuilder2/forms/_includes/options/ajax' ignore missing %}
-                    {# {% include 'formbuilder2/forms/_includes/options/file-uploads' ignore missing %} #}
                     {% include 'formbuilder2/forms/_includes/options/terms-conditions' ignore missing %}
-                    {# {% include 'formbuilder2/forms/_includes/options/scripts' ignore missing %} #}
-                    {# {% include 'formbuilder2/forms/_includes/options/custom-subject' ignore missing %} #}
                 </div>
             </section>
             
@@ -119,17 +118,12 @@
 {% includeJsResource "formbuilder2/js/option.js" %}
 {% includeJsResource "formbuilder2/js/modal.js" %}
 {% includeJsResource "formbuilder2/js/fields.js" %}
-{# {% includeJsResource "formbuilder2/js/form-options.js" %} #}
-{# {% includeJsResource "formbuilder2/js/notification-settings.js" %} #}
+{% includeJsResource "formbuilder2/js/tags.js" %}
 
 {% includejs %}
     $('.section-collapsible').each(function(i,el){
         new FormBuilderSection(el);
     });
-
-    // $('.settings-item').each(function(i,el){
-    //     new NotificationSettingsItem(el);
-    // });
 
     {% if not form.handle %}new Craft.HandleGenerator('#formName', '#formHandle');{% endif %}
 {% endincludejs %}

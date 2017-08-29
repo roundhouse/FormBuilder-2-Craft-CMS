@@ -2,12 +2,13 @@
     title: 'Submit Button' |t,
     info: 'Enter a custom submit button text.' |t,
     icon: null,
+    toggle: true,
     class: null,
     id: null
 } %}
 
 {% set inputs = {
-    text: {
+    0: {
         type: 'text',
         name: 'options[submitButton][text]',
         value: form.options.submitButton.text is defined ? form.options.submitButton.text : '',
@@ -15,7 +16,7 @@
         id: null,
         hint: 'TEXT'
     },
-    checkbox: {
+    1: {
         type: 'checkbox',
         name: 'options[submitButton][enabled]',
         value: 'true',

@@ -1,3 +1,11 @@
+{% set name = 'notify[' ~ type ~ '][template]' %}
+
+{% if type == 'admin' %}
+    {% set value = form.notify.admin.template is defined ? form.notify.admin.template : '' %}
+{% else %}
+    {% set value = form.notify.submitter.template is defined ? form.notify.submitter.template : '' %}
+{% endif %}
+
 {% set container = {
     title: 'Email Template' |t,
     info: null,
@@ -7,10 +15,10 @@
 } %}
 
 {% set inputs = {
-    select: {
+    0: {
         type: 'select',
-        name: 'notify[admin][template]',
-        value: form.notify.admin.template is defined ? form.notify.admin.template : '',
+        name: name,
+        value: value,
         options: templateOption |json_encode(),
         class: 'hidden',
         id: null,

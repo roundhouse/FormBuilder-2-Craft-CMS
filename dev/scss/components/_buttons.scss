@@ -47,9 +47,9 @@
         }
 
         &.btn-add {
-            background-color: $c-success;
+            background-color: lighten($c-moss, 35);
             &:hover {
-                background-color: darken($c-success, 5);
+                background-color: $c-moss;
                 svg * {
                     fill: $c-white !important;
                 }

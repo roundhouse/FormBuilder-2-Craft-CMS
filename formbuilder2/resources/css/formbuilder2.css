@@ -754,9 +754,9 @@
     .formbuilder .btns.btn-white:hover {
       background-color: #E9EFF4; }
   .formbuilder .btns.btn-add {
-    background-color: #a6e50f; }
+    background-color: #c8d2d8; }
     .formbuilder .btns.btn-add:hover {
-      background-color: #95cd0d; }
+      background-color: #637c8a; }
       .formbuilder .btns.btn-add:hover svg * {
         fill: #ffffff !important; }
   .formbuilder .btns.btn-link {
@@ -1377,96 +1377,6 @@ table.formbuilder-table .icon.move:before {
       margin-left: auto; }
   .notification-fields .body, .message-fields .body, .plugin-settings-fields .body {
     padding: 0; }
-  .notification-fields .settings-item, .message-fields .settings-item, .plugin-settings-fields .settings-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-bottom: 1px solid #E9EFF4;
-    padding: 10px 20px; }
-    .notification-fields .settings-item:last-child, .message-fields .settings-item:last-child, .plugin-settings-fields .settings-item:last-child {
-      border-bottom: none; }
-    .notification-fields .settings-item .settings-title, .message-fields .settings-item .settings-title, .plugin-settings-fields .settings-item .settings-title {
-      font-family: 'Roboto';
-      font-weight: 500;
-      color: #595D66; }
-      .notification-fields .settings-item .settings-title .settings-result, .message-fields .settings-item .settings-title .settings-result, .plugin-settings-fields .settings-item .settings-title .settings-result {
-        font-size: 10px; }
-    .notification-fields .settings-item .settings-result.multiple, .message-fields .settings-item .settings-result.multiple, .plugin-settings-fields .settings-item .settings-result.multiple {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap; }
-      .notification-fields .settings-item .settings-result.multiple.has-items, .message-fields .settings-item .settings-result.multiple.has-items, .plugin-settings-fields .settings-item .settings-result.multiple.has-items {
-        margin-top: 10px; }
-    .notification-fields .settings-item .result-item, .message-fields .settings-item .result-item, .plugin-settings-fields .settings-item .result-item {
-      position: relative;
-      padding: 10px 15px;
-      border: 1px solid #E9EFF4;
-      margin: 10px 10px 0 0;
-      -webkit-transition: all 0.3s ease;
-      -moz-transition: all 0.3s ease;
-      transition: all 0.3s ease;
-      -webkit-transform-origin: center center;
-      -moz-transform-origin: center center;
-      -ms-transform-origin: center center;
-      -o-transform-origin: center center;
-      transform-origin: center center; }
-      .notification-fields .settings-item .result-item.zap, .message-fields .settings-item .result-item.zap, .plugin-settings-fields .settings-item .result-item.zap {
-        -webkit-transform: scale(0);
-        -moz-transform: scale(0);
-        -ms-transform: scale(0);
-        -o-transform: scale(0);
-        transform: scale(0); }
-      .notification-fields .settings-item .result-item code, .message-fields .settings-item .result-item code, .plugin-settings-fields .settings-item .result-item code {
-        display: block;
-        line-height: 1.4; }
-      .notification-fields .settings-item .result-item:hover .settings-result-actions, .message-fields .settings-item .result-item:hover .settings-result-actions, .plugin-settings-fields .settings-item .result-item:hover .settings-result-actions {
-        opacity: 1;
-        visibility: visible; }
-      .notification-fields .settings-item .result-item .settings-result-actions, .message-fields .settings-item .result-item .settings-result-actions, .plugin-settings-fields .settings-item .result-item .settings-result-actions {
-        opacity: 0;
-        visibility: hidden;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0.7);
-        transition: opacity .3 ease; }
-        .notification-fields .settings-item .result-item .settings-result-actions > a, .message-fields .settings-item .result-item .settings-result-actions > a, .plugin-settings-fields .settings-item .result-item .settings-result-actions > a {
-          display: flex;
-          flex: 1;
-          width: 100%;
-          height: 100%;
-          text-align: center;
-          transition: all .3s ease; }
-          .notification-fields .settings-item .result-item .settings-result-actions > a svg, .message-fields .settings-item .result-item .settings-result-actions > a svg, .plugin-settings-fields .settings-item .result-item .settings-result-actions > a svg {
-            margin: auto;
-            vertical-align: middle; }
-          .notification-fields .settings-item .result-item .settings-result-actions > a:hover svg *, .message-fields .settings-item .result-item .settings-result-actions > a:hover svg *, .plugin-settings-fields .settings-item .result-item .settings-result-actions > a:hover svg * {
-            fill: #ffffff; }
-        .notification-fields .settings-item .result-item .settings-result-actions .settings-result-edit:hover, .message-fields .settings-item .result-item .settings-result-actions .settings-result-edit:hover, .plugin-settings-fields .settings-item .result-item .settings-result-actions .settings-result-edit:hover {
-          background-color: rgba(77, 161, 255, 0.4); }
-        .notification-fields .settings-item .result-item .settings-result-actions .settings-result-delete:hover, .message-fields .settings-item .result-item .settings-result-actions .settings-result-delete:hover, .plugin-settings-fields .settings-item .result-item .settings-result-actions .settings-result-delete:hover {
-          background-color: rgba(255, 109, 74, 0.4); }
-    .notification-fields .settings-item .settings-action, .message-fields .settings-item .settings-action, .plugin-settings-fields .settings-item .settings-action {
-      display: flex;
-      flex-direction: row;
-      margin-left: auto; }
-      .notification-fields .settings-item .settings-action .toggle-settings, .message-fields .settings-item .settings-action .toggle-settings, .plugin-settings-fields .settings-item .settings-action .toggle-settings {
-        background-color: #c8d2d8; }
-      .notification-fields .settings-item .settings-action .settings-edit, .message-fields .settings-item .settings-action .settings-edit, .plugin-settings-fields .settings-item .settings-action .settings-edit {
-        display: flex;
-        align-items: center;
-        padding: 9px; }
-        .notification-fields .settings-item .settings-action .settings-edit:hover svg *, .message-fields .settings-item .settings-action .settings-edit:hover svg *, .plugin-settings-fields .settings-item .settings-action .settings-edit:hover svg * {
-          fill: #4da1ff; }
-    .notification-fields .settings-item.settings-enabled .settings-action .toggle-settings, .message-fields .settings-item.settings-enabled .settings-action .toggle-settings, .plugin-settings-fields .settings-item.settings-enabled .settings-action .toggle-settings {
-      background-color: #a6e50f; }
 
 .formbuilder .option-item {
   display: flex;
@@ -1495,18 +1405,86 @@ table.formbuilder-table .icon.move:before {
       padding-top: 5px; }
       .formbuilder .option-item .option-wrapper .option-result code span {
         font-weight: bold; }
+      .formbuilder .option-item .option-wrapper .option-result code *:not(.input-hint) {
+        display: inline !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: normal !important; }
+    .formbuilder .option-item .option-wrapper .option-result.multiple {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap; }
+      .formbuilder .option-item .option-wrapper .option-result.multiple.has-items {
+        margin-top: 10px; }
   .formbuilder .option-item .option-actions {
     display: flex;
     flex-direction: row;
     margin-left: auto; }
   .formbuilder .option-item .option-edit {
     display: inline-block;
-    padding: 10px;
-    margin-right: 10px; }
+    padding: 10px; }
     .formbuilder .option-item .option-edit svg {
       vertical-align: middle; }
     .formbuilder .option-item .option-edit:hover svg * {
       fill: #4da1ff; }
+  .formbuilder .option-item .result-item {
+    position: relative;
+    padding: 10px 15px;
+    border: 1px solid #E9EFF4;
+    margin: 10px 10px 0 0;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    -webkit-transform-origin: center center;
+    -moz-transform-origin: center center;
+    -ms-transform-origin: center center;
+    -o-transform-origin: center center;
+    transform-origin: center center; }
+    .formbuilder .option-item .result-item.zap {
+      -webkit-transform: scale(0);
+      -moz-transform: scale(0);
+      -ms-transform: scale(0);
+      -o-transform: scale(0);
+      transform: scale(0); }
+    .formbuilder .option-item .result-item code {
+      display: block;
+      line-height: 1.4; }
+    .formbuilder .option-item .result-item:hover .option-result-actions {
+      opacity: 1;
+      visibility: visible; }
+    .formbuilder .option-item .result-item .option-result-actions {
+      opacity: 0;
+      visibility: hidden;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.7);
+      transition: opacity .3 ease; }
+      .formbuilder .option-item .result-item .option-result-actions > a {
+        display: flex;
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: all .3s ease; }
+        .formbuilder .option-item .result-item .option-result-actions > a svg {
+          height: 22px;
+          width: 23px;
+          margin: auto;
+          vertical-align: middle; }
+        .formbuilder .option-item .result-item .option-result-actions > a:hover svg * {
+          fill: #ffffff; }
+      .formbuilder .option-item .result-item .option-result-actions .option-result-edit:hover {
+        background-color: rgba(77, 161, 255, 0.4); }
+      .formbuilder .option-item .result-item .option-result-actions .option-result-delete:hover {
+        background-color: rgba(255, 109, 74, 0.4); }
   .formbuilder .option-item .option-toggle {
     background-color: #c8d2d8; }
   .formbuilder .option-item.option-enabled .option-actions .btns {

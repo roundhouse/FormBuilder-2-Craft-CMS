@@ -6,6 +6,9 @@ if ($ && window.Garnish) {
     $form: null,
     $modalInputs: null,
     $redactor: null,
+    $validationItems: [],
+    errors: [],
+    errorLength: 0,
     init: function(option) {
       var body, fields, self;
       self = this;
@@ -15,17 +18,24 @@ if ($ && window.Garnish) {
       this.setContainer(this.$form);
       body = $(['<header>', '<span class="modal-title">', option.$data.title, '</span>', '<div class="instructions">', option.$data.instructions, '</div>', '</header>', '<div class="body"></div>', '<footer class="footer">', '<div class="buttons">', '<input type="button" class="btns btn-modal cancel" value="' + Craft.t('Cancel') + '">', '<input type="submit" class="btns btn-modal submit" value="' + Craft.t('Save') + '">', '</div>', '</footer>'].join('')).appendTo(this.$form);
       $.each(option.$inputs, function(i, item) {
-        var $input, className;
+        var $input, camelClassName, className, validation;
         if (item.type !== 'checkbox') {
           className = item.name.replace(/[_\W]+/g, "-").slice(0, -1);
-          if (item.type === 'text') {
-            $input = "<input type='" + item.type + "' class='" + className + "' value='" + item.value + "' data-hint='" + item.hint + "' data-name='" + item.name + "' />";
+          camelClassName = className.replace(/-([a-z])/g, function(g) {
+            return g[1].toUpperCase();
+          });
+          if (item.validation) {
+            validation = item.validation;
+            validation['passed'] = false;
+            validation['inputClass'] = className;
+            self.$validationItems[i] = item;
           }
           if (item.type === 'textarea') {
             $input = "<textarea class='" + className + "' value='" + item.value + "' data-hint='" + item.hint + "' data-name='" + item.name + "' /></textarea>";
-          }
-          if (item.type === 'select') {
+          } else if (item.type === 'select') {
             $input = $.parseJSON(item.options);
+          } else {
+            $input = "<input type='" + item.type + "' class='" + className + "' value='" + item.value + "' data-hint='" + item.hint + "' data-name='" + item.name + "' />";
           }
           return self.renderInputs($input, item.value, item.type, item.name, item.hint, className);
         }
@@ -124,26 +134,73 @@ if ($ && window.Garnish) {
       this.trigger('hide');
       return this.settings.onHide();
     },
-    save: function(e) {
-      var errors;
+    runValidation: function(e) {
+      var self;
       e.preventDefault();
-      errors = [];
-      $.each(this.$modalInputs, function(i, item) {
+      self = this;
+      console.log(this.$validationItems);
+      if (this.$validationItems) {
+        return $.each(this.$validationItems, function(i, item) {
+          var input;
+          input = self.$form.find("." + item.validation.inputClass);
+          if (input.val().match(/^\d+$/)) {
+            return item.validation.passed = true;
+          } else {
+            item.validation.passed = false;
+            return Craft.cp.displayNotice(item.validation.errorMessage);
+          }
+        });
+      } else {
+        return this.save();
+      }
+    },
+    save: function(e) {
+      var self;
+      e.preventDefault();
+      self = this;
+      if (this.option.$container.hasClass('tags')) {
+        this.checkErrors();
+        if (this.errors.length > 0) {
+          $.each(self.errors, function(i, item) {
+            return $(item).parent().addClass('error');
+          });
+          return Garnish.shake(this.$container);
+        } else {
+          return this.updateOption();
+        }
+      } else {
+        this.checkErrors();
+        if (this.errorLength === this.$modalInputs.length) {
+          $.each(self.errors, function(i, item) {
+            if ($(item).is('select')) {
+              return $(item).parent().parent().addClass('error');
+            } else {
+              return $(item).parent().addClass('error');
+            }
+          });
+          return Garnish.shake(this.$container);
+        } else {
+          return this.updateOption();
+        }
+      }
+    },
+    checkErrors: function() {
+      var self;
+      self = this;
+      this.errors = [];
+      this.errorLength = 0;
+      return $.each(this.$modalInputs, function(i, item) {
         if ($(item).val() === '') {
-          return errors[i] = item;
+          self.errors[i] = item;
+          return self.errorLength += 1;
         }
       });
-      if (errors.length > 0) {
-        $.each(errors, function(i, item) {
-          return $(item).parent().addClass('error');
-        });
-        return Garnish.shake(this.$container);
-      } else {
-        this.option.updateHtmlFromModal();
-        this.closeModal();
-        this.$form[0].reset();
-        return Craft.cp.displayNotice(this.option.$data.successMessage);
-      }
+    },
+    updateOption: function() {
+      this.option.updateHtmlFromModal();
+      this.closeModal();
+      this.$form[0].reset();
+      return Craft.cp.displayNotice(this.option.$data.successMessage);
     }
   });
 }

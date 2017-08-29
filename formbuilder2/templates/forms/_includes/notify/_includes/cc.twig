@@ -1,0 +1,48 @@
+{% set name = 'notify['~ type ~'][cc]' %}
+
+{% if type == 'admin' %}
+    {% set values = form.notify.admin.cc is defined ? form.notify.admin.cc %}
+{% else %}
+    {% set values = form.notify.submitter.cc is defined ? form.notify.submitter.cc %}
+{% endif %}
+
+{% set container = {
+    title: 'CC' |t,
+    info: null,
+    icon: null,
+    class: 'tags',
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: name,
+        value: '',
+        class: 'hidden',
+        id: null,
+        hint: 'KEY'
+    },
+    1: {
+        type: 'text',
+        name: name,
+        value: '',
+        class: 'hidden',
+        id: null,
+        hint: 'VALUE'
+    }
+} %}
+
+{% set modal = {
+    title: 'CC' |t,
+    instructions: 'The recipients that should be CC’d on the email. Each element of this array should be a nested array containing the keys "name" and "email".' |t,
+    successMessage: 'CC Email Added' |t,
+    inputs: inputs
+} %}
+
+{{ components.repeaterItem(
+    container,
+    modal,
+    inputs,
+    values
+) }}

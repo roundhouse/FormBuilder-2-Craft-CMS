@@ -2,20 +2,26 @@
     title: 'Timed' |t,
     info: null |t,
     icon: null,
+    toggle: true,
     class: null,
     id: null
 } %}
 
 {% set inputs = {
-    text: {
+    0: {
         type: 'text',
         name: 'spam[timed][number]',
         value: form.spam.timed.number is defined ? form.spam.timed.number : '',
         class: 'hidden',
         id: null,
-        hint: 'NUMBER'
+        hint: 'NUMBER',
+        validation: {
+            type: 'number',
+            length: 5,
+            errorMessage: 'Only numbers allowed.' |t
+        }
     },
-    checkbox: {
+    1: {
         type: 'checkbox',
         name: 'spam[timed][enabled]',
         value: 'true',

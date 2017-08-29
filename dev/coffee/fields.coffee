@@ -22,6 +22,9 @@ if $ and window.Garnish
             $.each $.parseJSON(@$container.$fields), (i, item) ->
                 tags[i] = "<div class='tag-btn tag-#{item.value}' data-tag='{#{item.value}}'>#{item.label}</div>"
             tags.push("<div class='tag-btn tag-date' data-tag='{date}'>Date</div>")
+            tags.splice(0, 1)
+
+            console.log tags
             @$tagContainer.html tags
 
             $.each @$container.$inputs, (i, item) ->

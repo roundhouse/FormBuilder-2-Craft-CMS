@@ -1,3 +1,11 @@
+{% set name = 'notify[' ~ type ~ '][fromEmail]' %}
+
+{% if type == 'admin' %}
+    {% set value = form.notify.admin.fromEmail is defined ? form.notify.admin.fromEmail : '' %}
+{% else %}
+    {% set value = form.notify.submitter.fromEmail is defined ? form.notify.submitter.fromEmail : '' %}
+{% endif %}
+
 {% set container = {
     title: 'From Email' |t,
     info: null,
@@ -7,10 +15,10 @@
 } %}
 
 {% set inputs = {
-    text: {
+    0: {
         type: 'text',
-        name: 'notify[admin][fromEmail]',
-        value: form.notify.admin.fromEmail is defined ? form.notify.admin.fromEmail : '',
+        name: name,
+        value: value,
         class: 'hidden',
         id: null,
         hint: 'EMAIL'

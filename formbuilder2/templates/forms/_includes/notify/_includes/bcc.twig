@@ -1,0 +1,48 @@
+{% set name = 'notify['~ type ~'][bcc]' %}
+
+{% if type == 'admin' %}
+    {% set values = form.notify.admin.bcc is defined ? form.notify.admin.bcc %}
+{% else %}
+    {% set values = form.notify.submitter.bcc is defined ? form.notify.submitter.bcc %}
+{% endif %}
+
+{% set container = {
+    title: 'BCC' |t,
+    info: null,
+    icon: null,
+    class: 'tags',
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: name,
+        value: '',
+        class: 'hidden',
+        id: null,
+        hint: 'KEY'
+    },
+    1: {
+        type: 'text',
+        name: name,
+        value: '',
+        class: 'hidden',
+        id: null,
+        hint: 'VALUE'
+    }
+} %}
+
+{% set modal = {
+    title: 'BCC' |t,
+    instructions: 'The recipients that should be BCC’d on the email. Each element of this array should be a nested array containing the keys "name" and "email".' |t,
+    successMessage: 'BCC Email Added' |t,
+    inputs: inputs
+} %}
+
+{{ components.repeaterItem(
+    container,
+    modal,
+    inputs,
+    values
+) }}

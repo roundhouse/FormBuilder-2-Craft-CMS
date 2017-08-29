@@ -1,0 +1,35 @@
+{% set enabledName = 'notify[' ~ type ~ '][attachments][enabled]' %}
+
+{% if type == 'admin' %}
+    {% set enabled = form.notify.admin.attachments.enabled is defined and form.notify.admin.attachments.enabled == 'true' ? true : false %}
+{% else %}
+    {% set enabled = form.notify.submitter.attachments.enabled is defined and form.notify.submitter.attachments.enabled == 'true' ? true : false %}
+{% endif %}
+
+{% set container = {
+    title: 'Attachments' |t,
+    info: null,
+    icon: null,
+    toggle: true,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'checkbox',
+        name: enabledName,
+        value: 'true',
+        checked: enabled,
+        class: 'hidden',
+        id: null
+    }
+} %}
+
+{% set modal = null %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

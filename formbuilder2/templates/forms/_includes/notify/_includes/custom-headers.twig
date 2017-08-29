@@ -1,0 +1,48 @@
+{% set name = 'notify['~ type ~'][headers]' %}
+
+{% if type == 'admin' %}
+    {% set values = form.notify.admin.headers is defined ? form.notify.admin.headers %}
+{% else %}
+    {% set values = form.notify.submitter.headers is defined ? form.notify.submitter.headers %}
+{% endif %}
+
+{% set container = {
+    title: 'Custom Headers' |t,
+    info: null,
+    icon: null,
+    class: 'tags',
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: name,
+        value: '',
+        class: 'hidden',
+        id: null,
+        hint: 'KEY'
+    },
+    1: {
+        type: 'text',
+        name: name,
+        value: '',
+        class: 'hidden',
+        id: null,
+        hint: 'VALUE'
+    }
+} %}
+
+{% set modal = {
+    title: 'Custom Headers' |t,
+    instructions: 'Any custom headers that should be included in the email. The keys of the array should identify the header names, and their values, well, take a guess.' |t,
+    successMessage: 'Custom Header Added' |t,
+    inputs: inputs
+} %}
+
+{{ components.repeaterItem(
+    container,
+    modal,
+    inputs,
+    values
+) }}

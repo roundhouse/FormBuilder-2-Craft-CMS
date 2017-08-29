@@ -6,6 +6,11 @@ if $ and window.Garnish
         $modalInputs: null
         $redactor: null
 
+        $validationItems: []
+
+        errors: []
+        errorLength: 0
+
         init: (option) ->
             self = @
             @option = option
@@ -30,17 +35,24 @@ if $ and window.Garnish
                 '</footer>'
             ].join('')).appendTo(@$form)
 
-            # $inputs = []
             $.each option.$inputs, (i, item) ->
                 if item.type != 'checkbox'
                     className = item.name.replace(/[_\W]+/g, "-").slice(0, -1)
-                    if item.type == 'text'
-                        $input = "<input type='#{item.type}' class='#{className}' value='#{item.value}' data-hint='#{item.hint}' data-name='#{item.name}' />"
+                    camelClassName = className.replace /-([a-z])/g, (g) ->
+                                        g[1].toUpperCase()
+                    if item.validation
+                        validation = item.validation
+                        validation['passed'] = false
+                        validation['inputClass'] = className
+                        self.$validationItems[i] = item
+
                     if item.type == 'textarea'
                         $input = "<textarea class='#{className}' value='#{item.value}' data-hint='#{item.hint}' data-name='#{item.name}' /></textarea>"
-                    if item.type == 'select'
+                    else if item.type == 'select'
                         $input = $.parseJSON(item.options)
-                    
+                    else
+                        $input = "<input type='#{item.type}' class='#{className}' value='#{item.value}' data-hint='#{item.hint}' data-name='#{item.name}' />"
+
                     self.renderInputs($input, item.value, item.type, item.name, item.hint, className)
 
             # Load Fields
@@ -136,22 +148,60 @@ if $ and window.Garnish
             @trigger 'hide'
             @settings.onHide()
 
+        runValidation: (e) ->
+            e.preventDefault()
+            self = @
+            console.log @$validationItems
+            if @$validationItems
+                $.each @$validationItems, (i, item) ->
+                    input = self.$form.find(".#{item.validation.inputClass}")
+                    if input.val().match(/^\d+$/)
+                        item.validation.passed = true
+                    else
+                        item.validation.passed = false
+                        Craft.cp.displayNotice(item.validation.errorMessage)
+            else
+                @save()
+
         save: (e) ->
             e.preventDefault()
-            errors = []
-            
+            self = @
+
+            if @option.$container.hasClass 'tags'
+                @checkErrors()
+
+                if @errors.length > 0
+                    $.each self.errors, (i, item) ->
+                        $(item).parent().addClass 'error'
+                    Garnish.shake(@$container)
+                else
+                    @updateOption()
+            else 
+                @checkErrors()
+                if @errorLength == @$modalInputs.length
+                    $.each self.errors, (i, item) ->
+                        if $(item).is('select')
+                            $(item).parent().parent().addClass 'error'
+                        else    
+                            $(item).parent().addClass 'error'
+                    Garnish.shake(@$container)
+                else
+                    @updateOption()
+
+        checkErrors: ->
+            self = @
+            @errors = []
+            @errorLength = 0
             $.each @$modalInputs, (i, item) ->
                 if $(item).val() == ''
-                    errors[i] = item
+                    self.errors[i] = item
+                    self.errorLength += 1
 
-            if errors.length > 0
-                $.each errors, (i, item) ->
-                    $(item).parent().addClass 'error'
-                Garnish.shake(@$container)
-            else
-                @option.updateHtmlFromModal()
-                @closeModal()
-                @$form[0].reset()
-                Craft.cp.displayNotice(@option.$data.successMessage)
+        updateOption: ->
+            @option.updateHtmlFromModal()
+            @closeModal()
+            @$form[0].reset()
+            Craft.cp.displayNotice(@option.$data.successMessage)
+            
 
     )

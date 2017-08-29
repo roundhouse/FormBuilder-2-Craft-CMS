@@ -1,0 +1,63 @@
+{% set enabledName = 'notify[' ~ type ~ '][subject][enabled]' %}
+{% set textName = 'notify[' ~ type ~ '][subject][text]' %}
+{% set selectName = 'notify[' ~ type ~ '][subject][fieldHandle]' %}
+
+{% if type == 'admin' %}
+    {% set enabled = form.notify.admin.subject.enabled is defined and form.notify.admin.subject.enabled == 'true' ? true : false %}
+    {% set textValue = form.notify.admin.subject.text is defined ? form.notify.admin.subject.text : '' %}
+    {% set selectValue = form.notify.admin.subject.fieldHandle is defined ? form.notify.admin.subject.fieldHandle : '' %}
+{% else %}
+    {% set enabled = form.notify.submitter.subject.enabled is defined and form.notify.submitter.subject.enabled == 'true' ? true : false %}
+    {% set textValue = form.notify.submitter.subject.text is defined ? form.notify.submitter.subject.text : '' %}
+    {% set selectValue = form.notify.submitter.subject.fieldHandle is defined ? form.notify.submitter.subject.fieldHandle : '' %}
+{% endif %}
+
+{% set container = {
+    title: 'Subject' |t,
+    info: null,
+    icon: null,
+    toggle: true,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: textName,
+        value: textValue,
+        class: 'hidden',
+        id: null,
+        hint: 'TEXT'
+    },
+    1: {
+        type: 'select',
+        name: selectName,
+        value: selectValue,
+        options: fieldsOption |json_encode(),
+        class: 'hidden',
+        id: null,
+        hint: 'FIELD'
+    },
+    2: {
+        type: 'checkbox',
+        name: enabledName,
+        value: 'true',
+        checked: enabled,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Custom Subject' |t,
+    instructions: 'Enter custom subject line or select a field that will be used for the custom subject line.' |t,
+    successMessage: 'Custom Subject Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

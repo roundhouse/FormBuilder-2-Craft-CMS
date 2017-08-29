@@ -2,12 +2,13 @@
     title: 'Terms & Conditions' |t,
     info: 'his form requires acceptance of terms & conditions.' |t,
     icon: null,
+    toggle: true,
     class: null,
     id: null
 } %}
 
 {% set inputs = {
-    text: {
+    0: {
         type: 'text',
         name: 'options[terms][label]',
         value: form.options.terms.label is defined ? form.options.terms.label : '',
@@ -15,7 +16,7 @@
         id: null,
         hint: 'LABEL'
     },
-    textarea: {
+    1: {
         type: 'textarea',
         name: 'options[terms][copy]',
         value: form.options.terms.copy is defined ? form.options.terms.copy : '',
@@ -23,7 +24,7 @@
         id: null,
         hint: 'TEXT'
     },
-    checkbox: {
+    2: {
         type: 'checkbox',
         name: 'options[terms][enabled]',
         value: 'true',

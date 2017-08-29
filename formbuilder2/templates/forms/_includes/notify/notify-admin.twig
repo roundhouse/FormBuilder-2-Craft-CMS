@@ -1,111 +1,12 @@
 <input type="checkbox" value="{{ adminNotificationEnabled }}" class="enable-notification-section hidden" name="notify[admin][enabled]" {% if adminNotificationEnabled %}checked {% endif %}>
 
-{% include 'formbuilder2/forms/_includes/notify/admin/from-email' ignore missing %}
-{% include 'formbuilder2/forms/_includes/notify/admin/from-name' ignore missing %}
-{% include 'formbuilder2/forms/_includes/notify/admin/to-email' ignore missing %}
-{% include 'formbuilder2/forms/_includes/notify/admin/reply-to' ignore missing %}
-{% include 'formbuilder2/forms/_includes/notify/admin/subject' ignore missing %}
-{% include 'formbuilder2/forms/_includes/notify/admin/template' ignore missing %}
-{% include 'formbuilder2/forms/_includes/notify/admin/attachments' ignore missing %}
-
-
-
-
-{% set adminCc = form.notify.admin.cc is defined ? form.notify.admin.cc %}
-<div class="settings-item select-input"
-    id="settings-admin-cc"
-    data-type="multiple"
-    data-name="notify[admin][cc]"
-    data-modal="true"
-    data-modal-title="{{ "CC" |t }}"
-    data-modal-instructions="{{ "The recipients that should be CC’d on the email. Each element of this array should be a nested array containing the keys 'name' and 'email'." |t }}"
-    data-input-hint-one="{{ "NAME" |t }}"
-    data-input-hint-two="{{ "EMAIL" |t }}"
-    data-modal-success-message="{{ "CC Email Added" |t }}">
-    <div class="settings-title">
-        <div class="settings-title-text">{{ "CC" |t }}</div>
-        <div class="settings-result multiple">
-        {% for cc in adminCc %}
-            <div class="result-item" data-result-index="{{ loop.index0 }}">
-                <div class="settings-result-actions">
-                    <a href="#" class="settings-result-edit">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
-                    <a href="#" class="settings-result-delete">{% include 'formbuilder2/_includes/icons/delete' ignore missing %}</a>
-                </div>
-                <code class="value-one">{{ cc.key }}</code>
-                <code class="value-two">{{ cc.value }}</code>
-                <input type="hidden" name="notify[admin][cc][{{ loop.index0 }}][key]" value="{{ cc.key }}">
-                <input type="hidden" name="notify[admin][cc][{{ loop.index0 }}][value]" value="{{ cc.value }}">
-            </div>          
-        {% endfor %}
-        </div>
-    </div>
-    <div class="settings-action">
-        <a href="#" class="settings-edit btns btn-add" title="{{ "Configure CC" |t }}">{% include 'formbuilder2/_includes/icons/plus-circle' ignore missing %}</a>
-    </div>
-</div>
-
-{% set adminBcc = form.notify.admin.bcc is defined ? form.notify.admin.bcc %}
-<div class="settings-item select-input"
-    id="settings-admin-cc"
-    data-type="multiple"
-    data-name="notify[admin][bcc]"
-    data-modal="true"
-    data-modal-title="{{ "BCC" |t }}"
-    data-modal-instructions="{{ "The recipients that should be BCC’d on the email. Each element of this array should be a nested array containing the keys 'name' and 'email'." |t }}"
-    data-input-hint-one="{{ "NAME" |t }}"
-    data-input-hint-two="{{ "EMAIL" |t }}"
-    data-modal-success-message="{{ "BCC Email Added" |t }}">
-    <div class="settings-title">
-        <div class="settings-title-text">{{ "BCC" |t }}</div>
-        <div class="settings-result multiple">
-            {% for bcc in adminBcc %}
-                <div class="result-item" data-result-index="{{ loop.index0 }}">
-                    <div class="settings-result-actions">
-                        <a href="#" class="settings-result-edit">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
-                        <a href="#" class="settings-result-delete">{% include 'formbuilder2/_includes/icons/delete' ignore missing %}</a>
-                    </div>
-                    <code class="value-one">{{ bcc.key }}</code>
-                    <code class="value-two">{{ bcc.value }}</code>
-                    <input type="hidden" name="notify[admin][bcc][{{ loop.index0 }}][key]" value="{{ bcc.key }}">
-                    <input type="hidden" name="notify[admin][bcc][{{ loop.index0 }}][value]" value="{{ bcc.value }}">
-                </div>          
-            {% endfor %}
-        </div>
-    </div>
-    <div class="settings-action">
-       <a href="#" class="settings-edit btns btn-add" title="{{ "Configure CC" |t }}">{% include 'formbuilder2/_includes/icons/plus-circle' ignore missing %}</a>
-    </div>
-</div>
-
-{% set adminCustomHeaders = form.notify.admin.headers is defined ? form.notify.admin.headers %}
-<div class="settings-item select-input"
-    id="settings-admin-custom-headers"
-    data-type="multiple"
-    data-name="notify[admin][headers]"
-    data-modal="true"
-    data-modal-title="{{ "Custom Headers" |t }}"
-    data-modal-instructions="{{ "Any custom headers that should be included in the email. The keys of the array should identify the header names, and their values, well, take a guess." |t }}"
-    data-input-hint-one="{{ "KEY" |t }}"
-    data-input-hint-two="{{ "VALUE" |t }}"
-    data-modal-success-message="{{ "Custom Header Added" |t }}">
-    <div class="settings-title">
-        <div class="settings-title-text">{{ "Custom Headers" |t }}</div>
-        <div class="settings-result multiple">
-        {% for headers in adminCustomHeaders %}
-                <div class="result-item" data-result-index="{{ loop.index0 }}">
-                    <div class="settings-result-actions">
-                        <a href="#" class="settings-result-edit">{% include 'formbuilder2/_includes/icons/pencil' ignore missing %}</a>
-                        <a href="#" class="settings-result-delete">{% include 'formbuilder2/_includes/icons/delete' ignore missing %}</a>
-                    </div>
-                    <code class="value-one">{{ headers.key }}</code>
-                    <code class="value-two">{{ headers.value }}</code>
-                    <input type="hidden" name="notify[admin][headers][{{ loop.index0 }}][key]" value="{{ headers.key }}">
-                    <input type="hidden" name="notify[admin][headers][{{ loop.index0 }}][value]" value="{{ headers.value }}">
-                </div>          
-            {% endfor %}
-        </div>
-    </div>
-    <span class="settings-action">
-        <a href="#" class="settings-edit btns btn-add" title="{{ "Configure CC" |t }}">{% include 'formbuilder2/_includes/icons/plus-circle' ignore missing %}</a>
-    </span>
-</div>
+{% include 'formbuilder2/forms/_includes/notify/_includes/from-email' ignore missing with { type: 'admin'} %}
+{% include 'formbuilder2/forms/_includes/notify/_includes/from-name' ignore missing with { type: 'admin'} %}
+{% include 'formbuilder2/forms/_includes/notify/_includes/to-email' ignore missing with { type: 'admin'} %}
+{% include 'formbuilder2/forms/_includes/notify/_includes/reply-to' ignore missing with { type: 'admin'} %}
+{% include 'formbuilder2/forms/_includes/notify/_includes/subject' ignore missing with { type: 'admin'} %}
+{% include 'formbuilder2/forms/_includes/notify/_includes/template' ignore missing with { type: 'admin'} %}
+{% include 'formbuilder2/forms/_includes/notify/_includes/attachments' ignore missing with { type: 'admin'} %}
+{% include 'formbuilder2/forms/_includes/notify/_includes/cc' ignore missing with { type: 'admin'} %}
+{% include 'formbuilder2/forms/_includes/notify/_includes/bcc' ignore missing with { type: 'admin'} %}
+{% include 'formbuilder2/forms/_includes/notify/_includes/custom-headers' ignore missing with { type: 'admin'} %}
