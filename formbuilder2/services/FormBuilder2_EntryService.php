@@ -340,6 +340,10 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       ArrayHelper::prependOrAppend($toEmails, $theEmailAddress[0], true);
     }
 
+    if (isset($postData['recipient'])) {
+      ArrayHelper::prependOrAppend($toEmails, $postData['recipient'], true);
+    }
+
     foreach ($toEmails as $toEmail) {
       $email = new EmailModel();
 
