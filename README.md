@@ -1,3 +1,8 @@
+# New Form Builder is coming!
+
+Checkout current beta at https://formbuilder.tools/
+
+
 ![Mou icon](http://vadim-dev.s3.amazonaws.com/formbuilder2/formbuilder2_logo.png)
 
 ***
