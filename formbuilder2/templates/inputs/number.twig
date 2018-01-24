@@ -20,6 +20,7 @@
       type="number"
       class="number"
       {%- if id is defined %} id="{{ id }}"{% endif %}
+      {%- if min is defined and min|length > 0 %} min="{{ min }}"{% endif %}
       {%- if max is defined and max|length > 0 %} max="{{ max }}"{% endif %}
       {%- if handle is defined %} name="{{ handle }}"{% endif %}
       {%- if value is defined %} value="{{ value }}"{% endif %}
