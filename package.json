@@ -5,7 +5,8 @@
   "homepage": "https://github.com/roundhouse/FormBuilder-2",
   "authors": "Roundhouse Agency <hello@roundhouseagency.com> (https://github.com/roundhouse)",
   "contributors": {
-    "name": "Vadim Goncharov", "email": "vadim@roundhouseagency.com"
+    "name": "Vadim Goncharov",
+    "email": "vadim@roundhouseagency.com"
   },
   "repository": {
     "type": "git",

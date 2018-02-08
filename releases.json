@@ -153,4 +153,12 @@
       "[Improved] Updated ajax submission functionality"
     ]
   },
+  {
+    "version": "2.0.17",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2018-02-08T18:56:27+00:00",
+    "notes": [
+      "[Added] Asset field validation on submission",
+    ]
+  },
 ]
