@@ -3,6 +3,7 @@
 {% includeJsResource "formbuilder2/js/plugins.js" %}
 {% includeJsResource "formbuilder2/js/formbuilder2.js" %}
 {% include 'formbuilder2/partials/svgs.html' %} 
+{% set adminUrl = craft.formBuilder2.adminUrl() %}
 
 {# Logo #}
 <div class="logo">
@@ -11,3 +12,10 @@
     <span class="subhead">{{ "Simply Forms Manager"|t }}</span>
   </a>
 </div>
+
+<script type="text/javascript">
+    window.FormBuilder = {
+        pageTitle: '{{ _context.title is defined ? _context.title : '' }}',
+        adminUrl: '{{ adminUrl }}'
+    }
+</script>

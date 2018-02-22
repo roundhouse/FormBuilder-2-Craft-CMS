@@ -25,6 +25,13 @@
 
   // File Uploads
   .upload-details {
+    header {
+      display: flex;
+
+      a {
+        margin-left: auto;
+      }
+    }
     .file {
       padding: 15px 15px 15px 0;
       margin: 0 5px;
@@ -56,6 +63,24 @@
           * { fill: $c-blue; @include transition(all .3s ease);}
         }
       }
+    }
+  }
+}
+
+.submissionhud {
+  .main {
+    padding: 0 !important
+  }
+  a {
+    display: block;
+    padding: 15px;
+    color: $c-blue;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+
+    &:hover {
+      background: rgba($c-blue, .1);
     }
   }
 }

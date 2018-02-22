@@ -572,4 +572,55 @@ class FormBuilder2_EntryController extends BaseController
     return $navigationSections;
   }
 
+  /**
+   * Download all entry files
+   */
+  public function actionDownloadAllFiles()
+  {
+      $this->requireAjaxRequest();
+
+      if (ini_get('allow_url_fopen')) {
+          $fileIds = craft()->request->getRequiredPost('ids');
+          $formId = craft()->request->getRequiredPost('formId');
+          $files = array();
+
+          foreach ($fileIds as $id) {
+              $files[] = craft()->assets->getFileById($id);
+          }
+
+          $zipname = craft()->path->getTempPath().'SubmissionFiles-'.$formId.'.zip';
+          $zip = new \ZipArchive();
+          $zip->open($zipname, \ZipArchive::CREATE);
+
+          foreach ($files as $file) {
+              $zip->addFromString($file->filename, file_get_contents($file->url));
+          }
+
+          $filePath = $zip->filename;
+          $zip->close();
+
+          if ($filePath == $zipname) {
+              $this->returnJson(array(
+                  'success' => true,
+                  'message' => 'Download Complete.',
+                  'filePath' => $filePath
+              ));
+          }
+      } else {
+          $this->returnJson(array(
+              'success' => false,
+              'message' => 'Cannot download all files, `allow_url_fopen` must be enabled.'
+          ));
+      }
+  }
+
+  /**
+   * Download files
+   */
+  public function actionDownloadFiles()
+  {
+      $filePath = craft()->request->query['filePath'];
+      craft()->request->sendFile(IOHelper::getFileName($filePath), IOHelper::getFileContents($filePath), array('forceDownload' => true));
+  }
+
 }

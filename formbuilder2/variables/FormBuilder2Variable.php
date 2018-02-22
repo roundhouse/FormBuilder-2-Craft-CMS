@@ -480,4 +480,19 @@ class FormBuilder2Variable
     return $blockTypes;
   }
 
+  /**
+   * Return dynamic admin url
+   *
+   * @param bool $includePluginPath
+   * @return string
+   */
+  public function adminUrl($includePluginPath = true)
+  {
+      if ($includePluginPath) {
+          return '/'.craft()->config->get('cpTrigger').'/formbuilder';
+      } else {
+          return '/'.craft()->config->get('cpTrigger').'';
+      }
+  }
+
 }
