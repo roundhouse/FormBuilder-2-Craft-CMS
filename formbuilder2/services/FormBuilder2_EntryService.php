@@ -133,14 +133,14 @@ class FormBuilder2_EntryService extends BaseApplicationComponent
       switch ($field->type) {
         case "Assets":
           if ($field->required) {
-            $text = craft()->request->getPost($field->handle);
-            $textArray = array_filter($text);
-            if (empty($textArray)) {
+            $assets = UploadedFile::getInstancesByName($field->handle);
+            if (empty($assets)) {
               $errorMessage[$field->handle] = Craft::t('{fieldname} cannot be empty.', array(
                                                 'fieldname' => $field->name
                                               ));
             }
           }
+        break;
         case "PlainText":
           if ($field->required) {
             $text = craft()->request->getPost($field->handle);
