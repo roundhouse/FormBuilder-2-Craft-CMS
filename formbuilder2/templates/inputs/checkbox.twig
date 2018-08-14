@@ -8,11 +8,11 @@
 		{% if label %}
 			{%- set id = (id is defined and id ? id : null) %}	
 			<label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
-				{{- label|raw -}}
+				{{- label|raw|t -}}
 			</label>
 		{% endif %}
 		{% if instructions %}
-			<div class="instructions">{{ instructions|md }}</div>
+			<div class="instructions">{{ instructions|md|t }}</div>
 		{% endif %}
 	</div>
 	{% endif %}
@@ -31,7 +31,7 @@
 				{%- if checked is defined and checked %} checked{% endif %}
 				{%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}
 				{% if loop.first and required %} required{% endif %}>
-			<label for="{{ id }}">{{ optionLabel|raw }}</label>
+			<label for="{{ id }}">{{ optionLabel|raw|t }}</label>
 		</div>
 	{%- endfor %}
 	</div>

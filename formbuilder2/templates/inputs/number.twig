@@ -7,11 +7,11 @@
     <div class="heading">
       {% if label %}
         <label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
-          {{- label|raw -}}
+          {{- label|raw|t -}}
         </label>
       {% endif %}
       {% if instructions %}
-        <div class="instructions">{{ instructions|md }}</div>
+        <div class="instructions">{{ instructions|md|t }}</div>
       {% endif %}
     </div>
   {% endif %}

@@ -70,6 +70,7 @@
                 {% set fileIds = fileIds|merge([file.id]) %}
             {% endif %}
         {% endfor %}
+
         <div class="pane upload-details">
           <header>
             <h1>{{ "Uploads"|t }}</h1>
@@ -114,7 +115,6 @@
 
             </table>
           </div>
-
         </div>
       {% endif %}
 

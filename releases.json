@@ -158,7 +158,7 @@
     "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
     "date": "2018-02-08T18:56:27+00:00",
     "notes": [
-      "[Added] Asset field validation on submission",
+      "[Added] Asset field validation on submission"
     ]
   },
   {
@@ -166,7 +166,26 @@
     "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
     "date": "2018-02-22T19:09:45+00:00",
     "notes": [
-      "[Added] Ability to download all uploads at once for submissions",
+      "[Added] Ability to download all uploads at once for submissions"
     ]
   },
+  {
+    "version": "2.0.19",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2018-08-13T17:33:58+00:00",
+    "notes": [
+      "[Added] not sure, something, version mismatch.."
+    ]
+  },
+  {
+    "version": "2.0.20",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2018-08-13T17:33:58+00:00",
+    "notes": [
+      "[Fixed] File uploads should now upload into correct folder",
+      "[Added] File upload limit is now working as expected",
+      "[Improved] Field labels and instructions are now translatable",
+      "[Added] Ability to use field handles within your Email Subject line, eg. You got new message from: {yourName}"
+    ]
+  }
 ]

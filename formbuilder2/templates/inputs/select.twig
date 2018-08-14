@@ -7,11 +7,11 @@
     <div class="heading">
       {% if label %}
         <label{% if required is defined and required %} class="required"{% endif %}{% if id %} for="{{ id }}"{% endif %}>
-          {{- label|raw -}}
+          {{- label|raw|t -}}
         </label>
       {% endif %}
       {% if instructions %}
-        <div class="instructions">{{ instructions|md }}</div>
+        <div class="instructions">{{ instructions|md|t }}</div>
       {% endif %}
     </div>
   {% endif %}
@@ -33,7 +33,7 @@
 					{% set optionLabel = (option.label is defined ? option.label : option) %}
 					{% set optionValue = (option.value is defined ? option.value : key) %}
 					{% set optionDisabled = (option.disabled is defined ? option.disabled : false) %}
-					<option value="{{ optionValue }}"{% if optionValue == value %} selected{% endif %}{% if optionDisabled %} disabled{% endif %}>{{ optionLabel }}</option>
+					<option value="{{ optionValue }}"{% if optionValue == value %} selected{% endif %}{% if optionDisabled %} disabled{% endif %}>{{ optionLabel|t }}</option>
 				{% endif %}
 			{% endfor %}
 			{% if hasOptgroups %}

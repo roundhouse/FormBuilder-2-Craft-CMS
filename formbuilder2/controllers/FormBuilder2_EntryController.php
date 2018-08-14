@@ -67,6 +67,7 @@ class FormBuilder2_EntryController extends BaseController
     // VARIABLES
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     $files                    = array();
+    $fileLimit                = false;
     $ajax                     = false;
     $passedValidation         = true;
     $validationErrors         = array();
@@ -117,17 +118,24 @@ class FormBuilder2_EntryController extends BaseController
 
             $uploadedFiles = UploadedFile::getInstancesByName($field->handle);
             $allowedKinds = array();
+
             if ($field->settings['restrictFiles']) {
               $allowedKinds = $field->settings['allowedKinds'];
             }
 
+            if ($field->settings['limit']) {
+                $fileLimit = (int)$field->settings['limit'];
+            }
+
             if ($allowedKinds) {
+                $folder = craft()->assets->getFolderById($field->settings['defaultUploadLocationSource']);
+
                 foreach ($uploadedFiles as $file) {
                   $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
                   if (in_array($fileKind, $allowedKinds)) {
                     $files[] = array(
-                      'folderId' => $field->settings['singleUploadLocationSource'][0],
-                      'sourceId' => $field->settings['singleUploadLocationSource'][0],
+                      'folderId' => $folder->id,
+                      'sourceId' => $folder->sourceId,
                       'filename' => $file->getName(),
                       'location' => $file->getTempName(),
                       'type'     => $file->getType(),
@@ -138,11 +146,13 @@ class FormBuilder2_EntryController extends BaseController
                   }
                 }
             } else {
+                $folder = craft()->assets->getFolderById($field->settings['defaultUploadLocationSource']);
+
                 foreach ($uploadedFiles as $file) {
                   $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
                     $files[] = array(
-                      'folderId' => $field->settings['singleUploadLocationSource'][0],
-                      'sourceId' => $field->settings['singleUploadLocationSource'][0],
+                      'folderId' => $folder->id,
+                      'sourceId' => $folder->sourceId,
                       'filename' => $file->getName(),
                       'location' => $file->getTempName(),
                       'type'     => $file->getType(),
@@ -150,9 +160,14 @@ class FormBuilder2_EntryController extends BaseController
                     );
                 }
             }
-
           break;
         }
+      }
+
+      if ($fileLimit) {
+          if (count($files) > $fileLimit) {
+              $submissionErrorMessage[] = Craft::t('Only '. $fileLimit .' file is allowed!');
+          }
       }
     }
 
@@ -461,6 +476,12 @@ class FormBuilder2_EntryController extends BaseController
     }
 
     $customSubject = '';
+    // Custom Subject
+    if (isset($variables['emailSettings']['emailSubject'])) {
+        $customSubject = craft()->templates->renderObjectTemplate($variables['emailSettings']['emailSubject'], $postData);
+    }
+
+    // Overwrite custom subject
     if (isset($notificationSettings['customSubject'])) {
       if ($notificationSettings['customSubject'] == '1') {
         $customSubjectField = $notificationSettings['customSubjectLine'];
@@ -592,8 +613,15 @@ class FormBuilder2_EntryController extends BaseController
           $zip = new \ZipArchive();
           $zip->open($zipname, \ZipArchive::CREATE);
 
+          // SSL fix
+          $dargs = array();
+          if (Craft()->request->isSecureConnection()) {
+              $dargs = array("ssl"=>array("verify_peer"=>false,"verify_peer_name"=>false),"http"=>array('timeout' => 60, 'user_agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.9) Gecko/20071025 Firefox/3.0.0.1'));
+          }
+
           foreach ($files as $file) {
-              $zip->addFromString($file->filename, file_get_contents($file->url));
+              $response = file_get_contents($file->url, false, stream_context_create($dargs));
+              $zip->addFromString($file->filename, $response);
           }
 
           $filePath = $zip->filename;
