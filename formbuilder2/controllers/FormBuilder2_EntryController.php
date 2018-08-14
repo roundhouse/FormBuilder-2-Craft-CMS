@@ -613,15 +613,8 @@ class FormBuilder2_EntryController extends BaseController
           $zip = new \ZipArchive();
           $zip->open($zipname, \ZipArchive::CREATE);
 
-          // SSL fix
-          $dargs = array();
-          if (Craft()->request->isSecureConnection()) {
-              $dargs = array("ssl"=>array("verify_peer"=>false,"verify_peer_name"=>false),"http"=>array('timeout' => 60, 'user_agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.9) Gecko/20071025 Firefox/3.0.0.1'));
-          }
-
           foreach ($files as $file) {
-              $response = file_get_contents($file->url, false, stream_context_create($dargs));
-              $zip->addFromString($file->filename, $response);
+              $zip->addFromString($file->filename, IOHelper::getFileContents($file->url));
           }
 
           $filePath = $zip->filename;

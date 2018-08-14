@@ -187,5 +187,13 @@
       "[Improved] Field labels and instructions are now translatable",
       "[Added] Ability to use field handles within your Email Subject line, eg. You got new message from: {yourName}"
     ]
+  },
+  {
+    "version": "2.0.21",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2018-08-14T17:05:12+00:00",
+    "notes": [
+      "[Fixed] 500 error on file downloads"
+    ]
   }
 ]
