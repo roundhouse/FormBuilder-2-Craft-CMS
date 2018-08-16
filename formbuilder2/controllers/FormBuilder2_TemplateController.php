@@ -48,6 +48,7 @@ class FormBuilder2_TemplateController extends BaseController
 
   public function actionDeleteTemplate()
   {
+
     $this->requirePostRequest();
     $this->requireAjaxRequest();
 

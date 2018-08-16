@@ -100,6 +100,7 @@ class FormBuilder2_FormController extends BaseController
    */
   public function actionDeleteForm()
   {
+    craft()->userSession->requireAdmin();
     $this->requirePostRequest();
     $this->requireAjaxRequest();
 

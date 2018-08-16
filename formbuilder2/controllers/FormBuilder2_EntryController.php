@@ -129,7 +129,7 @@ class FormBuilder2_EntryController extends BaseController
 
             if ($allowedKinds) {
                 $folder = craft()->assets->getFolderById($field->settings['defaultUploadLocationSource']);
-
+                Craft::dd($folder);
                 foreach ($uploadedFiles as $file) {
                   $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
                   if (in_array($fileKind, $allowedKinds)) {
@@ -297,6 +297,7 @@ class FormBuilder2_EntryController extends BaseController
           $tempPath = AssetsHelper::getTempFilePath($file['filename']);
           move_uploaded_file($file['location'], $tempPath);
           $response = craft()->assets->insertFileByLocalPath($tempPath, $file['filename'], $file['folderId'], AssetConflictResolution::KeepBoth);
+          Craft::dd($file);
           $fileIds[] = $response->getDataItem('fileId');
           $fileCollection[] = array(
             'tempPath' => $tempPath,
@@ -377,6 +378,8 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionDeleteSubmission()
   {
+    craft()->userSession->requireAdmin();
+
     $this->requirePostRequest();
 
     $entryId = craft()->request->getRequiredPost('entryId');
@@ -598,6 +601,8 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionDownloadAllFiles()
   {
+      craft()->userSession->requireAdmin();
+
       $this->requireAjaxRequest();
 
       if (ini_get('allow_url_fopen')) {
@@ -640,6 +645,8 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionDownloadFiles()
   {
+      craft()->userSession->requireAdmin();
+
       $filePath = craft()->request->query['filePath'];
       craft()->request->sendFile(IOHelper::getFileName($filePath), IOHelper::getFileContents($filePath), array('forceDownload' => true));
   }
