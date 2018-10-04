@@ -375,18 +375,20 @@ class FormBuilder2_EntryController extends BaseController
    */
   public function actionDeleteSubmission()
   {
-    craft()->userSession->requireAdmin();
+      $this->requirePostRequest();
+      $user = craft()->userSession->getUser();
+      $settings = craft()->plugins->getPlugin('FormBuilder2')->getSettings();
+      $entryId = craft()->request->getRequiredPost('entryId');
 
-    $this->requirePostRequest();
+      if ($user->admin || $settings->canDoActions) {
+        if (craft()->elements->deleteElementById($entryId)) {
+            craft()->userSession->setNotice(Craft::t('Entry deleted.'));
+            $this->redirectToPostedUrl();
+        } else {
+            craft()->userSession->setError(Craft::t('Couldn’t delete entry.'));
+        }
+      }
 
-    $entryId = craft()->request->getRequiredPost('entryId');
-
-    if (craft()->elements->deleteElementById($entryId)) {
-        craft()->userSession->setNotice(Craft::t('Entry deleted.'));
-        $this->redirectToPostedUrl();
-    } else {
-        craft()->userSession->setError(Craft::t('Couldn’t delete entry.'));
-    }
   }
 
   /**

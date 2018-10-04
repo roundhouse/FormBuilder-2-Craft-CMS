@@ -195,14 +195,22 @@
     "notes": [
       "[Fixed] 500 error on file downloads"
     ]
-},
-{
-  "version": "2.0.22",
-  "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
-  "date": "2018-08-16T16:46:47+00:00",
-  "critical": true,
-  "notes": [
-    "[Improved] Security vulnerabilities"
-  ]
-}
+  },
+  {
+    "version": "2.0.22",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2018-08-16T16:46:47+00:00",
+    "critical": true,
+    "notes": [
+      "[Improved] Security vulnerabilities"
+    ]
+  },
+  {
+    "version": "2.0.23",
+    "downloadUrl": "https://github.com/roundhouse/FormBuilder-2-Craft-CMS/archive/master.zip",
+    "date": "2018-10-04T16:33:43+00:00",
+    "notes": [
+      "[Fixed] Allow non-admins can now delete entries"
+    ]
+  }
 ]
