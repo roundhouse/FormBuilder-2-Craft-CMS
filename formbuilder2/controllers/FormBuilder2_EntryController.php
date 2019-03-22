@@ -126,8 +126,15 @@ class FormBuilder2_EntryController extends BaseController
                 $fileLimit = (int)$field->settings['limit'];
             }
 
+            if ($field->settings['useSingleFolder']) {
+              $sourceId = $field->settings['singleUploadLocationSource'];
+            } else {
+              $sourceId = $field->settings['defaultUploadLocationSource'];
+            }
+
+            $folder = craft()->assets->getRootFolderBySourceId($sourceId);
+
             if ($allowedKinds) {
-                $folder = craft()->assets->getFolderById($field->settings['defaultUploadLocationSource']);
                 foreach ($uploadedFiles as $file) {
                   $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
                   if (in_array($fileKind, $allowedKinds)) {
@@ -144,8 +151,6 @@ class FormBuilder2_EntryController extends BaseController
                   }
                 }
             } else {
-                $folder = craft()->assets->getFolderById($field->settings['defaultUploadLocationSource']);
-
                 foreach ($uploadedFiles as $file) {
                   $fileKind = IOHelper::getFileKind(IOHelper::getExtension($file->getName()));
                     $files[] = array(
