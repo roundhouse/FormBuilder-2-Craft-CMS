@@ -18,7 +18,7 @@ class FormBuilder2Plugin extends BasePlugin
   {
 
     // Getting date for releases.json
-    Craft::dd(DateTimeHelper::toIso8601(DateTimeHelper::currentTimeStamp()));
+    //Craft::dd(DateTimeHelper::toIso8601(DateTimeHelper::currentTimeStamp()));
 
     parent::init();
 
