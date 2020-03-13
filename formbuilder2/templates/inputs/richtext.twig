@@ -10,7 +10,7 @@
 				</label>
 			{% endif %}
 			{% if instructions %}
-				<div class="instructions">{{ instructions|md|t }}</div>
+				<div class="instructions">{{ instructions|md|t|raw }}</div>
 			{% endif %}
 		</div>
 	{% endif %}
